@@ -10,6 +10,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient } from '@angular/common/http';
 
 import {ScoreboardComponent, PageNotFoundComponent} from "./app/components";
+import {HashLocationStrategy, LocationStrategy} from "@angular/common";
 
 // AoT requires an exported function for factories
 export function httpLoaderFactory(http: HttpClient): TranslateHttpLoader {
@@ -23,10 +24,21 @@ if (APP_CONFIG.production) {
 bootstrapApplication(AppComponent, {
   providers: [
     provideHttpClient(withInterceptorsFromDi()),
+    ...(APP_CONFIG.production ? [{ provide: LocationStrategy, useClass: HashLocationStrategy }] : []),
     provideRouter([
       {
         path: 'projection',
-        component: ScoreboardComponent
+        loadComponent: () => import('./app/components/projection/projection.component').then(m => m.ProjectionComponent),
+        children: [
+          {
+            path: 'scoreboard',
+            loadComponent: () => import('./app/components/scoreboard/scoreboard.component').then(m => m.ScoreboardComponent)
+          },
+          {
+            path: '**',
+            loadComponent: () => import('./app/components/scoreboard/scoreboard.component').then(m => m.ScoreboardComponent)
+          }
+        ]
       },
       {
         path: 'control',
