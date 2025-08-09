@@ -1,6 +1,27 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      "@components/*": [
+        "app/components/*"
+      ],
+      "@services/*": [
+        "app/services/*"
+      ],
+      "@models/*": [
+        "app/models/*"
+      ],
+      "@enums/*": [
+        "app/enums/*"
+      ],
+      "@pipes/*": [
+        "app/pipes/*"
+      ],
+      "@directives/*": [
+        "app/directives/*"
+      ],
+    },
     "strict": true,
     "outDir": "./dist/out-tsc",
     "module": "es2022",
@@ -36,5 +57,5 @@
     "preserveWhitespaces": true,
     "skipMetadataEmit": false,
     "disableTypeScriptVersionCheck": true
-  }
+  },
 }

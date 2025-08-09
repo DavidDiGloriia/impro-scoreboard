@@ -9,11 +9,7 @@ import { APP_CONFIG } from './environments/environment';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient } from '@angular/common/http';
 
-import { PageNotFoundComponent } from './app/shared/components';
-import { HomeComponent } from './app/home/home.component';
-import { ProjectionComponent } from './app/projection/projection.component';
-import { DetailComponent } from './app/detail/detail.component';
-import {ScoreboardComponent} from "./app/scoreboard/scoreboard.component";
+import {ScoreboardComponent, PageNotFoundComponent} from "./app/components";
 
 // AoT requires an exported function for factories
 export function httpLoaderFactory(http: HttpClient): TranslateHttpLoader {
@@ -29,25 +25,12 @@ bootstrapApplication(AppComponent, {
     provideHttpClient(withInterceptorsFromDi()),
     provideRouter([
       {
-        path: '',
-        redirectTo: 'home',
-        pathMatch: 'full'
-      },
-      {
-        path: 'home',
-        component: HomeComponent
-      },
-      {
-        path: 'detail',
-        component: DetailComponent
-      },
-      {
         path: 'projection',
         component: ScoreboardComponent
       },
       {
         path: 'control',
-        loadComponent: () => import('./app/video-switcher/video-switcher.component').then(m => m.VideoSwitcherComponent)
+        loadComponent: () => import('./app/components/video-switcher/video-switcher.component').then(m => m.VideoSwitcherComponent)
       },
       {
         path: '**',

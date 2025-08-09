@@ -1,0 +1,31 @@
+<div class="team"
+  [ngClass]="{
+    'team-a': team() === Team.TEAM_A,
+    'team-b': team() === Team.TEAM_B
+  }"
+>
+    @if(team() === Team.TEAM_A) {
+      <ng-container *ngTemplateOutlet="teamImg"></ng-container>
+    }
+
+  <div>
+    <div class="score">0</div>
+    <div class="fautes">
+      @for(i of maxFouls; track $index) {
+        <div class="faute-dot"
+             [class.active]="fouls() >= i + 1"
+        ></div>
+      }
+    </div>
+  </div>
+
+    @if(team() === Team.TEAM_B) {
+      <ng-container *ngTemplateOutlet="teamImg"></ng-container>
+    }
+</div>
+
+<ng-template #teamImg>
+  <div class="team-img-wrapper">
+    <img src="image.jpg" alt="Membre équipe">
+  </div>
+</ng-template>

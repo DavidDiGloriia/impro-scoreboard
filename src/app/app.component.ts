@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ElectronService } from './core/services';
+import { ElectronService } from './services';
 import { APP_CONFIG } from '../environments/environment';
 import { RouterOutlet } from '@angular/router';
 
