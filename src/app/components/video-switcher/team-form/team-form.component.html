@@ -1,0 +1,56 @@
+<fieldset class="team-controls" [id]="prefix + 'controls'">
+  <legend>{{ prefix === 'teamA-' ? 'Équipe A' : 'Équipe B' }}</legend>
+
+  <div class="form-row teams">
+    <label [for]="prefix + 'name'">Choisir équipe:</label>
+    <div class="player-inputs">
+      <select
+        [id]="prefix + 'name'"
+        [(ngModel)]="teamData.name"
+      >
+        <option value="lions">Lions</option>
+        <option value="aigles">Aigles</option>
+        <option value="pythons">Pythons</option>
+        <option value="requins" selected>Requins</option>
+        <option disabled>──────────</option>
+        <option value="rouges">Rouges</option>
+        <option value="bleus">Bleus</option>
+        <option value="verts">Verts</option>
+        <option value="blancs">Blancs</option>
+      </select>
+    </div>
+  </div>
+
+  <div *ngFor="let role of roles" class="form-row">
+    <label [for]="prefix + role" [innerText]="
+      role === 'assistant' ? 'Assistant(e)-capitaine:' :
+      role === 'joueur3' ? 'Joueur 3:' :
+      role.charAt(0).toUpperCase() + role.slice(1) + ':'"></label>
+
+    <div class="player-inputs">
+      <select
+        [id]="prefix + role"
+        [(ngModel)]="teamData[role]"
+      >
+        <option value="">-- Sélectionner --</option>
+        <option *ngFor="let joueur of players" [value]="(joueur.prenom || '') + (joueur.nom || '')">
+          {{ joueur.prenom }} {{ joueur.nom }}
+        </option>
+      </select>
+
+      <input
+        *ngIf="role !== 'coach'"
+        type="number"
+        class="player-number"
+        [id]="prefix + role + '-num'"
+        [(ngModel)]="teamData[role + 'Num']"
+        [attr.list]="prefix + role + '-datalist'"
+        placeholder="N°"
+      />
+
+      <datalist [id]="prefix + role + '-datalist'">
+        <option *ngFor="let num of getVareuses()" [value]="num"></option>
+      </datalist>
+    </div>
+  </div>
+</fieldset>

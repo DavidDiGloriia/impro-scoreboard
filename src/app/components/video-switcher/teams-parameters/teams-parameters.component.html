@@ -1,0 +1,18 @@
+<button id="new-match-btn" (click)="resetMatch()">Nouveau match</button>
+
+<div class="teams-wrapper">
+
+    <app-team-form
+      prefix="teamA-"
+      [teamData]="improData.teamA"
+      [players]="joueurs"
+      [teams]="equipes"
+    ></app-team-form>
+
+    <app-team-form
+      prefix="teamB-"
+      [teamData]="improData.teamB"
+      [players]="joueurs"
+      [teams]="equipes"
+    ></app-team-form>
+  </div>

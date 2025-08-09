@@ -1,8 +1,6 @@
-export class Team {
-  constructor(
-    public id: string,
-    public points: number,
-    public fouls: number,
-  ) {
-  }
+export interface Team {
+  nom: string;
+  img?: string;
+  couleur: string;
+  vareuses: number[];
 }

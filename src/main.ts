@@ -9,7 +9,7 @@ import { APP_CONFIG } from './environments/environment';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient } from '@angular/common/http';
 
-import {ScoreboardComponent, PageNotFoundComponent} from "./app/components";
+import { PageNotFoundComponent} from "./app/components";
 import {HashLocationStrategy, LocationStrategy} from "@angular/common";
 
 // AoT requires an exported function for factories
@@ -32,17 +32,33 @@ bootstrapApplication(AppComponent, {
         children: [
           {
             path: 'scoreboard',
-            loadComponent: () => import('./app/components/scoreboard/scoreboard.component').then(m => m.ScoreboardComponent)
+            loadComponent: () => import('@components/projection/scoreboard/scoreboard.component').then(m => m.ScoreboardComponent)
           },
           {
             path: '**',
-            loadComponent: () => import('./app/components/scoreboard/scoreboard.component').then(m => m.ScoreboardComponent)
+            redirectTo: 'scoreboard',
+            pathMatch: 'full'
           }
         ]
       },
       {
         path: 'control',
-        loadComponent: () => import('./app/components/video-switcher/video-switcher.component').then(m => m.VideoSwitcherComponent)
+        loadComponent: () => import('./app/components/video-switcher/video-switcher.component').then(m => m.VideoSwitcherComponent),
+        children: [
+          {
+            path: 'match',
+            loadComponent: () => import('./app/components/video-switcher/match-manager/match-manager.component').then(m => m.MatchManagerComponent)
+          },
+          {
+            path: 'parameters',
+            loadComponent: () => import('./app/components/video-switcher/teams-parameters/teams-parameters.component').then(m => m.TeamsParametersComponent)
+          },
+          {
+            path: '**',
+            redirectTo: 'parameters',
+            pathMatch: 'full'
+          }
+        ]
       },
       {
         path: '**',

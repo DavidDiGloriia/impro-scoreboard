@@ -14,6 +14,10 @@ export class LocalStorageService {
     }
   }
 
+  clearImproData(): void {
+    localStorage.removeItem(this.STORAGE_KEY);
+  }
+
   saveImproData(newData: any): void {
     const existing = this.readImproData();
     const merged = this.deepMerge(existing, newData);

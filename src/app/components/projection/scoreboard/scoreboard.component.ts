@@ -1,6 +1,6 @@
 import {Component, signal} from '@angular/core';
 import {ScoreboardTeamComponent} from "./scoreboard-team/scoreboard-team.component";
-import {Team} from "../../enums";
+import {Team} from "@enums/team.enum";
 @Component({
   selector: 'app-scoreboard',
   imports: [

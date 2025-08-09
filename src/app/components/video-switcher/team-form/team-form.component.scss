@@ -1,0 +1,42 @@
+.team-controls {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 6px;
+  background-color: #fafafa;
+}
+
+.team-controls legend {
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-bottom: 0.8rem;
+}
+
+.form-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.6rem;
+}
+
+.form-row label {
+  width: 180px;
+  font-weight: 600;
+}
+
+.player-inputs {
+  flex: 1;
+  display: flex;
+  gap: 0.5rem;
+}
+
+select {
+  flex: 1;
+  padding: 0.3rem 0.5rem;
+  font-size: 1rem;
+}
+
+.player-number {
+  width: 60px;
+  padding: 0.3rem 0.4rem;
+  font-size: 1rem;
+}

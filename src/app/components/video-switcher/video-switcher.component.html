@@ -1,1 +1,15 @@
-<p>video-switcher works!</p>
+<nav class="nav">
+  <a class="brand" routerLink="/">
+    <div class="logo">Improvisation.be</div>
+    <span>Gestionnaire de match d'impro</span>
+  </a>
+
+  <ul>
+    <li><a routerLink="parameters" routerLinkActive="active" (click)="toggleMenu()">Choix des équipes</a></li>
+    <li><a routerLink="match" routerLinkActive="active" (click)="toggleMenu()">Match</a></li>
+  </ul>
+</nav>
+
+<div class="container">
+  <router-outlet/>
+</div>
