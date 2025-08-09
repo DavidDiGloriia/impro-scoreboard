@@ -13,6 +13,7 @@ import { PageNotFoundComponent } from './app/shared/components';
 import { HomeComponent } from './app/home/home.component';
 import { ProjectionComponent } from './app/projection/projection.component';
 import { DetailComponent } from './app/detail/detail.component';
+import {ScoreboardComponent} from "./app/scoreboard/scoreboard.component";
 
 // AoT requires an exported function for factories
 export function httpLoaderFactory(http: HttpClient): TranslateHttpLoader {
@@ -42,7 +43,7 @@ bootstrapApplication(AppComponent, {
       },
       {
         path: 'projection',
-        component: ProjectionComponent
+        component: ScoreboardComponent
       },
       {
         path: 'control',

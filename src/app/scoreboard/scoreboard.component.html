@@ -1,1 +1,27 @@
-<p>scoreboard works!</p>
+  <div class="container">
+    <div class="top-section">
+      <div class="total-timer">
+        <span id="total-timer">45:00</span>
+      </div>
+      <div class="teams">
+        <app-scoreboard-team/>
+        <div class="round-timer">
+          <br><span id="round-timer">03:00</span>
+        </div>
+        <app-scoreboard-team [team]="Team.TEAM_B"/>
+      </div>
+    </div>
+    <div class="bottom-section">
+      <div class="theme-box">
+        <div class="theme-type" id="theme-type">
+          <span id="impro-type"></span> ∙ <span id="nb-joueurs"></span>
+        </div>
+        <div class="theme-title" id="theme-title">
+          {{  themeTitle() }}
+        </div>
+        <div class="theme-style" id="theme-style">
+          {{ themeStyle() }}
+        </div>
+      </div>
+    </div>
+  </div>

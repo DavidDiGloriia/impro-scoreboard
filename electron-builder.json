@@ -1,38 +1,30 @@
 {
   "asar": true,
   "directories": {
-    "output": "release/"
+    "output": "release"
   },
   "files": [
     "**/*",
     "!**/*.ts",
     "!*.map",
-    "!package.json",
-    "!package-lock.json",
     {
-      "from": "../dist",
+      "from": "dist",
       "filter": ["**/*"]
     }
   ],
   "win": {
-    "icon": "dist/assets/icons",
-    "target": [
-      "portable"
-    ]
+    "icon": "dist/assets/icons/icon.ico",
+    "target": ["portable"]
   },
   "portable": {
     "splashImage": "dist/assets/icons/electron.bmp"
   },
   "mac": {
-    "icon": "dist/assets/icons",
-    "target": [
-      "dmg"
-    ]
+    "icon": "dist/assets/icons/icon.icns",
+    "target": ["dmg"]
   },
   "linux": {
-    "icon": "dist/assets/icons",
-    "target": [
-      "AppImage"
-    ]
+    "icon": "dist/assets/icons/icon.png",
+    "target": ["AppImage"]
   }
 }

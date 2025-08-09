@@ -91,8 +91,17 @@ function createWindows() {
     projectionWindow.loadURL(`${baseUrl}#/projection`);
   }
 
-  controlWindow.on('closed', () => (controlWindow = null));
-  projectionWindow.on('closed', () => (projectionWindow = null));
+  controlWindow.on('closed', () => {
+    controlWindow = null;
+    projectionWindow = null;
+    app.quit();
+  });
+
+  projectionWindow.on('closed', () => {
+    projectionWindow = null;
+    controlWindow = null;
+    app.quit();
+  });
 }
 
 // Sécurité : créer les fenêtres une seule fois

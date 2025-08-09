@@ -1,0 +1,15 @@
+<div class="team">
+  <div class="team-img-wrapper">
+    <img src="image.jpg" alt="Membre équipe">
+  </div>
+  <div>
+    <div class="score">0</div>
+    <div class="fautes">
+      @for(i of maxFouls; track $index) {
+        <div class="faute-dot"
+             [class.active]="fouls() >= i + 1"
+        ></div>
+      }
+    </div>
+  </div>
+</div>

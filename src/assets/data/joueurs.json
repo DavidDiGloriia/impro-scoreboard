@@ -1,0 +1,63 @@
+[
+  {
+    "prenom": "Alex",
+    "nom": "Ducoux",
+    "img": "alexandra-ducoux.png",
+    "femme": true
+  },
+  {
+    "prenom": "Alex",
+    "nom": "Colusi",
+    "img": "alex-colusi.png",
+    "femme": true
+  },
+  {
+    "prenom": "Ari",
+    "img": "ariane-haza.png",
+    "femme": true
+  },
+  {
+    "prenom": "Charlotte",
+    "img": "charlotte-otlet.png",
+    "femme": true
+  },
+  {
+    "prenom": "David",
+    "img": "david-di-gloria.png"
+  },
+  {
+    "prenom": "Emilie",
+    "img": "émilie-marlière.png",
+    "femme": true
+  },
+  {
+    "prenom": "Filou",
+    "img": "filou.png"
+  },
+  {
+    "prenom": "Gab",
+    "img": "gab-de-pat.png",
+    "femme": true
+  },
+  {
+    "prenom": "Lenny",
+    "img": "lenny-b-conil.png"
+  },
+  {
+    "prenom": "Phil",
+    "img": "philippe-verbeke.png"
+  },
+  {
+    "prenom": "Polo",
+    "img": "polo.png"
+  },
+  {
+    "prenom": "Q",
+    "img": "q.png"
+  },
+  {
+    "prenom": "Sophie",
+    "img": "sophie-hoyas.png",
+    "femme": true
+  }
+]
