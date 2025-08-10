@@ -3,6 +3,7 @@
     <app-team-form
       class="col-md-6"
       [team]="gameData.value()?.teamA"
+      (teamChange)="onTeamChange($event, TeamNumber.TEAM_A)"
       [players]="players.value()"
       [availableTeams]="teams.value()"
       [teamNumber]="TeamNumber.TEAM_A"
@@ -11,6 +12,7 @@
     <app-team-form
       class="col-md-6"
       [team]="gameData.value().teamB"
+      (teamChange)="onTeamChange($event, TeamNumber.TEAM_B)"
       [players]="players.value()"
       [availableTeams]="teams.value()"
       [teamNumber]="TeamNumber.TEAM_B"

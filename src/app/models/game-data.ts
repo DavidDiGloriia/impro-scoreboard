@@ -15,7 +15,38 @@ export class GameData {
     return this._teamA;
   }
 
+  set teamA(value: Team) {
+    this._teamA = value;
+    this._dto.teamA = value.toDto();
+  }
+
+  withTeamA(team: Team): GameData {
+    this.teamA = team;
+    return this;
+  }
+
   get teamB(): Team {
     return this._teamB;
+  }
+
+  set teamB(value: Team) {
+    this._teamB = value;
+    this._dto.teamB = value.toDto();
+  }
+
+  withTeamB(team: Team): GameData {
+    this.teamB = team;
+    return this;
+  }
+
+  toDto(): GameDataDto {
+    return {
+      teamA: this._teamA ? this._teamA.toDto() : undefined,
+      teamB: this._teamB ? this._teamB.toDto() : undefined
+    };
+  }
+
+  clone(): GameData {
+    return new GameData(this.toDto());
   }
 }

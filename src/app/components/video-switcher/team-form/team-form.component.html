@@ -11,6 +11,7 @@
         <select
           class="form-select"
           [ngModel]="team()?.name"
+          (ngModelChange)="onTeamNameChange($event)"
         >
           @for(group of availableTeamsByGroup() | keyvalue; track group.key; let last = $last) {
             @for(t of group.value; track t.name) {
@@ -38,11 +39,12 @@
         <div class="col-md-9 d-flex gap-2 align-items-center">
           <select
             class="form-select"
-            [(ngModel)]="team().players[role]"
+            [ngModel]="team().players[role]?.name"
+            (ngModelChange)="onPlayerNameChange($event, role)"
           >
-            <option value="">-- Sélectionner --</option>
-            <option *ngFor="let joueur of players" [value]="(joueur.firstName || '') + (joueur.name || '')">
-              {{ joueur.firstName }} {{ joueur.name }}
+            <option *ngFor="let player of players"
+                    [value]="(player.firstName || '') + (player.name || '')">
+              {{ player.firstName }} {{ player.name }}
             </option>
           </select>
 
@@ -51,7 +53,8 @@
             type="number"
             class="form-control form-control-sm"
             style="width: 5.5rem;"
-            [(ngModel)]="team().players[role]"
+            [ngModel]="team().players[role]?.number"
+            (ngModelChange)="onPlayerNumberChange($event, role)"
             [attr.list]="TeamNumber + role + '-datalist'"
             placeholder="N°"
           />

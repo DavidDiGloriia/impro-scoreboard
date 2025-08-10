@@ -7,6 +7,7 @@ import {Role} from "@enums/role.enum";
 import {Team} from "@models/team";
 import {TeamNumber} from "@enums/team-number.enum";
 import { groupBy } from 'lodash-es';
+import {Player} from "@models/player";
 
 @Component({
   selector: 'app-team-form',
@@ -38,4 +39,37 @@ export class TeamFormComponent {
   });
 
   protected readonly TeamNumber = TeamNumber;
+
+  onTeamNameChange(value: string) {
+    this.team.update((team: Team) => {
+      return team.clone().withName(value)
+    })
+  }
+
+  onPlayerNameChange(value: string, role: Role) {
+    this.team.update((team: Team) => {
+      const updatedPlayers = { ...team.players };
+      updatedPlayers[role] = new Player({
+        ...updatedPlayers[role].toDto(),
+        name: value,
+      })
+
+      return team.clone().withPlayers(updatedPlayers);
+    });
+  }
+
+  onPlayerNumberChange(value: number, role: Role) {
+    this.team.update((team: Team) => {
+      const updatedPlayers = { ...team.players };
+      updatedPlayers[role] = new Player({
+        ...updatedPlayers[role].toDto(),
+        number: value,
+      })
+
+      return team.clone().withPlayers(updatedPlayers);
+    });
+  }
+
+
+
 }

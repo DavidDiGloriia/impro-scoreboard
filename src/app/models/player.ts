@@ -8,7 +8,7 @@ export class Player {
     return this._dto.name;
   }
 
-  get number(): string {
+  get number(): number {
     return this._dto.number;
   }
 
@@ -16,7 +16,7 @@ export class Player {
     this._dto.name = value;
   }
 
-  set number(value: string) {
+  set number(value: number) {
     this._dto.number = value;
   }
 

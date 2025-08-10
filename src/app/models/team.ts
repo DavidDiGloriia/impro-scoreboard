@@ -19,12 +19,9 @@ export class Team {
     this._dto.name = value;
   }
 
-  get coach(): string {
-    return this._dto.coach;
-  }
-
-  set coach(value: string) {
-    this._dto.coach = value;
+  withName(name: string): Team {
+    this.name = name;
+    return this;
   }
 
   get players(): { [role: string]: Player } {
@@ -36,12 +33,22 @@ export class Team {
     this._dto.players = mapValues(value, (player) => player.toDto());
   }
 
+  withPlayers(players: { [role: string]: Player }): Team {
+    this.players = players;
+    return this;
+  }
+
   get score(): number {
     return this._dto.score;
   }
 
   set score(value: number) {
     this._dto.score = value;
+  }
+
+  withScore(score: number): Team {
+    this.score = score;
+    return this;
   }
 
   get fouls(): number {
@@ -52,10 +59,18 @@ export class Team {
     this._dto.fouls = value;
   }
 
+  withFouls(fouls: number): Team {
+    this.fouls = fouls;
+    return this;
+  }
+
+  clone(): Team {
+    return new Team(this.toDto());
+  }
+
   toDto(): TeamDto {
     return {
       name: this._dto.name,
-      coach: this._dto.coach,
       players: mapValues(this._players, (player: Player) => player.toDto()),
     };
   }

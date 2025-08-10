@@ -20,10 +20,11 @@ export class LocalStorageService {
     localStorage.removeItem(key);
   }
 
-  saveImproData<T>(key: string, newData: T): void {
+  save<T>(key: string, newData: T): T {
     const existing: T | null = this.read<T>(key);
     const merged = this.deepMerge(existing, newData);
     localStorage.setItem(key, JSON.stringify(merged));
+    return this.read(key);
   }
 
   private deepMerge(target: any, source: any): any {
