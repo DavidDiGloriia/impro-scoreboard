@@ -1,56 +1,64 @@
-<fieldset class="team-controls" [id]="prefix + 'controls'">
-  <legend>{{ prefix === 'teamA-' ? 'Équipe A' : 'Équipe B' }}</legend>
-
-  <div class="form-row teams">
-    <label [for]="prefix + 'name'">Choisir équipe:</label>
-    <div class="player-inputs">
-      <select
-        [id]="prefix + 'name'"
-        [(ngModel)]="teamData.name"
-      >
-        <option value="lions">Lions</option>
-        <option value="aigles">Aigles</option>
-        <option value="pythons">Pythons</option>
-        <option value="requins" selected>Requins</option>
-        <option disabled>──────────</option>
-        <option value="rouges">Rouges</option>
-        <option value="bleus">Bleus</option>
-        <option value="verts">Verts</option>
-        <option value="blancs">Blancs</option>
-      </select>
-    </div>
+<div class="card mb-3 team-controls">
+  <div class="card-header">
+    <strong>{{ teamNumber === TeamNumber.TEAM_A ? 'Équipe A' : 'Équipe B' }}</strong>
   </div>
 
-  <div *ngFor="let role of roles" class="form-row">
-    <label [for]="prefix + role" [innerText]="
-      role === 'assistant' ? 'Assistant(e)-capitaine:' :
-      role === 'joueur3' ? 'Joueur 3:' :
-      role.charAt(0).toUpperCase() + role.slice(1) + ':'"></label>
-
-    <div class="player-inputs">
-      <select
-        [id]="prefix + role"
-        [(ngModel)]="teamData[role]"
-      >
-        <option value="">-- Sélectionner --</option>
-        <option *ngFor="let joueur of players" [value]="(joueur.prenom || '') + (joueur.nom || '')">
-          {{ joueur.prenom }} {{ joueur.nom }}
-        </option>
-      </select>
-
-      <input
-        *ngIf="role !== 'coach'"
-        type="number"
-        class="player-number"
-        [id]="prefix + role + '-num'"
-        [(ngModel)]="teamData[role + 'Num']"
-        [attr.list]="prefix + role + '-datalist'"
-        placeholder="N°"
-      />
-
-      <datalist [id]="prefix + role + '-datalist'">
-        <option *ngFor="let num of getVareuses()" [value]="num"></option>
-      </datalist>
+  <div class="card-body">
+    <div class="row mb-2 align-items-center">
+      <label class="col-md-3 col-form-label">Choisir équipe</label>
+      <div class="col-md-9">
+        <select
+          class="form-select"
+          [(ngModel)]="team().name"
+        >
+          <option  value="lions">🦁 Lions</option>
+          <option value="aigles">🦅 Aigles</option>
+          <option value="pythons">🐍 Pythons</option>
+          <option value="requins" selected>🦈 Requins</option>
+          <option disabled>──────────</option>
+          <option value="reds">🔴 Rouges</option>
+          <option value="blues">🔵 Bleus</option>
+          <option value="greens">🟢 Verts</option>
+          <option value="whites">⚪️ Blancs</option>
+        </select>
+      </div>
     </div>
+
+    <ng-container *ngFor="let role of roles">
+      <div class="row mb-2 align-items-center">
+        <label
+          class="col-md-3 col-form-label"
+          [innerText]="
+            role === Role.ASSIST ? 'Assistant(e)-capitaine' :
+            role">
+        </label>
+
+        <div class="col-md-9 d-flex gap-2 align-items-center">
+          <select
+            class="form-select"
+            [(ngModel)]="team().players[role]"
+          >
+            <option value="">-- Sélectionner --</option>
+            <option *ngFor="let joueur of players" [value]="(joueur.prenom || '') + (joueur.nom || '')">
+              {{ joueur.prenom }} {{ joueur.nom }}
+            </option>
+          </select>
+
+          <input
+            *ngIf="role !== 'coach'"
+            type="number"
+            class="form-control form-control-sm"
+            style="width: 5.5rem;"
+            [(ngModel)]="team().players[role]"
+            [attr.list]="TeamNumber + role + '-datalist'"
+            placeholder="N°"
+          />
+
+          <datalist [id]="TeamNumber + role + '-datalist'">
+            <option *ngFor="let num of getVareuses()" [value]="num"></option>
+          </datalist>
+        </div>
+      </div>
+    </ng-container>
   </div>
-</fieldset>
+</div>

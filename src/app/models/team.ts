@@ -1,6 +1,9 @@
+import {Player} from "@models/player";
+
 export interface Team {
-  nom: string;
-  img?: string;
-  couleur: string;
-  vareuses: number[];
+  name: string;
+  coach: string;
+  players: {[role: string]: Player},
+  score: number;
+  fouls: number;
 }

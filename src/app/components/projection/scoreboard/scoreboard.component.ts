@@ -1,6 +1,6 @@
 import {Component, signal} from '@angular/core';
 import {ScoreboardTeamComponent} from "./scoreboard-team/scoreboard-team.component";
-import {Team} from "@enums/team.enum";
+import {TeamNumber} from "@enums/team-number.enum";
 @Component({
   selector: 'app-scoreboard',
   imports: [
@@ -10,7 +10,7 @@ import {Team} from "@enums/team.enum";
   styleUrl: './scoreboard.component.scss'
 })
 export class ScoreboardComponent {
-  readonly Team = Team;
+  readonly Team = TeamNumber;
 
   themeTitle = signal('POURVU QUE CA MARCHE !');
   themeStyle = signal('A la manière de la chanson de Gold');

@@ -1,15 +1,18 @@
-<nav class="nav">
-  <a class="brand" routerLink="/">
-    <div class="logo">Improvisation.be</div>
-    <span>Gestionnaire de match d'impro</span>
-  </a>
+<nav class="navbar navbar-dark bg-dark">
+  <div class="container-fluid">
+    <button class="btn btn-primary me-3" id="new-match-btn" (click)="resetMatch()">Nouveau match</button>
 
-  <ul>
-    <li><a routerLink="parameters" routerLinkActive="active" (click)="toggleMenu()">Choix des équipes</a></li>
-    <li><a routerLink="match" routerLinkActive="active" (click)="toggleMenu()">Match</a></li>
-  </ul>
+    <ul class="navbar-nav flex-row gap-3">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="parameters" routerLinkActive="active">Choix des équipes</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="match" routerLinkActive="active">Match</a>
+      </li>
+    </ul>
+  </div>
 </nav>
 
-<div class="container">
-  <router-outlet/>
+<div class="container-fluid">
+  <router-outlet></router-outlet>
 </div>

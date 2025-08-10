@@ -1,19 +1,10 @@
 {
   "pythons": {
     "nom": "Les Pythons",
+    "icone": "🐍",
     "img": "assets/equipes/pythons.png",
     "couleur": "#33cc33",
-    "vareuses": [
-      20,
-      17,
-      50,
-      72,
-      36
-    ]
-  },
-  "verts": {
-    "nom": "Les verts",
-    "couleur": "#33cc33",
+    "groupe": "animaux",
     "vareuses": [
       20,
       17,
@@ -24,20 +15,10 @@
   },
   "requins": {
     "nom": "Les Requins",
+    "icone": "🦈",
     "img": "assets/equipes/requins.png",
     "couleur":  "#3399ff",
-    "vareuses": [
-      47,
-      79,
-      36,
-      45,
-      60
-    ]
-  },
-  "bleus": {
-    "nom": "Les Bleus",
-    "img": "assets/equipes/requins.png",
-    "couleur": "#3399f",
+    "groupe": "animaux",
     "vareuses": [
       47,
       79,
@@ -48,6 +29,8 @@
   },
   "lions": {
     "nom": "Les Lions",
+    "icone": "🦁",
+    "groupe": "animaux",
     "couleur": "#ff4d4d",
     "img": "assets/equipes/lions.png",
     "vareuses": [
@@ -57,18 +40,10 @@
       42
     ]
   },
-  "rouges": {
-    "nom": "Les Rouges",
-    "couleur": "#ff4d4d",
-    "vareuses": [
-      10,
-      64,
-      33,
-      42
-    ]
-  },
   "aigles": {
     "nom": "Les Aigles",
+    "groupe": "animaux",
+    "icone": "🦅",
     "img": "assets/equipes/aigles.png",
     "couleur": "#e6e6cc",
     "vareuses": [
@@ -79,8 +54,50 @@
       5
     ]
   },
+  "verts": {
+    "nom": "Les verts",
+    "groupe": "couleurs",
+    "icone": "🟢",
+    "couleur": "#33cc33",
+    "vareuses": [
+      20,
+      17,
+      50,
+      72,
+      36
+    ]
+  },
+  "bleus": {
+    "nom": "Les Bleus",
+    "groupe": "couleurs",
+    "icone": "🔵",
+    "img": "assets/equipes/requins.png",
+    "couleur": "#3399f",
+    "vareuses": [
+      47,
+      79,
+      36,
+      45,
+      60
+    ]
+  },
+
+  "rouges": {
+    "nom": "Les Rouges",
+    "groupe": "couleurs",
+    "icone": "🔴",
+    "couleur": "#ff4d4d",
+    "vareuses": [
+      10,
+      64,
+      33,
+      42
+    ]
+  },
   "blancs": {
     "nom": "Les Blancs",
+    "groupe": "couleurs",
+    "icone": "⚪",
     "couleur": "#e6e6cc",
     "vareuses": [
       1,

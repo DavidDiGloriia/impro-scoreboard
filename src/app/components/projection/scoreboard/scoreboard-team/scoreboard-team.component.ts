@@ -1,6 +1,6 @@
 import {Component, input} from '@angular/core';
 import {NgClass, NgTemplateOutlet} from "@angular/common";
-import { Team } from '@enums/team.enum'
+import { TeamNumber } from '@enums/team-number.enum'
 
 @Component({
   selector: 'app-scoreboard-team',
@@ -12,11 +12,11 @@ import { Team } from '@enums/team.enum'
   styleUrl: './scoreboard-team.component.scss'
 })
 export class ScoreboardTeamComponent {
-  readonly Team = Team;
+  readonly Team = TeamNumber;
 
   maxFouls = Array(3);
 
-  team = input<Team>(Team.TEAM_A);
+  team = input<TeamNumber>(TeamNumber.TEAM_A);
   fouls = input<number>(0);
   score = input<number>(0);
 

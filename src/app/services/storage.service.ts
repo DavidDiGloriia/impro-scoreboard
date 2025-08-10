@@ -4,24 +4,26 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class LocalStorageService {
-  private STORAGE_KEY = 'improData';
-
-  readImproData(): any {
+  read<T>(key: string): T{
     try {
-      return JSON.parse(localStorage.getItem(this.STORAGE_KEY) || '{}');
+      const item = localStorage.getItem(key);
+      if (!item) {
+        return null;
+      }
+      return JSON.parse(item) as T;
     } catch {
-      return {};
+      return null;
     }
   }
 
-  clearImproData(): void {
-    localStorage.removeItem(this.STORAGE_KEY);
+  clear(key: string): void {
+    localStorage.removeItem(key);
   }
 
-  saveImproData(newData: any): void {
-    const existing = this.readImproData();
+  saveImproData<T>(key: string, newData: T): void {
+    const existing: T | null = this.read<T>(key);
     const merged = this.deepMerge(existing, newData);
-    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(merged));
+    localStorage.setItem(key, JSON.stringify(merged));
   }
 
   private deepMerge(target: any, source: any): any {

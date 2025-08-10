@@ -1,8 +1,11 @@
-import { Component, Input } from '@angular/core';
+import {Component, Input, model, ModelSignal} from '@angular/core';
 import {FormsModule} from "@angular/forms";
 import {NgForOf, NgIf} from "@angular/common";
-import {Player} from "@models/player";
+import {PlayerMetadata} from "@models/player-metadata";
+import {TeamMetadata} from "@models/team-metadata";
+import {Role} from "@enums/role.enum";
 import {Team} from "@models/team";
+import {TeamNumber} from "@enums/team-number.enum";
 
 @Component({
   selector: 'app-team-form',
@@ -15,17 +18,18 @@ import {Team} from "@models/team";
   styleUrls: ['./team-form.component.scss']
 })
 export class TeamFormComponent {
-  @Input() prefix: string = '';
-  @Input() teamData: any = {};
-  @Input() players: Player[] = [];
-  @Input() teams: Record<string, Team> = {};
+  protected readonly roles: Role[] = Object.values(Role);
+  protected readonly Role = Role;
 
-  roles = [
-    'coach', 'capitaine', 'assistant',
-    'joueur3', 'joueur4', 'joueur5', 'joueur6'
-  ];
+  team: ModelSignal<Team> = model.required();
+
+  @Input() players: PlayerMetadata[] = [];
+  @Input() teams: Record<string, TeamMetadata> = {};
+  @Input({required: true}) teamNumber: TeamNumber;
 
   getVareuses(): number[] {
-    return this.teams[this.teamData.name]?.vareuses || [];
+    return this.teams[this.team.name]?.vareuses || [];
   }
+
+  protected readonly TeamNumber = TeamNumber;
 }

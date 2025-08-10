@@ -1,10 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {LocalStorageService} from "@services/storage.service";
-import {Player} from "@models/player";
-import {Team} from "@models/team";
+import {PlayerMetadata} from "@models/player-metadata";
+import {TeamMetadata} from "@models/team-metadata";
 import {FormsModule} from "@angular/forms";
 import {TeamFormComponent} from "@components/video-switcher/team-form/team-form.component";
+import {GameData} from "@models/game-data";
+import {StorageKey} from "@enums/storage-key.enum";
 
 @Component({
   selector: 'app-teams-parameters',
@@ -23,10 +25,10 @@ export class TeamsParametersComponent implements OnInit {
     'teamB-joueur3', 'teamB-joueur4', 'teamB-joueur5', 'teamB-joueur6'
   ];
 
-  joueurs: Player[] = [];
-  equipes: Record<string, Team> = {};
+  joueurs: PlayerMetadata[] = [];
+  equipes: Record<string, TeamMetadata> = {};
 
-  improData: any = { teamA: {}, teamB: {} };
+  gameData: GameData;
 
   constructor(
     private http: HttpClient,
@@ -39,8 +41,8 @@ export class TeamsParametersComponent implements OnInit {
 
   loadData() {
     Promise.all([
-      this.http.get<Player[]>('assets/data/joueurs.json').toPromise(),
-      this.http.get<Record<string, Team>>('assets/data/equipes.json').toPromise()
+      this.http.get<PlayerMetadata[]>('assets/data/joueurs.json').toPromise(),
+      this.http.get<Record<string, TeamMetadata>>('assets/data/equipes.json').toPromise()
     ]).then(([joueurs, equipes]) => {
       this.joueurs = joueurs || [];
       this.equipes = equipes || {};
@@ -51,21 +53,14 @@ export class TeamsParametersComponent implements OnInit {
   }
 
   restoreData() {
-    this.improData = this.storageUtils.readImproData();
+    this.gameData = this.storageUtils.read<GameData>(StorageKey.GAME_DATA);
   }
 
   saveData() {
-    this.storageUtils.saveImproData(this.improData);
+    this.storageUtils.saveImproData(StorageKey.GAME_DATA, this.gameData);
   }
 
   getVareuses(teamName: string): number[] {
     return this.equipes[teamName]?.vareuses || [];
-  }
-
-  resetMatch() {
-    if (!confirm('Voulez-vous vraiment réinitialiser le match ?')) return;
-
-    this.improData = { teamA: {}, teamB: {} };
-    this.storageUtils.clearImproData();
   }
 }
