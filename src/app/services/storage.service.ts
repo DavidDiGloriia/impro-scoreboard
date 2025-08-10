@@ -28,11 +28,16 @@ export class LocalStorageService {
   }
 
   private deepMerge(target: any, source: any): any {
-    if (typeof target !== 'object' || typeof source !== 'object') return source;
+    if (!target || typeof target !== 'object') return source;
+    if (!source || typeof source !== 'object') return source;
+
     const result = { ...target };
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     for (const key of Object.keys(source)) {
-      if (this.isPlainObject(source[key]) && this.isPlainObject(target[key])) {
+      if (
+        this.isPlainObject(source[key]) &&
+        this.isPlainObject(target[key]) &&
+        target[key] !== null
+      ) {
         result[key] = this.deepMerge(target[key], source[key]);
       } else {
         result[key] = source[key];
@@ -40,6 +45,7 @@ export class LocalStorageService {
     }
     return result;
   }
+
 
   private isPlainObject(obj: any) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return

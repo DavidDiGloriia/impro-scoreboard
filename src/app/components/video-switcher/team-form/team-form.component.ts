@@ -50,7 +50,7 @@ export class TeamFormComponent {
     this.team.update((team: Team) => {
       const updatedPlayers = { ...team.players };
       updatedPlayers[role] = new Player({
-        ...updatedPlayers[role].toDto(),
+        ...updatedPlayers[role]?.toDto(),
         name: value,
       })
 
