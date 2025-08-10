@@ -20,7 +20,7 @@ export class VideoSwitcherComponent {
   }
 
   resetMatch() {
-    if (!confirm('Voulez-vous vraiment réinitialiser le match ?')) return;
+    if (!confirm('Voulez-vous vraiment démarrer un nouveau match ? Les scores et les équipes seront effacés.')) return;
 
     this.improDataService.clearGameData();
   }
