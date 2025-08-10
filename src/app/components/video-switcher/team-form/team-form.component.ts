@@ -8,6 +8,7 @@ import {Team} from "@models/team";
 import {TeamNumber} from "@enums/team-number.enum";
 import { groupBy } from 'lodash-es';
 import {Player} from "@models/player";
+import { find } from 'lodash-es';
 
 @Component({
   selector: 'app-team-form',
@@ -30,8 +31,13 @@ export class TeamFormComponent {
   @Input() players: PlayerMetadata[] = [];
   @Input({required: true}) teamNumber: TeamNumber;
 
-  jerseys: Signal<number[]> = computed(() =>
-  this.availableTeams()[this.team().name]?.jerseys || [])
+  jerseys: Signal<number[]> = computed(() => {
+    const team: TeamMetadata = find(this.availableTeams(), (team: TeamMetadata) => {
+      return team.name === this.team().name;
+    });
+
+    return team ? team.jerseys : [];
+  });
 
   availableTeamsByGroup: Signal<{ [group: string]: TeamMetadata[]}> = computed(() => {
     const teams = this.availableTeams();
@@ -62,7 +68,7 @@ export class TeamFormComponent {
     this.team.update((team: Team) => {
       const updatedPlayers = { ...team.players };
       updatedPlayers[role] = new Player({
-        ...updatedPlayers[role].toDto(),
+        ...updatedPlayers[role]?.toDto(),
         number: value,
       })
 

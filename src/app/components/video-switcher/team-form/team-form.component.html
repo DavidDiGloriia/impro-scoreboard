@@ -1,4 +1,3 @@
-
 <div class="card mb-3 team-controls">
   <div class="card-header">
     <strong>{{ teamNumber === TeamNumber.TEAM_A ? 'Équipe A' : 'Équipe B' }}</strong>
@@ -13,13 +12,13 @@
           [ngModel]="team()?.name"
           (ngModelChange)="onTeamNameChange($event)"
         >
-          @for(group of availableTeamsByGroup() | keyvalue; track group.key; let last = $last) {
-            @for(t of group.value; track t.name) {
+          @for (group of availableTeamsByGroup() | keyvalue; track group.key; let last = $last) {
+            @for (t of group.value; track t.name) {
               <option [value]="t.name" [selected]="t.name === team().name">
                 {{ t.icon }} {{ t.name }}
               </option>
             }
-            @if(!last) {
+            @if (!last) {
               <option disabled>──────────</option>
             }
           }
@@ -42,6 +41,7 @@
             [ngModel]="team().players[role]?.name"
             (ngModelChange)="onPlayerNameChange($event, role)"
           >
+            <option value="" [selected]="!team().players[role]">Aucun(e)</option>
             <option *ngFor="let player of players"
                     [value]="(player.firstName || '') + (player.name || '')">
               {{ player.firstName }} {{ player.name }}
@@ -55,14 +55,15 @@
             style="width: 5.5rem;"
             [ngModel]="team().players[role]?.number"
             (ngModelChange)="onPlayerNumberChange($event, role)"
-            [attr.list]="TeamNumber + role + '-datalist'"
+            [attr.list]="teamNumber + '-datalist'"
             placeholder="N°"
           />
-
-          <datalist [id]="TeamNumber + role + '-datalist'">
-            <option *ngFor="let num of jerseys()" [value]="num"></option>
-          </datalist>
         </div>
+
+
+        <datalist [id]="teamNumber + '-datalist'">
+          <option *ngFor="let num of jerseys()" [value]="num"></option>
+        </datalist>
       </div>
     </ng-container>
   </div>

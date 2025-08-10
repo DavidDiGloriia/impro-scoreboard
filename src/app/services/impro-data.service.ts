@@ -42,7 +42,6 @@ export class ImproDataService {
   }
 
   saveGameData(gameData: GameData): Observable<GameData> {
-    console.log('Saving game data:', gameData.toDto());
     return of(this._storageService.save<GameDataDto>(StorageKey.GAME_DATA, gameData.toDto()))
       .pipe(
         map((dto) => new GameData(dto))
