@@ -22,6 +22,12 @@
       "@directives/*": [
         " app/directives/*"
       ],
+      "@assets/*": [
+        "assets/*"
+      ],
+      "@dtos/*": [
+        "dtos/*"
+      ]
     },
     "strict": true,
     "outDir": "./dist/out-tsc",

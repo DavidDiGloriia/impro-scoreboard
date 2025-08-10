@@ -21,7 +21,6 @@ export class PageNotFoundComponent implements OnInit {
     this.attemptedUrl = this.router.url;
   }
   ngOnInit(): void {
-    console.log('PageNotFoundComponent INIT');
   }
 
   protected readonly APP_CONFIG = APP_CONFIG;

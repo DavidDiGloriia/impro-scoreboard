@@ -1,3 +1,4 @@
+
 <div class="card mb-3 team-controls">
   <div class="card-header">
     <strong>{{ teamNumber === TeamNumber.TEAM_A ? 'Équipe A' : 'Équipe B' }}</strong>
@@ -9,17 +10,18 @@
       <div class="col-md-9">
         <select
           class="form-select"
-          [(ngModel)]="team().name"
+          [ngModel]="team()?.name"
         >
-          <option  value="lions">🦁 Lions</option>
-          <option value="aigles">🦅 Aigles</option>
-          <option value="pythons">🐍 Pythons</option>
-          <option value="requins" selected>🦈 Requins</option>
-          <option disabled>──────────</option>
-          <option value="reds">🔴 Rouges</option>
-          <option value="blues">🔵 Bleus</option>
-          <option value="greens">🟢 Verts</option>
-          <option value="whites">⚪️ Blancs</option>
+          @for(group of availableTeamsByGroup() | keyvalue; track group.key; let last = $last) {
+            @for(t of group.value; track t.name) {
+              <option [value]="t.name" [selected]="t.name === team().name">
+                {{ t.icon }} {{ t.name }}
+              </option>
+            }
+            @if(!last) {
+              <option disabled>──────────</option>
+            }
+          }
         </select>
       </div>
     </div>
@@ -39,8 +41,8 @@
             [(ngModel)]="team().players[role]"
           >
             <option value="">-- Sélectionner --</option>
-            <option *ngFor="let joueur of players" [value]="(joueur.prenom || '') + (joueur.nom || '')">
-              {{ joueur.prenom }} {{ joueur.nom }}
+            <option *ngFor="let joueur of players" [value]="(joueur.firstName || '') + (joueur.name || '')">
+              {{ joueur.firstName }} {{ joueur.name }}
             </option>
           </select>
 
@@ -55,7 +57,7 @@
           />
 
           <datalist [id]="TeamNumber + role + '-datalist'">
-            <option *ngFor="let num of getVareuses()" [value]="num"></option>
+            <option *ngFor="let num of jerseys()" [value]="num"></option>
           </datalist>
         </div>
       </div>

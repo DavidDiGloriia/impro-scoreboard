@@ -33,7 +33,6 @@ export class ElectronService {
           console.error(`stderr: ${stderr}`);
           return;
         }
-        console.log(`stdout:\n${stdout}`);
       });
 
       // Notes :

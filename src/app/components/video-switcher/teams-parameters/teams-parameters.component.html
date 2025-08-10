@@ -2,17 +2,17 @@
 
     <app-team-form
       class="col-md-6"
-      prefix="teamA-"
-      [teamData]="improData.teamA"
-      [players]="joueurs"
-      [teams]="equipes"
+      [team]="gameData.value()?.teamA"
+      [players]="players.value()"
+      [availableTeams]="teams.value()"
+      [teamNumber]="TeamNumber.TEAM_A"
     ></app-team-form>
 
     <app-team-form
       class="col-md-6"
-      prefix="teamB-"
-      [teamData]="improData.teamB"
-      [players]="joueurs"
-      [teams]="equipes"
+      [team]="gameData.value().teamB"
+      [players]="players.value()"
+      [availableTeams]="teams.value()"
+      [teamNumber]="TeamNumber.TEAM_B"
     ></app-team-form>
   </div>
