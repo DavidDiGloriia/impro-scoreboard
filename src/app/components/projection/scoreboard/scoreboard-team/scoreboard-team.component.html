@@ -4,28 +4,30 @@
     'team-b': teamNumber() === Team.TEAM_B
   }"
 >
-    @if(teamNumber() === Team.TEAM_A) {
+    @if(teamNumber() === Team.TEAM_A && teamMetadata()?.img) {
       <ng-container *ngTemplateOutlet="teamImg"></ng-container>
     }
 
   <div>
-    <div class="score">0</div>
+    <div class="score"
+         [ngStyle]="scoreStyle()"
+    >{{ team().score }}</div>
     <div class="fautes">
       @for(i of maxFouls; track $index) {
         <div class="faute-dot"
-             [class.active]="fouls() >= i + 1"
+             [class.active]="team().fouls >= i + 1"
         ></div>
       }
     </div>
   </div>
 
-    @if(teamNumber() === Team.TEAM_B) {
+    @if(teamNumber() === Team.TEAM_B && teamMetadata()?.img) {
       <ng-container *ngTemplateOutlet="teamImg"></ng-container>
     }
 </div>
 
 <ng-template #teamImg>
   <div class="team-img-wrapper">
-    <img src="image.jpg" alt="Membre équipe">
+    <img [src]="teamMetadata()?.img" alt="Membre équipe">
   </div>
 </ng-template>

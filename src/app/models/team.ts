@@ -39,7 +39,7 @@ export class Team {
   }
 
   get score(): number {
-    return this._dto.score;
+    return this._dto.score || 0;
   }
 
   set score(value: number) {
@@ -52,7 +52,7 @@ export class Team {
   }
 
   get fouls(): number {
-    return this._dto.fouls;
+    return this._dto.fouls || 0;
   }
 
   set fouls(value: number) {
