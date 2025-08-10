@@ -1,12 +1,8 @@
-import {Component, ResourceRef} from '@angular/core';
-import {TeamMetadata} from "@models/team-metadata";
+import {Component} from '@angular/core';
 import {FormsModule} from "@angular/forms";
 import {TeamFormComponent} from "@components/video-switcher/team-form/team-form.component";
-import {GameData} from "@models/game-data";
 import {TeamNumber} from "@enums/team-number.enum";
 import {ImproDataService} from "@services/impro-data.service";
-import {rxResource} from "@angular/core/rxjs-interop";
-import {PlayerMetadata} from "@models/player-metadata";
 import {Team} from "@models/team";
 
 @Component({
@@ -21,20 +17,9 @@ import {Team} from "@models/team";
 export class TeamsParametersComponent {
   protected readonly TeamNumber = TeamNumber;
 
-  players: ResourceRef<PlayerMetadata[]> = rxResource({
-    loader: () => this._improDataService.getPlayers(),
-    defaultValue: []
-  });
-
-  teams: ResourceRef<Record<string, TeamMetadata>> = rxResource({
-    loader: () => this._improDataService.getTeams(),
-    defaultValue: {}
-  });
-
-  gameData:  ResourceRef<GameData> = rxResource({
-    loader: () => this._improDataService.getGameData(),
-    defaultValue: new GameData({})
-  });
+  players = this._improDataService.players;
+  teams  = this._improDataService.teams;
+  gameData = this._improDataService.gameData;
 
   constructor(
     private _improDataService: ImproDataService
