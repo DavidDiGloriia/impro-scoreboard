@@ -4,11 +4,15 @@
         <span id="total-timer">45:00</span>
       </div>
       <div class="teams">
-        <app-scoreboard-team [team]="Team.TEAM_A"/>
+        <app-scoreboard-team [teamNumber]="Team.TEAM_A"
+                             [team]="gameData.value().teamA"
+        />
         <div class="round-timer">
           <br><span id="round-timer">03:00</span>
         </div>
-        <app-scoreboard-team [team]="Team.TEAM_B"/>
+        <app-scoreboard-team [teamNumber]="Team.TEAM_B"
+                             [team]="gameData.value().teamB"
+        />
       </div>
     </div>
     <div class="bottom-section">

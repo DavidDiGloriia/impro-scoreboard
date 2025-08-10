@@ -1,10 +1,10 @@
 <div class="team"
   [ngClass]="{
-    'team-a': team() === Team.TEAM_A,
-    'team-b': team() === Team.TEAM_B
+    'team-a': teamNumber() === Team.TEAM_A,
+    'team-b': teamNumber() === Team.TEAM_B
   }"
 >
-    @if(team() === Team.TEAM_A) {
+    @if(teamNumber() === Team.TEAM_A) {
       <ng-container *ngTemplateOutlet="teamImg"></ng-container>
     }
 
@@ -19,7 +19,7 @@
     </div>
   </div>
 
-    @if(team() === Team.TEAM_B) {
+    @if(teamNumber() === Team.TEAM_B) {
       <ng-container *ngTemplateOutlet="teamImg"></ng-container>
     }
 </div>
