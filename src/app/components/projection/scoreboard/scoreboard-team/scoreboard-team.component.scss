@@ -112,7 +112,7 @@
   image-rendering: crisp-edges; /* améliore parfois le rendu */
 }
 
-.photo-pythons {
+.photo-teamA-pythons {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -121,35 +121,44 @@
   transform: scale(1.40) translateY(15%) translateX(-15%);
 }
 
-#team-b .photo-pythons {
+.photo-teamB-pythons {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  image-rendering: crisp-edges; /* améliore parfois le rendu */
   transform: scaleX(-1) scale(1.40) translateY(15%) translateX(-15%);
 }
 
-.photo-lions {
+.photo-teamA-lions {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: 100% center;
 }
 
-#team-b .photo-lions {
+.photo-teamB-lions {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: 100% center;
   transform: scaleX(-1);
 }
 
-.photo-requins {
+.photo-teamB-requins {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: 4% center;
 }
 
-#team-a .photo-requins {
-  transform: scaleX(-1)
+.photo-teamA-requins {
+  transform: scaleX(-1);
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 4% center;
 }
-
 
 .faute-dot.active {
   background-color: white;
