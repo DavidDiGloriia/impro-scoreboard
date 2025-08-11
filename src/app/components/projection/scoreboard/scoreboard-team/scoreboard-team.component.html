@@ -13,9 +13,11 @@
          [ngStyle]="scoreStyle()"
     >{{ team().score }}</div>
     <div class="fautes">
-      @for(i of maxFouls; track $index) {
+      @for(i of maxFouls; let index = $index; track $index) {
         <div class="faute-dot"
-             [class.active]="team().fouls >= i + 1"
+             [style.background-color]="team().fouls >= index + 1 ? teamMetadata().color : ''"
+             [style.border-color]="team().fouls >= index + 1 ? teamMetadata().color : ''"
+
         ></div>
       }
     </div>

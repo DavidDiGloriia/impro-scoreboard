@@ -1,8 +1,7 @@
-import {Component, effect, inject, ResourceRef, signal} from '@angular/core';
+import {Component, inject, signal} from '@angular/core';
 import {ScoreboardTeamComponent} from "./scoreboard-team/scoreboard-team.component";
 import {TeamNumber} from "@enums/team-number.enum";
 import {ImproDataService} from "@services/impro-data.service";
-import {GameData} from "@models/game-data";
 @Component({
   selector: 'app-scoreboard',
   imports: [

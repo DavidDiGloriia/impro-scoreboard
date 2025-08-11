@@ -1,4 +1,4 @@
-import {Component, DestroyRef, effect, inject} from '@angular/core';
+import {Component, DestroyRef, inject} from '@angular/core';
 import {FormsModule} from "@angular/forms";
 import {TeamFormComponent} from "@components/video-switcher/teams-parameters/team-form/team-form.component";
 import {TeamNumber} from "@enums/team-number.enum";
