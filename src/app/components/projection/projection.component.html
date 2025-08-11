@@ -1,1 +1,19 @@
-<router-outlet></router-outlet>
+@switch (displayedScreen?.value()){
+  @case (DisplayedScreen.MATCH){
+    <app-scoreboard/>
+  }
+  @case (DisplayedScreen.TEAM_A){
+    <app-team-presentation/>
+  }
+  @case (DisplayedScreen.TEAM_B){
+    <app-team-presentation/>
+  }
+  @case (DisplayedScreen.BOTH_TEAMS){
+    Not implemented yet
+  }
+  @default {
+    <app-scoreboard/>
+  }
+}
+
+<router-outlet/>

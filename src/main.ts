@@ -29,17 +29,6 @@ bootstrapApplication(AppComponent, {
       {
         path: 'projection',
         loadComponent: () => import('./app/components/projection/projection.component').then(m => m.ProjectionComponent),
-        children: [
-          {
-            path: 'scoreboard',
-            loadComponent: () => import('@components/projection/scoreboard/scoreboard.component').then(m => m.ScoreboardComponent)
-          },
-          {
-            path: '**',
-            redirectTo: 'scoreboard',
-            pathMatch: 'full'
-          }
-        ]
       },
       {
         path: 'control',
