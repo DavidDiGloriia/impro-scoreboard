@@ -32,6 +32,14 @@ export class ScoreboardTeamComponent {
     });
   })
 
+  photoClass: Signal<string> = computed(() => {
+    if (!this.teamMetadata() &&  this.teamMetadata().group !== 'animaux') {
+      return '';
+    }
+
+    return `photo-${this.teamNumber()}-${this.teamMetadata().code}`;
+  });
+
   scoreStyle: Signal<Record<string, string>> = computed(() => {
     if (!this.teamMetadata()) {
       return {};

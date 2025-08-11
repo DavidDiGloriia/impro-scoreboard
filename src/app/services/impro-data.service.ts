@@ -1,4 +1,4 @@
-import {Injectable, ResourceRef} from "@angular/core";
+import {Injectable, NgZone, ResourceRef} from "@angular/core";
 import {LocalStorageService} from "@services/storage.service";
 import {HttpClient} from "@angular/common/http";
 import {GameDataDto, PlayerMetadataDto, TeamMetadataDto} from "../dtos";
@@ -15,10 +15,16 @@ import {rxResource} from "@angular/core/rxjs-interop";
   providedIn: 'root'
 })
 export class ImproDataService {
-  constructor(
-    private _storageService: LocalStorageService,
-    private _httpClient: HttpClient
-  ) {
+  constructor(private _storageService: LocalStorageService,
+              private _httpClient: HttpClient
+              ) {
+
+    window.addEventListener('storage', (event: StorageEvent) => {
+      if (event.storageArea === localStorage && event.key === StorageKey.GAME_DATA.toString()) {
+        const dto = JSON.parse(event.newValue) as GameDataDto;
+        this.gameData.set(new GameData(dto))
+      }
+    });
   }
 
   public players: ResourceRef<PlayerMetadata[]> = rxResource({
@@ -39,7 +45,7 @@ export class ImproDataService {
   getTeams(): Observable<Record<string, TeamMetadata>> {
     return this._httpClient.get<Record<string, TeamMetadataDto>>('assets/data/equipes.json').pipe(
       map(dtoRecord =>
-        mapValues(dtoRecord, (playerMetadataDto) => new TeamMetadata(playerMetadataDto))
+        mapValues(dtoRecord, (playerMetadataDto, code: string) => new TeamMetadata(playerMetadataDto, code))
       )
     );
   }

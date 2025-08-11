@@ -1,10 +1,13 @@
 import {TeamMetadataDto} from "../dtos";
 
 export class TeamMetadata {
-  constructor(private _dto: TeamMetadataDto = {}) {
+  constructor(private _dto: TeamMetadataDto = {}, private _code: string) {
     this._dto = _dto ? _dto : {};
   }
 
+  get code(): string {
+    return this._code;
+  }
 
   get name(): string {
     return this._dto.nom;

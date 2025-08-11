@@ -27,7 +27,10 @@
 </div>
 
 <ng-template #teamImg>
+  {{ photoClass()}}
   <div class="team-img-wrapper">
-    <img [src]="teamMetadata()?.img" alt="Membre équipe">
+    <img [src]="teamMetadata()?.img"
+         [class]="photoClass()"
+         alt="Membre équipe">
   </div>
 </ng-template>

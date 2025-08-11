@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, effect} from '@angular/core';
 import {FormsModule} from "@angular/forms";
 import {TeamFormComponent} from "@components/video-switcher/team-form/team-form.component";
 import {TeamNumber} from "@enums/team-number.enum";
@@ -23,7 +23,12 @@ export class TeamsParametersComponent {
 
   constructor(
     private _improDataService: ImproDataService
-  ) {}
+
+  ) {
+    effect(() => {
+      console.log(this._improDataService.gameData)
+    });
+  }
 
   onTeamChange(value: Team, teamNumber: TeamNumber) {
     const updatedGameData = this.gameData.value().clone()
@@ -31,7 +36,7 @@ export class TeamsParametersComponent {
       .withTeamB(teamNumber === TeamNumber.TEAM_B ? value : this.gameData.value().teamB);
 
     this._improDataService.saveGameData(updatedGameData).subscribe((data) => {
-      this.gameData.set(data);
+      this.gameData.set(data.clone());
     });
   }
 

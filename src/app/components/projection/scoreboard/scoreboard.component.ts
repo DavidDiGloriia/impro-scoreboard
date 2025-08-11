@@ -1,4 +1,4 @@
-import {Component, inject, ResourceRef, signal} from '@angular/core';
+import {Component, effect, inject, ResourceRef, signal} from '@angular/core';
 import {ScoreboardTeamComponent} from "./scoreboard-team/scoreboard-team.component";
 import {TeamNumber} from "@enums/team-number.enum";
 import {ImproDataService} from "@services/impro-data.service";
@@ -21,5 +21,12 @@ export class ScoreboardComponent {
 
 
   gameData = this._improDataService.gameData;
+
+  constructor() {
+    effect(() => {
+      console.log(this._improDataService.gameData)
+    });
+  }
+
 
 }
