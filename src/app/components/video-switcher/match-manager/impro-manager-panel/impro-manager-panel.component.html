@@ -1,0 +1,68 @@
+<div class="card p-4 mb-4">
+  <h4 class="fw-bold mb-3">Impro</h4>
+
+  <!-- Type -->
+  <div class="mb-3 d-flex align-items-center gap-3">
+    <label class="fw-semibold mb-0">Type :</label>
+    <div class="btn-group" role="group" aria-label="Type de jeu">
+      <input type="radio" class="btn-check" name="type" id="typeMixte" autocomplete="off"
+             [checked]="te"
+      >
+      <label class="btn btn-primary" for="typeMixte">Mixte</label>
+
+      <input type="radio" class="btn-check" name="type" id="typeComparee" autocomplete="off">
+      <label class="btn btn-outline-secondary" for="typeComparee">Comparée</label>
+    </div>
+  </div>
+
+  <!-- Titre -->
+  <div class="mb-3">
+    <label for="titre" class="form-label fw-semibold">Titre :</label>
+    <input id="titre" type="text" class="form-control" value="POURVU QUE ÇA PASSE" />
+  </div>
+
+  <!-- Nombre de joueurs par équipe -->
+  <div class="mb-3">
+    <label class="fw-semibold d-block mb-2">Nombre de joueurs par équipe :</label>
+    <div class="btn-group" role="group" aria-label="Nombre joueurs par équipe">
+      <button type="button" class="btn btn-outline-secondary">Illimité</button>
+      <button type="button" class="btn btn-outline-secondary">Tous</button>
+      <button type="button" class="btn btn-primary">1/eq</button>
+      <button type="button" class="btn btn-outline-secondary">2/eq</button>
+      <button type="button" class="btn btn-outline-secondary">2/max eq.</button>
+      <button type="button" class="btn btn-outline-secondary">3/eq</button>
+      <button type="button" class="btn btn-outline-secondary">3/max eq.</button>
+      <button type="button" class="btn btn-outline-secondary">Personnalisé</button>
+    </div>
+  </div>
+
+  <!-- Catégorie -->
+  <div class="mb-3">
+    <label for="categorie" class="form-label fw-semibold">Catégorie :</label>
+    <input id="categorie" type="text" class="form-control" value="Animalière" />
+  </div>
+
+  <!-- Durée -->
+  <div class="mb-3">
+    <label class="fw-semibold d-block mb-2">Durée :</label>
+    <div class="btn-group mb-2" role="group" aria-label="Durée sélection rapide">
+      <button type="button" class="btn btn-primary">30 sec</button>
+      <button type="button" class="btn btn-primary">45 sec</button>
+      <button type="button" class="btn btn-primary">1 min</button>
+      <button type="button" class="btn btn-primary">1 min 30</button>
+      <button type="button" class="btn btn-primary">2 min</button>
+      <button type="button" class="btn btn-primary">2 min 30</button>
+      <button type="button" class="btn btn-primary">3 min</button>
+      <button type="button" class="btn btn-primary">5 min</button>
+    </div>
+
+    <div class="d-flex align-items-center gap-2">
+      <input type="number" min="0" class="form-control w-auto" placeholder="min" style="max-width: 80px;">
+      <span>min</span>
+      <input type="number" min="0" class="form-control w-auto" placeholder="sec" style="max-width: 80px;">
+      <span>sec</span>
+    </div>
+  </div>
+
+  <button class="btn btn-primary fw-bold">Envoyer</button>
+</div>

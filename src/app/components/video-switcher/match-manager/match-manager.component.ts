@@ -10,13 +10,17 @@ import {
 } from "@components/video-switcher/match-manager/team-manager-panel/team-manager-panel.component";
 import {TeamNumber} from "@enums/team-number.enum";
 import {Team} from "@models/team";
+import {
+  ImproManagerPanelComponent
+} from "@components/video-switcher/match-manager/impro-manager-panel/impro-manager-panel.component";
 
 @Component({
   selector: 'app-match-manager',
   imports: [
     NgIf,
     UpperCasePipe,
-    TeamManagerPanelComponent
+    TeamManagerPanelComponent,
+    ImproManagerPanelComponent
   ],
   templateUrl: './match-manager.component.html',
   styleUrl: './match-manager.component.scss'

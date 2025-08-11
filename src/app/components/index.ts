@@ -8,3 +8,4 @@ export * from './video-switcher/match-manager/match-manager.component';
 export * from './video-switcher/teams-parameters/team-form/team-form.component';
 export * from './projection/team-presentation/team-presentation.component'
 export * from './video-switcher/match-manager/team-manager-panel/team-manager-panel.component'
+export * from './video-switcher/match-manager/impro-manager-panel/impro-manager-panel.component'

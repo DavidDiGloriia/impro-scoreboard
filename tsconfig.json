@@ -27,7 +27,10 @@
       ],
       "@dtos/*": [
         "dtos/*"
-      ]
+      ],
+      "@constants/*": [
+        "app/constants/*"
+      ],
     },
     "strict": true,
     "outDir": "./dist/out-tsc",
