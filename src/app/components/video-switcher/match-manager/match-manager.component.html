@@ -1,1 +1,18 @@
-<p>match-manager works!</p>
+<div class="p-3">
+  <div id="display-actions" class="d-flex gap-2">
+    <button class="btn btn-outline-primary btn-lg flex-fill"
+            [class.active]="displayedScreen.value() === DisplayedScreen.MATCH"
+            (click)="displayScreen(DisplayedScreen.MATCH)">AFFICHER MATCH</button>
+    <button *ngIf="gameData.value().teamA.name"
+            class="btn btn-outline-primary btn-lg flex-fill"
+            [class.active]="displayedScreen.value() === DisplayedScreen.TEAM_A"
+            (click)="displayScreen(DisplayedScreen.TEAM_A)">PRÉSENTER {{ gameData?.value().teamA.name | uppercase }} </button>
+    <button *ngIf="gameData.value().teamB.name"
+            class="btn  btn-outline-primary btn-lg flex-fill"
+            [class.active]="displayedScreen.value() === DisplayedScreen.TEAM_B"
+            (click)="displayScreen(DisplayedScreen.TEAM_B)">PRÉSENTER {{ gameData?.value().teamB.name | uppercase }} </button>
+    <button class="btn  btn-outline-primary btn-lg flex-fill"
+            [class.active]="displayedScreen.value() === DisplayedScreen.BOTH_TEAMS"
+            (click)="displayScreen(DisplayedScreen.BOTH_TEAMS)">PRÉSENTER LES DEUX TEAMS</button>
+  </div>
+</div>

@@ -10,6 +10,7 @@ import {TeamMetadata} from "@models/team-metadata";
 import {GameData} from "@models/game-data";
 import {StorageKey} from "@enums/storage-key.enum";
 import {rxResource} from "@angular/core/rxjs-interop";
+import {DisplayedScreen} from "@enums/displayed-screen.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +24,9 @@ export class ImproDataService {
       if (event.storageArea === localStorage && event.key === StorageKey.GAME_DATA.toString()) {
         const dto = JSON.parse(event.newValue) as GameDataDto;
         this.gameData.set(new GameData(dto))
+      } else if (event.storageArea === localStorage && event.key === StorageKey.DISPLAYED_SCREEN.toString()) {
+        const screen = JSON.parse(event.newValue) as DisplayedScreen;
+        this.displayedScreen.set(screen);
       }
     });
   }
@@ -42,6 +46,11 @@ export class ImproDataService {
     defaultValue: new GameData({})
   });
 
+  public displayedScreen: ResourceRef<DisplayedScreen> = rxResource({
+    loader: () => this.getDisplayedScreen(),
+    defaultValue: DisplayedScreen.MATCH
+  });
+
   getTeams(): Observable<Record<string, TeamMetadata>> {
     return this._httpClient.get<Record<string, TeamMetadataDto>>('assets/data/equipes.json').pipe(
       map(dtoRecord =>
@@ -56,6 +65,10 @@ export class ImproDataService {
         return new GameData(dto)
       })
     );
+  }
+
+  getDisplayedScreen(): Observable<DisplayedScreen> {
+    return of(this._storageService.read<DisplayedScreen>(StorageKey.DISPLAYED_SCREEN));
   }
 
   getPlayers(): Observable<PlayerMetadata[]> {
@@ -73,6 +86,13 @@ export class ImproDataService {
     return of(this._storageService.save<GameDataDto>(StorageKey.GAME_DATA, gameData.toDto()))
       .pipe(
         map((dto) => new GameData(dto))
+      );
+  }
+
+  saveDisplayedScreen(screen: DisplayedScreen): Observable<DisplayedScreen> {
+    return of(this._storageService.save<DisplayedScreen>(StorageKey.DISPLAYED_SCREEN, screen))
+      .pipe(
+        map((dto) => dto)
       );
   }
 }
