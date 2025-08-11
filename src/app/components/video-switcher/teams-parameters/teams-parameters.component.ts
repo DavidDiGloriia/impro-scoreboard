@@ -1,10 +1,9 @@
 import {Component, DestroyRef, effect, inject} from '@angular/core';
 import {FormsModule} from "@angular/forms";
-import {TeamFormComponent} from "@components/video-switcher/team-form/team-form.component";
+import {TeamFormComponent} from "@components/video-switcher/teams-parameters/team-form/team-form.component";
 import {TeamNumber} from "@enums/team-number.enum";
 import {ImproDataService} from "@services/impro-data.service";
 import {Team} from "@models/team";
-import {takeUntil} from "rxjs";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 
 @Component({
@@ -29,9 +28,6 @@ export class TeamsParametersComponent {
     private _improDataService: ImproDataService
 
   ) {
-    effect(() => {
-      console.log(this._improDataService.gameData)
-    });
   }
 
   onTeamChange(value: Team, teamNumber: TeamNumber) {

@@ -1,5 +1,5 @@
 <div class="p-3">
-  <div id="display-actions" class="d-flex gap-2">
+  <div class="d-flex gap-2">
     <button class="btn btn-outline-primary btn-lg flex-fill"
             [class.active]="displayedScreen.value() === DisplayedScreen.MATCH"
             (click)="displayScreen(DisplayedScreen.MATCH)">AFFICHER MATCH</button>
@@ -15,4 +15,20 @@
             [class.active]="displayedScreen.value() === DisplayedScreen.BOTH_TEAMS"
             (click)="displayScreen(DisplayedScreen.BOTH_TEAMS)">PRÉSENTER LES DEUX TEAMS</button>
   </div>
+  <div class="row mt-3">
+    <div class="col">
+      <app-team-manager-panel [teamNumber]="TeamNumber.TEAM_A"
+                              [team]="gameData.value().teamA"
+                              (teamChange)="onTeamChange($event, TeamNumber.TEAM_A)"
+
+      ></app-team-manager-panel>
+    </div>
+    <div class="col">
+      <app-team-manager-panel [teamNumber]="TeamNumber.TEAM_B"
+                              [team]="gameData.value().teamB"
+                              (teamChange)="onTeamChange($event, TeamNumber.TEAM_B)"
+      ></app-team-manager-panel>
+    </div>
+  </div>
+
 </div>

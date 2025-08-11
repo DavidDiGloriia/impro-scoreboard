@@ -1,0 +1,27 @@
+.btn-input-size {
+  width: 50px;
+  height: 50px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding: 0;
+  text-align: center;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+input[type=number] {
+  padding-top: 0;
+  padding-bottom: 0;
+  height: 50px;
+  font-weight: bold;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

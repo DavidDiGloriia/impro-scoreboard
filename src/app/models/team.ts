@@ -70,6 +70,7 @@ export class Team {
 
   toDto(): TeamDto {
     return {
+      ...this._dto,
       name: this._dto.name,
       players: mapValues(this._players, (player: Player) => player.toDto()),
     };

@@ -41,6 +41,7 @@ export class GameData {
 
   toDto(): GameDataDto {
     return {
+      ...this._dto,
       teamA: this._teamA ? this._teamA.toDto() : undefined,
       teamB: this._teamB ? this._teamB.toDto() : undefined
     };

@@ -5,5 +5,6 @@ export * from './video-switcher/video-switcher.component';
 export * from './page-not-found/page-not-found.component'
 export * from './video-switcher/teams-parameters/teams-parameters.component'
 export * from './video-switcher/match-manager/match-manager.component';
-export * from './video-switcher/team-form/team-form.component';
+export * from './video-switcher/teams-parameters/team-form/team-form.component';
 export * from './projection/team-presentation/team-presentation.component'
+export * from './video-switcher/match-manager/team-manager-panel/team-manager-panel.component'

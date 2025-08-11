@@ -23,9 +23,6 @@ export class ScoreboardComponent {
   gameData = this._improDataService.gameData;
 
   constructor() {
-    effect(() => {
-      console.log(this._improDataService.gameData)
-    });
   }
 
 
