@@ -5,7 +5,7 @@
   </div>
 
   <div class="container">
-    @for(player of team().players | keyvalue; track player.key) {
+    @for(player of team().players | keyValueNoSort; track player.key) {
       @let playerValue = player.value;
       @let playerMetadata = playersByCode()[playerValue.code];
       <div class="player-bar">

@@ -5,13 +5,17 @@ import {find, keyBy} from "lodash-es";
 import {ImproDataService} from "@services/impro-data.service";
 import {JsonPipe, KeyValuePipe, NgForOf, NgIf, NgStyle} from "@angular/common";
 import {PlayerMetadata} from "@models/player-metadata";
+import {Player} from "@models/player";
+import {Role} from "@enums/role.enum";
+import {KeyValueNoSortPipe} from "@pipes/key-value-no-sort.pipe";
 
 @Component({
   selector: 'app-team-presentation',
   imports: [
     NgIf,
     KeyValuePipe,
-    JsonPipe
+    JsonPipe,
+    KeyValueNoSortPipe
   ],
   templateUrl: './team-presentation.component.html',
   styleUrl: './team-presentation.component.scss'
