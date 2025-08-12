@@ -1,0 +1,26 @@
+<!-- timer.component.html -->
+<div class="card shadow-sm p-3">
+  <div class="mb-3 text-center border rounded p-3 bg-light">
+    <h2 class="fw-bold mb-0">{{ formatTime(time) }}</h2>
+  </div>
+
+  <div class="d-grid mb-2">
+    <button class="btn btn-primary btn-lg" (click)="toggleTimer()">
+      {{ running ? 'PAUSE' : 'DÉMARRER' }}
+    </button>
+  </div>
+
+  <div class="row g-2 mb-3">
+    <div class="col-6 d-grid">
+      <button class="btn btn-primary" (click)="adjustTime(5)">+5 sec</button>
+    </div>
+    <div class="col-6 d-grid">
+      <button class="btn btn-primary" (click)="adjustTime(-5)">-5 sec</button>
+    </div>
+  </div>
+
+  <div>
+    <label class="form-label fw-bold">Durée totale (mi-temps) :</label>
+    <input type="number" class="form-control" [(ngModel)]="totalDuration">
+  </div>
+</div>

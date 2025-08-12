@@ -13,6 +13,9 @@ import {Team} from "@models/team";
 import {
   ImproManagerPanelComponent
 } from "@components/video-switcher/match-manager/impro-manager-panel/impro-manager-panel.component";
+import {
+  TimeManagerPanelComponent
+} from "@components/video-switcher/match-manager/time-manager-panel/time-manager-panel.component";
 
 @Component({
   selector: 'app-match-manager',
@@ -20,7 +23,8 @@ import {
     NgIf,
     UpperCasePipe,
     TeamManagerPanelComponent,
-    ImproManagerPanelComponent
+    ImproManagerPanelComponent,
+    TimeManagerPanelComponent
   ],
   templateUrl: './match-manager.component.html',
   styleUrl: './match-manager.component.scss'
