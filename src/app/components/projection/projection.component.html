@@ -1,4 +1,7 @@
 @switch (displayedScreen?.value()) {
+  @case (DisplayedScreen.SCREEN_SAVER){
+    <app-screen-saver/>
+  }
   @case (DisplayedScreen.MATCH) {
     <app-scoreboard [gameData]="gameData.value()"/>
   }
@@ -12,7 +15,7 @@
     Not implemented yet
   }
   @default {
-    <app-scoreboard [gameData]="gameData.value()"/>
+    <app-screen-saver/>
   }
 }
 

@@ -1,4 +1,5 @@
 export enum DisplayedScreen {
+  SCREEN_SAVER = 'SCREEN_SAVER',
   MATCH = 'MATCH',
   TEAM_A = 'TEAM_A',
   TEAM_B = 'TEAM_B',
