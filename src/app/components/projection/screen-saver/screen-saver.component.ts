@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
+import {UpperCasePipe} from "@angular/common";
 
 @Component({
   selector: 'app-screen-saver',
-  imports: [],
+  imports: [
+    UpperCasePipe
+  ],
   templateUrl: './screen-saver.component.html',
   styleUrl: './screen-saver.component.scss'
 })
