@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import {NgClass} from "@angular/common";
 import {FormsModule} from "@angular/forms";
+import {FormatTimePipe} from "@pipes/format-time.pipe";
 
 @Component({
   selector: 'app-time-manager-panel',
   imports: [
-    FormsModule
+    FormsModule,
+    FormatTimePipe
   ],
   templateUrl: './time-manager-panel.component.html',
   styleUrl: './time-manager-panel.component.scss'
@@ -15,12 +17,6 @@ export class TimeManagerPanelComponent {
   totalDuration = 2700; // mi-temps en secondes
   timerInterval: any;
   running = false;
-
-  formatTime(sec: number): string {
-    const minutes = Math.floor(sec / 60).toString().padStart(2, '0');
-    const seconds = (sec % 60).toString().padStart(2, '0');
-    return `${minutes}:${seconds}`;
-  }
 
   toggleTimer() {
     if (this.running) {
