@@ -14,9 +14,11 @@
             class="btn  btn-outline-primary btn-lg flex-fill"
             [class.active]="displayedScreen.value() === DisplayedScreen.TEAM_B"
             (click)="displayScreen(DisplayedScreen.TEAM_B)">PRÉSENTER {{ gameData?.value().teamB.name | uppercase }} </button>
+    <!--
     <button class="btn  btn-outline-primary btn-lg flex-fill"
             [class.active]="displayedScreen.value() === DisplayedScreen.BOTH_TEAMS"
             (click)="displayScreen(DisplayedScreen.BOTH_TEAMS)">PRÉSENTER LES DEUX TEAMS</button>
+    -->
   </div>
   <div class="row mt-3">
     <div class="col">
