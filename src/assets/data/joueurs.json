@@ -2,62 +2,62 @@
   {
     "prenom": "Alex",
     "nom": "Ducoux",
-    "img": "alexandra-ducoux.png",
+    "img": "assets/joueurs/alexandra-ducoux.png",
     "femme": true
   },
   {
     "prenom": "Alex",
     "nom": "Colusi",
-    "img": "alex-colusi.png",
+    "img": "assets/joueurs/alex-colusi.png",
     "femme": true
   },
   {
     "prenom": "Ari",
-    "img": "ariane-haza.png",
+    "img": "assets/joueurs/ariane-haza.png",
     "femme": true
   },
   {
     "prenom": "Charlotte",
-    "img": "charlotte-otlet.png",
+    "img": "assets/joueurs/charlotte-otlet.png",
     "femme": true
   },
   {
     "prenom": "David",
-    "img": "david-di-gloria.png"
+    "img": "assets/joueurs/david-di-gloria.png"
   },
   {
     "prenom": "Emilie",
-    "img": "émilie-marlière.png",
+    "img": "assets/joueurs/émilie-marlière.png",
     "femme": true
   },
   {
     "prenom": "Filou",
-    "img": "filou.png"
+    "img": "assets/joueurs/filou.png"
   },
   {
     "prenom": "Gab",
-    "img": "gab-de-pat.png",
+    "img": "assets/joueurs/gab-de-pat.png",
     "femme": true
   },
   {
     "prenom": "Lenny",
-    "img": "lenny-b-conil.png"
+    "img": "assets/joueurs/lenny-b-conil.png"
   },
   {
     "prenom": "Phil",
-    "img": "philippe-verbeke.png"
+    "img": "assets/joueurs/philippe-verbeke.png"
   },
   {
     "prenom": "Polo",
-    "img": "polo.png"
+    "img": "assets/joueurs/polo.png"
   },
   {
     "prenom": "Q",
-    "img": "q.png"
+    "img": "assets/joueurs/q.png"
   },
   {
     "prenom": "Sophie",
-    "img": "sophie-hoyas.png",
+    "img": "assets/joueurs/sophie-hoyas.png",
     "femme": true
   }
 ]

@@ -18,6 +18,7 @@ import {TeamPresentationComponent} from "@components/projection/team-presentatio
 export class ProjectionComponent {
   readonly DisplayedScreen = DisplayedScreen;
   displayedScreen: ResourceRef<DisplayedScreen> = this._improDataService.displayedScreen;
+  gameData = this._improDataService.gameData;
 
   constructor(private _improDataService: ImproDataService) {
   }

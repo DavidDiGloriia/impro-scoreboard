@@ -5,13 +5,13 @@
       </div>
       <div class="teams">
         <app-scoreboard-team [teamNumber]="Team.TEAM_A"
-                             [team]="gameData.value().teamA"
+                             [team]="gameData().teamA"
         />
         <div class="round-timer">
           <br><span id="round-timer">03:00</span>
         </div>
         <app-scoreboard-team [teamNumber]="Team.TEAM_B"
-                             [team]="gameData.value().teamB"
+                             [team]="gameData().teamB"
         />
       </div>
     </div>

@@ -38,12 +38,12 @@
         <div class="col-md-9 d-flex gap-2 align-items-center">
           <select
             class="form-select"
-            [ngModel]="team().players[role]?.name"
+            [ngModel]="team().players[role]?.code"
             (ngModelChange)="onPlayerNameChange($event, role)"
           >
             <option value="" [selected]="!team().players[role]">Aucun(e)</option>
             <option *ngFor="let player of players"
-                    [value]="(player.firstName || '') + (player.name || '')">
+                    [value]="player.code">
               {{ player.firstName }} {{ player.name }}
             </option>
           </select>

@@ -1,7 +1,7 @@
-import {Component, inject, signal} from '@angular/core';
+import {Component, input, InputSignal, signal} from '@angular/core';
 import {ScoreboardTeamComponent} from "./scoreboard-team/scoreboard-team.component";
 import {TeamNumber} from "@enums/team-number.enum";
-import {ImproDataService} from "@services/impro-data.service";
+import {GameData} from "@models/game-data";
 @Component({
   selector: 'app-scoreboard',
   imports: [
@@ -13,13 +13,10 @@ import {ImproDataService} from "@services/impro-data.service";
 export class ScoreboardComponent {
   readonly Team = TeamNumber;
 
-  private _improDataService = inject(ImproDataService);
+  gameData: InputSignal<GameData> = input.required();
 
   themeTitle = signal('POURVU QUE CA MARCHE !');
   themeStyle = signal('A la manière de la chanson de Gold');
-
-
-  gameData = this._improDataService.gameData;
 
   constructor() {
   }

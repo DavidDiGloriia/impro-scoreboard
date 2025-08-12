@@ -1,1 +1,24 @@
-<p>team-presentation works!</p>
+<div class="main-container">
+  <div class="team-header">
+    <img [src]="teamMetadata().img" alt="Logo équipe" class="team-logo" />
+    <div class="team-name">{{ team().name }}</div>
+  </div>
+
+  <div class="container">
+    @for(player of team().players | keyvalue; track player.key) {
+      @let playerValue = player.value;
+      @let playerMetadata = playersByCode()[playerValue.code];
+      <div class="player-bar">
+        <img [src]="playerMetadata.img" [alt]="playerValue.code" class="player-photo" />
+        <div *ngIf="playerValue.number" class="player-number">#{{ playerValue.number }}</div>
+        <div class="overlay">
+          <!-- n'affiche pas "Joueur" comme position (comme dans ton code original) -->
+          <div *ngIf="player.key !== 'Joueur'" class="player-position">
+            {{ player.key }}
+          </div>
+          <div class="player-name">{{ playerMetadata.firstName }}</div>
+        </div>
+      </div>
+    }
+  </div>
+</div>

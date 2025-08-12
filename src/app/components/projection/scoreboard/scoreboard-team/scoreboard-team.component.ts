@@ -1,5 +1,5 @@
 import {Component, computed, inject, input, Signal} from '@angular/core';
-import { NgClass, NgStyle, NgTemplateOutlet} from "@angular/common";
+import {JsonPipe, NgClass, NgStyle, NgTemplateOutlet} from "@angular/common";
 import { TeamNumber } from '@enums/team-number.enum'
 import { Team } from '@models/team';
 import {ImproDataService} from "@services/impro-data.service";
@@ -11,7 +11,8 @@ import {TeamMetadata} from "@models/team-metadata";
   imports: [
     NgTemplateOutlet,
     NgClass,
-    NgStyle
+    NgStyle,
+    JsonPipe
   ],
   templateUrl: './scoreboard-team.component.html',
   styleUrl: './scoreboard-team.component.scss'

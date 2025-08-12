@@ -4,16 +4,16 @@ export class Player {
   constructor(private _dto: PlayerDto = {}) {
   }
 
-  get name(): string {
-    return this._dto.name;
+  get code(): string {
+    return this._dto.code;
   }
 
   get number(): number {
     return this._dto.number;
   }
 
-  set name(value: string) {
-    this._dto.name = value;
+  set code(value: string) {
+    this._dto.code = value;
   }
 
   set number(value: number) {

@@ -1,4 +1,4 @@
 export interface PlayerDto {
-  name?: string;
+  code?: string;
   number?: number;
 }

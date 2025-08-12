@@ -57,7 +57,7 @@ export class TeamFormComponent {
       const updatedPlayers = { ...team.players };
       updatedPlayers[role] = new Player({
         ...updatedPlayers[role]?.toDto(),
-        name: value,
+        code: value,
       })
 
       return team.clone().withPlayers(updatedPlayers);

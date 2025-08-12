@@ -1,0 +1,146 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
+
+:host {
+  display: block;
+  font-family: 'Montserrat', sans-serif;
+  color: #fff;
+}
+
+body, :host {
+  margin: 0;
+}
+
+.main-container {
+  width: 99vw;
+  min-height: 100vh;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  background-color: #121212;
+  padding-bottom: 24px;
+}
+
+.team-header {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-top: 24px;
+  width: 100%;
+  max-width: 1600px;
+  box-sizing: border-box;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  text-align: right;
+}
+
+.team-logo {
+  height: 140px;
+  width: auto;
+  user-select: none;
+  opacity: 0;
+  transform: scaleX(-1) translateX(-30px);
+  animation: fadeSlideIn 0.7s forwards;
+  animation-delay: 2.4s;
+}
+
+.team-name {
+  font-size: 5rem;
+  font-weight: 900;
+  user-select: none;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7);
+}
+
+.container {
+  width: 100%;
+  height: 600px;
+  display: flex;
+  gap: 6px;
+  flex-wrap: nowrap;
+  max-width: 1600px;
+}
+
+.player-bar {
+  position: relative;
+  flex: 1;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.8);
+  cursor: default;
+  opacity: 0;
+  transform: translateX(-30px);
+  animation: fadeSlideIn 0.7s forwards;
+}
+
+@keyframes fadeSlideIn {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* image inside the bar */
+.player-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.player-number {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 3rem;
+  font-weight: 900;
+  color: rgba(255, 255, 255, 0.5);
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+  user-select: none;
+}
+
+.overlay {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 22px 16px;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.85) 30%, transparent 100%);
+  color: #eee;
+  box-sizing: border-box;
+}
+
+.player-position {
+  font-size: 1.1rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #bbb;
+  margin-bottom: 4px;
+}
+
+.player-name {
+  font-size: 2.5rem;
+  font-weight: 900;
+  user-select: none;
+  line-height: 1.1;
+}
+
+/* responsive */
+@media (max-width: 900px) {
+  .container {
+    height: 420px;
+  }
+}
+
+@media (max-width: 600px) {
+  .container {
+    flex-wrap: wrap;
+    height: auto;
+  }
+
+  .player-bar {
+    flex: 1 1 45%;
+    margin-bottom: 16px;
+    margin-right: 0 !important;
+  }
+}
