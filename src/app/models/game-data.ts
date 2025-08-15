@@ -48,6 +48,8 @@ export class GameData {
   }
 
   clone(): GameData {
-    return new GameData(this.toDto());
+    return new GameData({
+      ...this.toDto(),
+    });
   }
 }

@@ -65,7 +65,9 @@ export class Team {
   }
 
   clone(): Team {
-    return new Team(this.toDto());
+    return new Team({
+      ...this.toDto(),
+    });
   }
 
   toDto(): TeamDto {

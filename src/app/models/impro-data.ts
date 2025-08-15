@@ -101,6 +101,8 @@ export class ImproData {
   }
 
   clone(): ImproData {
-    return new ImproData(this.toDto());
+    return new ImproData({
+      ...this.toDto()
+    });
   }
 }

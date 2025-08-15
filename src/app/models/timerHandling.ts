@@ -50,7 +50,9 @@ export class TimerHandling {
   }
 
   clone(): TimerHandling {
-    return new TimerHandling(this.toDto());
+    return new TimerHandling({
+      ...this.toDto(),
+    });
   }
 
 }

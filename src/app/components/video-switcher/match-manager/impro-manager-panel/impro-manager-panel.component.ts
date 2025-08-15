@@ -6,6 +6,7 @@ import {ImproNbPlayers} from "@enums/impro-nb-players.enum";
 import {values} from 'lodash-es';
 import { ImproNbPlayersShortLabel} from "@constants/impro-nb-players.constants";
 import {NgForOf} from "@angular/common";
+import { cloneDeep } from 'lodash-es';
 
 @Component({
   selector: 'app-impro-manager-panel',
