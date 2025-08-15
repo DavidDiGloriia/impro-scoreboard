@@ -4,14 +4,13 @@
     "output": "release"
   },
   "files": [
-    "**/*",
-    "!**/*.ts",
-    "!*.map",
+    "main.js",
+    "package.json",
     {
       "from": "dist",
+      "to": ".",
       "filter": ["**/*"]
-    }
-  ],
+    }  ],
   "win": {
     "icon": "dist/assets/icons/icon.ico",
     "target": ["portable"]
