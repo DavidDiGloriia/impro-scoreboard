@@ -29,6 +29,7 @@
       <app-team-manager-panel [teamNumber]="TeamNumber.TEAM_A"
                               [team]="gameData.value().teamA"
                               (teamChange)="onTeamChange($event, TeamNumber.TEAM_A)"
+                              (resetFouls)="onResetFouls(TeamNumber.TEAM_A)"
 
       ></app-team-manager-panel>
     </div>
@@ -36,6 +37,7 @@
       <app-team-manager-panel [teamNumber]="TeamNumber.TEAM_B"
                               [team]="gameData.value().teamB"
                               (teamChange)="onTeamChange($event, TeamNumber.TEAM_B)"
+                              (resetFouls)="onResetFouls(TeamNumber.TEAM_B)"
       ></app-team-manager-panel>
     </div>
   </div>

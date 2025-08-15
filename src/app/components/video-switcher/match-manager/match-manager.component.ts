@@ -126,4 +126,16 @@ export class MatchManagerComponent {
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe();
   }
+
+  onResetFouls(teamNumber: TeamNumber) {
+    const updatedGameData = this.gameData.value().clone()
+      .withTeamA(teamNumber === TeamNumber.TEAM_A ? this.gameData.value().teamA.withFouls(0) : this.gameData.value().teamA.withScore(++this.gameData.value().teamA.score))
+      .withTeamB(teamNumber === TeamNumber.TEAM_B ? this.gameData.value().teamB.withFouls(0) : this.gameData.value().teamB.withScore(++this.gameData.value().teamB.score))
+
+    this._improDataService.saveGameData(updatedGameData)
+      .pipe(takeUntilDestroyed(this._destroyRef))
+      .subscribe((data) => {
+        this.gameData.set(data.clone());
+      });
+  }
 }

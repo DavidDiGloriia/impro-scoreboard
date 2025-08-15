@@ -1,4 +1,4 @@
-import {Component, computed, input, InputSignal, model, ModelSignal, ResourceRef, Signal} from '@angular/core';
+import {Component, computed, input, InputSignal, model, ModelSignal, output, ResourceRef, Signal} from '@angular/core';
 import {TeamNumber} from "@enums/team-number.enum";
 import {Team} from "@models/team";
 import {TeamMetadata} from "@models/team-metadata";
@@ -55,6 +55,8 @@ export class TeamManagerPanelComponent {
     return this._hexToRgba(this.teamMetadata().color, 0.4);
   });
 
+  resetFouls = output();
+
   private _hexToRgba(hex: string, alpha: number, darkenFactor = 1): string {
     const match = hex.replace('#', '').match(/.{1,2}/g);
     if (!match) return hex;
@@ -82,5 +84,10 @@ export class TeamManagerPanelComponent {
     this.team.update((team: Team) => {
       return team.clone().withFouls(clampedValue);
     });
+  }
+
+  onResetFouls() {
+    confirm("Êtes vous sûr de vouloir réinitialiser les fautes de cette équipe et donne un point à l'autre ?");
+    this.resetFouls.emit(null);
   }
 }
