@@ -1,10 +1,12 @@
 import {Component, DestroyRef, inject} from '@angular/core';
 import {FormsModule} from "@angular/forms";
-import {TeamFormComponent} from "@components/video-switcher/teams-parameters/team-form/team-form.component";
 import {TeamNumber} from "@enums/team-number.enum";
 import {ImproDataService} from "@services/impro-data.service";
 import {Team} from "@models/team";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import {
+  TeamFormComponent
+} from "@components/video-switcher/match-parameters/teams-parameters/team-form/team-form.component";
 
 @Component({
   selector: 'app-teams-parameters',

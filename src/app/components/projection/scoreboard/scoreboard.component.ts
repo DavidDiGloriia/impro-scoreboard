@@ -1,4 +1,4 @@
-import {Component, input, InputSignal} from '@angular/core';
+import {Component, input, InputSignal, signal, WritableSignal} from '@angular/core';
 import {ScoreboardTeamComponent} from "./scoreboard-team/scoreboard-team.component";
 import {TeamNumber} from "@enums/team-number.enum";
 import {GameData} from "@models/game-data";
@@ -25,4 +25,6 @@ export class ScoreboardComponent {
   improData: InputSignal<ImproData> = input.required();
   roundTimer: InputSignal<number> = input(2700); // 45 minutes in seconds
   improTimer: InputSignal<number> = input(180);
+
+  modeBasseWavre: WritableSignal<boolean> = signal(true);
 }

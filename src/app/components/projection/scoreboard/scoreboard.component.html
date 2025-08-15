@@ -1,9 +1,15 @@
-  <div class="myContainer">
-    <div class="top-section">
+  <div class="myContainer"
+       [class.basse-wavre]="modeBasseWavre()"
+  >
+    <div class="top-section"
+         [class.basse-wavre]="modeBasseWavre()"
+
+    >
       <div class="total-timer">
         <span id="total-timer">{{ roundTimer() | formatTime }} </span>
       </div>
-      <div class="teams">
+      <div class="teams"
+      >
         <app-scoreboard-team [teamNumber]="Team.TEAM_A"
                              [team]="gameData().teamA"
         />
@@ -17,7 +23,9 @@
     </div>
     @if(improData().isImproRunning){
       <div class="bottom-section">
-        <div class="theme-box">
+        <div class="theme-box"
+             [class.basse-wavre]="modeBasseWavre()"
+        >
           <div class="theme-type" id="theme-type">
             {{ improData() | formatImproHeader }}
           </div>

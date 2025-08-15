@@ -1,9 +1,11 @@
 import { GameDataDto } from "../dtos";
 import { Team } from "@models/team";
+import {ProjectionMode} from "@enums/projection-mode.enum";
 
 export class GameData {
   private _teamA: Team;
   private _teamB: Team;
+  private _projectionMode: ProjectionMode;
 
   constructor(private _dto: GameDataDto = {}) {
     this._dto = _dto ? _dto : {};
@@ -39,11 +41,26 @@ export class GameData {
     return this;
   }
 
+  get projectionMode(): ProjectionMode {
+    return this._projectionMode || ProjectionMode.NORMAL;
+  }
+
+  set projectionMode(value: ProjectionMode) {
+    this._projectionMode = value;
+    this._dto.projectionMode = value;
+  }
+
+  withProjectionMode(mode: ProjectionMode): GameData {
+    this.projectionMode = mode;
+    return this;
+  }
+
   toDto(): GameDataDto {
     return {
       ...this._dto,
       teamA: this._teamA ? this._teamA.toDto() : undefined,
-      teamB: this._teamB ? this._teamB.toDto() : undefined
+      teamB: this._teamB ? this._teamB.toDto() : undefined,
+      projectionMode: this._projectionMode,
     };
   }
 

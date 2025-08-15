@@ -40,7 +40,7 @@ bootstrapApplication(AppComponent, {
           },
           {
             path: 'parameters',
-            loadComponent: () => import('./app/components/video-switcher/teams-parameters/teams-parameters.component').then(m => m.TeamsParametersComponent)
+            loadComponent: () => import('./app/components/video-switcher/match-parameters/match-parameters.component').then(m => m.MatchParametersComponent)
           },
           {
             path: '**',

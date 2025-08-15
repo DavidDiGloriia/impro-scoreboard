@@ -12,6 +12,10 @@
   overflow: hidden;
 }
 
+.myContainer.basse-wavre {
+  padding-bottom: 35vh;
+}
+
 .top-section {
   flex: 0 0 60%;
   display: flex;
@@ -216,6 +220,11 @@
   box-sizing: border-box; /* ← ajouté ici */
 }
 
+.theme-box.basse-wavre{
+  padding: 2vh 5vw; /* ← augmenté ici */
+  margin-top: 5vh;
+}
+
 .theme-type {
   font-size: 2vw;
   font-weight: bold;
@@ -291,4 +300,5 @@
     font-size: 4vw;
   }
 }
+
 
