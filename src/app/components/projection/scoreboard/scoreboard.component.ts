@@ -27,17 +27,15 @@ export class ScoreboardComponent implements OnInit {
   gameData: InputSignal<GameData> = input.required();
   improData: InputSignal<ImproData> = input.required();
 
-  improTimerHandling = this._improDataService.improTimerHandling;
   roundTimerHandling = this._improDataService.roundTimerHandling;
-
   isRoundTimerRunning: WritableSignal<boolean> = signal<boolean>(false);
-  isImproTimerRunning: WritableSignal<boolean> = signal<boolean>(false);
-
   roundTimer: WritableSignal<number> = signal(2700); // 45 minutes in seconds
-  improTimer: WritableSignal<number> = signal(180);
-
-
   roundTimerInterval: any;
+
+  improTimerHandling = this._improDataService.improTimerHandling;
+  isImproTimerRunning: WritableSignal<boolean> = signal<boolean>(false);
+  improTimer: WritableSignal<number> = signal(180);
+  improTimerInterval: any;
 
 
 
@@ -57,10 +55,15 @@ export class ScoreboardComponent implements OnInit {
         this.roundTimer.update(time => (time > 0 ? time - 1 : 0));
       }
     }, 1000);
+
+    this.improTimerInterval = setInterval(() => {
+      if (this.isImproTimerRunning()) {
+        this.improTimer.update(time => (time > 0 ? time - 1 : 0));
+      }
+    }, 1000);
   }
 
   onRoundTimerAction(timer: TimerHandling) {
-    console.log(timer);
     switch (timer.action) {
       case TimerAction.START:
         this.isRoundTimerRunning.set(true);
@@ -91,15 +94,16 @@ export class ScoreboardComponent implements OnInit {
         this.isImproTimerRunning.set(false);
         break;
       case TimerAction.RESET: {
-        this.roundTimer.set(2700);
         this.isImproTimerRunning.set(false);
+        this.improTimer.set(2700)
       }
         break;
       case TimerAction.ADJUST:
         this.isImproTimerRunning.set(true);
+        this.improTimer.update((value) => {
+          return Math.max(0, value + timer.delta);
+        });
         break;
     }
   }
-
-
 }

@@ -46,6 +46,11 @@ export class ImproDataService {
           this.roundTimerHandling.set(new TimerHandling(timerDto));
           break;
         }
+        case StorageKey.IMPRO_TIMER.toString(): {
+          const timerDto = JSON.parse(event.newValue || '{}') as TimerHandlingDto;
+          this.improTimerHandling.set(new TimerHandling(timerDto));
+          break;
+        }
       }
     });
 

@@ -8,7 +8,7 @@
                              [team]="gameData().teamA"
         />
         <div class="round-timer">
-          <br><span id="round-timer">03:00</span>
+          <br><span id="round-timer">{{ improTimer() | formatTime }}</span>
         </div>
         <app-scoreboard-team [teamNumber]="Team.TEAM_B"
                              [team]="gameData().teamB"
