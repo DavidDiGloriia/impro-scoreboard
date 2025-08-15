@@ -27,6 +27,10 @@ export class ProjectionComponent implements OnInit, OnDestroy {
 
   constructor(private _improDataService: ImproDataService) {
     effect(() => {
+      this.improTimer.set(this._improDataService.improData.value().duration);
+    });
+
+    effect(() => {
       this.onRoundTimerAction(this.roundTimerHandling.value())
     });
 
