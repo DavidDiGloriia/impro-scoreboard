@@ -12,7 +12,7 @@
   overflow: hidden;
 }
 
-.myContainer.basse-wavre {
+.myContainer.pushed-on-top {
   padding-bottom: 35vh;
 }
 
@@ -211,8 +211,8 @@
   background-color: #202020;
   border-radius: 1vw;
   padding: 5vh 5vw; /* ← augmenté ici */
-  width: 90%;
-  max-width: 90%;
+  width: 96vw;
+  max-width: 96vw;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -220,7 +220,7 @@
   box-sizing: border-box; /* ← ajouté ici */
 }
 
-.theme-box.basse-wavre{
+.theme-box.pushed-on-top{
   padding: 2vh 5vw; /* ← augmenté ici */
   margin-top: 5vh;
 }
@@ -280,7 +280,7 @@
   }
 
   .fautes {
-    margin-top: 2vh;
+    margin-top: 10vh;
   }
 
   .faute-dot {

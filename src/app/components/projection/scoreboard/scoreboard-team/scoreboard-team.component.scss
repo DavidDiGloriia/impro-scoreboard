@@ -45,7 +45,7 @@
   width: 15vw;
   aspect-ratio: 1 / 1;
   border-radius: 10%;
-  border: 3px solid #fff;
+  border: 0.25vw solid #fff;
   overflow: hidden;
   flex-shrink: 0;
   display: flex;
@@ -73,12 +73,12 @@
   display: flex;
   justify-content: center;
   gap: 1vw;
-  margin-top: 1.2vh;
+  margin-top: 1.5vh;
 }
 
 .faute-dot {
-  width: 2vw;
-  height: 2vw;
+  width: 2.5vw;
+  height: 2.5vw;
   border-radius: 50%;
   border: 0.3vw solid white;
   background-color: transparent;
@@ -229,10 +229,6 @@
     width: 25vw;
     height: auto;
     max-height: 100%;
-  }
-
-  .fautes {
-    margin-top: 2vh;
   }
 
   .faute-dot {

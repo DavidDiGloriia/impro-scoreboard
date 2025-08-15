@@ -5,7 +5,6 @@ import {ProjectionMode} from "@enums/projection-mode.enum";
 export class GameData {
   private _teamA: Team;
   private _teamB: Team;
-  private _projectionMode: ProjectionMode;
 
   constructor(private _dto: GameDataDto = {}) {
     this._dto = _dto ? _dto : {};
@@ -42,11 +41,10 @@ export class GameData {
   }
 
   get projectionMode(): ProjectionMode {
-    return this._projectionMode || ProjectionMode.NORMAL;
+    return this._dto.projectionMode || ProjectionMode.NORMAL;
   }
 
   set projectionMode(value: ProjectionMode) {
-    this._projectionMode = value;
     this._dto.projectionMode = value;
   }
 
@@ -57,10 +55,9 @@ export class GameData {
 
   toDto(): GameDataDto {
     return {
-      ...this._dto,
       teamA: this._teamA ? this._teamA.toDto() : undefined,
       teamB: this._teamB ? this._teamB.toDto() : undefined,
-      projectionMode: this._projectionMode,
+      projectionMode: this._dto.projectionMode,
     };
   }
 

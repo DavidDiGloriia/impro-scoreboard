@@ -1,4 +1,4 @@
-import {Component, input, InputSignal, signal, WritableSignal} from '@angular/core';
+import {Component, input, InputSignal} from '@angular/core';
 import {ScoreboardTeamComponent} from "./scoreboard-team/scoreboard-team.component";
 import {TeamNumber} from "@enums/team-number.enum";
 import {GameData} from "@models/game-data";
@@ -6,6 +6,7 @@ import {ImproData} from "@models/impro-data";
 import {FormatImproHeaderPipe} from "@pipes/format-impro-header.pipe";
 import {TitleCasePipe} from "@angular/common";
 import {FormatTimePipe} from "@pipes/format-time.pipe";
+import {ProjectionMode} from "@enums/projection-mode.enum";
 
 @Component({
   selector: 'app-scoreboard',
@@ -20,11 +21,12 @@ import {FormatTimePipe} from "@pipes/format-time.pipe";
 })
 export class ScoreboardComponent {
   readonly Team = TeamNumber;
+  readonly ProjectionMode = ProjectionMode;
+
 
   gameData: InputSignal<GameData> = input.required();
   improData: InputSignal<ImproData> = input.required();
   roundTimer: InputSignal<number> = input(2700); // 45 minutes in seconds
   improTimer: InputSignal<number> = input(180);
-
-  modeBasseWavre: WritableSignal<boolean> = signal(true);
+  projectionMode: InputSignal<ProjectionMode> = input.required();
 }

@@ -1,9 +1,8 @@
   <div class="myContainer"
-       [class.basse-wavre]="modeBasseWavre()"
+       [class.pushed-on-top]="projectionMode() === ProjectionMode.PUSHED_ON_TOP"
   >
     <div class="top-section"
-         [class.basse-wavre]="modeBasseWavre()"
-
+         [class.pushed-on-top]="projectionMode() === ProjectionMode.PUSHED_ON_TOP"
     >
       <div class="total-timer">
         <span id="total-timer">{{ roundTimer() | formatTime }} </span>
@@ -24,7 +23,7 @@
     @if(improData().isImproRunning){
       <div class="bottom-section">
         <div class="theme-box"
-             [class.basse-wavre]="modeBasseWavre()"
+             [class.pushed-on-top]="projectionMode() === ProjectionMode.PUSHED_ON_TOP"
         >
           <div class="theme-type" id="theme-type">
             {{ improData() | formatImproHeader }}
