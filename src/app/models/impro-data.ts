@@ -13,9 +13,37 @@ export class ImproData {
       title: '',
       nbPlayers: ImproNbPlayers.UNLIMITED,
       customNbPlayerLabel: '',
-      category: 'libre',
-      duration: 180
+      category: 'Libre',
+      duration: 180,
+      isImproRunning: false,
+      alsoReviseDuration: false,
     });
+  }
+
+  get alsoReviseDuration(): boolean {
+    return this._dto.alsoReviseDuration || false;
+  }
+
+  set alsoReviseDuration(value: boolean) {
+    this._dto.alsoReviseDuration = value;
+  }
+
+  withAlsoReviseDuration(revise: boolean): ImproData {
+    this.alsoReviseDuration = revise;
+    return this;
+  }
+
+  get isImproRunning(): boolean {
+    return this._dto.isImproRunning || false;
+  }
+
+  set isImproRunning(value: boolean) {
+    this._dto.isImproRunning = value;
+  }
+
+  withIsImproRunning(isRunning: boolean): ImproData {
+    this.isImproRunning = isRunning;
+    return this;
   }
 
   get type(): ImproType {

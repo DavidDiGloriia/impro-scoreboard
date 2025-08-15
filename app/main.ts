@@ -44,13 +44,15 @@ function createWindows() {
     y: 100,
     width: 1000,
     height: 800,
+    title: 'Contrôle de Match',
     fullscreen: false,
     fullscreenable: true,
     webPreferences: {
       nodeIntegration: true,
       allowRunningInsecureContent: serve,
       contextIsolation: false,
-      webSecurity: !serve
+      webSecurity: !serve,
+      additionalArguments: ['--windowName=contrôle-de-match']
     },
   });
 
@@ -58,6 +60,7 @@ function createWindows() {
   projectionWindow = new BrowserWindow({
     x: projectionBounds.x + 100,
     y: projectionBounds.y + 100,
+    title: 'Projection',
     width: 1000,
     height: 800,
     fullscreen: false,
@@ -66,7 +69,8 @@ function createWindows() {
       nodeIntegration: true,
       allowRunningInsecureContent: serve,
       contextIsolation: false,
-      webSecurity: !serve
+      webSecurity: !serve,
+      additionalArguments: ['--windowName=projection-de-match']
     },
   });
 

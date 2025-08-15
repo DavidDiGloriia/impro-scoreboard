@@ -5,14 +5,14 @@ import {FormsModule} from "@angular/forms";
 import {ImproNbPlayers} from "@enums/impro-nb-players.enum";
 import {values} from 'lodash-es';
 import { ImproNbPlayersShortLabel} from "@constants/impro-nb-players.constants";
-import {NgForOf} from "@angular/common";
-import { cloneDeep } from 'lodash-es';
+import {NgForOf, NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-impro-manager-panel',
   imports: [
     FormsModule,
-    NgForOf
+    NgForOf,
+    NgIf
   ],
   templateUrl: './impro-manager-panel.component.html',
   styleUrl: './impro-manager-panel.component.scss'
@@ -27,6 +27,7 @@ export class ImproManagerPanelComponent {
 
   improDurationMinutes: WritableSignal<number> = signal(0);
   improDurationSeconds: WritableSignal<number> = signal(0);
+  isDirty: WritableSignal<boolean> = signal(false);
 
   constructor() {
     effect(() => {
@@ -39,35 +40,44 @@ export class ImproManagerPanelComponent {
     this.improDataForm.update((improData: ImproData) => {
       return improData.clone().withType(value);
     });
+    this.isDirty.set(true);
   }
 
   onNbPlayersChange(value: ImproNbPlayers) {
     this.improDataForm.update((improData: ImproData) => {
       return improData.clone().withNbPlayers(value);
     });
+    this.isDirty.set(true);
   }
 
   sendData(): void {
-    this.improData.set(this.improDataForm().clone())
+    this.improData.set(this.improDataForm().clone()
+      .withIsImproRunning(true)
+    )
+    this.isDirty.set(false);
   }
 
   onImproTitleChange(value: string) {
     this.improDataForm.update((improData: ImproData) => {
       return improData.clone().withTitle(value);
     });
+    this.isDirty.set(true);
   }
 
   setImproCategoryFree() {
     this.improDataForm.update((improData: ImproData) => {
-      return improData.clone().withCategory('libre');
+      return improData.clone().withCategory('Libre');
     });
+    this.isDirty.set(true);
   }
 
   OnImproCategoryChange(value: string) {
     this.improDataForm.update((improData: ImproData) => {
       return improData.clone().withCategory(value);
     });
+    this.isDirty.set(true);
   }
+
 
   onImproDurationChange(number: number) {
     this.improDataForm.update((improData: ImproData) => {
@@ -76,6 +86,7 @@ export class ImproManagerPanelComponent {
 
     this.improDurationMinutes.set(Math.floor(number / 60));
     this.improDurationSeconds.set(number % 60);
+    this.isDirty.set(true);
   }
 
   onImproDurationMinutesChange(value: number) {
@@ -88,5 +99,21 @@ export class ImproManagerPanelComponent {
     this.improDurationSeconds.set(value);
     const totalSeconds = this.improDurationMinutes() * 60 + value;
     this.onImproDurationChange(totalSeconds);
+  }
+
+  endImpro() {
+    this.improData.set(ImproData.newInstance().withIsImproRunning(false));
+    this.isDirty.set(false);
+  }
+
+  onReviseImpro() {
+    this.improData.set(this.improDataForm().clone());
+    this.isDirty.set(false);
+  }
+
+  onAlsoReviseDurationChange(value: boolean) {
+    this.improDataForm.update((improData: ImproData) => {
+      return improData.clone().withAlsoReviseDuration(value);
+    });
   }
 }

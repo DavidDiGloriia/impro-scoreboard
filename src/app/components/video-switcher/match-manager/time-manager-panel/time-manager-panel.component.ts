@@ -1,4 +1,4 @@
-import {Component, effect, input, OnInit, output} from '@angular/core';
+import {Component, effect, input, OnInit, output, signal, WritableSignal} from '@angular/core';
 import {FormsModule} from "@angular/forms";
 import {FormatTimePipe} from "@pipes/format-time.pipe";
 
@@ -14,37 +14,59 @@ import {FormatTimePipe} from "@pipes/format-time.pipe";
 export class TimeManagerPanelComponent implements OnInit {
   label = input.required();
   baseTime = input.required<number>();
+  reviseTime = input.required<boolean>();
+  isImproRunning = input.required<boolean>();
 
   resetTime = output();
   startTime = output();
   stopTime = output();
   adjustTIme = output<number>();
 
+  shouldGlow: WritableSignal<boolean> = signal(false);
+  glowTimeout: any;
+
+  running = signal(false);
+
+
   time = 180; // en secondes
   timerInterval: any;
-  running = false;
+
 
   constructor() {
     effect(() => {
+      if (this.reviseTime()) {
         this.time = this.baseTime();
+        this.stopTimer();
+      }
+    });
+
+    effect(() => {
+      if (this.isImproRunning() && !this.running()) {
+        this.glowTimeout = setTimeout(() => {
+          this.shouldGlow.set(true)
+        }, 30000);
+      } else {
+        clearTimeout(this.glowTimeout);
+        this.shouldGlow.set(false)
+      }
     });
   }
 
   ngOnInit() {
     this.timerInterval = setInterval(() => {
-      if (this.running) {
+      if (this.running()) {
         this.time = this.time > 0 ? this.time - 1 : 0;
       }
     }, 1000);
   }
 
   startTimer(){
-    this.running = true;
+    this.running.set(true);
     this.startTime.emit();
   }
 
   stopTimer() {
-    this.running = false;
+    this.running.set(false);
     this.stopTime.emit();
   }
 
@@ -55,7 +77,7 @@ export class TimeManagerPanelComponent implements OnInit {
 
   resetTimer() {
     if (!confirm('Voulez-vous vraiment reset le timer ?')) return;
-    this.running = false;
+    this.running.set(false)
     this.time = this.baseTime();
     this.resetTime.emit();
   }

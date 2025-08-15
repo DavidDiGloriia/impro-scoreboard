@@ -50,6 +50,8 @@
     <div class="col-5">
       <app-time-manager-panel [label]="'Impro'"
                               [baseTime]="improData.value().duration"
+                              [reviseTime]="improData.value().alsoReviseDuration"
+                              [isImproRunning]="improData.value().isImproRunning"
                               (startTime)="onImproStart()"
                               (stopTime)="onImproStop()"
                               (resetTime)="onImproReset()"
@@ -57,6 +59,8 @@
       />
       <app-time-manager-panel [label]="'Round'"
                               [baseTime]="2700"
+                              [reviseTime]="true"
+                              [isImproRunning]="improData.value().isImproRunning"
                               (startTime)="onRoundStart()"
                               (stopTime)="onRoundStop()"
                               (resetTime)="onRoundReset()"
