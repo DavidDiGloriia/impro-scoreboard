@@ -15,17 +15,19 @@
         />
       </div>
     </div>
-    <div class="bottom-section">
-      <div class="theme-box">
-        <div class="theme-type" id="theme-type">
-          {{ improData() | formatImproHeader }}
-        </div>
-        <div class="theme-title" id="theme-title">
-          {{  improData().title }}
-        </div>
-        <div class="theme-style" id="theme-style">
-          {{  improData().category | titlecase }}
+    @if(improData().isImproRunning){
+      <div class="bottom-section">
+        <div class="theme-box">
+          <div class="theme-type" id="theme-type">
+            {{ improData() | formatImproHeader }}
+          </div>
+          <div class="theme-title" id="theme-title">
+            {{  improData().title }}
+          </div>
+          <div class="theme-style" id="theme-style">
+            {{  improData().category | titlecase }}
+          </div>
         </div>
       </div>
-    </div>
+    }
   </div>
