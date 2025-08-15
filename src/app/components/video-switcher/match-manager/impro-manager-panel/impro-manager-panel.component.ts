@@ -2,6 +2,9 @@ import {Component, effect, model, ModelSignal, signal, WritableSignal} from '@an
 import {ImproData} from "@models/impro-data";
 import {ImproType} from "@enums/impro-type.enum";
 import {FormsModule} from "@angular/forms";
+import {ImproNbPlayers} from "@enums/impro-nb-players.enum";
+import {values} from 'lodash-es';
+import {ImproNbPlayersLabel, ImproNbPlayersShortLabel} from "@constants/impro-nb-players.constants";
 
 @Component({
   selector: 'app-impro-manager-panel',
@@ -13,6 +16,9 @@ import {FormsModule} from "@angular/forms";
 })
 export class ImproManagerPanelComponent {
   protected readonly ImproType = ImproType;
+  protected readonly ImproNbPlayers = ImproNbPlayers;
+  protected readonly ImproNbPlayersValues = values(ImproNbPlayers);
+  protected readonly ImproNbPlayersLabel = ImproNbPlayersShortLabel;
 
   improData: ModelSignal<ImproData> = model.required();
   improDataForm: WritableSignal<ImproData> = signal(ImproData.newInstance());
@@ -30,7 +36,31 @@ export class ImproManagerPanelComponent {
     });
   }
 
+  onNbPlayersChange(value: ImproNbPlayers) {
+    this.improDataForm.update((improData: ImproData) => {
+      return improData.clone().withNbPlayers(value);
+    });
+  }
+
   sendData(): void {
     this.improData.set(this.improDataForm().clone())
+  }
+
+  onImproTitleChange(value: string) {
+    this.improDataForm.update((improData: ImproData) => {
+      return improData.clone().withTitle(value);
+    });
+  }
+
+  setImproCategoryFree() {
+    this.improDataForm.update((improData: ImproData) => {
+      return improData.clone().withCategory('libre');
+    });
+  }
+
+  OnImproCategoryChange(value: string) {
+    this.improDataForm.update((improData: ImproData) => {
+      return improData.clone().withCategory(value);
+    });
   }
 }

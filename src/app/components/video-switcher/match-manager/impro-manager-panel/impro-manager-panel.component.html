@@ -36,7 +36,10 @@
     <!-- Titre -->
     <div class="mb-3 flex-grow-1">
       <label for="titre" class="form-label fw-semibold">Titre :</label>
-      <input id="titre" type="text" class="form-control" value="POURVU QUE ÇA PASSE" />
+      <input id="titre" type="text" class="form-control"
+             [ngModel]="improData().title"
+             (ngModelChange)="onImproTitleChange($event)"
+      />
     </div>
   </div>
 
@@ -45,22 +48,36 @@
   <div class="mb-3">
     <label class="fw-semibold d-block mb-2">Nombre de joueurs par équipe :</label>
     <div class="btn-group" role="group" aria-label="Nombre joueurs par équipe">
-      <button type="button" class="btn btn-outline-secondary">Illimité</button>
-      <button type="button" class="btn btn-outline-secondary">Tous</button>
-      <button type="button" class="btn btn-primary">1/eq</button>
-      <button type="button" class="btn btn-outline-secondary">2/eq</button>
-      <button type="button" class="btn btn-outline-secondary">2/max eq.</button>
-      <button type="button" class="btn btn-outline-secondary">3/eq</button>
-      <button type="button" class="btn btn-outline-secondary">3/max eq.</button>
-      <button type="button" class="btn btn-outline-secondary">Personnalisé</button>
+      @for (value of ImproNbPlayersValues; track value) {
+        <input type="radio" class="btn-check"
+               name="type"
+               [id]="value"
+               autocomplete="off"
+               [ngModel]="improDataForm().nbPlayers"
+               (ngModelChange)="onNbPlayersChange($event)"
+               [value]="value">
+        <label class="btn"
+               [class.btn-primary]="improDataForm().nbPlayers === value"
+               [class.btn-outline-secondary]="improDataForm().nbPlayers !== value"
+               [for]="value">
+          {{ ImproNbPlayersLabel[value] }}
+        </label>
+      }
     </div>
   </div>
 
   <!-- Catégorie -->
-  <div class="mb-3">
-    <label for="categorie" class="form-label fw-semibold">Catégorie :</label>
-    <input id="categorie" type="text" class="form-control" value="Animalière" />
+  <label for="categorie" class="form-label fw-semibold me-2">Catégorie :</label>
+  <div class="mb-3 d-flex align-items-center gap-2">
+    <input id="categorie" type="text" class="form-control"
+           [ngModel]="improData().category"
+           (ngModelChange)="OnImproCategoryChange($event)"
+    />
+    <button class="btn btn-primary"
+            (click)="setImproCategoryFree()"
+    >Libre</button>
   </div>
+
 
   <!-- Durée -->
   <div class="mb-3">
