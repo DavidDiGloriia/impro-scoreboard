@@ -29,7 +29,7 @@ export class ImproManagerPanelComponent {
 
   constructor() {
     effect(() => {
-      this.improDataForm.set(this.improData());
+      this.improDataForm.set(this.improData().clone());
     });
   }
 

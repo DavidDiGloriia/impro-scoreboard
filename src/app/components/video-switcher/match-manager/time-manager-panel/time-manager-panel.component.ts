@@ -21,7 +21,6 @@ export class TimeManagerPanelComponent implements OnInit {
   adjustTIme = output<number>();
 
   time = 180; // en secondes
-  totalDuration = 2700; // mi-temps en secondes
   timerInterval: any;
   running = false;
 

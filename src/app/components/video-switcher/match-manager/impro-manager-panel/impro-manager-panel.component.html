@@ -37,7 +37,7 @@
     <div class="mb-3 flex-grow-1">
       <label for="titre" class="form-label fw-semibold">Titre :</label>
       <input id="titre" type="text" class="form-control"
-             [ngModel]="improData().title"
+             [ngModel]="improDataForm().title"
              (ngModelChange)="onImproTitleChange($event)"
       />
     </div>
@@ -73,7 +73,7 @@
            type="text"
            class="form-control"
            list="categoriesList"
-           [ngModel]="improData().category"
+           [ngModel]="improDataForm().category"
            (ngModelChange)="OnImproCategoryChange($event)"
     />
     <datalist [id]="'categoriesList'">
