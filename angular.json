@@ -63,7 +63,9 @@
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.dev.ts"
                 }
-              ]
+              ],
+              "baseHref": "./",
+              "deployUrl": ""
             },
             "production": {
               "optimization": true,
@@ -79,7 +81,9 @@
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"
                 }
-              ]
+              ],
+              "baseHref": "./",
+              "deployUrl": ""
             },
             "web": {
               "optimization": false,
