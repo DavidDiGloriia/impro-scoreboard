@@ -69,13 +69,66 @@
   <!-- Catégorie -->
   <label for="categorie" class="form-label fw-semibold me-2">Catégorie :</label>
   <div class="mb-3 d-flex align-items-center gap-2">
-    <input id="categorie" type="text" class="form-control"
+    <input id="categorie"
+           type="text"
+           class="form-control"
+           list="categoriesList"
            [ngModel]="improData().category"
            (ngModelChange)="OnImproCategoryChange($event)"
     />
+    <datalist [id]="'categoriesList'">
+      <option value="Fusillade solo ">
+      <option value="Fusillade duo">
+      <option value="Fusillade position">
+      <option value="Taxi">
+      <option value="Exercise de style">
+      <option value="Carré hollandais">
+      <option value="Carré anglais">
+      <option value="Char québecois">
+      <option value="Littéraire">
+      <option value="A la manière de">
+      <option value="Epistolaire">
+      <option value="Abécédaire">
+      <option value="Avec accents">
+      <option value="Carnage">
+      <option value="Mort en scène">
+      <option value="Rimée">
+      <option value="Animalière">
+      <option value="Assis, Debout, Couché">
+      <option value="Auditive">
+      <option value="Avec Accessoire">
+      <option value="Avec Exagération">
+      <option value="Ca Passe ou Ca Casse">
+      <option value="Chantée">
+      <option value="Comédie musicale">
+      <option value="Dégressive">
+      <option value="Dramatique">
+      <option value="Défi des équipes">
+      <option value="Oscar">
+      <option value="Doublage Américain">
+      <option value="Zapping relais">
+      <option value="Étages">
+      <option value="Diapositives">
+      <option value="Feuilleton">
+      <option value="Grosse Colère">
+      <option value="Maître & Valet">
+      <option value="On connait la fin">
+      <option value="Le pire de">
+      <option value="Point de vue">
+      <option value="Poursuite">
+      <option value="Double poursuite">
+      <option value="Proverbes à la c*n">
+      <option value="Roman Photo">
+      <option value="Toaster">
+      <option value="Tiens, ça me rappelle une chanson">
+      <option value="Travelling">
+      <option value="Video-Way">
+      <option value="Zones d'Humeur">
+    </datalist>
     <button class="btn btn-primary"
-            (click)="setImproCategoryFree()"
-    >Libre</button>
+            (click)="setImproCategoryFree()">
+      Libre
+    </button>
   </div>
 
 

@@ -5,11 +5,13 @@ import {FormsModule} from "@angular/forms";
 import {ImproNbPlayers} from "@enums/impro-nb-players.enum";
 import {values} from 'lodash-es';
 import {ImproNbPlayersLabel, ImproNbPlayersShortLabel} from "@constants/impro-nb-players.constants";
+import {NgForOf} from "@angular/common";
 
 @Component({
   selector: 'app-impro-manager-panel',
   imports: [
-    FormsModule
+    FormsModule,
+    NgForOf
   ],
   templateUrl: './impro-manager-panel.component.html',
   styleUrl: './impro-manager-panel.component.scss'
