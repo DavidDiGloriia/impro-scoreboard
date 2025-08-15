@@ -16,6 +16,7 @@ import {
 import {
   TimeManagerPanelComponent
 } from "@components/video-switcher/match-manager/time-manager-panel/time-manager-panel.component";
+import {ImproData} from "@models/impro-data";
 
 @Component({
   selector: 'app-match-manager',
@@ -37,6 +38,7 @@ export class MatchManagerComponent {
   teams: ResourceRef<Record<string, TeamMetadata>>  = this._improDataService.teams;
   gameData: ResourceRef<GameData> = this._improDataService.gameData;
   displayedScreen: ResourceRef<DisplayedScreen> = this._improDataService.displayedScreen;
+  improData: ResourceRef<ImproData> = this._improDataService.improData;
 
   private _destroyRef = inject(DestroyRef);
 
@@ -62,6 +64,14 @@ export class MatchManagerComponent {
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe((data) => {
         this.gameData.set(data.clone());
+      });
+  }
+
+  onImproDataChange(value: ImproData) {
+    this._improDataService.saveImproData(value)
+      .pipe(takeUntilDestroyed(this._destroyRef))
+      .subscribe((data: ImproData) => {
+        this.improData.set(data.clone());
       });
   }
 }

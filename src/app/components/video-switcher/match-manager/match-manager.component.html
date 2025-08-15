@@ -2,18 +2,22 @@
   <div class="d-flex gap-2">
     <button class="btn btn-outline-primary btn-lg flex-fill"
             [class.active]="displayedScreen.value() === DisplayedScreen.SCREEN_SAVER"
-            (click)="displayScreen(DisplayedScreen.SCREEN_SAVER)">ECRAN DE VEILLE</button>
+            (click)="displayScreen(DisplayedScreen.SCREEN_SAVER)">ECRAN DE VEILLE
+    </button>
     <button class="btn btn-outline-primary btn-lg flex-fill"
             [class.active]="displayedScreen.value() === DisplayedScreen.MATCH"
-            (click)="displayScreen(DisplayedScreen.MATCH)">AFFICHER MATCH</button>
+            (click)="displayScreen(DisplayedScreen.MATCH)">AFFICHER MATCH
+    </button>
     <button *ngIf="gameData.value().teamA.name"
             class="btn btn-outline-primary btn-lg flex-fill"
             [class.active]="displayedScreen.value() === DisplayedScreen.TEAM_A"
-            (click)="displayScreen(DisplayedScreen.TEAM_A)">PRÉSENTER {{ gameData?.value().teamA.name | uppercase }} </button>
+            (click)="displayScreen(DisplayedScreen.TEAM_A)">PRÉSENTER {{ gameData?.value().teamA.name | uppercase }}
+    </button>
     <button *ngIf="gameData.value().teamB.name"
             class="btn  btn-outline-primary btn-lg flex-fill"
             [class.active]="displayedScreen.value() === DisplayedScreen.TEAM_B"
-            (click)="displayScreen(DisplayedScreen.TEAM_B)">PRÉSENTER {{ gameData?.value().teamB.name | uppercase }} </button>
+            (click)="displayScreen(DisplayedScreen.TEAM_B)">PRÉSENTER {{ gameData?.value().teamB.name | uppercase }}
+    </button>
     <!--
     <button class="btn  btn-outline-primary btn-lg flex-fill"
             [class.active]="displayedScreen.value() === DisplayedScreen.BOTH_TEAMS"
@@ -36,9 +40,12 @@
     </div>
   </div>
   <div class="row mt-3">
-    <app-impro-manager-panel class="col-7" [gameData]=""/>
-    <app-time-manager-panel class="col-5" />
+    <app-impro-manager-panel class="col-7"
+                             [improData]="improData.value()"
+                             (improDataChange)="onImproDataChange($event)"
 
+    />
+    <app-time-manager-panel class="col-5"/>
   </div>
 
 </div>

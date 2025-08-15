@@ -1,11 +1,15 @@
-import {Component, input, InputSignal, signal} from '@angular/core';
+import {Component, input, InputSignal} from '@angular/core';
 import {ScoreboardTeamComponent} from "./scoreboard-team/scoreboard-team.component";
 import {TeamNumber} from "@enums/team-number.enum";
 import {GameData} from "@models/game-data";
+import {ImproData} from "@models/impro-data";
+import {FormatImproHeaderPipe} from "@pipes/format-impro-header.pipe";
+
 @Component({
   selector: 'app-scoreboard',
   imports: [
-    ScoreboardTeamComponent
+    ScoreboardTeamComponent,
+    FormatImproHeaderPipe
   ],
   templateUrl: './scoreboard.component.html',
   styleUrl: './scoreboard.component.scss'
@@ -14,9 +18,7 @@ export class ScoreboardComponent {
   readonly Team = TeamNumber;
 
   gameData: InputSignal<GameData> = input.required();
-
-  themeTitle = signal('POURVU QUE CA MARCHE !');
-  themeStyle = signal('A la manière de la chanson de Gold');
+  improData: InputSignal<ImproData> = input.required();
 
   constructor() {
   }

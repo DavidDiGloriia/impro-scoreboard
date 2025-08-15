@@ -3,7 +3,9 @@
     <app-screen-saver/>
   }
   @case (DisplayedScreen.MATCH) {
-    <app-scoreboard [gameData]="gameData.value()"/>
+    <app-scoreboard [gameData]="gameData.value()"
+                    [improData]="improData.value()"
+    />
   }
   @case (DisplayedScreen.TEAM_A) {
     <app-team-presentation [team]="gameData.value().teamA"/>

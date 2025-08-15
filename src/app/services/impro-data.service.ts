@@ -1,7 +1,7 @@
-import {Injectable, NgZone, ResourceRef} from "@angular/core";
+import {Injectable, ResourceRef} from "@angular/core";
 import {LocalStorageService} from "@services/storage.service";
 import {HttpClient} from "@angular/common/http";
-import {GameDataDto, PlayerMetadataDto, TeamMetadataDto} from "../dtos";
+import {GameDataDto, ImproDataDto, PlayerMetadataDto, TeamMetadataDto} from "../dtos";
 import {PlayerMetadata} from "@models/player-metadata";
 import {map} from "rxjs/operators";
 import {mapValues} from "lodash-es";
@@ -11,6 +11,7 @@ import {GameData} from "@models/game-data";
 import {StorageKey} from "@enums/storage-key.enum";
 import {rxResource} from "@angular/core/rxjs-interop";
 import {DisplayedScreen} from "@enums/displayed-screen.enum";
+import {ImproData} from "@models/impro-data";
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +28,9 @@ export class ImproDataService {
       } else if (event.storageArea === localStorage && event.key === StorageKey.DISPLAYED_SCREEN.toString()) {
         const screen = JSON.parse(event.newValue) as DisplayedScreen;
         this.displayedScreen.set(screen);
+      } else if (event.storageArea === localStorage && event.key === StorageKey.IMPRO_DATA.toString()) {
+        const improDataDto = JSON.parse(event.newValue) as ImproDataDto;
+        this.improData.set(new ImproData(improDataDto));
       }
     });
   }
@@ -44,6 +48,11 @@ export class ImproDataService {
   public gameData: ResourceRef<GameData> = rxResource({
     loader: () => this.getGameData(),
     defaultValue: new GameData({})
+  });
+
+  public improData: ResourceRef<ImproData> = rxResource({
+    loader: () => this.getImproData(),
+    defaultValue: ImproData.newInstance()
   });
 
   public displayedScreen: ResourceRef<DisplayedScreen> = rxResource({
@@ -67,6 +76,16 @@ export class ImproDataService {
     );
   }
 
+
+  getImproData(): Observable<ImproData> {
+    return of(this._storageService.read<ImproDataDto>(StorageKey.IMPRO_DATA)).pipe(
+      map((dto) => {
+        return new ImproData(dto)
+      })
+    );
+  }
+
+
   getDisplayedScreen(): Observable<DisplayedScreen> {
     return of(this._storageService.read<DisplayedScreen>(StorageKey.DISPLAYED_SCREEN));
   }
@@ -86,6 +105,13 @@ export class ImproDataService {
     return of(this._storageService.save<GameDataDto>(StorageKey.GAME_DATA, gameData.toDto()))
       .pipe(
         map((dto) => new GameData(dto))
+      );
+  }
+
+  saveImproData(improData: ImproData): Observable<ImproData> {
+    return of(this._storageService.save<ImproDataDto>(StorageKey.IMPRO_DATA, improData.toDto()))
+      .pipe(
+        map((dto) => new ImproData(dto))
       );
   }
 

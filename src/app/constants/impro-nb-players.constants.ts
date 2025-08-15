@@ -1,6 +1,6 @@
 import {ImproNbPlayers} from "@enums/impro-nb-players.enum";
 
-export const ImproNbPlayersLabel = {
+export const ImproNbPlayersLabel: { [value: string]: string } = {
   [ImproNbPlayers.UNLIMITED]: 'Illimité',
   [ImproNbPlayers.EVERYBODY]: 'Tous',
   [ImproNbPlayers.ONE]: '1 par équipe',
@@ -9,7 +9,7 @@ export const ImproNbPlayersLabel = {
   [ImproNbPlayers.THREE]: '3 par équipe',
   [ImproNbPlayers.THREE_MAX]: '3 max par équipe',
 }
-export const ImproNbPlayersShortLabel = {
+export const ImproNbPlayersShortLabel: { [value: string]: string } = {
   [ImproNbPlayers.UNLIMITED]: 'Illimité',
   [ImproNbPlayers.EVERYBODY]: 'Tous',
   [ImproNbPlayers.ONE]: '1/eq',

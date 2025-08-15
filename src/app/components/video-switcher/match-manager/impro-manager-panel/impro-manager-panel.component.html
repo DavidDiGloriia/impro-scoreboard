@@ -1,25 +1,45 @@
 <div class="card p-4 mb-4">
   <h4 class="fw-bold mb-3">Impro</h4>
 
-  <!-- Type -->
-  <div class="mb-3 d-flex align-items-center gap-3">
-    <label class="fw-semibold mb-0">Type :</label>
-    <div class="btn-group" role="group" aria-label="Type de jeu">
-      <input type="radio" class="btn-check" name="type" id="typeMixte" autocomplete="off"
-             [checked]="true"
-      >
-      <label class="btn btn-primary" for="typeMixte">Mixte</label>
+  <div class="d-flex align-items-end gap-4">
+    <!-- Type -->
+    <div class="mb-3">
+      <label class="form-label fw-semibold d-block">Type :</label>
+      <div class="btn-group" role="group" aria-label="Type de jeu">
+        <input type="radio" class="btn-check"
+               name="type"
+               id="typeMixte"
+               autocomplete="off"
+               [ngModel]="improDataForm().type"
+               (ngModelChange)="onTypeChange(ImproType.MIXTE)"
+               [value]="ImproType.MIXTE">
+        <label class="btn"
+               [class.btn-primary]="improDataForm().type === ImproType.MIXTE"
+               [class.btn-outline-secondary]="improDataForm().type !== ImproType.MIXTE"
+               for="typeMixte">Mixte</label>
 
-      <input type="radio" class="btn-check" name="type" id="typeComparee" autocomplete="off">
-      <label class="btn btn-outline-secondary" for="typeComparee">Comparée</label>
+        <input type="radio" class="btn-check"
+               name="type"
+               id="typeComparee"
+               autocomplete="off"
+               [ngModel]="improDataForm().type"
+               (ngModelChange)="onTypeChange(ImproType.COMPARE)"
+               [value]="ImproType.COMPARE">
+        <label class="btn"
+               [class.btn-primary]="improDataForm().type === ImproType.COMPARE"
+               [class.btn-outline-secondary]="improDataForm().type !== ImproType.COMPARE"
+               for="typeComparee">Comparée</label>
+      </div>
+
+    </div>
+
+    <!-- Titre -->
+    <div class="mb-3 flex-grow-1">
+      <label for="titre" class="form-label fw-semibold">Titre :</label>
+      <input id="titre" type="text" class="form-control" value="POURVU QUE ÇA PASSE" />
     </div>
   </div>
 
-  <!-- Titre -->
-  <div class="mb-3">
-    <label for="titre" class="form-label fw-semibold">Titre :</label>
-    <input id="titre" type="text" class="form-control" value="POURVU QUE ÇA PASSE" />
-  </div>
 
   <!-- Nombre de joueurs par équipe -->
   <div class="mb-3">
