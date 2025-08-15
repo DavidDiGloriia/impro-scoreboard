@@ -135,24 +135,62 @@
   <!-- Durée -->
   <div class="mb-3">
     <label class="fw-semibold d-block mb-2">Durée :</label>
-    <div class="btn-group mb-2" role="group" aria-label="Durée sélection rapide">
-      <button type="button" class="btn btn-primary">30 sec</button>
-      <button type="button" class="btn btn-primary">45 sec</button>
-      <button type="button" class="btn btn-primary">1 min</button>
-      <button type="button" class="btn btn-primary">1 min 30</button>
-      <button type="button" class="btn btn-primary">2 min</button>
-      <button type="button" class="btn btn-primary">2 min 30</button>
-      <button type="button" class="btn btn-primary">3 min</button>
-      <button type="button" class="btn btn-primary">5 min</button>
-    </div>
 
-    <div class="d-flex align-items-center gap-2">
-      <input type="number" min="0" class="form-control w-auto" placeholder="min" style="max-width: 80px;">
-      <span>min</span>
-      <input type="number" min="0" class="form-control w-auto" placeholder="sec" style="max-width: 80px;">
-      <span>sec</span>
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+      <!-- Boutons -->
+      <div class="btn-group" role="group" aria-label="Durée sélection rapide">
+        <button type="button"
+                class="btn btn-primary"
+                (click)="onImproDurationChange(30)">
+          30 sec
+        </button>
+        <button type="button" class="btn btn-primary"
+                (click)="onImproDurationChange(45)">
+          45 sec
+        </button>
+        <button type="button" class="btn btn-primary"
+                (click)="onImproDurationChange(60)">
+          1 min
+        </button>
+        <button type="button" class="btn btn-primary"
+                (click)="onImproDurationChange(90)">
+          1 min 30
+        </button>
+        <button type="button" class="btn btn-primary"
+                (click)="onImproDurationChange(120)">
+          2 min
+        </button>
+        <button type="button" class="btn btn-primary"
+                (click)="onImproDurationChange(150)">
+          2 min 30
+        </button>
+        <button type="button" class="btn btn-primary"
+                (click)="onImproDurationChange(180)">
+          3 min
+        </button>
+        <button type="button" class="btn btn-primary"
+                (click)="onImproDurationChange(240)">
+          5 min
+        </button>
+      </div>
+
+      <!-- Champs min/sec -->
+      <div class="d-flex align-items-center gap-2">
+        <input type="number" min="0" class="form-control w-auto" placeholder="min" style="max-width: 80px;"
+                [ngModel]="improDurationMinutes()"
+                (ngModelChange)="onImproDurationMinutesChange($event)"
+        >
+        <span>min</span>
+        <input type="number" min="0" class="form-control w-auto" placeholder="sec" step="15" max=59
+               style="max-width: 80px;"
+               [ngModel]="improDurationSeconds()"
+               (ngModelChange)="onImproDurationSecondsChange($event)"
+        >
+        <span>sec</span>
+      </div>
     </div>
   </div>
 
-  <button class="btn btn-primary fw-bold" (click)="sendData()">Envoyer</button>
+
+  <button class="btn btn-primary fw-bold mt-5" (click)="sendData()">Envoyer</button>
 </div>

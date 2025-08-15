@@ -1,13 +1,10 @@
-import {Component, effect, input, InputSignal, OnInit, signal, WritableSignal} from '@angular/core';
+import {Component, input, InputSignal} from '@angular/core';
 import {ScoreboardTeamComponent} from "./scoreboard-team/scoreboard-team.component";
 import {TeamNumber} from "@enums/team-number.enum";
 import {GameData} from "@models/game-data";
 import {ImproData} from "@models/impro-data";
 import {FormatImproHeaderPipe} from "@pipes/format-impro-header.pipe";
 import {TitleCasePipe} from "@angular/common";
-import {ImproDataService} from "@services/impro-data.service";
-import {TimerHandling} from "@models/timerHandling";
-import {TimerAction} from "@enums/timer-action.enum";
 import {FormatTimePipe} from "@pipes/format-time.pipe";
 
 @Component({
@@ -21,89 +18,11 @@ import {FormatTimePipe} from "@pipes/format-time.pipe";
   templateUrl: './scoreboard.component.html',
   styleUrl: './scoreboard.component.scss'
 })
-export class ScoreboardComponent implements OnInit {
+export class ScoreboardComponent {
   readonly Team = TeamNumber;
 
   gameData: InputSignal<GameData> = input.required();
   improData: InputSignal<ImproData> = input.required();
-
-  roundTimerHandling = this._improDataService.roundTimerHandling;
-  isRoundTimerRunning: WritableSignal<boolean> = signal<boolean>(false);
-  roundTimer: WritableSignal<number> = signal(2700); // 45 minutes in seconds
-  roundTimerInterval: any;
-
-  improTimerHandling = this._improDataService.improTimerHandling;
-  isImproTimerRunning: WritableSignal<boolean> = signal<boolean>(false);
-  improTimer: WritableSignal<number> = signal(180);
-  improTimerInterval: any;
-
-
-
-  constructor(private _improDataService: ImproDataService) {
-    effect(() => {
-      this.onRoundTimerAction(this.roundTimerHandling.value())
-    });
-
-    effect(() => {
-      this.onImproTimerAction(this.improTimerHandling.value())
-    });
-  }
-
-  ngOnInit() {
-    this.roundTimerInterval = setInterval(() => {
-      if (this.isRoundTimerRunning()) {
-        this.roundTimer.update(time => (time > 0 ? time - 1 : 0));
-      }
-    }, 1000);
-
-    this.improTimerInterval = setInterval(() => {
-      if (this.isImproTimerRunning()) {
-        this.improTimer.update(time => (time > 0 ? time - 1 : 0));
-      }
-    }, 1000);
-  }
-
-  onRoundTimerAction(timer: TimerHandling) {
-    switch (timer.action) {
-      case TimerAction.START:
-        this.isRoundTimerRunning.set(true);
-        break;
-      case TimerAction.STOP:
-        this.isRoundTimerRunning.set(false);
-        break;
-      case TimerAction.RESET: {
-        this.isRoundTimerRunning.set(false);
-        this.roundTimer.set(2700)
-      }
-        break;
-      case TimerAction.ADJUST:
-        this.isRoundTimerRunning.set(true);
-        this.roundTimer.update((value) => {
-          return Math.max(0, value + timer.delta);
-        });
-        break;
-    }
-  }
-
-  onImproTimerAction(timer: TimerHandling) {
-    switch (timer.action) {
-      case TimerAction.START:
-        this.isImproTimerRunning.set(true);
-        break;
-      case TimerAction.STOP:
-        this.isImproTimerRunning.set(false);
-        break;
-      case TimerAction.RESET: {
-        this.isImproTimerRunning.set(false);
-        this.improTimer.set(2700)
-      }
-        break;
-      case TimerAction.ADJUST:
-        this.isImproTimerRunning.set(true);
-        this.improTimer.update((value) => {
-          return Math.max(0, value + timer.delta);
-        });
-        break;
-    }
-  }
+  roundTimer: InputSignal<number> = input(2700); // 45 minutes in seconds
+  improTimer: InputSignal<number> = input(180);
 }

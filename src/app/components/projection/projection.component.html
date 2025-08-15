@@ -5,6 +5,8 @@
   @case (DisplayedScreen.MATCH) {
     <app-scoreboard [gameData]="gameData.value()"
                     [improData]="improData.value()"
+                    [roundTimer]="roundTimer()"
+                    [improTimer]="improTimer()"
     />
   }
   @case (DisplayedScreen.TEAM_A) {

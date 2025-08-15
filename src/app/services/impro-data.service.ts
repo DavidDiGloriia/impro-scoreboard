@@ -13,6 +13,7 @@ import {rxResource} from "@angular/core/rxjs-interop";
 import {DisplayedScreen} from "@enums/displayed-screen.enum";
 import {ImproData} from "@models/impro-data";
 import {TimerHandling} from "@models/timerHandling";
+import {TimerAction} from "@enums/timer-action.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -79,12 +80,14 @@ export class ImproDataService {
   public roundTimerHandling: ResourceRef<TimerHandling> = rxResource({
     loader: () => this.getRoundTimer(),
     defaultValue: new TimerHandling({
+      action: TimerAction.STOP
     }) // Default to 180 seconds
   });
 
   public improTimerHandling: ResourceRef<TimerHandling> = rxResource({
     loader: () => this.getImproTimer(),
     defaultValue: new TimerHandling({
+      action: TimerAction.STOP
     })
   });
 
