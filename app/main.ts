@@ -1,6 +1,8 @@
 import { app, BrowserWindow, screen } from 'electron';
 import * as path from 'path';
 import * as fs from 'fs';
+import contextMenu from 'electron-context-menu';
+
 
 let controlWindow: BrowserWindow | null = null;
 let projectionWindow: BrowserWindow | null = null;
@@ -117,6 +119,16 @@ function createWindowsOnce() {
 }
 
 app.on('ready', () => {
+  contextMenu({
+    showCopyImageAddress: false,
+    showSaveImageAs: false,
+    // Optional: n’affiche le menu que sur certains éléments
+    prepend: (defaultActions, params, browserWindow) => {
+      return [
+        // Tu peux ajouter tes propres actions ici
+      ];
+    }
+  });
   destroyWindows();
   setTimeout(createWindowsOnce, 400);
 });

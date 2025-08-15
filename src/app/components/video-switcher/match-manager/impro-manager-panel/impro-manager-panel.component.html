@@ -36,7 +36,7 @@
     <!-- Titre -->
     <div class="mb-3 flex-grow-1">
       <label for="titre" class="form-label fw-semibold">Titre :</label>
-      <input id="titre" type="text" class="form-control"
+      <input id="titre" type="text" class="form-control" spellcheck="true"
              [ngModel]="improDataForm().title"
              (ngModelChange)="onImproTitleChange($event)"
       />
