@@ -1,7 +1,7 @@
 import {Injectable, ResourceRef} from "@angular/core";
 import {LocalStorageService} from "@services/storage.service";
 import {HttpClient} from "@angular/common/http";
-import {GameDataDto, ImproDataDto, PlayerMetadataDto, TeamMetadataDto, TimerDto} from "../dtos";
+import {GameDataDto, ImproDataDto, PlayerMetadataDto, TeamMetadataDto, TimerHandlingDto} from "../dtos";
 import {PlayerMetadata} from "@models/player-metadata";
 import {map} from "rxjs/operators";
 import {mapValues} from "lodash-es";
@@ -12,7 +12,7 @@ import {StorageKey} from "@enums/storage-key.enum";
 import {rxResource} from "@angular/core/rxjs-interop";
 import {DisplayedScreen} from "@enums/displayed-screen.enum";
 import {ImproData} from "@models/impro-data";
-import {Timer} from "@models/timer";
+import {TimerHandling} from "@models/timerHandling";
 
 @Injectable({
   providedIn: 'root'
@@ -42,13 +42,8 @@ export class ImproDataService {
           break;
         }
         case StorageKey.ROUND_TIMER.toString(): {
-          const timerDto = JSON.parse(event.newValue || '{}') as TimerDto;
-          this.roundTimer.set(new Timer(timerDto));
-          break;
-        }
-        case StorageKey.IMPRO_TIMER.toString(): {
-          const improTimerDto = JSON.parse(event.newValue || '{}') as TimerDto;
-          this.improTimer.set(new Timer(improTimerDto));
+          const timerDto = JSON.parse(event.newValue || '{}') as TimerHandlingDto;
+          this.roundTimerHandling.set(new TimerHandling(timerDto));
           break;
         }
       }
@@ -76,17 +71,15 @@ export class ImproDataService {
     defaultValue: ImproData.newInstance()
   });
 
-  public roundTimer: ResourceRef<Timer> = rxResource({
+  public roundTimerHandling: ResourceRef<TimerHandling> = rxResource({
     loader: () => this.getRoundTimer(),
-    defaultValue: new Timer({
-      time: 2700
+    defaultValue: new TimerHandling({
     }) // Default to 180 seconds
   });
 
-  public improTimer: ResourceRef<Timer> = rxResource({
+  public improTimerHandling: ResourceRef<TimerHandling> = rxResource({
     loader: () => this.getImproTimer(),
-    defaultValue: new Timer({
-      time: 180 // Default to 3 minutes
+    defaultValue: new TimerHandling({
     })
   });
 
@@ -157,31 +150,31 @@ export class ImproDataService {
       );
   }
 
-  getRoundTimer(): Observable<Timer> {
-    return of(this._storageService.read<TimerDto>(StorageKey.ROUND_TIMER))
+  getRoundTimer(): Observable<TimerHandling> {
+    return of(this._storageService.read<TimerHandlingDto>(StorageKey.ROUND_TIMER))
       .pipe(
-        map((dto: TimerDto) => new Timer(dto))
+        map((dto: TimerHandlingDto) => new TimerHandling(dto))
       );
   }
 
-  saveRoundTimer(timer: Timer): Observable<Timer> {
-    return of(this._storageService.save<TimerDto>(StorageKey.ROUND_TIMER, timer.toDto()))
+  saveRoundTimer(timer: TimerHandling): Observable<TimerHandling> {
+    return of(this._storageService.save<TimerHandlingDto>(StorageKey.ROUND_TIMER, timer.toDto()))
       .pipe(
-        map((dto) => new Timer(dto))
+        map((dto) => new TimerHandling(dto))
       );
   }
 
-  getImproTimer(): Observable<Timer> {
-  return of(this._storageService.read<TimerDto>(StorageKey.IMPRO_TIMER))
+  getImproTimer(): Observable<TimerHandling> {
+  return of(this._storageService.read<TimerHandlingDto>(StorageKey.IMPRO_TIMER))
     .pipe(
-      map((dto: TimerDto) => new Timer(dto))
+      map((dto: TimerHandlingDto) => new TimerHandling(dto))
     );
   }
 
-  saveImproTimer(timer: Timer): Observable<Timer> {
-    return of(this._storageService.save<TimerDto>(StorageKey.IMPRO_TIMER, timer.toDto()))
+  saveImproTimer(timer: TimerHandling): Observable<TimerHandling> {
+    return of(this._storageService.save<TimerHandlingDto>(StorageKey.IMPRO_TIMER, timer.toDto()))
       .pipe(
-        map((dto) => new Timer(dto))
+        map((dto) => new TimerHandling(dto))
       );
   }
 

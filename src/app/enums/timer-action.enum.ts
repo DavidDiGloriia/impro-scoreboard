@@ -3,4 +3,5 @@ export enum TimerAction {
   START = 'start',
   STOP = 'stop',
   ADJUST = 'adjust',
+  RESET = 'reset',
 }

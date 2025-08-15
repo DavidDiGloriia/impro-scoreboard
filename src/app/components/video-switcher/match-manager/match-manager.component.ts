@@ -2,6 +2,7 @@ import {Component, DestroyRef, inject, ResourceRef} from '@angular/core';
 import {DisplayedScreen} from "@enums/displayed-screen.enum";
 import {ImproDataService} from "@services/impro-data.service";
 import {GameData} from "@models/game-data";
+import {TimerHandling} from "@models/timerHandling";
 import {NgIf, UpperCasePipe} from "@angular/common";
 import {TeamMetadata} from "@models/team-metadata";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
@@ -17,6 +18,7 @@ import {
   TimeManagerPanelComponent
 } from "@components/video-switcher/match-manager/time-manager-panel/time-manager-panel.component";
 import {ImproData} from "@models/impro-data";
+import {TimerAction} from "@enums/timer-action.enum";
 
 @Component({
   selector: 'app-match-manager',
@@ -73,5 +75,55 @@ export class MatchManagerComponent {
       .subscribe((data: ImproData) => {
         this.improData.set(data.clone());
       });
+  }
+
+  onImproStart(): void {
+    this._improDataService.saveImproTimer( new TimerHandling().withAction(TimerAction.START))
+      .pipe(takeUntilDestroyed(this._destroyRef))
+      .subscribe();
+  }
+
+  onRoundStart(): void {
+    this._improDataService.saveRoundTimer( new TimerHandling().withAction(TimerAction.START))
+      .pipe(takeUntilDestroyed(this._destroyRef))
+      .subscribe();
+  }
+
+  onRoundStop(): void {
+    this._improDataService.saveRoundTimer( new TimerHandling().withAction(TimerAction.STOP))
+      .pipe(takeUntilDestroyed(this._destroyRef))
+      .subscribe();
+  }
+
+  onImproStop(): void {
+    this._improDataService.saveImproTimer( new TimerHandling().withAction(TimerAction.STOP))
+      .pipe(takeUntilDestroyed(this._destroyRef))
+      .subscribe();
+  }
+
+  onRoundReset(): void {
+    this._improDataService.saveRoundTimer( new TimerHandling().withAction(TimerAction.RESET))
+      .pipe(takeUntilDestroyed(this._destroyRef))
+      .subscribe();
+  }
+
+  onImproReset(): void {
+    this._improDataService.saveImproTimer( new TimerHandling().withAction(TimerAction.STOP))
+      .pipe(takeUntilDestroyed(this._destroyRef))
+      .subscribe();
+  }
+
+  onAdjustRoundTime(value: number): void {
+    this._improDataService.saveRoundTimer( new TimerHandling().withAction(TimerAction.ADJUST)
+      .withDelta(value))
+      .pipe(takeUntilDestroyed(this._destroyRef))
+      .subscribe();
+  }
+
+  onAdjustImproTime(value: number): void {
+    this._improDataService.saveImproTimer( new TimerHandling().withAction(TimerAction.ADJUST)
+      .withDelta(value))
+      .pipe(takeUntilDestroyed(this._destroyRef))
+      .subscribe();
   }
 }

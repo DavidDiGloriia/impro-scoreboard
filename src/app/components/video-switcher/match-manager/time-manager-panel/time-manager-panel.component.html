@@ -1,26 +1,41 @@
 <!-- timer.component.html -->
-<div class="card shadow-sm p-3">
+<div class="card shadow-sm p-4 mb-4">
+  <h4 class="fw-bold mb-3">{{ label() }}</h4>
   <div class="mb-3 text-center border rounded p-3 bg-light">
     <h2 class="fw-bold mb-0">{{ time | formatTime }} </h2>
   </div>
 
-  <div class="d-grid mb-2">
-    <button class="btn btn-primary btn-lg" (click)="toggleTimer()">
+  <div class="d-flex mb-2 gap-2">
+    <button class="btn btn-primary btn-lg flex-fill" (click)="running ? stopTimer() : startTimer()">
       {{ running ? '▐▐' : '▶' }}
+    </button>
+
+    <button class="btn btn-outline-primary btn-lg flex-fill" (click)="resetTimer()">
+      ⟳ Reset
     </button>
   </div>
 
   <div class="row g-2 mb-3">
-    <div class="col-6 d-grid">
-      <button class="btn btn-primary" (click)="adjustTime(5)">+5 sec</button>
+    <!-- Boutons négatifs -->
+    <div class="col-2 d-grid">
+      <button class="btn btn-danger" (click)="adjustTime(-30)">-30 sec</button>
     </div>
-    <div class="col-6 d-grid">
-      <button class="btn btn-primary" (click)="adjustTime(-5)">-5 sec</button>
+    <div class="col-2 d-grid">
+      <button class="btn btn-danger" (click)="adjustTime(-15)">-15 sec</button>
     </div>
-  </div>
+    <div class="col-2 d-grid">
+      <button class="btn btn-danger" (click)="adjustTime(-5)">-5 sec</button>
+    </div>
 
-  <div>
-    <label class="form-label fw-bold">Durée totale (mi-temps) :</label>
-    <input type="number" class="form-control" [(ngModel)]="totalDuration">
+    <!-- Boutons positifs -->
+    <div class="col-2 d-grid">
+      <button class="btn btn-success" (click)="adjustTime(5)">+5 sec</button>
+    </div>
+    <div class="col-2 d-grid">
+      <button class="btn btn-success" (click)="adjustTime(15)">+15 sec</button>
+    </div>
+    <div class="col-2 d-grid">
+      <button class="btn btn-success" (click)="adjustTime(30)">+30 sec</button>
+    </div>
   </div>
 </div>

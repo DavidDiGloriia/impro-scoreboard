@@ -45,7 +45,22 @@
                              (improDataChange)="onImproDataChange($event)"
 
     />
-    <app-time-manager-panel class="col-5"/>
+    <div class="col-5">
+      <app-time-manager-panel [label]="'Impro'"
+                              [baseTime]="improData.value().duration"
+                              (startTime)="onImproStart()"
+                              (stopTime)="onImproStop()"
+                              (resetTime)="onImproReset()"
+                              (adjustTIme)="onAdjustImproTime($event)"
+      />
+      <app-time-manager-panel [label]="'Round'"
+                              [baseTime]="2700"
+                              (startTime)="onRoundStart()"
+                              (stopTime)="onRoundStop()"
+                              (resetTime)="onRoundReset()"
+                              (adjustTIme)="onAdjustRoundTime($event)"
+      />
+    </div>
   </div>
 
 </div>

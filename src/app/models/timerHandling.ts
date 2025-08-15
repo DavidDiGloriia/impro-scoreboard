@@ -1,25 +1,25 @@
-import {TimerDto} from "../dtos";
+import {TimerHandlingDto} from "../dtos";
 import {TimerAction} from "@enums/timer-action.enum";
 
-export class Timer {
-  constructor(private _dto: TimerDto = {}) {
+export class TimerHandling {
+  constructor(private _dto: TimerHandlingDto = {}) {
     this._dto = _dto ? _dto : {};
   }
 
   get time(): number {
-    return this._dto.time || 180; // default to 3 minutes
+    return this._dto.time;
   }
 
   set time(value: number) {
     this._dto.time = value;
   }
 
-  withTime(time: number): Timer {
+  withTime(time: number): TimerHandling {
     this.time = time;
     return this;
   }
 
-  get action(): string | undefined {
+  get action(): TimerAction {
     return this._dto.action;
   }
 
@@ -27,7 +27,7 @@ export class Timer {
     this._dto.action = value;
   }
 
-  withAction(action: TimerAction | undefined): Timer {
+  withAction(action: TimerAction | undefined): TimerHandling {
     this.action = action;
     return this;
   }
@@ -40,17 +40,17 @@ export class Timer {
     this._dto.delta = value;
   }
 
-  withDelta(delta: number | undefined): Timer {
+  withDelta(delta: number | undefined): TimerHandling {
     this.delta = delta;
     return this;
   }
 
-  toDto(): TimerDto {
+  toDto(): TimerHandlingDto {
     return this._dto;
   }
 
-  clone(): Timer {
-    return new Timer(this.toDto());
+  clone(): TimerHandling {
+    return new TimerHandling(this.toDto());
   }
 
 }
