@@ -25,9 +25,12 @@ export class ImproManagerPanelComponent {
 
 
   onTypeChange(value: ImproType) {
-    console.log(value)
     this.improDataForm.update((improData: ImproData) => {
       return improData.clone().withType(value);
     });
+  }
+
+  sendData(): void {
+    this.improData.set(this.improDataForm().clone())
   }
 }
