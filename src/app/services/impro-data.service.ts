@@ -1,7 +1,7 @@
 import {Injectable, ResourceRef} from "@angular/core";
 import {LocalStorageService} from "@services/storage.service";
 import {HttpClient} from "@angular/common/http";
-import {GameDataDto, ImproDataDto, PlayerMetadataDto, TeamMetadataDto} from "../dtos";
+import {GameDataDto, ImproDataDto, PlayerMetadataDto, TeamMetadataDto, TimerDto} from "../dtos";
 import {PlayerMetadata} from "@models/player-metadata";
 import {map} from "rxjs/operators";
 import {mapValues} from "lodash-es";
@@ -12,6 +12,7 @@ import {StorageKey} from "@enums/storage-key.enum";
 import {rxResource} from "@angular/core/rxjs-interop";
 import {DisplayedScreen} from "@enums/displayed-screen.enum";
 import {ImproData} from "@models/impro-data";
+import {Timer} from "@models/timer";
 
 @Injectable({
   providedIn: 'root'
@@ -19,20 +20,40 @@ import {ImproData} from "@models/impro-data";
 export class ImproDataService {
   constructor(private _storageService: LocalStorageService,
               private _httpClient: HttpClient
-              ) {
+  ) {
 
     window.addEventListener('storage', (event: StorageEvent) => {
-      if (event.storageArea === localStorage && event.key === StorageKey.GAME_DATA.toString()) {
-        const dto = JSON.parse(event.newValue) as GameDataDto;
-        this.gameData.set(new GameData(dto))
-      } else if (event.storageArea === localStorage && event.key === StorageKey.DISPLAYED_SCREEN.toString()) {
-        const screen = JSON.parse(event.newValue) as DisplayedScreen;
-        this.displayedScreen.set(screen);
-      } else if (event.storageArea === localStorage && event.key === StorageKey.IMPRO_DATA.toString()) {
-        const improDataDto = JSON.parse(event.newValue) as ImproDataDto;
-        this.improData.set(new ImproData(improDataDto));
+      if (event.storageArea !== localStorage || !event.key) return;
+
+      switch (event.key) {
+        case StorageKey.GAME_DATA.toString(): {
+          const dto = JSON.parse(event.newValue || '{}') as GameDataDto;
+          this.gameData.set(new GameData(dto));
+          break;
+        }
+        case StorageKey.DISPLAYED_SCREEN.toString(): {
+          const screen = JSON.parse(event.newValue || 'null') as DisplayedScreen;
+          this.displayedScreen.set(screen);
+          break;
+        }
+        case StorageKey.IMPRO_DATA.toString(): {
+          const improDataDto = JSON.parse(event.newValue || '{}') as ImproDataDto;
+          this.improData.set(new ImproData(improDataDto));
+          break;
+        }
+        case StorageKey.ROUND_TIMER.toString(): {
+          const timerDto = JSON.parse(event.newValue || '{}') as TimerDto;
+          this.roundTimer.set(new Timer(timerDto));
+          break;
+        }
+        case StorageKey.IMPRO_TIMER.toString(): {
+          const improTimerDto = JSON.parse(event.newValue || '{}') as TimerDto;
+          this.improTimer.set(new Timer(improTimerDto));
+          break;
+        }
       }
     });
+
   }
 
   public players: ResourceRef<PlayerMetadata[]> = rxResource({
@@ -53,6 +74,20 @@ export class ImproDataService {
   public improData: ResourceRef<ImproData> = rxResource({
     loader: () => this.getImproData(),
     defaultValue: ImproData.newInstance()
+  });
+
+  public roundTimer: ResourceRef<Timer> = rxResource({
+    loader: () => this.getRoundTimer(),
+    defaultValue: new Timer({
+      time: 2700
+    }) // Default to 180 seconds
+  });
+
+  public improTimer: ResourceRef<Timer> = rxResource({
+    loader: () => this.getImproTimer(),
+    defaultValue: new Timer({
+      time: 180 // Default to 3 minutes
+    })
   });
 
   public displayedScreen: ResourceRef<DisplayedScreen> = rxResource({
@@ -121,4 +156,34 @@ export class ImproDataService {
         map((dto) => dto)
       );
   }
+
+  getRoundTimer(): Observable<Timer> {
+    return of(this._storageService.read<TimerDto>(StorageKey.ROUND_TIMER))
+      .pipe(
+        map((dto: TimerDto) => new Timer(dto))
+      );
+  }
+
+  saveRoundTimer(timer: Timer): Observable<Timer> {
+    return of(this._storageService.save<TimerDto>(StorageKey.ROUND_TIMER, timer.toDto()))
+      .pipe(
+        map((dto) => new Timer(dto))
+      );
+  }
+
+  getImproTimer(): Observable<Timer> {
+  return of(this._storageService.read<TimerDto>(StorageKey.IMPRO_TIMER))
+    .pipe(
+      map((dto: TimerDto) => new Timer(dto))
+    );
+  }
+
+  saveImproTimer(timer: Timer): Observable<Timer> {
+    return of(this._storageService.save<TimerDto>(StorageKey.IMPRO_TIMER, timer.toDto()))
+      .pipe(
+        map((dto) => new Timer(dto))
+      );
+  }
+
+
 }
