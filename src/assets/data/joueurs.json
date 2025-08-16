@@ -1,9 +1,12 @@
 [
   {
+    "prenom": "Alain",
+    "img": "assets/joueurs/alain.png"
+  },
+  {
     "prenom": "Alex",
-    "nom": "Ducoux",
-    "img": "assets/joueurs/alexandra-ducoux.png",
-    "femme": true
+    "nom": "Christoffel",
+    "img": "assets/joueurs/alex-pauwels.png"
   },
   {
     "prenom": "Alex",
@@ -12,8 +15,31 @@
     "femme": true
   },
   {
-    "prenom": "Ari",
-    "img": "assets/joueurs/ariane-haza.png",
+    "prenom": "Alex",
+    "nom": "Ducoux",
+    "img": "assets/joueurs/alexandra-ducoux.png",
+    "femme": true
+  },
+  {
+    "prenom": "Alex",
+    "nom": "Pauwels",
+    "img": "assets/joueurs/alex-pauwels.png"
+  },
+  {
+    "prenom": "Antoine",
+    "img": "assets/joueurs/antoine.png"
+  },
+  {
+    "prenom": "Arnaud",
+    "img": "assets/joueurs/arnaud.png"
+  },
+  {
+    "prenom": "Aurore",
+    "img": "assets/joueurs/aurore.png"
+  },
+  {
+    "prenom": "Cath",
+    "img": "assets/joueurs/cath.png",
     "femme": true
   },
   {
@@ -22,8 +48,21 @@
     "femme": true
   },
   {
+    "prenom": "Clem",
+    "img": "assets/joueurs/clem.png",
+    "femme": true
+  },
+  {
+    "prenom": "Damien"
+  },
+  {
     "prenom": "David",
     "img": "assets/joueurs/david-di-gloria.png"
+  },
+  {
+    "prenom": "Elodie",
+    "img": "assets/joueurs/elodie.png",
+    "femme": true
   },
   {
     "prenom": "Emilie",
@@ -40,8 +79,34 @@
     "femme": true
   },
   {
+    "prenom": "Jésica",
+    "img": "assets/joueurs/jésica.png",
+    "femme": true
+  },
+  {
+    "prenom": "Kostia",
+    "img": "assets/joueurs/kostia.png"
+  },
+  {
     "prenom": "Lenny",
     "img": "assets/joueurs/lenny-b-conil.png"
+  },
+  {
+    "prenom": "MP",
+    "femme": true
+  },
+  {
+    "prenom": "Maïlis",
+    "img": "assets/joueurs/maïlis.png",
+    "femme": true
+  },
+  {
+    "prenom": "Nico",
+    "img": "assets/joueurs/nicolas.png"
+  },
+  {
+    "prenom": "Pec",
+    "img": "assets/joueurs/pec.png"
   },
   {
     "prenom": "Phil",
@@ -56,8 +121,28 @@
     "img": "assets/joueurs/q.png"
   },
   {
+    "prenom": "Sbu"
+  },
+  {
     "prenom": "Sophie",
     "img": "assets/joueurs/sophie-hoyas.png",
     "femme": true
+  },
+  {
+    "prenom": "Tony",
+    "img": "assets/joueurs/tony.png"
+  },
+  {
+    "prenom": "Valentine",
+    "img": "assets/joueurs/valentine.png",
+    "femme": true
+  },
+  {
+    "prenom": "Vincent",
+    "img": "assets/joueurs/vincent.png",
+    "femme": true
+  },
+  {
+    "prenom": "Wilhem"
   }
 ]

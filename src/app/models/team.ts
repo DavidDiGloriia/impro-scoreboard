@@ -1,13 +1,16 @@
 import { TeamDto } from "../dtos";
 import { Player } from "@models/player";
-import { mapValues } from "lodash-es";
+import { mapValues, pickBy } from "lodash-es";
 
 export class Team {
   private _players: { [role: string]: Player } = {};
 
   constructor(private _dto: TeamDto = {}) {
     this._players = this._dto.players
-      ? mapValues(this._dto.players, (playerDto) => new Player(playerDto))
+      ? mapValues(
+        pickBy(this._dto.players, (playerDto) => !!playerDto?.code?.trim()),
+        (playerDto) => new Player(playerDto)
+      )
       : {};
   }
 

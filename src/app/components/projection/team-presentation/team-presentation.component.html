@@ -15,7 +15,7 @@
         <div *ngIf="playerValue.number" class="player-number">#{{ playerValue.number }}</div>
         <div class="overlay">
           <div *ngIf="player.key !== 'Joueur'" class="player-position">
-            {{ player.key | roleName:playerMetadata.isFemale }}
+            {{ player.key | roleName:playerMetadata?.isFemale }}
           </div>
           <div class="player-name">{{ playerMetadata?.firstName }}</div>
         </div>

@@ -34,13 +34,13 @@ export class TeamsParametersComponent {
 
   onTeamChange(value: Team, teamNumber: TeamNumber) {
     const updatedGameData = this.gameData.value().clone()
-      .withTeamA(teamNumber === TeamNumber.TEAM_A ? value : this.gameData.value().teamA)
-      .withTeamB(teamNumber === TeamNumber.TEAM_B ? value : this.gameData.value().teamB);
+      .withTeamA(teamNumber === TeamNumber.TEAM_A ? value : this.gameData.value().teamA.clone())
+      .withTeamB(teamNumber === TeamNumber.TEAM_B ? value : this.gameData.value().teamB.clone());
 
     this._improDataService.saveGameData(updatedGameData)
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe((data) => {
-      this.gameData.set(data.clone());
+        this.gameData.set(data.clone());
     });
   }
 

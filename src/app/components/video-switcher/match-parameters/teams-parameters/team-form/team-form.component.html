@@ -41,7 +41,7 @@
             [ngModel]="team().players[role]?.code"
             (ngModelChange)="onPlayerNameChange($event, role)"
           >
-            <option value="" [selected]="!team().players[role]">Aucun(e)</option>
+            <option [value]="''" [selected]="!team().players[role]">Aucun(e)</option>
             <option *ngFor="let player of players"
                     [value]="player.code">
               {{ player.firstName }} {{ player.name }}

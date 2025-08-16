@@ -10,7 +10,7 @@
       17,
       50,
       72,
-      36
+      35
     ]
   },
   "requins": {
@@ -20,11 +20,11 @@
     "couleur":  "#3399ff",
     "groupe": "animaux",
     "vareuses": [
-      47,
-      79,
+      24,
       36,
-      45,
-      60
+      47,
+      65,
+      79
     ]
   },
   "lions": {
@@ -35,8 +35,9 @@
     "img": "assets/equipes/lions.png",
     "vareuses": [
       10,
-      64,
+      22,
       33,
+      64,
       42
     ]
   },
@@ -47,11 +48,11 @@
     "img": "assets/equipes/aigles.png",
     "couleur": "#e6e6cc",
     "vareuses": [
-      1,
       2,
-      3,
       4,
-      5
+      5,
+      6,
+      8
     ]
   },
   "verts": {
@@ -64,7 +65,7 @@
       17,
       50,
       72,
-      36
+      35
     ]
   },
   "bleus": {
@@ -74,11 +75,11 @@
     "img": "assets/equipes/requins.png",
     "couleur": "#3399f",
     "vareuses": [
-      47,
-      79,
+      24,
       36,
-      45,
-      60
+      47,
+      65,
+      79
     ]
   },
 
@@ -89,8 +90,9 @@
     "couleur": "#ff4d4d",
     "vareuses": [
       10,
-      64,
+      22,
       33,
+      64,
       42
     ]
   },
@@ -100,11 +102,11 @@
     "icone": "⚪",
     "couleur": "#e6e6cc",
     "vareuses": [
-      1,
       2,
-      3,
       4,
-      5
+      5,
+      6,
+      8
     ]
   }
 }
