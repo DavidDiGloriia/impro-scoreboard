@@ -26,7 +26,8 @@
   </div>
   <div class="row mt-3">
     <div class="col">
-      <app-team-manager-panel [teamNumber]="TeamNumber.TEAM_A"
+      <app-team-manager-panel *ngIf="gameData.value().teamA?.name"
+                              [teamNumber]="TeamNumber.TEAM_A"
                               [team]="gameData.value().teamA"
                               (teamChange)="onTeamChange($event, TeamNumber.TEAM_A)"
                               (resetFouls)="onResetFouls(TeamNumber.TEAM_A)"
@@ -34,7 +35,8 @@
       ></app-team-manager-panel>
     </div>
     <div class="col">
-      <app-team-manager-panel [teamNumber]="TeamNumber.TEAM_B"
+      <app-team-manager-panel *ngIf="gameData.value().teamB?.name"
+                              [teamNumber]="TeamNumber.TEAM_B"
                               [team]="gameData.value().teamB"
                               (teamChange)="onTeamChange($event, TeamNumber.TEAM_B)"
                               (resetFouls)="onResetFouls(TeamNumber.TEAM_B)"
@@ -68,5 +70,4 @@
       />
     </div>
   </div>
-
 </div>

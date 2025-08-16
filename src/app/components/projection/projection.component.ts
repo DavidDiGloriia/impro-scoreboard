@@ -88,7 +88,6 @@ export class ProjectionComponent implements OnInit, OnDestroy {
       }
         break;
       case TimerAction.ADJUST:
-        this.isRoundTimerRunning.set(true);
         this.roundTimer.update((value) => {
           return Math.max(0, value + timer.delta);
         });
@@ -106,11 +105,10 @@ export class ProjectionComponent implements OnInit, OnDestroy {
         break;
       case TimerAction.RESET: {
         this.isImproTimerRunning.set(false);
-        this.improTimer.set(2700)
+        this.improTimer.set(this.improData.value().duration)
       }
         break;
       case TimerAction.ADJUST:
-        this.isImproTimerRunning.set(true);
         this.improTimer.update((value) => {
           return Math.max(0, value + timer.delta);
         });

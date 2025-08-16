@@ -1,9 +1,26 @@
 import {TimerHandlingDto} from "../dtos";
 import {TimerAction} from "@enums/timer-action.enum";
+import { v4 as uuidv4 } from 'uuid';
 
 export class TimerHandling {
+  private _sequence: string;
+
   constructor(private _dto: TimerHandlingDto = {}) {
+    this.sequence = uuidv4();
     this._dto = _dto ? _dto : {};
+  }
+
+  get sequence(): string {
+    return this._dto.sequence || this._sequence;
+  }
+
+  set sequence(value: string) {
+    this._dto.sequence = value;
+  }
+
+  withSequence(sequence: string): TimerHandling {
+    this.sequence = sequence;
+    return this;
   }
 
   get time(): number {

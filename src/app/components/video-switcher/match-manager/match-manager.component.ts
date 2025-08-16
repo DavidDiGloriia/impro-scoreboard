@@ -108,7 +108,7 @@ export class MatchManagerComponent {
   }
 
   onImproReset(): void {
-    this._improDataService.saveImproTimer( new TimerHandling().withAction(TimerAction.STOP))
+    this._improDataService.saveImproTimer( new TimerHandling().withAction(TimerAction.RESET))
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe();
   }
