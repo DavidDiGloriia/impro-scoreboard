@@ -21,6 +21,8 @@ export class ImproManagerPanelComponent {
   protected readonly ImproType = ImproType;
   protected readonly ImproNbPlayersValues = values(ImproNbPlayers);
   protected readonly ImproNbPlayersLabel = ImproNbPlayersShortLabel;
+  protected readonly ImproNbPlayers = ImproNbPlayers;
+
 
   improData: ModelSignal<ImproData> = model.required();
   improDataForm: WritableSignal<ImproData> = signal(ImproData.newInstance());
@@ -63,6 +65,13 @@ export class ImproManagerPanelComponent {
     });
     this.isDirty.set(true);
   }
+
+  onCustomNbPlayersChange(value: string) {
+    this.improDataForm.update((improData: ImproData) => {
+      return improData.clone().withCustomNbPlayerLabel(value);
+    });
+    this.isDirty.set(true);
+    }
 
   setImproCategoryFree() {
     this.improDataForm.update((improData: ImproData) => {
@@ -116,4 +125,5 @@ export class ImproManagerPanelComponent {
       return improData.clone().withAlsoReviseDuration(value);
     });
   }
+
 }

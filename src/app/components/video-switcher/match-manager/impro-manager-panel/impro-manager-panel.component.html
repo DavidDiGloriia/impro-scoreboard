@@ -45,26 +45,40 @@
 
 
   <!-- Nombre de joueurs par équipe -->
-  <div class="mb-3">
-    <label class="fw-semibold d-block mb-2">Nombre de joueurs par équipe :</label>
-    <div class="btn-group" role="group" aria-label="Nombre joueurs par équipe">
-      @for (value of ImproNbPlayersValues; track value) {
-        <input type="radio" class="btn-check"
-               name="type"
-               [id]="value"
-               autocomplete="off"
-               [ngModel]="improDataForm().nbPlayers"
-               (ngModelChange)="onNbPlayersChange($event)"
-               [value]="value">
-        <label class="btn"
-               [class.btn-primary]="improDataForm().nbPlayers === value"
-               [class.btn-outline-secondary]="improDataForm().nbPlayers !== value"
-               [for]="value">
-          {{ ImproNbPlayersLabel[value] }}
-        </label>
-      }
+  <div class="row mb-3">
+    <!-- Choix du nombre de joueurs -->
+    <div class="col-auto">
+      <label class="fw-semibold d-block mb-2">Nombre de joueurs par équipe :</label>
+      <div class="btn-group" role="group" aria-label="Nombre joueurs par équipe">
+        @for (value of ImproNbPlayersValues; track value) {
+          <input type="radio" class="btn-check"
+                 name="type"
+                 [id]="value"
+                 autocomplete="off"
+                 [ngModel]="improDataForm().nbPlayers"
+                 (ngModelChange)="onNbPlayersChange($event)"
+                 [value]="value">
+          <label class="btn"
+                 [class.btn-primary]="improDataForm().nbPlayers === value"
+                 [class.btn-outline-secondary]="improDataForm().nbPlayers !== value"
+                 [for]="value">
+            {{ ImproNbPlayersLabel[value] }}
+          </label>
+        }
+      </div>
     </div>
+
+    <!-- Champ personnalisé -->
+    @if(improDataForm().nbPlayers === ImproNbPlayers.CUSTOM) {
+      <div class="col-auto">
+        <label for="titre" class="form-label fw-semibold">Joueurs :</label>
+        <input id="titre" type="text" class="form-control" spellcheck="true"
+               [ngModel]="improDataForm().customNbPlayerLabel"
+               (ngModelChange)="onCustomNbPlayersChange($event)" />
+      </div>
+    }
   </div>
+
 
   <!-- Catégorie -->
   <label for="categorie" class="form-label fw-semibold me-2">Catégorie :</label>
