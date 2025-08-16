@@ -6,7 +6,7 @@ export class TimerHandling {
   private _sequence: string;
 
   constructor(private _dto: TimerHandlingDto = {}) {
-    this.sequence = uuidv4(); // Fix de la flemme pour trigger le localforage change
+    this.sequence = uuidv4(); // Fix de la flemme pour trigger le localforage change sur les mêmes données
     this._dto = _dto ? _dto : {};
   }
 
