@@ -1,6 +1,6 @@
 {
-  "name": "angular-electron",
-  "version": "15.0.0",
+  "name": "improvisationbe-app",
+  "version": "1.0.0",
   "description": "Angular 19 with Electron 36 (Typescript + SASS + Hot Reload)",
   "homepage": "https://github.com/maximegris/angular-electron",
   "author": {
@@ -24,6 +24,36 @@
   ],
   "main": "app/main.js",
   "private": true,
+  "build": {
+    "appId": "com.electron.improvisation-be-app",
+    "directories": {
+      "output": "app/dist"
+    },
+    "files": [
+      "main.js",
+      "package.json",
+      {
+        "from": "dist",
+        "to": ".",
+        "filter": ["**/*"]
+      }  ],
+    "productName": "IMPROVISATION.BE App",
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "executableName": "IMPROVISATION.BE App"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": true,
+      "allowToChangeInstallationDirectory": true,
+      "installerHeader": null,
+      "installerIcon": null,
+      "artifactName": "IMPROVISATION.BE App - Installateur.exe"
+    }
+  },
+
   "scripts": {
     "postinstall": "electron-builder install-app-deps",
     "ng": "ng",
