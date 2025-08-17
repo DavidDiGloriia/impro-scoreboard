@@ -1,11 +1,11 @@
 {
-  "name": "angular-electron",
+  "name": "improvisation-be-app",
   "description": "Angular Electron sample",
   "author": {
     "name": "Maxime GRIS",
     "email": "maxime.gris@gmail.com"
   },
-  "version": "15.0.0",
+  "version": "1.0.0",
   "main": "main.js",
   "private": true,
   "dependencies": {

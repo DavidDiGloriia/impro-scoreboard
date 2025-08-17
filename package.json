@@ -44,6 +44,15 @@
       ],
       "executableName": "IMPROVISATION.BE App"
     },
+    "mac": {
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "category": "public.app-category.entertainment",
+      "artifactName": "IMPROVISATION.BE App",
+      "icon": "build/icons/icon.icns"
+    },
     "nsis": {
       "oneClick": false,
       "perMachine": true,

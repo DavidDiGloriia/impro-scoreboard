@@ -1,4 +1,9 @@
 Install on Windows : 
 
-npm electron:build
+npm run electron:build
 npx electron-builder --windows
+
+Install on MacOS :
+
+npm run electron:build
+npx electron-builder --mac
