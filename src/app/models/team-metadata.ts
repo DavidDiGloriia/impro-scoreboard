@@ -33,4 +33,8 @@ export class TeamMetadata {
     return this._dto.icone;
   }
 
+  get playerImgFallback(): string {
+    return this._dto.playerImgFallback;
+  }
+
 }

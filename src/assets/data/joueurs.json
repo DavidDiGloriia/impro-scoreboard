@@ -64,6 +64,9 @@
     "img": "assets/joueurs/david-di-gloria.png"
   },
   {
+    "prenom": "Doc"
+  },
+  {
     "prenom": "Elodie",
     "img": "assets/joueurs/elodie.png",
     "femme": true
