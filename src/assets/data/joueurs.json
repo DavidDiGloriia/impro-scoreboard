@@ -6,7 +6,7 @@
   {
     "prenom": "Alex",
     "nom": "Christoffel",
-    "img": "assets/joueurs/alex-pauwels.png"
+    "img": "assets/joueurs/alex-christoffel.png"
   },
   {
     "prenom": "Alex",
@@ -36,6 +36,10 @@
   {
     "prenom": "Aurore",
     "img": "assets/joueurs/aurore.png"
+  },
+  {
+    "prenom": "Benjamin",
+    "img": "assets/joueurs/ben.png"
   },
   {
     "prenom": "Cath",
@@ -76,6 +80,10 @@
   {
     "prenom": "Gab",
     "img": "assets/joueurs/gab-de-pat.png",
+    "femme": true
+  },
+  {
+    "prenom": "Janick",
     "femme": true
   },
   {
