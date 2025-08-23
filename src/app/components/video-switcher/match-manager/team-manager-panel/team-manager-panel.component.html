@@ -56,9 +56,10 @@
       </button>
       <div class="ms-auto">
         <button class="btn"
+                [class.pulse]="firstResetFoulsClick()"
                 [style.background-color]="buttonColor()"
                 [style.color]="'white'"
-                (click)="onResetFouls()"
+                (click)="onResetFoulsClick()"
         >
           Fautes à 0 + Donner 1 pts
         </button>

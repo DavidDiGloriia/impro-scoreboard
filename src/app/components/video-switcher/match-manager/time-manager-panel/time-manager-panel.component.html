@@ -12,7 +12,9 @@
       {{ running() ? '▐▐' : '▶' }}
     </button>
 
-    <button class="btn btn-outline-primary btn-lg flex-fill" (click)="resetTimer()">
+    <button class="btn btn-outline-primary btn-lg flex-fill"
+            [class.btn-aura]="firstResetTimerClick()"
+            (click)="onResetTimerClick()">
       ⟳ Reset
     </button>
   </div>

@@ -23,14 +23,16 @@ export class TimeManagerPanelComponent implements OnInit {
   adjustTIme = output<number>();
 
   shouldGlow: WritableSignal<boolean> = signal(false);
-  glowTimeout: any;
+  firstResetTimerClick: WritableSignal<boolean> = signal(false);
 
   running = signal(false);
 
 
   time = 180; // en secondes
-  timerInterval: any;
 
+  private _timerInterval: any;
+  private _resetClickTimeout: any;
+  private _glowTimeout: any;
 
   constructor() {
     effect(() => {
@@ -42,18 +44,18 @@ export class TimeManagerPanelComponent implements OnInit {
 
     effect(() => {
       if (this.isImproRunning() && !this.running()) {
-        this.glowTimeout = setTimeout(() => {
+        this._glowTimeout = setTimeout(() => {
           this.shouldGlow.set(true)
         }, 30000);
       } else {
-        clearTimeout(this.glowTimeout);
+        clearTimeout(this._glowTimeout);
         this.shouldGlow.set(false)
       }
     });
   }
 
   ngOnInit() {
-    this.timerInterval = setInterval(() => {
+    this._timerInterval = setInterval(() => {
       if (this.running()) {
         this.time = this.time > 0 ? this.time - 1 : 0;
       }
@@ -75,10 +77,26 @@ export class TimeManagerPanelComponent implements OnInit {
     this.adjustTIme.emit(amount);
   }
 
+  onResetTimerClick() {
+    if (!this.firstResetTimerClick()) {
+      // Premier clic : ajouter la classe btn-aura
+      this.firstResetTimerClick.set(true);
+      this._resetClickTimeout = setTimeout(() => {
+        // Si l'utilisateur n'a pas cliqué une 2e fois dans les 3 secondes
+        this.firstResetTimerClick.set(false);
+      }, 3000);
+    } else {
+      // Deuxième clic dans les 3 secondes : resetTimer
+      clearTimeout(this._resetClickTimeout);
+      this.firstResetTimerClick.set(false);
+      this.resetTimer();
+    }
+  }
+
   resetTimer() {
-    if (!confirm('Voulez-vous vraiment reset le timer ?')) return;
     this.running.set(false)
     this.time = this.baseTime();
+    this.firstResetTimerClick.set(false);
     this.resetTime.emit();
   }
 }

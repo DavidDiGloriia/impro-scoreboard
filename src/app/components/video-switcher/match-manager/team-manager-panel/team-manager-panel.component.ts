@@ -1,15 +1,28 @@
-import {Component, computed, input, InputSignal, model, ModelSignal, output, ResourceRef, Signal} from '@angular/core';
+import {
+  Component,
+  computed,
+  input,
+  InputSignal,
+  model,
+  ModelSignal,
+  output,
+  ResourceRef, signal,
+  Signal,
+  WritableSignal
+} from '@angular/core';
 import {TeamNumber} from "@enums/team-number.enum";
 import {Team} from "@models/team";
 import {TeamMetadata} from "@models/team-metadata";
 import {ImproDataService} from "@services/impro-data.service";
 import {clamp, find, max} from "lodash-es";
 import {FormsModule} from "@angular/forms";
+import {NgStyle} from "@angular/common";
 
 @Component({
   selector: 'app-team-manager-panel',
   imports: [
-    FormsModule
+    FormsModule,
+    NgStyle
   ],
   templateUrl: './team-manager-panel.component.html',
   styleUrl: './team-manager-panel.component.scss'
@@ -18,7 +31,13 @@ export class TeamManagerPanelComponent {
   team: ModelSignal<Team> = model.required();
   teamNumber: InputSignal<TeamNumber> = input.required();
 
+  resetFouls = output();
+
+  firstResetFoulsClick: WritableSignal<boolean> = signal(false);
+
   teams: ResourceRef<Record<string, TeamMetadata>>  = this._improDataService.teams;
+
+  private _resetClickTimeout: any;
 
   constructor(private _improDataService: ImproDataService) {}
 
@@ -55,7 +74,6 @@ export class TeamManagerPanelComponent {
     return this._hexToRgba(this.teamMetadata().color, 0.4);
   });
 
-  resetFouls = output();
 
   private _hexToRgba(hex: string, alpha: number, darkenFactor = 1): string {
     const match = hex.replace('#', '').match(/.{1,2}/g);
@@ -86,8 +104,19 @@ export class TeamManagerPanelComponent {
     });
   }
 
-  onResetFouls() {
-    confirm("Êtes vous sûr de vouloir réinitialiser les fautes de cette équipe et donne un point à l'autre ?");
-    this.resetFouls.emit(null);
+  onResetFoulsClick() {
+    if (!this.firstResetFoulsClick()) {
+      // Premier clic : ajouter la classe btn-aura
+      this.firstResetFoulsClick.set(true);
+      this._resetClickTimeout = setTimeout(() => {
+        // Si l'utilisateur n'a pas cliqué une 2e fois dans les 3 secondes
+        this.firstResetFoulsClick.set(false);
+      }, 3000);
+    } else {
+      // Deuxième clic dans les 3 secondes : resetTimer
+      clearTimeout(this._resetClickTimeout);
+      this.firstResetFoulsClick.set(false);
+      this.resetFouls.emit();
+    }
   }
 }
