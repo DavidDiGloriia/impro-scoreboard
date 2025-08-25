@@ -2,10 +2,9 @@
   "name": "improvisation-be-app",
   "description": "Angular Electron sample",
   "author": {
-    "name": "Maxime GRIS",
-    "email": "maxime.gris@gmail.com"
+    "name": "David Di Gloria"
   },
-  "version": "1.0.1",
+  "version": "1.1.0",
   "main": "main.js",
   "private": true,
   "dependencies": {
