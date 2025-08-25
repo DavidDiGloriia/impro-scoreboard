@@ -4,5 +4,5 @@ export interface VideoHandlingDto {
   videoId?: string;
   sequence?: string;
   action?: VideoAction;
-  delta?: number;
+  numberValue?: number;
 }

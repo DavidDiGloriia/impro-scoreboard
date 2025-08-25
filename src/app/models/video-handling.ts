@@ -54,17 +54,16 @@ export class VideoHandling {
     return this;
   }
 
-  // Delta
-  get delta(): number | undefined {
-    return this._dto.delta;
+  get numberValue(): number | undefined {
+    return this._dto.numberValue;
   }
 
-  set delta(value: number | undefined) {
-    this._dto.delta = value;
+  set numberValue(value: number | undefined) {
+    this._dto.numberValue = value;
   }
 
-  withDelta(delta: number | undefined): VideoHandling {
-    this.delta = delta;
+  withNumberValue(delta: number | undefined): VideoHandling {
+    this.numberValue = delta;
     return this;
   }
 

@@ -10,7 +10,7 @@
       <div class="list-group">
         <button *ngFor="let file of files"
                 class="list-group-item list-group-item-action"
-                [class.active]="file === video()?.videoId"
+                [class.active]="file === videoFile()?.videoId"
                 (click)="onVideoClick(file)">
           {{ file }}
         </button>
@@ -24,6 +24,8 @@
              [src]="videoPath()"
              (play)="playVideo()"
              (pause)="pauseVideo()"
+             (seeked)="onTimeUpdate()"
+             (ratechange)="onRateChange($event)"
              style="width: 100%; height: auto; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
       </video>
     </div>

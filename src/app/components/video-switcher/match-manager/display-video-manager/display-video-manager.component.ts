@@ -1,4 +1,14 @@
-import {Component, computed, DestroyRef, inject, OnInit, signal, WritableSignal} from '@angular/core';
+import {
+  Component,
+  computed,
+  DestroyRef,
+  ElementRef,
+  inject,
+  OnInit,
+  Signal,
+  signal, viewChild,
+  WritableSignal
+} from '@angular/core';
 import {UserFilesService} from "@services/user-files.service";
 import { NgForOf, NgIf} from "@angular/common";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
@@ -19,13 +29,14 @@ export class DisplayVideoManagerComponent implements OnInit {
   folderPath: string = '';
   files: string[] = [];
 
-  video: WritableSignal<VideoHandling> = signal(null);
+  video: Signal<ElementRef<HTMLVideoElement>> = viewChild('myVideo');
+  videoFile: WritableSignal<VideoHandling> = signal(null);
   videoPath = computed(() => {
-    if(!this.video()){
+    if(!this.videoFile()){
       return null;
     }
 
-    return this.video().videoId ? `file://${this.folderPath}/${this.video().videoId}` : null;
+    return this.videoFile().videoId ? `file://${this.folderPath}/${this.videoFile().videoId}` : null;
   })
 
   private _destroyRef = inject(DestroyRef);
@@ -61,40 +72,54 @@ export class DisplayVideoManagerComponent implements OnInit {
     }))
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe((data) => {
-        this.video.set(data);
+        this.videoFile.set(data);
       });
   }
 
   playVideo(): void {
     this._improDataService.saveVideoWatched(new VideoHandling({
-      videoId: this.video().videoId,
+      videoId: this.videoFile().videoId,
       action: VideoAction.PLAY
     }))
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe((data) => {
-        this.video.set(data);
+        this.videoFile.set(data);
       });
   }
 
   pauseVideo(): void {
     this._improDataService.saveVideoWatched(new VideoHandling({
-      videoId: this.video().videoId,
+      videoId: this.videoFile().videoId,
       action: VideoAction.PAUSE
     }))
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe((data) => {
-        this.video.set(data);
+        this.videoFile.set(data);
       });
   }
 
-  resetVideo(): void {
+  onTimeUpdate(): void {
     this._improDataService.saveVideoWatched(new VideoHandling({
-      videoId: this.video().videoId,
-      action: VideoAction.RESET
+      videoId: this.videoFile().videoId,
+      action: VideoAction.SET_TIME,
+      numberValue: this.video().nativeElement.currentTime,
     }))
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe((data) => {
-        this.video.set(data);
+        this.videoFile.set(data);
       });
   }
+
+  onRateChange(): void {
+    this._improDataService.saveVideoWatched(new VideoHandling({
+      videoId: this.videoFile().videoId,
+      action: VideoAction.SET_RATE,
+      numberValue: this.video().nativeElement.playbackRate,
+    }))
+      .pipe(takeUntilDestroyed(this._destroyRef))
+      .subscribe((data) => {
+        this.videoFile.set(data);
+      });
+  }
+
 }

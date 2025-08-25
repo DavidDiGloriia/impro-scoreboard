@@ -5,7 +5,7 @@ import {
   InputSignal,
   OnInit,
   signal,
-  Signal,
+  Signal, untracked,
   viewChild,
   WritableSignal
 } from '@angular/core';
@@ -25,6 +25,8 @@ import {ProjectionMode} from "@enums/projection-mode.enum";
   styleUrl: './video-watcher.component.scss'
 })
 export class VideoWatcherComponent implements OnInit {
+  protected readonly ProjectionMode = ProjectionMode;
+
   videoHandling = this._improDataService.videoHandling;
 
   files: WritableSignal<string[]> = signal([]);
@@ -34,14 +36,18 @@ export class VideoWatcherComponent implements OnInit {
   currentVideoPath: string | null = null;
   folderPath: string = '';
 
-  constructor(private _userFilesService: UserFilesService,
-              private _improDataService: ImproDataService
-) {
+  constructor(
+    private _userFilesService: UserFilesService,
+    private _improDataService: ImproDataService
+  ) {
     effect(() => {
-      this.onVideoAction(this.videoHandling.value())
+      const videoValue = untracked(() => this.video());
+      if (videoValue !== null) {
+        this.onVideoAction(this.videoHandling.value());
+      }
     });
-
   }
+
 
   ngOnInit(): void {
     // Abonnement pour le chemin du dossier
@@ -75,20 +81,11 @@ export class VideoWatcherComponent implements OnInit {
       case VideoAction.PAUSE:
         this.pause();
         break;
-      case VideoAction.RESET:
-        this.reset();
+      case VideoAction.SET_TIME:
+        this.changeTime(videoHandling.numberValue);
         break;
-      case VideoAction.MUTE:
-        this.mute();
-        break;
-      case VideoAction.UNMUTE:
-        this.unmute();
-        break;
-      case VideoAction.ADJUST_TIME:
-        this.changeTime(videoHandling.delta);
-        break;
-      case VideoAction.ADJUST_VOLUME:
-        this.changeVolume(videoHandling.delta);
+      case VideoAction.SET_RATE:
+        this.changeRate(videoHandling.numberValue);
         break;
       }
 
@@ -107,22 +104,12 @@ export class VideoWatcherComponent implements OnInit {
     this.video().nativeElement.muted = true;
   }
 
-  unmute() {
-    this.video().nativeElement.muted = false;
+  changeTime(time: number) {
+    this.video().nativeElement.currentTime = time;
   }
 
-  reset() {
-    this.video().nativeElement.currentTime = 0;
-    this.video().nativeElement.pause();
+  changeRate(rate: number) {
+    this.video().nativeElement.playbackRate = rate;
   }
 
-  changeTime(seconds: number) {
-    this.video().nativeElement.currentTime += seconds;
-  }
-
-  changeVolume(value: number) {
-    this.video().nativeElement.volume += value;
-  }
-
-  protected readonly ProjectionMode = ProjectionMode;
 }
