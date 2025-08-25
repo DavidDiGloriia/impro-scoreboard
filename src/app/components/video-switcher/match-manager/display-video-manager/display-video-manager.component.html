@@ -1,0 +1,13 @@
+<div class="row-mt-3">
+  <div>
+    <h2>Dossier utilisateur</h2>
+    <p>{{ folderPath }}</p>
+
+    <button (click)="refreshFiles()">Rafraîchir</button>
+
+    <ul>
+      <li *ngFor="let file of files">{{ file }}</li>
+    </ul>
+  </div>
+  `
+</div>

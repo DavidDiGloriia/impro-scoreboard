@@ -1,13 +1,27 @@
-import { app, BrowserWindow, screen } from 'electron';
+import { app, BrowserWindow, screen, ipcMain } from 'electron';
 import * as path from 'path';
 import * as fs from 'fs';
-
 
 let controlWindow: BrowserWindow | null = null;
 let projectionWindow: BrowserWindow | null = null;
 
 const args = process.argv.slice(1);
 const serve = args.some(val => val === '--serve');
+
+// ------------------ DOSSIER UTILISATEUR ------------------
+const userFolder = path.join(app.getPath('documents'), 'IMPROVISATION.BE App - Files');
+if (!fs.existsSync(userFolder)) {
+  fs.mkdirSync(userFolder, { recursive: true });
+  console.log('Dossier utilisateur créé:', userFolder);
+}
+
+// Exposer l’API pour Angular via ipcMain
+ipcMain.handle('get-user-folder', () => userFolder);
+ipcMain.handle('list-user-files', () => {
+  return fs.readdirSync(userFolder);
+});
+
+// ---------------------------------------------------------
 
 // Empêche plusieurs instances d'Electron
 if (!app.requestSingleInstanceLock()) {
@@ -50,6 +64,7 @@ function createWindows() {
     fullscreenable: true,
     webPreferences: {
       nodeIntegration: true,
+      preload: path.join(__dirname, 'preload.js'), // <-- important
       allowRunningInsecureContent: serve,
       contextIsolation: false,
       webSecurity: !serve,
@@ -68,6 +83,7 @@ function createWindows() {
     fullscreenable: true,
     webPreferences: {
       nodeIntegration: true,
+      preload: path.join(__dirname, 'preload.js'), // <-- important
       allowRunningInsecureContent: serve,
       contextIsolation: false,
       webSecurity: !serve,

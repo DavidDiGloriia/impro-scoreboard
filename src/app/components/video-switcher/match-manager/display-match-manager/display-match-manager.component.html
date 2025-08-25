@@ -1,0 +1,46 @@
+<div class="row mt-3">
+  <div class="col">
+    <app-team-manager-panel *ngIf="gameData.value().teamA?.name"
+                            [teamNumber]="TeamNumber.TEAM_A"
+                            [team]="gameData.value().teamA"
+                            (teamChange)="onTeamChange($event, TeamNumber.TEAM_A)"
+                            (resetFouls)="onResetFouls(TeamNumber.TEAM_A)"
+
+    ></app-team-manager-panel>
+  </div>
+  <div class="col">
+    <app-team-manager-panel *ngIf="gameData.value().teamB?.name"
+                            [teamNumber]="TeamNumber.TEAM_B"
+                            [team]="gameData.value().teamB"
+                            (teamChange)="onTeamChange($event, TeamNumber.TEAM_B)"
+                            (resetFouls)="onResetFouls(TeamNumber.TEAM_B)"
+    ></app-team-manager-panel>
+  </div>
+</div>
+<div class="row mt-3">
+  <app-impro-manager-panel class="col-7"
+                           [improData]="improData.value()"
+                           (improDataChange)="onImproDataChange($event)"
+
+  />
+  <div class="col-5">
+    <app-time-manager-panel [label]="'Impro'"
+                            [baseTime]="improData.value().duration"
+                            [reviseTime]="improData.value().alsoReviseDuration"
+                            [isImproRunning]="improData.value().isImproRunning"
+                            (startTime)="onImproStart()"
+                            (stopTime)="onImproStop()"
+                            (resetTime)="onImproReset()"
+                            (adjustTIme)="onAdjustImproTime($event)"
+    />
+    <app-time-manager-panel [label]="'Round'"
+                            [baseTime]="2700"
+                            [reviseTime]="true"
+                            [isImproRunning]="improData.value().isImproRunning"
+                            (startTime)="onRoundStart()"
+                            (stopTime)="onRoundStop()"
+                            (resetTime)="onRoundReset()"
+                            (adjustTIme)="onAdjustRoundTime($event)"
+    />
+  </div>
+</div>

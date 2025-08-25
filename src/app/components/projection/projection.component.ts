@@ -7,6 +7,7 @@ import {TeamPresentationComponent} from "@components/projection/team-presentatio
 import {ScreenSaverComponent} from "@components/projection/screen-saver/screen-saver.component";
 import {TimerHandling} from "@models/timerHandling";
 import {TimerAction} from "@enums/timer-action.enum";
+import {VideoWatcherComponent} from "@components/projection/video-watcher/video-watcher.component";
 
 @Component({
   selector: 'app-projection',
@@ -14,7 +15,8 @@ import {TimerAction} from "@enums/timer-action.enum";
     ScoreboardComponent,
     TeamPresentationComponent,
     RouterOutlet,
-    ScreenSaverComponent
+    ScreenSaverComponent,
+    VideoWatcherComponent
   ],
   templateUrl: './projection.component.html',
   styleUrl: './projection.component.scss',
