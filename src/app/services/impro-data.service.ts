@@ -12,8 +12,10 @@ import {StorageKey} from "@enums/storage-key.enum";
 import {rxResource} from "@angular/core/rxjs-interop";
 import {DisplayedScreen} from "@enums/displayed-screen.enum";
 import {ImproData} from "@models/impro-data";
-import {TimerHandling} from "@models/timerHandling";
+import {TimerHandling} from "@models/timer-handling";
 import {TimerAction} from "@enums/timer-action.enum";
+import {VideoHandling} from "@models/video-handling";
+import {VideoHandlingDto} from "../dtos/video-handling-dto";
 
 @Injectable({
   providedIn: 'root'
@@ -52,6 +54,11 @@ export class ImproDataService {
           this.improTimerHandling.set(new TimerHandling(timerDto));
           break;
         }
+        case StorageKey.WATCHED_VIDEO.toString(): {
+          const videoDto = JSON.parse(event.newValue || '{}') as VideoHandlingDto;
+          this.videoHandling.set(new VideoHandling(videoDto));
+          break;
+        }
       }
     });
 
@@ -82,6 +89,11 @@ export class ImproDataService {
     defaultValue: new TimerHandling({
       action: TimerAction.STOP
     }) // Default to 180 seconds
+  });
+
+  public videoHandling: ResourceRef<VideoHandling> = rxResource({
+    loader: () => this.getVideoWatched(),
+    defaultValue: new VideoHandling({})
   });
 
   public improTimerHandling: ResourceRef<TimerHandling> = rxResource({
@@ -162,6 +174,20 @@ export class ImproDataService {
     return of(this._storageService.read<TimerHandlingDto>(StorageKey.ROUND_TIMER))
       .pipe(
         map((dto: TimerHandlingDto) => new TimerHandling(dto))
+      );
+  }
+
+  getVideoWatched(): Observable<VideoHandling> {
+    return of(this._storageService.read<VideoHandlingDto>(StorageKey.WATCHED_VIDEO))
+      .pipe(
+        map((dto: VideoHandlingDto) => new VideoHandling(dto))
+      );
+  }
+
+  saveVideoWatched(video: VideoHandling): Observable<VideoHandling> {
+    return of(this._storageService.save<VideoHandlingDto>(StorageKey.WATCHED_VIDEO, video.toDto()))
+      .pipe(
+        map((dto) => new VideoHandling(dto))
       );
   }
 

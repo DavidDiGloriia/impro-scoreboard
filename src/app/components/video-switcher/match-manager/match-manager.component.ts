@@ -2,23 +2,9 @@ import {Component, DestroyRef, inject, ResourceRef} from '@angular/core';
 import {DisplayedScreen} from "@enums/displayed-screen.enum";
 import {ImproDataService} from "@services/impro-data.service";
 import {GameData} from "@models/game-data";
-import {TimerHandling} from "@models/timerHandling";
 import {NgIf, UpperCasePipe} from "@angular/common";
-import {TeamMetadata} from "@models/team-metadata";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
-import {
-  TeamManagerPanelComponent
-} from "@components/video-switcher/match-manager/team-manager-panel/team-manager-panel.component";
-import {TeamNumber} from "@enums/team-number.enum";
-import {Team} from "@models/team";
-import {
-  ImproManagerPanelComponent
-} from "@components/video-switcher/match-manager/impro-manager-panel/impro-manager-panel.component";
-import {
-  TimeManagerPanelComponent
-} from "@components/video-switcher/match-manager/time-manager-panel/time-manager-panel.component";
 import {ImproData} from "@models/impro-data";
-import {TimerAction} from "@enums/timer-action.enum";
 import {
   DisplayMatchManagerComponent
 } from "@components/video-switcher/match-manager/display-match-manager/display-match-manager.component";
@@ -31,9 +17,6 @@ import {
   imports: [
     NgIf,
     UpperCasePipe,
-    TeamManagerPanelComponent,
-    ImproManagerPanelComponent,
-    TimeManagerPanelComponent,
     DisplayMatchManagerComponent,
     DisplayVideoManagerComponent
   ],

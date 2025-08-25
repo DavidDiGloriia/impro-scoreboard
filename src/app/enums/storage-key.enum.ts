@@ -4,4 +4,5 @@ export enum StorageKey {
   IMPRO_DATA = 'improData',
   ROUND_TIMER = 'roundTimer',
   IMPRO_TIMER = 'improTimer',
+  WATCHED_VIDEO = 'watchedVideo',
 }

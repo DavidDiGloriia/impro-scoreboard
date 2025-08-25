@@ -23,4 +23,8 @@ export class UserFilesService {
   listFiles(): Observable<string[]> {
     return from(window.electronAPI.listUserFiles());
   }
+
+  getMP4Files(): Observable<string[]> {
+    return from(window.electronAPI.listUserFiles().then(files => files.filter(file => file.toLowerCase().endsWith('.mp4'))));
+  }
 }

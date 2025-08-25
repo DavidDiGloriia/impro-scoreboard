@@ -66,7 +66,7 @@ function createWindows() {
       nodeIntegration: true,
       preload: path.join(__dirname, 'preload.js'), // <-- important
       allowRunningInsecureContent: serve,
-      contextIsolation: false,
+      contextIsolation: true,
       webSecurity: !serve,
       additionalArguments: ['--windowName=contrôle-de-match']
     },
@@ -85,7 +85,7 @@ function createWindows() {
       nodeIntegration: true,
       preload: path.join(__dirname, 'preload.js'), // <-- important
       allowRunningInsecureContent: serve,
-      contextIsolation: false,
+      contextIsolation: true,
       webSecurity: !serve,
       additionalArguments: ['--windowName=projection-de-match']
     },

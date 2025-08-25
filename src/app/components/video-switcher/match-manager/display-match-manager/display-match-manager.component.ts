@@ -9,7 +9,7 @@ import {
 import {
   ImproManagerPanelComponent
 } from "@components/video-switcher/match-manager/impro-manager-panel/impro-manager-panel.component";
-import {TimerHandling} from "@models/timerHandling";
+import {TimerHandling} from "@models/timer-handling";
 import {TimerAction} from "@enums/timer-action.enum";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {TeamNumber} from "@enums/team-number.enum";

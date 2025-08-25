@@ -5,7 +5,7 @@ import {ImproDataService} from "@services/impro-data.service";
 import {ScoreboardComponent} from "@components/projection/scoreboard/scoreboard.component";
 import {TeamPresentationComponent} from "@components/projection/team-presentation/team-presentation.component";
 import {ScreenSaverComponent} from "@components/projection/screen-saver/screen-saver.component";
-import {TimerHandling} from "@models/timerHandling";
+import {TimerHandling} from "@models/timer-handling";
 import {TimerAction} from "@enums/timer-action.enum";
 import {VideoWatcherComponent} from "@components/projection/video-watcher/video-watcher.component";
 

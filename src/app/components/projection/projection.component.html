@@ -20,7 +20,7 @@
     Not implemented yet
   }
   @case (DisplayedScreen.VIDEO) {
-    <app-video-watcher/>
+    <app-video-watcher [projectionMode]="gameData.value().projectionMode"/>
   }
   @default {
     <app-screen-saver/>
