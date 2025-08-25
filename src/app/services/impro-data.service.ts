@@ -59,6 +59,11 @@ export class ImproDataService {
           this.videoHandling.set(new VideoHandling(videoDto));
           break;
         }
+        case StorageKey.ANTHEM.toString(): {
+          const line = JSON.parse(event.newValue || '') as string;
+          this.anthemLine.set(line);
+          break;
+        }
       }
     });
 
@@ -82,6 +87,11 @@ export class ImproDataService {
   public improData: ResourceRef<ImproData> = rxResource({
     loader: () => this.getImproData(),
     defaultValue: ImproData.newInstance()
+  });
+
+  public anthemLine: ResourceRef<string> = rxResource({
+    loader: () => this.getAnthemLine(),
+    defaultValue: ''
   });
 
   public roundTimerHandling: ResourceRef<TimerHandling> = rxResource({
@@ -196,6 +206,14 @@ export class ImproDataService {
       .pipe(
         map((dto) => new TimerHandling(dto))
       );
+  }
+
+  getAnthemLine(): Observable<string> {
+    return of(this._storageService.read<string>(StorageKey.ANTHEM) || '');
+  }
+
+  saveAnthemLine(line: string): Observable<string> {
+    return of(this._storageService.save<string>(StorageKey.ANTHEM, line))
   }
 
   getImproTimer(): Observable<TimerHandling> {

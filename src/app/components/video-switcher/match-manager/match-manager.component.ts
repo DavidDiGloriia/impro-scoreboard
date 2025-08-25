@@ -11,6 +11,9 @@ import {
 import {
   DisplayVideoManagerComponent
 } from "@components/video-switcher/match-manager/display-video-manager/display-video-manager.component";
+import {
+  DisplayAnthemManagerComponent
+} from "@components/video-switcher/match-manager/display-anthem-manager/display-anthem-manager.component";
 
 @Component({
   selector: 'app-match-manager',
@@ -18,7 +21,8 @@ import {
     NgIf,
     UpperCasePipe,
     DisplayMatchManagerComponent,
-    DisplayVideoManagerComponent
+    DisplayVideoManagerComponent,
+    DisplayAnthemManagerComponent
   ],
   templateUrl: './match-manager.component.html',
   styleUrl: './match-manager.component.scss'

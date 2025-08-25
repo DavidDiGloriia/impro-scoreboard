@@ -4,5 +4,6 @@ export enum DisplayedScreen {
   TEAM_A = 'TEAM_A',
   TEAM_B = 'TEAM_B',
   BOTH_TEAMS = 'BOTH_TEAMS',
+  ANTHEM = 'ANTHEM',
   VIDEO = 'VIDEO',
 }

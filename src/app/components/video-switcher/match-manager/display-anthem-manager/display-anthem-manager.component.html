@@ -1,0 +1,24 @@
+<div class="container my-4">
+  <ul class="list-group mb-3">
+    <li *ngFor="let line of lines; let i = index"
+        class="list-group-item d-flex justify-content-between align-items-center"
+        [ngClass]="{'active': i === currentIndex}"
+        (click)="setLine(i)">
+      <span [innerHTML]="line">
+      </span>
+      <span *ngIf="i === currentIndex" class="badge bg-primary-subtle text-bg-light">En cours</span>
+    </li>
+  </ul>
+
+  <div class="d-flex justify-content-between">
+    <button class="btn btn-outline-primary"
+            (click)="prevLine()" [disabled]="currentIndex === 0">
+      Précédent
+    </button>
+
+    <button class="btn btn-outline-primary"
+            (click)="nextLine()" [disabled]="currentIndex === lines.length - 1">
+      Suivant
+    </button>
+  </div>
+</div>

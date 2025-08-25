@@ -5,4 +5,5 @@ export enum StorageKey {
   ROUND_TIMER = 'roundTimer',
   IMPRO_TIMER = 'improTimer',
   WATCHED_VIDEO = 'watchedVideo',
+  ANTHEM = 'anthem',
 }

@@ -22,6 +22,10 @@
             [class.active]="displayedScreen.value() === DisplayedScreen.VIDEO"
             (click)="displayScreen(DisplayedScreen.VIDEO)">PROJETER UNE VIDÉO
     </button>
+    <button class="btn btn-outline-primary btn-lg flex-fill"
+            [class.active]="displayedScreen.value() === DisplayedScreen.ANTHEM"
+            (click)="displayScreen(DisplayedScreen.ANTHEM)">HYMNE
+    </button>
     <!--
     <button class="btn  btn-outline-primary btn-lg flex-fill"
             [class.active]="displayedScreen.value() === DisplayedScreen.BOTH_TEAMS"
@@ -29,12 +33,15 @@
     -->
   </div>
 
-  @switch (displayedScreen.value()){
-    @case (DisplayedScreen.MATCH){
+  @switch (displayedScreen.value()) {
+    @case (DisplayedScreen.MATCH) {
       <app-display-match-manager/>
     }
-    @case (DisplayedScreen.VIDEO){
+    @case (DisplayedScreen.VIDEO) {
       <app-display-video-manager/>
+    }
+    @case (DisplayedScreen.ANTHEM) {
+      <app-display-anthem-manager/>
     }
     @default {
 

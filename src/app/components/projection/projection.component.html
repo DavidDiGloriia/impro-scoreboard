@@ -22,6 +22,9 @@
   @case (DisplayedScreen.VIDEO) {
     <app-video-watcher [projectionMode]="gameData.value().projectionMode"/>
   }
+  @case (DisplayedScreen.ANTHEM) {
+    <app-anthem [projectionMode]="gameData.value().projectionMode" />
+  }
   @default {
     <app-screen-saver/>
   }
