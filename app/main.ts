@@ -72,10 +72,6 @@ function createWindows() {
     },
   });
 
-  const preloadPath = app.isPackaged
-    ? path.join(process.resourcesPath, 'app.asar', 'preload.js') // Production ASAR
-    : path.join(__dirname, '../src/preload.js');
-
   // Fenêtre de projection
   projectionWindow = new BrowserWindow({
     x: projectionBounds.x + 100,
@@ -87,7 +83,7 @@ function createWindows() {
     fullscreenable: true,
     webPreferences: {
       nodeIntegration: true,
-      preload: preloadPath, // <-- important
+      preload: path.join(__dirname, 'preload.js'), // <-- important
       allowRunningInsecureContent: serve,
       contextIsolation: true,
       webSecurity: !serve,
