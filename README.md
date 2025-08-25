@@ -5,5 +5,5 @@ npx electron-builder --windows
 
 Install on MacOS :
 
-npm run electron:build
-npx electron-builder --mac
+ng build --configuration production
+npx electron-builder --config electron-builder.json
