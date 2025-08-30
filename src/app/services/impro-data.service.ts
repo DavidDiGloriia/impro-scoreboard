@@ -157,6 +157,24 @@ export class ImproDataService {
   clearGameData() {
     this._storageService.clear(StorageKey.GAME_DATA);
     this.gameData.set(new GameData({}));
+
+    this._storageService.clear(StorageKey.IMPRO_DATA);
+    this.improData.set(ImproData.newInstance());
+
+    this._storageService.clear(StorageKey.DISPLAYED_SCREEN);
+    this.displayedScreen.set(null);
+
+    this._storageService.clear(StorageKey.ROUND_TIMER);
+    this.roundTimerHandling.set(null);
+
+    this._storageService.clear(StorageKey.IMPRO_TIMER);
+    this.improTimerHandling.set(null);
+
+    this._storageService.clear(StorageKey.WATCHED_VIDEO);
+    this.videoHandling.set(null);
+
+    this._storageService.clear(StorageKey.ANTHEM);
+    this.anthemLine.set('');
   }
 
   saveGameData(gameData: GameData): Observable<GameData> {
