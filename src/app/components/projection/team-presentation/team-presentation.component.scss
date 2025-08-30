@@ -32,19 +32,9 @@
   height: 140px;
   width: auto;
   user-select: none;
-  transform: scaleX(-1) translateX(-30px);
-  animation: fadeSlideIn 0.7s forwards;
-  animation-delay: 0.5s;
-}
-
-.team-logo-animate {
-  height: 140px;
-  width: auto;
-  user-select: none;
   opacity: 0;
   transform: scaleX(-1) translateX(-30px);
   animation: fadeSlideIn 0.7s forwards;
-  animation-delay: 2.4s;
 }
 
 .team-name {

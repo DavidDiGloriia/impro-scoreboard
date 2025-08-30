@@ -30,9 +30,28 @@ export class TeamPresentationComponent {
   })
 
   displayedPlayers: Signal<Record<string, Player>> = computed(() => {
+    if(this.gameData.value().automaticPlayerPresentation ) {
+      return this.team().players;
+    }
+
     const players = this.team().players;
     return Object.fromEntries(
       Object.entries(players).filter(([key, player]) => player.displayed)
+    );
+  });
+
+  playersCount: Signal<number> = computed(() => {
+    return Object.values(this.team().players).length;
+  });
+
+  hiddenPlayers: Signal<Record<string, Player>> = computed(() => {
+    if(this.gameData.value().automaticPlayerPresentation ) {
+      return {};
+    }
+
+    const players = this.team().players;
+    return Object.fromEntries(
+      Object.entries(players).filter(([key, player]) => !player.displayed)
     );
   });
 

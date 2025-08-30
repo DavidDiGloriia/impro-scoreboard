@@ -1,23 +1,45 @@
 <div class="main-container px-3">
   <div class="team-header">
-    <img  *ngIf="teamMetadata()?.img"
-          [src]="teamMetadata()?.img"
-          [class.team-logo]="!gameData.value().automaticPlayerPresentation"
-          [class.team-logo-animate]="gameData.value().automaticPlayerPresentation"
-          alt="Logo équipe"/>
+    @let animation = gameData.value().automaticPlayerPresentation ? (playersCount()) * 0.4 + 's' : '0.4sec';
+
+    <img *ngIf="teamMetadata()?.img"
+         [src]="teamMetadata()?.img"
+         [style.animationDelay]="animation"
+         class="team-logo"
+         alt="Logo équipe"/>
     <div class="team-name"
          [style.color]="teamMetadata()?.img ? '' :  teamMetadata()?.color"
-    >{{ team().name | uppercase }}</div>
+    >{{ team().name | uppercase }}
+    </div>
   </div>
 
   <div class="players-container">
-    @for(player of displayedPlayers() | keyValueNoSort; track player.key; let i = $index) {
+    @for (player of displayedPlayers() | keyValueNoSort; track player.key; let i = $index) {
       @let playerValue = player.value;
       @let playerMetadata = playersByCode()[playerValue.code];
       @let animation = gameData.value().automaticPlayerPresentation ? (i + 1) * 0.4 + 's' : '0.4sec';
       <div class="player-bar"
            [style.animationDelay]="animation">
-        <img [src]="playerMetadata?.img || teamMetadata()?.playerImgFallback" [alt]="playerValue.code" class="player-photo" />
+        <img [src]="playerMetadata?.img || teamMetadata()?.playerImgFallback" [alt]="playerValue.code"
+             class="player-photo"/>
+        <div *ngIf="playerValue.number" class="player-number">#{{ playerValue.number }}</div>
+        <div class="overlay">
+          <div *ngIf="player.key !== 'Joueur'" class="player-position">
+            {{ player.key | roleName:playerMetadata?.isFemale }}
+          </div>
+          <div class="player-name">{{ playerMetadata?.firstName }}</div>
+        </div>
+      </div>
+    }
+
+    @for (player of hiddenPlayers() | keyValueNoSort; track player.key; let i = $index) {
+      @let playerValue = player.value;
+      @let playerMetadata = playersByCode()[playerValue.code];
+      @let animation = gameData.value().automaticPlayerPresentation ? (i + 1) * 0.4 + 's' : '0.4sec';
+      <div class="player-bar opacity-0"
+           [style.animationDelay]="animation">
+        <img [src]="playerMetadata?.img || teamMetadata()?.playerImgFallback" [alt]="playerValue.code"
+             class="player-photo"/>
         <div *ngIf="playerValue.number" class="player-number">#{{ playerValue.number }}</div>
         <div class="overlay">
           <div *ngIf="player.key !== 'Joueur'" class="player-position">
@@ -28,4 +50,5 @@
       </div>
     }
   </div>
+
 </div>
