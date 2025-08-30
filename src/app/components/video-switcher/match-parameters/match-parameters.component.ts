@@ -7,6 +7,7 @@ import {ImproDataService} from "@services/impro-data.service";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {ProjectionMode} from "@enums/projection-mode.enum";
 import {ProjectionModeLabel} from "@constants/projection-mode.constants";
+import {GameData} from "@models/game-data";
 
 @Component({
   selector: 'app-match-parameters',
@@ -19,6 +20,7 @@ import {ProjectionModeLabel} from "@constants/projection-mode.constants";
   styleUrl: './match-parameters.component.scss'
 })
 export class MatchParametersComponent {
+  protected readonly ProjectionModeLabel = ProjectionModeLabel;
   ProjectionMode = ProjectionMode;
 
   gameData = this._improDataService.gameData;
@@ -31,7 +33,7 @@ export class MatchParametersComponent {
   }
 
   onProjectionModeChange(value: ProjectionMode) {
-    const updatedGameData = this.gameData.value().clone().withProjectionMode(value);
+    const updatedGameData: GameData = this.gameData.value().clone().withProjectionMode(value);
     this._improDataService.saveGameData(updatedGameData)
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe((data) => {
@@ -39,5 +41,12 @@ export class MatchParametersComponent {
       });
   }
 
-  protected readonly ProjectionModeLabel = ProjectionModeLabel;
+  onAutomaticPlayerPresentationChange(value: boolean) {
+    const updatedGameData: GameData = this.gameData.value().clone().withAutomaticPlayerPresentation(value);
+    this._improDataService.saveGameData(updatedGameData)
+      .pipe(takeUntilDestroyed(this._destroyRef))
+      .subscribe((data) => {
+        this.gameData.set(data.clone());
+      });
+  }
 }

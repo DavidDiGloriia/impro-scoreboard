@@ -8,7 +8,7 @@ import {Team} from "@models/team";
 import {TeamNumber} from "@enums/team-number.enum";
 import {groupBy} from 'lodash-es';
 import {Player} from "@models/player";
-import {find, isEmpty, omit} from 'lodash-es';
+import {find} from 'lodash-es';
 
 @Component({
   selector: 'app-team-form',

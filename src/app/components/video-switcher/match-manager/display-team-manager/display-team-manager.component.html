@@ -1,0 +1,27 @@
+<div class="container my-4">
+  <div class="players-container">
+    @for(player of team().players | keyValueNoSort; track player.key; let i = $index) {
+      @let playerValue = player.value;
+      @let playerMetadata = playersByCode()[playerValue.code];
+      <div class="player-bar"
+           [class.player-inactive]="!playerValue.displayed"
+           (click)="onTogglePlayerDisplay(player.key)"
+      >
+        <img [src]="playerMetadata?.img || teamMetadata()?.playerImgFallback" [alt]="playerValue.code" class="player-photo" />
+        <div *ngIf="playerValue.number" class="player-number">#{{ playerValue.number }}</div>
+        <div class="overlay">
+          <div *ngIf="player.key !== 'Joueur'" class="player-position">
+            {{ player.key | roleName:playerMetadata?.isFemale }}
+          </div>
+          <div class="player-name">{{ playerMetadata?.firstName }}</div>
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- Boutons sous les joueurs -->
+  <div class="d-flex mt-3 gap-2">
+    <button class="btn btn-primary flex-fill" style="height: 3rem;" (click)="toggleAllPlayers(true)">Afficher tous</button>
+    <button class="btn btn-primary flex-fill" style="height: 3rem;" (click)="toggleAllPlayers(false)">Cacher tous</button>
+  </div>
+</div>

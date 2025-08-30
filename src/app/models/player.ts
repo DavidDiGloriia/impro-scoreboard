@@ -20,6 +20,19 @@ export class Player {
     this._dto.number = value;
   }
 
+  get displayed(): boolean {
+    return this._dto.displayed;
+  }
+
+  set displayed(value: boolean) {
+    this._dto.displayed = value;
+  }
+
+  withIsDisplayed(displayed: boolean): Player {
+    this.displayed = displayed;
+    return this;
+  }
+
   toDto(): PlayerDto {
     return this._dto;
   }

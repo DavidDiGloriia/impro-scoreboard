@@ -7,6 +7,7 @@ import { NgIf, UpperCasePipe} from "@angular/common";
 import {PlayerMetadata} from "@models/player-metadata";
 import {KeyValueNoSortPipe} from "@pipes/key-value-no-sort.pipe";
 import {RoleNamePipe} from "@pipes/role-name.pipe";
+import {Player} from "@models/player";
 
 @Component({
   selector: 'app-team-presentation',
@@ -21,18 +22,31 @@ import {RoleNamePipe} from "@pipes/role-name.pipe";
 })
 export class TeamPresentationComponent {
   team: InputSignal<Team> = input.required();
-  players = this._improDataService.players;
+
   teamMetadata: Signal<TeamMetadata> = computed(() => {
     return find(this._improDataService.teams.value(), (team: TeamMetadata) => {
       return team.name === this.team().name;
     });
   })
 
+  displayedPlayers: Signal<Record<string, Player>> = computed(() => {
+    const players = this.team().players;
+    return Object.fromEntries(
+      Object.entries(players).filter(([key, player]) => player.displayed)
+    );
+  });
+
+
   playersByCode: Signal<{ [name: string]: PlayerMetadata }> = computed(() => {
     const players: PlayerMetadata[] = this.players.value();
     // Crée un objet indexé par player.name, avec la valeur = player
     return keyBy(players, 'code');
   });
+
+
+  players = this._improDataService.players;
+  gameData = this._improDataService.gameData;
+
 
   constructor(private _improDataService: ImproDataService) {
   }

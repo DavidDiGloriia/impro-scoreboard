@@ -30,5 +30,18 @@
       </label>
     </div>
   </div>
+  <div class="mb-3">
+    <h4 class="fw-bold mb-3">Présentation des équipes</h4>
+    <div class="form-check form-switch">
+      <input class="form-check-input cursor-pointer"
+             type="checkbox"
+             id="teamPresentationToggle"
+             [ngModel]="gameData.value().automaticPlayerPresentation"
+             (ngModelChange)="onAutomaticPlayerPresentationChange($event)">
+      <label class="form-check-label" for="teamPresentationToggle">
+        Présentation automatique des équipes
+      </label>
+    </div>
+  </div>
   <app-teams-parameters/>
 </div>

@@ -48,6 +48,20 @@ export class GameData {
     this._dto.projectionMode = value;
   }
 
+  get automaticPlayerPresentation(): boolean {
+    return this._dto.automaticPlayerPresentation || false;
+  }
+
+  set automaticPlayerPresentation(value: boolean) {
+    console.log(value)
+    this._dto.automaticPlayerPresentation = value;
+  }
+
+  withAutomaticPlayerPresentation(value: boolean): GameData {
+    this.automaticPlayerPresentation = value;
+    return this;
+  }
+
   withProjectionMode(mode: ProjectionMode): GameData {
     this.projectionMode = mode;
     return this;
@@ -55,9 +69,9 @@ export class GameData {
 
   toDto(): GameDataDto {
     return {
+      ...this._dto,
       teamA: this._teamA ? this._teamA.toDto() : undefined,
       teamB: this._teamB ? this._teamB.toDto() : undefined,
-      projectionMode: this._dto.projectionMode,
     };
   }
 

@@ -66,7 +66,7 @@ export class VideoWatcherComponent implements OnInit {
   }
 
   playVideo(fileName: string) {
-    // Crée le chemin complet avec le protocole file://
+    // Crée le chemin complet avec le protocole file.html://
     this.currentVideoPath = `file://${this.folderPath}/${fileName}`;
   }
 

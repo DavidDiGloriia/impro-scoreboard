@@ -43,6 +43,20 @@
     @case (DisplayedScreen.ANTHEM) {
       <app-display-anthem-manager/>
     }
+    @case (DisplayedScreen.TEAM_A) {
+      @if(!gameData.value().automaticPlayerPresentation){
+        <app-display-team-manager [team]="gameData.value().teamA"
+                                  (teamChange)="onTeamChange($event, TeamNumber.TEAM_A)"
+        />
+      }
+    }
+    @case (DisplayedScreen.TEAM_B) {
+      @if(!gameData.value().automaticPlayerPresentation){
+        <app-display-team-manager [team]="gameData.value().teamB"
+                                  (teamChange)="onTeamChange($event, TeamNumber.TEAM_B)"
+
+        />
+      }    }
     @default {
 
     }
