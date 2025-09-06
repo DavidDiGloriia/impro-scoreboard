@@ -6,4 +6,5 @@ export interface TeamMetadataDto {
   groupe?: string;
   icone?: string;
   playerImgFallback?: string;
+  playerImgSuffix?: string;
 }

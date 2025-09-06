@@ -37,4 +37,8 @@ export class TeamMetadata {
     return this._dto.playerImgFallback;
   }
 
+  get playerImgSuffix(): string {
+    return this._dto.playerImgSuffix;
+  }
+
 }

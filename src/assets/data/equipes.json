@@ -2,6 +2,7 @@
   "pythons": {
     "nom": "Les Pythons",
     "icone": "🐍",
+    "playerImgSuffix": "-pythons-Photoroom.jpg",
     "img": "assets/equipes/pythons.png",
     "couleur": "#33cc33",
     "groupe": "animaux",
@@ -17,6 +18,7 @@
   "requins": {
     "nom": "Les Requins",
     "playerImgFallback": "assets/equipes/requins-player-fallback.png",
+    "playerImgSuffix": "-requins-Photoroom.jpg",
     "icone": "🦈",
     "img": "assets/equipes/requins.png",
     "couleur":  "#3399ff",
@@ -31,6 +33,7 @@
   },
   "lions": {
     "nom": "Les Lions",
+    "playerImgSuffix": "-lions-Photoroom.jpg",
     "icone": "🦁",
     "groupe": "animaux",
     "couleur": "#ff4d4d",
@@ -46,6 +49,7 @@
   },
   "aigles": {
     "nom": "Les Aigles",
+    "playerImgSuffix": "-aigles-Photoroom.jpg",
     "groupe": "animaux",
     "icone": "🦅",
     "img": "assets/equipes/aigles.png",
@@ -61,6 +65,7 @@
   },
   "verts": {
     "nom": "Les Verts",
+    "playerImgSuffix": "-pythons-Photoroom.jpg",
     "groupe": "couleurs",
     "icone": "🟢",
     "playerImgFallback": "assets/equipes/pythons-player-fallback.png",
@@ -75,6 +80,7 @@
   },
   "bleus": {
     "nom": "Les Bleus",
+    "playerImgSuffix": "-requins-Photoroom.jpg",
     "playerImgFallback": "assets/equipes/requins-player-fallback.png",
     "groupe": "couleurs",
     "icone": "🔵",
@@ -90,6 +96,7 @@
 
   "rouges": {
     "nom": "Les Rouges",
+    "playerImgSuffix": "-lions-Photoroom.jpg",
     "playerImgFallback": "assets/equipes/lions-player-fallback.png",
     "groupe": "couleurs",
     "icone": "🔴",
@@ -104,6 +111,7 @@
   },
   "blancs": {
     "nom": "Les Blancs",
+    "playerImgSuffix": "-aigles-Photoroom.jpg",
     "groupe": "couleurs",
     "playerImgFallback": "assets/equipes/aigles-player-fallback.png",
     "icone": "⚪",

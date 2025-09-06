@@ -7,7 +7,8 @@
            [class.player-inactive]="!playerValue.displayed"
            (click)="onTogglePlayerDisplay(player.key)"
       >
-        <img [src]="playerMetadata?.img || teamMetadata()?.playerImgFallback" [alt]="playerValue.code" class="player-photo" />
+        @let playerImg = playerMetadata?.img ? playerMetadata?.img + teamMetadata().playerImgSuffix : teamMetadata()?.playerImgFallback;
+        <img [src]="playerImg" [alt]="playerValue.code" class="player-photo" />
         <div *ngIf="playerValue.number" class="player-number">#{{ playerValue.number }}</div>
         <div class="overlay">
           <div *ngIf="player.key !== 'Joueur'" class="player-position">

@@ -1,59 +1,59 @@
 [
   {
     "prenom": "Alain",
-    "img": "assets/joueurs/alain.png"
+    "img": "assets/joueurs/alain"
   },
   {
     "prenom": "Alex",
     "nom": "Christoffel",
-    "img": "assets/joueurs/alex-christoffel.png"
+    "img": "assets/joueurs/alex-christoffel"
   },
   {
     "prenom": "Alex",
     "nom": "Colusi",
-    "img": "assets/joueurs/alex-colusi.png",
+    "img": "assets/joueurs/alex-colusi",
     "femme": true
   },
   {
     "prenom": "Alex",
     "nom": "Ducoux",
-    "img": "assets/joueurs/alexandra-ducoux.png",
+    "img": "assets/joueurs/alexandra-ducoux",
     "femme": true
   },
   {
     "prenom": "Alex",
     "nom": "Pauwels",
-    "img": "assets/joueurs/alex-pauwels.png"
+    "img": "assets/joueurs/alex-pauwels"
   },
   {
     "prenom": "Antoine",
-    "img": "assets/joueurs/antoine.png"
+    "img": "assets/joueurs/antoine"
   },
   {
     "prenom": "Arnaud",
-    "img": "assets/joueurs/arnaud.png"
+    "img": "assets/joueurs/arnaud"
   },
   {
     "prenom": "Aurore",
-    "img": "assets/joueurs/aurore.png"
+    "img": "assets/joueurs/aurore"
   },
   {
     "prenom": "Benjamin",
-    "img": "assets/joueurs/ben.png"
+    "img": "assets/joueurs/ben"
   },
   {
     "prenom": "Cath",
-    "img": "assets/joueurs/cath.png",
+    "img": "assets/joueurs/cath",
     "femme": true
   },
   {
     "prenom": "Charlotte",
-    "img": "assets/joueurs/charlotte-otlet.png",
+    "img": "assets/joueurs/charlotte-otlet",
     "femme": true
   },
   {
     "prenom": "Clem",
-    "img": "assets/joueurs/clem.png",
+    "img": "assets/joueurs/clem",
     "femme": true
   },
   {
@@ -61,28 +61,28 @@
   },
   {
     "prenom": "David",
-    "img": "assets/joueurs/david-di-gloria.png"
+    "img": "assets/joueurs/david-di-gloria"
   },
   {
     "prenom": "Doc"
   },
   {
     "prenom": "Elodie",
-    "img": "assets/joueurs/elodie.png",
+    "img": "assets/joueurs/elodie",
     "femme": true
   },
   {
     "prenom": "Emilie",
-    "img": "assets/joueurs/émilie-marlière.png",
+    "img": "assets/joueurs/emilie-marliere",
     "femme": true
   },
   {
     "prenom": "Filou",
-    "img": "assets/joueurs/filou.png"
+    "img": "assets/joueurs/filou"
   },
   {
     "prenom": "Gab",
-    "img": "assets/joueurs/gab-de-pat.png",
+    "img": "assets/joueurs/gab-de-pat",
     "femme": true
   },
   {
@@ -90,17 +90,17 @@
     "femme": true
   },
   {
-    "prenom": "Jésica",
-    "img": "assets/joueurs/jésica.png",
+    "prenom": "Jess",
+    "img": "assets/joueurs/jess",
     "femme": true
   },
   {
     "prenom": "Kostia",
-    "img": "assets/joueurs/kostia.png"
+    "img": "assets/joueurs/kostia"
   },
   {
     "prenom": "Lenny",
-    "img": "assets/joueurs/lenny-b-conil.png"
+    "img": "assets/joueurs/lenny-b-conil"
   },
   {
     "prenom": "MP",
@@ -108,49 +108,49 @@
   },
   {
     "prenom": "Maïlis",
-    "img": "assets/joueurs/maïlis.png",
+    "img": "assets/joueurs/maïlis",
     "femme": true
   },
   {
     "prenom": "Nico",
-    "img": "assets/joueurs/nicolas.png"
+    "img": "assets/joueurs/nicolas"
   },
   {
     "prenom": "Pec",
-    "img": "assets/joueurs/pec.png"
+    "img": "assets/joueurs/pec"
   },
   {
     "prenom": "Phil",
-    "img": "assets/joueurs/philippe-verbeke.png"
+    "img": "assets/joueurs/philippe-verbeke"
   },
   {
     "prenom": "Polo",
-    "img": "assets/joueurs/polo.png"
+    "img": "assets/joueurs/polo"
   },
   {
     "prenom": "Q",
-    "img": "assets/joueurs/q.png"
+    "img": "assets/joueurs/q"
   },
   {
     "prenom": "Sbu"
   },
   {
     "prenom": "Sophie",
-    "img": "assets/joueurs/sophie-hoyas.png",
+    "img": "assets/joueurs/sophie-hoyas",
     "femme": true
   },
   {
     "prenom": "Tony",
-    "img": "assets/joueurs/tony.png"
+    "img": "assets/joueurs/tony"
   },
   {
     "prenom": "Valentine",
-    "img": "assets/joueurs/valentine.png",
+    "img": "assets/joueurs/valentine",
     "femme": true
   },
   {
     "prenom": "Vincent",
-    "img": "assets/joueurs/vincent.png",
+    "img": "assets/joueurs/vincent",
     "femme": true
   },
   {

@@ -20,7 +20,8 @@
       @let animation = gameData.value().automaticPlayerPresentation ? (i + 1) * 0.4 + 's' : '0.4sec';
       <div class="player-bar"
            [style.animationDelay]="animation">
-        <img [src]="playerMetadata?.img || teamMetadata()?.playerImgFallback" [alt]="playerValue.code"
+        @let playerImg = playerMetadata?.img ? playerMetadata?.img + teamMetadata().playerImgSuffix : teamMetadata()?.playerImgFallback;
+        <img [src]="playerImg" [alt]="playerValue.code"
              class="player-photo"/>
         <div *ngIf="playerValue.number" class="player-number">#{{ playerValue.number }}</div>
         <div class="overlay">
