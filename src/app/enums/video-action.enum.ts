@@ -1,4 +1,4 @@
-export enum VideoAction {
+export enum MediaAction {
   SET = 'set',
   PLAY = 'play',
   PAUSE = 'pause',

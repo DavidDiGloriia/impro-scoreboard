@@ -19,8 +19,8 @@
   @case (DisplayedScreen.BOTH_TEAMS) {
     Not implemented yet
   }
-  @case (DisplayedScreen.VIDEO) {
-    <app-video-watcher [projectionMode]="gameData.value().projectionMode"/>
+  @case (DisplayedScreen.MEDIA) {
+    <app-media-watcher [projectionMode]="gameData.value().projectionMode"/>
   }
   @case (DisplayedScreen.ANTHEM) {
     <app-anthem [projectionMode]="gameData.value().projectionMode" />

@@ -7,7 +7,7 @@ import {TeamPresentationComponent} from "@components/projection/team-presentatio
 import {ScreenSaverComponent} from "@components/projection/screen-saver/screen-saver.component";
 import {TimerHandling} from "@models/timer-handling";
 import {TimerAction} from "@enums/timer-action.enum";
-import {VideoWatcherComponent} from "@components/projection/video-watcher/video-watcher.component";
+import {MediaWatcherComponent} from "@components/projection/media-watcher/media-watcher.component";
 import {AnthemComponent} from "@components/projection/anthem/anthem.component";
 
 @Component({
@@ -17,7 +17,7 @@ import {AnthemComponent} from "@components/projection/anthem/anthem.component";
     TeamPresentationComponent,
     RouterOutlet,
     ScreenSaverComponent,
-    VideoWatcherComponent,
+    MediaWatcherComponent,
     AnthemComponent
   ],
   templateUrl: './projection.component.html',

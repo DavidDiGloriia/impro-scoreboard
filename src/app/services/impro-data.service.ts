@@ -14,8 +14,8 @@ import {DisplayedScreen} from "@enums/displayed-screen.enum";
 import {ImproData} from "@models/impro-data";
 import {TimerHandling} from "@models/timer-handling";
 import {TimerAction} from "@enums/timer-action.enum";
-import {VideoHandling} from "@models/video-handling";
-import {VideoHandlingDto} from "../dtos/video-handling-dto";
+import {MediaHandling} from "@models/media-handling";
+import {MediaHandlingDto} from "../dtos/media-handling-dto";
 
 @Injectable({
   providedIn: 'root'
@@ -55,8 +55,8 @@ export class ImproDataService {
           break;
         }
         case StorageKey.WATCHED_VIDEO.toString(): {
-          const videoDto = JSON.parse(event.newValue || '{}') as VideoHandlingDto;
-          this.videoHandling.set(new VideoHandling(videoDto));
+          const videoDto = JSON.parse(event.newValue || '{}') as MediaHandlingDto;
+          this.mediaHandling.set(new MediaHandling(videoDto));
           break;
         }
         case StorageKey.ANTHEM.toString(): {
@@ -101,9 +101,9 @@ export class ImproDataService {
     }) // Default to 180 seconds
   });
 
-  public videoHandling: ResourceRef<VideoHandling> = rxResource({
-    loader: () => this.getVideoWatched(),
-    defaultValue: new VideoHandling({})
+  public mediaHandling: ResourceRef<MediaHandling> = rxResource({
+    loader: () => this.getMediaWatched(),
+    defaultValue: new MediaHandling({})
   });
 
   public improTimerHandling: ResourceRef<TimerHandling> = rxResource({
@@ -171,7 +171,7 @@ export class ImproDataService {
     this.improTimerHandling.set(null);
 
     this._storageService.clear(StorageKey.WATCHED_VIDEO);
-    this.videoHandling.set(null);
+    this.mediaHandling.set(null);
 
     this._storageService.clear(StorageKey.ANTHEM);
     this.anthemLine.set('');
@@ -205,17 +205,17 @@ export class ImproDataService {
       );
   }
 
-  getVideoWatched(): Observable<VideoHandling> {
-    return of(this._storageService.read<VideoHandlingDto>(StorageKey.WATCHED_VIDEO))
+  getMediaWatched(): Observable<MediaHandling> {
+    return of(this._storageService.read<MediaHandlingDto>(StorageKey.WATCHED_VIDEO))
       .pipe(
-        map((dto: VideoHandlingDto) => new VideoHandling(dto))
+        map((dto: MediaHandlingDto) => new MediaHandling(dto))
       );
   }
 
-  saveVideoWatched(video: VideoHandling): Observable<VideoHandling> {
-    return of(this._storageService.save<VideoHandlingDto>(StorageKey.WATCHED_VIDEO, video.toDto()))
+  saveVideoWatched(video: MediaHandling): Observable<MediaHandling> {
+    return of(this._storageService.save<MediaHandlingDto>(StorageKey.WATCHED_VIDEO, video.toDto()))
       .pipe(
-        map((dto) => new VideoHandling(dto))
+        map((dto) => new MediaHandling(dto))
       );
   }
 

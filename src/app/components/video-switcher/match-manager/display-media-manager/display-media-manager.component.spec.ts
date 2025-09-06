@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DisplayVideoManagerComponent } from './display-video-manager.component';
+import { DisplayMediaManagerComponent } from './display-media-manager.component';
 
 describe('DisplayVideoManagerComponent', () => {
-  let component: DisplayVideoManagerComponent;
-  let fixture: ComponentFixture<DisplayVideoManagerComponent>;
+  let component: DisplayMediaManagerComponent;
+  let fixture: ComponentFixture<DisplayMediaManagerComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DisplayVideoManagerComponent]
+      imports: [DisplayMediaManagerComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(DisplayVideoManagerComponent);
+    fixture = TestBed.createComponent(DisplayMediaManagerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

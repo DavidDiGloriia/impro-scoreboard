@@ -19,8 +19,8 @@
             (click)="displayScreen(DisplayedScreen.TEAM_B)">PRÉSENTER {{ gameData?.value().teamB.name | uppercase }}
     </button>
     <button class="btn btn-outline-primary btn-lg flex-fill"
-            [class.active]="displayedScreen.value() === DisplayedScreen.VIDEO"
-            (click)="displayScreen(DisplayedScreen.VIDEO)">PROJETER UNE VIDÉO
+            [class.active]="displayedScreen.value() === DisplayedScreen.MEDIA"
+            (click)="displayScreen(DisplayedScreen.MEDIA)">PROJETER UN MEDIA
     </button>
     <button class="btn btn-outline-primary btn-lg flex-fill"
             [class.active]="displayedScreen.value() === DisplayedScreen.ANTHEM"
@@ -37,7 +37,7 @@
     @case (DisplayedScreen.MATCH) {
       <app-display-match-manager/>
     }
-    @case (DisplayedScreen.VIDEO) {
+    @case (DisplayedScreen.MEDIA) {
       <app-display-video-manager/>
     }
     @case (DisplayedScreen.ANTHEM) {

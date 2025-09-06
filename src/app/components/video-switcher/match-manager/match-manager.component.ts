@@ -9,8 +9,8 @@ import {
   DisplayMatchManagerComponent
 } from "@components/video-switcher/match-manager/display-match-manager/display-match-manager.component";
 import {
-  DisplayVideoManagerComponent
-} from "@components/video-switcher/match-manager/display-video-manager/display-video-manager.component";
+  DisplayMediaManagerComponent
+} from "@components/video-switcher/match-manager/display-media-manager/display-media-manager.component";
 import {
   DisplayAnthemManagerComponent
 } from "@components/video-switcher/match-manager/display-anthem-manager/display-anthem-manager.component";
@@ -27,7 +27,7 @@ import {Team} from "@models/team";
     NgIf,
     UpperCasePipe,
     DisplayMatchManagerComponent,
-    DisplayVideoManagerComponent,
+    DisplayMediaManagerComponent,
     DisplayAnthemManagerComponent,
     DisplayTeamManagerComponent
   ],

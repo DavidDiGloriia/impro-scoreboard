@@ -1,5 +1,5 @@
 import {
-  Component,
+  Component, computed,
   effect,
   ElementRef, input,
   InputSignal,
@@ -10,31 +10,51 @@ import {
   WritableSignal
 } from '@angular/core';
 import {UserFilesService} from "@services/user-files.service";
-import { NgIf} from "@angular/common";
+import {JsonPipe, NgIf} from "@angular/common";
 import {ImproDataService} from "@services/impro-data.service";
-import {VideoHandling} from "@models/video-handling";
-import {VideoAction} from "@enums/video-action.enum";
+import {MediaHandling} from "@models/media-handling";
+import {MediaAction} from "@enums/video-action.enum";
 import {ProjectionMode} from "@enums/projection-mode.enum";
+import {IMG_EXTENSIONS, VIDEO_EXTENSIONS} from "@constants/media-extentions.constants";
+import {MediaType} from "@enums/media-type.enum";
 
 @Component({
-  selector: 'app-video-watcher',
+  selector: 'app-media-watcher',
   imports: [
     NgIf,
+    JsonPipe,
   ],
-  templateUrl: './video-watcher.component.html',
-  styleUrl: './video-watcher.component.scss'
+  templateUrl: './media-watcher.component.html',
+  styleUrl: './media-watcher.component.scss'
 })
-export class VideoWatcherComponent implements OnInit {
+export class MediaWatcherComponent implements OnInit {
   protected readonly ProjectionMode = ProjectionMode;
 
-  videoHandling = this._improDataService.videoHandling;
+  videoHandling = this._improDataService.mediaHandling;
 
   files: WritableSignal<string[]> = signal([]);
   video: Signal<ElementRef<HTMLVideoElement>> = viewChild('videoPlayer');
   projectionMode: InputSignal<ProjectionMode> = input.required();
 
-  currentVideoPath: string | null = null;
-  folderPath: string = '';
+  mediaType: Signal<MediaType> = computed(() => {
+
+
+    const mediaPath = this.currentVideoPath();
+
+    if(mediaPath){
+      const extension = mediaPath.split('.').pop()?.toLowerCase();
+      if(extension && VIDEO_EXTENSIONS.includes(extension)){
+        return MediaType.VIDEO;
+      } else if(extension && IMG_EXTENSIONS.includes(extension)){
+        return MediaType.IMAGE;
+      }
+    } else {
+      return null;
+    }
+  });
+
+  currentVideoPath: WritableSignal<string | null> = signal(null);
+  folderPath: WritableSignal<string | null> = signal(null);
 
   constructor(
     private _userFilesService: UserFilesService,
@@ -42,17 +62,18 @@ export class VideoWatcherComponent implements OnInit {
   ) {
     effect(() => {
       const videoValue = untracked(() => this.video());
-      if (videoValue !== null) {
+      if (videoValue !== null && this.folderPath !== null &&  this.files() !== null) {
         this.onVideoAction(this.videoHandling.value());
       }
     });
+
   }
 
 
   ngOnInit(): void {
     // Abonnement pour le chemin du dossier
     this._userFilesService.getUserFolder().subscribe(path => {
-      this.folderPath = path;
+      this.folderPath.set(path);
     });
 
     // Abonnement pour la liste des fichiers
@@ -67,24 +88,24 @@ export class VideoWatcherComponent implements OnInit {
 
   playVideo(fileName: string) {
     // Crée le chemin complet avec le protocole file.html://
-    this.currentVideoPath = `file://${this.folderPath}/${fileName}`;
+    this.currentVideoPath.set(`file://${this.folderPath()}/${fileName}`);
   }
 
-  async onVideoAction(videoHandling: VideoHandling) {
+  async onVideoAction(videoHandling: MediaHandling) {
     switch (videoHandling.action) {
-      case VideoAction.SET:
+      case MediaAction.SET:
         this.playVideo(videoHandling.videoId);
         break;
-      case VideoAction.PLAY:
+      case MediaAction.PLAY:
         await this.play();
         break;
-      case VideoAction.PAUSE:
+      case MediaAction.PAUSE:
         this.pause();
         break;
-      case VideoAction.SET_TIME:
+      case MediaAction.SET_TIME:
         this.changeTime(videoHandling.numberValue);
         break;
-      case VideoAction.SET_RATE:
+      case MediaAction.SET_RATE:
         this.changeRate(videoHandling.numberValue);
         break;
       }
@@ -112,4 +133,5 @@ export class VideoWatcherComponent implements OnInit {
     this.video().nativeElement.playbackRate = rate;
   }
 
+  protected readonly MediaType = MediaType;
 }

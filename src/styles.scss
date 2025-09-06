@@ -8,3 +8,14 @@ html, body {
 .cursor-pointer {
   cursor: pointer;
 }
+
+// utils/_max-size.scss
+
+@for $i from 1 through 100 {
+  .mw-#{$i} {
+    max-width: #{$i}#{'%'};
+  }
+  .mh-#{$i} {
+    max-height: #{$i}#{'%'};
+  }
+}

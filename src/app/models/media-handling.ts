@@ -1,12 +1,12 @@
 import { v4 as uuidv4 } from "uuid";
-import { VideoHandlingDto } from "../dtos/video-handling-dto";
-import { VideoAction } from "@enums/video-action.enum"; // à adapter selon ton projet
+import { MediaHandlingDto } from "../dtos/media-handling-dto";
+import { MediaAction } from "@enums/video-action.enum";
 
-export class VideoHandling {
+export class MediaHandling {
   private _sequence: string;
 
-  constructor(private _dto: VideoHandlingDto = {}) {
-    this._sequence = uuidv4(); // générer une séquence unique si non fournie
+  constructor(private _dto: MediaHandlingDto = {}) {
+    this._sequence = uuidv4();
     if (!this._dto.sequence) {
       this._dto.sequence = this._sequence;
     }
@@ -21,35 +21,35 @@ export class VideoHandling {
     this._dto.sequence = value;
   }
 
-  withSequence(sequence: string): VideoHandling {
+  withSequence(sequence: string): MediaHandling {
     this.sequence = sequence;
     return this;
   }
 
   // Video ID
   get videoId(): string | undefined {
-    return this._dto.videoId;
+    return this._dto.mediaId;
   }
 
   set videoId(value: string | undefined) {
-    this._dto.videoId = value;
+    this._dto.mediaId = value;
   }
 
-  withVideoId(videoId: string): VideoHandling {
+  withVideoId(videoId: string): MediaHandling {
     this.videoId = videoId;
     return this;
   }
 
   // Action
-  get action(): VideoAction | undefined {
+  get action(): MediaAction | undefined {
     return this._dto.action;
   }
 
-  set action(value: VideoAction | undefined) {
+  set action(value: MediaAction | undefined) {
     this._dto.action = value;
   }
 
-  withAction(action: VideoAction | undefined): VideoHandling {
+  withAction(action: MediaAction | undefined): MediaHandling {
     this.action = action;
     return this;
   }
@@ -62,18 +62,18 @@ export class VideoHandling {
     this._dto.numberValue = value;
   }
 
-  withNumberValue(delta: number | undefined): VideoHandling {
+  withNumberValue(delta: number | undefined): MediaHandling {
     this.numberValue = delta;
     return this;
   }
 
   // DTO
-  toDto(): VideoHandlingDto {
+  toDto(): MediaHandlingDto {
     return { ...this._dto };
   }
 
   // Clone
-  clone(): VideoHandling {
-    return new VideoHandling({ ...this.toDto() });
+  clone(): MediaHandling {
+    return new MediaHandling({ ...this.toDto() });
   }
 }
