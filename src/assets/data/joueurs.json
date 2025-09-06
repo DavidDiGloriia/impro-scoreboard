@@ -42,6 +42,11 @@
     "img": "assets/joueurs/ben"
   },
   {
+    "prenom": "Caroline",
+    "img": "assets/joueurs/caroline",
+    "femme": true
+  },
+  {
     "prenom": "Cath",
     "img": "assets/joueurs/cath",
     "femme": true

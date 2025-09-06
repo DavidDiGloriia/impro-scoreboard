@@ -6,7 +6,7 @@
     "img": "assets/equipes/pythons.png",
     "couleur": "#33cc33",
     "groupe": "animaux",
-    "playerImgFallback": "assets/equipes/pythons-player-fallback.png",
+    "playerImgFallback": "assets/equipes/pythons-player-fallback.jpg",
     "vareuses": [
       20,
       17,
@@ -17,7 +17,7 @@
   },
   "requins": {
     "nom": "Les Requins",
-    "playerImgFallback": "assets/equipes/requins-player-fallback.png",
+    "playerImgFallback": "assets/equipes/requins-player-fallback.jpg",
     "playerImgSuffix": "-requins-Photoroom.jpg",
     "icone": "🦈",
     "img": "assets/equipes/requins.png",
@@ -38,7 +38,7 @@
     "groupe": "animaux",
     "couleur": "#ff4d4d",
     "img": "assets/equipes/lions.png",
-    "playerImgFallback": "assets/equipes/lions-player-fallback.png",
+    "playerImgFallback": "assets/equipes/lions-player-fallback.jpg",
     "vareuses": [
       10,
       22,
@@ -53,7 +53,7 @@
     "groupe": "animaux",
     "icone": "🦅",
     "img": "assets/equipes/aigles.png",
-    "playerImgFallback": "assets/equipes/aigles-player-fallback.png",
+    "playerImgFallback": "assets/equipes/aigles-player-fallback.jpg",
     "couleur": "#e6e6cc",
     "vareuses": [
       2,
@@ -68,7 +68,7 @@
     "playerImgSuffix": "-pythons-Photoroom.jpg",
     "groupe": "couleurs",
     "icone": "🟢",
-    "playerImgFallback": "assets/equipes/pythons-player-fallback.png",
+    "playerImgFallback": "assets/equipes/pythons-player-fallback.jpg",
     "couleur": "#33cc33",
     "vareuses": [
       20,
@@ -81,7 +81,7 @@
   "bleus": {
     "nom": "Les Bleus",
     "playerImgSuffix": "-requins-Photoroom.jpg",
-    "playerImgFallback": "assets/equipes/requins-player-fallback.png",
+    "playerImgFallback": "assets/equipes/requins-player-fallback.jpg",
     "groupe": "couleurs",
     "icone": "🔵",
     "couleur":  "#3399ff",
@@ -97,7 +97,7 @@
   "rouges": {
     "nom": "Les Rouges",
     "playerImgSuffix": "-lions-Photoroom.jpg",
-    "playerImgFallback": "assets/equipes/lions-player-fallback.png",
+    "playerImgFallback": "assets/equipes/lions-player-fallback.jpg",
     "groupe": "couleurs",
     "icone": "🔴",
     "couleur": "#ff4d4d",
@@ -113,7 +113,7 @@
     "nom": "Les Blancs",
     "playerImgSuffix": "-aigles-Photoroom.jpg",
     "groupe": "couleurs",
-    "playerImgFallback": "assets/equipes/aigles-player-fallback.png",
+    "playerImgFallback": "assets/equipes/aigles-player-fallback.jpg",
     "icone": "⚪",
     "couleur": "#e6e6cc",
     "vareuses": [
