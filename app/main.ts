@@ -15,12 +15,37 @@ if (!fs.existsSync(userFolder)) {
   console.log('Dossier utilisateur créé:', userFolder);
 }
 
+// Création des sous-dossiers PUBS et MATCH
+const subFolders = ['PUBS', 'MATCH'];
+subFolders.forEach(sub => {
+  const subPath = path.join(userFolder, sub);
+  if (!fs.existsSync(subPath)) {
+    fs.mkdirSync(subPath, { recursive: true });
+    console.log(`Sous-dossier créé: ${subPath}`);
+  }
+});
+
 // Exposer l’API pour Angular via ipcMain
 ipcMain.handle('get-user-folder', () => userFolder);
+
+// Sous-dossiers
+const pubsFolder = path.join(userFolder, 'PUBS');
+const matchFolder = path.join(userFolder, 'MATCH');
+
+// Retourner les chemins
+ipcMain.handle('get-pubs-folder', () => pubsFolder);
+ipcMain.handle('get-match-folder', () => matchFolder);
+
+// Lister le contenu
 ipcMain.handle('list-user-files', () => {
   return fs.readdirSync(userFolder);
 });
-
+ipcMain.handle('list-pubs-files', () => {
+  return fs.readdirSync(pubsFolder);
+});
+ipcMain.handle('list-match-files', () => {
+  return fs.readdirSync(matchFolder);
+});
 // ---------------------------------------------------------
 
 // Empêche plusieurs instances d'Electron

@@ -5,4 +5,5 @@ export * from './displayed-screen.enum'
 export * from './impro-type.enum'
 export * from './timer-action.enum'
 export * from './projection-mode.enum'
-export * from './projection-mode.enum'
+export * from './pub-action.enum';
+export * from './video-action.enum'

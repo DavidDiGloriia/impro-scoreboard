@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { MediaHandlingDto } from "../dtos/media-handling-dto";
+import { MediaHandlingDto } from "../dtos";
 import { MediaAction } from "@enums/video-action.enum";
 
 export class MediaHandling {

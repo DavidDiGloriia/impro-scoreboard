@@ -1,0 +1,18 @@
+.pushed-on-top {
+  padding-bottom: 35vh;
+}
+
+.media-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* optionnel si tu veux couper ce qui dépasse */
+}
+
+.media-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain; /* ou cover si tu veux remplir complètement */
+}

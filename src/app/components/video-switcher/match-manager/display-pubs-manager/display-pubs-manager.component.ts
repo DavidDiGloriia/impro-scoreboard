@@ -20,14 +20,14 @@ import {MediaType} from "@enums/media-type.enum";
 import {IMG_EXTENSIONS, VIDEO_EXTENSIONS} from "@constants/media-extentions.constants";
 
 @Component({
-  selector: 'app-display-video-manager',
+  selector: 'app-display-pubs-manager',
   imports: [
     NgForOf,
   ],
-  templateUrl: './display-media-manager.component.html',
-  styleUrl: './display-media-manager.component.scss'
+  templateUrl: './display-pubs-manager.component.html',
+  styleUrl: './display-pubs-manager.component.scss'
 })
-export class DisplayMediaManagerComponent implements OnInit {
+export class DisplayPubsManagerComponent implements OnInit {
   readonly MediaType = MediaType;
 
   folderPath: WritableSignal<string> = signal('');

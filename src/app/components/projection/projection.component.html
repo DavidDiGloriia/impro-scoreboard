@@ -22,6 +22,9 @@
   @case (DisplayedScreen.MEDIA) {
     <app-media-watcher [projectionMode]="gameData.value().projectionMode"/>
   }
+  @case (DisplayedScreen.PUBS) {
+    <app-pubs-watcher [projectionMode]="gameData.value().projectionMode"/>
+  }
   @case (DisplayedScreen.ANTHEM) {
     <app-anthem [projectionMode]="gameData.value().projectionMode" />
   }

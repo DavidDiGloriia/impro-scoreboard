@@ -10,7 +10,7 @@ import {
   WritableSignal
 } from '@angular/core';
 import {UserFilesService} from "@services/user-files.service";
-import {JsonPipe, NgIf} from "@angular/common";
+import { NgIf} from "@angular/common";
 import {ImproDataService} from "@services/impro-data.service";
 import {MediaHandling} from "@models/media-handling";
 import {MediaAction} from "@enums/video-action.enum";
@@ -19,15 +19,14 @@ import {IMG_EXTENSIONS, VIDEO_EXTENSIONS} from "@constants/media-extentions.cons
 import {MediaType} from "@enums/media-type.enum";
 
 @Component({
-  selector: 'app-media-watcher',
+  selector: 'app-pubs-watcher',
   imports: [
     NgIf,
-    JsonPipe,
   ],
-  templateUrl: './media-watcher.component.html',
-  styleUrl: './media-watcher.component.scss'
+  templateUrl: './pubs-watcher.component.html',
+  styleUrl: './pubs-watcher.component.scss'
 })
-export class MediaWatcherComponent implements OnInit {
+export class PubsWatcherComponent implements OnInit {
   protected readonly ProjectionMode = ProjectionMode;
 
   videoHandling = this._improDataService.mediaHandling;

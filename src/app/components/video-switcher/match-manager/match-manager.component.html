@@ -26,6 +26,10 @@
             [class.active]="displayedScreen.value() === DisplayedScreen.ANTHEM"
             (click)="displayScreen(DisplayedScreen.ANTHEM)">HYMNE
     </button>
+    <button class="btn btn-outline-primary btn-lg flex-fill"
+            [class.active]="displayedScreen.value() === DisplayedScreen.PUBS"
+            (click)="displayScreen(DisplayedScreen.PUBS)">PUBS
+    </button>
     <!--
     <button class="btn  btn-outline-primary btn-lg flex-fill"
             [class.active]="displayedScreen.value() === DisplayedScreen.BOTH_TEAMS"
@@ -42,6 +46,9 @@
     }
     @case (DisplayedScreen.ANTHEM) {
       <app-display-anthem-manager/>
+    }
+    @case (DisplayedScreen.PUBS) {
+      <app-display-pubs-manager/>
     }
     @case (DisplayedScreen.TEAM_A) {
       @if(!gameData.value().automaticPlayerPresentation){

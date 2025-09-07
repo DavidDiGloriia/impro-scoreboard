@@ -20,6 +20,9 @@ import {
 } from "@components/video-switcher/match-manager/display-team-manager/display-team-manager.component";
 import {TeamNumber} from "@enums/team-number.enum";
 import {Team} from "@models/team";
+import {
+  DisplayPubsManagerComponent
+} from "@components/video-switcher/match-manager/display-pubs-manager/display-pubs-manager.component";
 
 @Component({
   selector: 'app-match-manager',
@@ -29,7 +32,8 @@ import {Team} from "@models/team";
     DisplayMatchManagerComponent,
     DisplayMediaManagerComponent,
     DisplayAnthemManagerComponent,
-    DisplayTeamManagerComponent
+    DisplayTeamManagerComponent,
+    DisplayPubsManagerComponent
   ],
   templateUrl: './match-manager.component.html',
   styleUrl: './match-manager.component.scss'

@@ -9,6 +9,7 @@ import {TimerHandling} from "@models/timer-handling";
 import {TimerAction} from "@enums/timer-action.enum";
 import {MediaWatcherComponent} from "@components/projection/media-watcher/media-watcher.component";
 import {AnthemComponent} from "@components/projection/anthem/anthem.component";
+import {PubsWatcherComponent} from "@components/projection/pubs-watcher/pubs-watcher.component";
 
 @Component({
   selector: 'app-projection',
@@ -18,7 +19,8 @@ import {AnthemComponent} from "@components/projection/anthem/anthem.component";
     RouterOutlet,
     ScreenSaverComponent,
     MediaWatcherComponent,
-    AnthemComponent
+    AnthemComponent,
+    PubsWatcherComponent
   ],
   templateUrl: './projection.component.html',
   styleUrl: './projection.component.scss',

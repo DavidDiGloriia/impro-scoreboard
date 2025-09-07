@@ -6,4 +6,5 @@ export enum DisplayedScreen {
   BOTH_TEAMS = 'BOTH_TEAMS',
   ANTHEM = 'ANTHEM',
   MEDIA = 'MEDIA',
+  PUBS = 'PUBS',
 }
