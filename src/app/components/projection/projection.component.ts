@@ -10,6 +10,9 @@ import {TimerAction} from "@enums/timer-action.enum";
 import {MediaWatcherComponent} from "@components/projection/media-watcher/media-watcher.component";
 import {AnthemComponent} from "@components/projection/anthem/anthem.component";
 import {PubsWatcherComponent} from "@components/projection/pubs-watcher/pubs-watcher.component";
+import {
+  BothTeamsPresentationComponent
+} from "@components/projection/both-teams-presentation/both-teams-presentation.component";
 
 @Component({
   selector: 'app-projection',
@@ -20,7 +23,8 @@ import {PubsWatcherComponent} from "@components/projection/pubs-watcher/pubs-wat
     ScreenSaverComponent,
     MediaWatcherComponent,
     AnthemComponent,
-    PubsWatcherComponent
+    PubsWatcherComponent,
+    BothTeamsPresentationComponent
   ],
   templateUrl: './projection.component.html',
   styleUrl: './projection.component.scss',

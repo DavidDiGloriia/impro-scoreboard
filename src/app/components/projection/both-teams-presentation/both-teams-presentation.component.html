@@ -1,0 +1,13 @@
+<div class="container-fluid px-3 py-4 bg-dark text-white">
+  <app-team-block-presentation
+    [team]="gameData().teamA"
+    [automaticPlayerPresentation]="gameData().automaticPlayerPresentation"
+    [players]="players.value()"
+  />
+
+  <app-team-block-presentation
+    [team]="gameData().teamB"
+    [automaticPlayerPresentation]="gameData().automaticPlayerPresentation"
+    [players]="players.value()"
+  />
+</div>

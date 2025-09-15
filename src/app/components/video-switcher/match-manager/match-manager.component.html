@@ -18,6 +18,11 @@
             [class.active]="displayedScreen.value() === DisplayedScreen.TEAM_B"
             (click)="displayScreen(DisplayedScreen.TEAM_B)">PRÉSENTER {{ gameData?.value().teamB.name | uppercase }}
     </button>
+    <button *ngIf="gameData.value().teamB.name"
+            class="btn  btn-outline-primary btn-lg flex-fill"
+            [class.active]="displayedScreen.value() === DisplayedScreen.BOTH_TEAMS"
+            (click)="displayScreen(DisplayedScreen.BOTH_TEAMS)">PRÉSENTER LES DEUX TEAMS
+    </button>
     <button class="btn btn-outline-primary btn-lg flex-fill"
             [class.active]="displayedScreen.value() === DisplayedScreen.MEDIA"
             (click)="displayScreen(DisplayedScreen.MEDIA)">PROJETER UN MEDIA

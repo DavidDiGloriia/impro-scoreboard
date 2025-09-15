@@ -17,7 +17,7 @@
     <app-team-presentation [team]="gameData.value().teamB"/>
   }
   @case (DisplayedScreen.BOTH_TEAMS) {
-    Not implemented yet
+    <app-both-teams-presentation [gameData]="gameData.value()"/>
   }
   @case (DisplayedScreen.MEDIA) {
     <app-media-watcher [projectionMode]="gameData.value().projectionMode"/>

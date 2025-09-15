@@ -1,150 +1,174 @@
 import {
   Component,
   computed,
-  DestroyRef, effect,
+  DestroyRef,
+  effect,
   ElementRef,
   inject,
   OnInit,
   Signal,
   signal,
-  viewChild,
-  WritableSignal
+  ViewChild,
+  WritableSignal,
+  AfterViewInit
 } from '@angular/core';
-import {UserFilesService} from "@services/user-files.service";
-import {NgForOf} from "@angular/common";
-import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
-import {ImproDataService} from "@services/impro-data.service";
-import {MediaHandling} from "@models/media-handling";
-import {MediaAction} from "@enums/video-action.enum";
-import {MediaType} from "@enums/media-type.enum";
-import {IMG_EXTENSIONS, VIDEO_EXTENSIONS} from "@constants/media-extentions.constants";
+import { UserFilesService } from "@services/user-files.service";
+import { NgForOf } from "@angular/common";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { ImproDataService } from "@services/impro-data.service";
+import { MediaHandling } from "@models/media-handling";
+import { MediaAction } from "@enums/video-action.enum";
+import { MediaType } from "@enums/media-type.enum";
+import { IMG_EXTENSIONS, VIDEO_EXTENSIONS } from "@constants/media-extentions.constants";
 
 @Component({
   selector: 'app-display-pubs-manager',
-  imports: [
-    NgForOf,
-  ],
+  imports: [NgForOf],
   templateUrl: './display-pubs-manager.component.html',
   styleUrl: './display-pubs-manager.component.scss'
 })
-export class DisplayPubsManagerComponent implements OnInit {
+export class DisplayPubsManagerComponent implements OnInit, AfterViewInit {
   readonly MediaType = MediaType;
 
   folderPath: WritableSignal<string> = signal('');
   files: WritableSignal<string[]> = signal([]);
 
-  video: Signal<ElementRef<HTMLVideoElement>> = viewChild('myVideo');
+  @ViewChild('myVideo', { static: false }) videoRef!: ElementRef<HTMLVideoElement>;
+  video: WritableSignal<HTMLVideoElement | null> = signal(null);
+
   mediaFile: WritableSignal<MediaHandling> = signal(null);
   videoHandling = this._improDataService.mediaHandling;
 
+  private _destroyRef = inject(DestroyRef);
+  private _imageTimeout: any;
+
   mediaPath = computed(() => {
-    if(!this.mediaFile()){
-      return null;
-    }
-
+    if (!this.mediaFile()) return null;
     return this.mediaFile().videoId ? `file://${this.folderPath()}/${this.mediaFile().videoId}` : null;
-  })
-
-  mediaType: Signal<MediaType> = computed(() => {
-    if(!this.mediaFile()){
-      return undefined;
-    }
-
-    const mediaPath = this.mediaPath();
-
-    if(mediaPath){
-      const extension = mediaPath.split('.').pop()?.toLowerCase();
-      if(extension && VIDEO_EXTENSIONS.includes(extension)){
-        return MediaType.VIDEO;
-      } else if(extension && IMG_EXTENSIONS.includes(extension)){
-        return MediaType.IMAGE;
-      }
-    }
   });
 
-  private _destroyRef = inject(DestroyRef);
+  mediaType: Signal<MediaType> = computed(() => {
+    if (!this.mediaFile()) return undefined;
+    const path = this.mediaPath();
+    if (!path) return undefined;
 
-  constructor(private _userFilesService: UserFilesService,
-              private _improDataService: ImproDataService,
+    const ext = path.split('.').pop()?.toLowerCase();
+    if (ext && VIDEO_EXTENSIONS.includes(ext)) return MediaType.VIDEO;
+    if (ext && IMG_EXTENSIONS.includes(ext)) return MediaType.IMAGE;
+  });
+
+  constructor(
+    private _userFilesService: UserFilesService,
+    private _improDataService: ImproDataService,
   ) {
-
     effect(() => {
       this.mediaFile.set(this.videoHandling.value());
     });
-
   }
 
   ngOnInit(): void {
-    // Abonnement pour le chemin du dossier
-    this._userFilesService.getMatchFolder().subscribe(path => {
-      this.folderPath.set(path);
-    });
+    this._userFilesService.getMatchFolder()
+      .subscribe(path => this.folderPath.set(path));
 
-    // Abonnement pour la liste des fichiers
     this.loadFiles();
   }
 
-  loadFiles(): void {
-    this._userFilesService.getMediaFiles().subscribe(files => {
-      this.files.set(files);
-    });
+  ngAfterViewInit(): void {
+    if (this.videoRef) {
+      this.video.set(this.videoRef.nativeElement);
+    }
   }
 
-  onMediaClick(video: string): void {
+  loadFiles(): void {
+    this._userFilesService.getMediaFiles()
+      .subscribe(files => this.files.set(files));
+  }
+
+  onMediaClick(fileName: string): void {
+    if (this._imageTimeout) {
+      clearTimeout(this._imageTimeout);
+      this._imageTimeout = null;
+    }
+
     this._improDataService.saveVideoWatched(new MediaHandling({
-      mediaId: video,
+      mediaId: fileName,
       action: MediaAction.SET
     }))
       .pipe(takeUntilDestroyed(this._destroyRef))
-      .subscribe((data) => {
-        this.mediaFile.set(data);
-      });
+      .subscribe(data => this.mediaFile.set(data));
   }
 
   playVideo(): void {
+    const videoEl = this.video();
+    if (!this.mediaFile()?.videoId || !videoEl) return;
+
     this._improDataService.saveVideoWatched(new MediaHandling({
       mediaId: this.mediaFile().videoId,
       action: MediaAction.PLAY
     }))
       .pipe(takeUntilDestroyed(this._destroyRef))
-      .subscribe((data) => {
-        this.mediaFile.set(data);
-      });
+      .subscribe(data => this.mediaFile.set(data));
   }
 
   pauseVideo(): void {
+    const videoEl = this.video();
+    if (!this.mediaFile()?.videoId || !videoEl) return;
+
     this._improDataService.saveVideoWatched(new MediaHandling({
       mediaId: this.mediaFile().videoId,
       action: MediaAction.PAUSE
     }))
       .pipe(takeUntilDestroyed(this._destroyRef))
-      .subscribe((data) => {
-        this.mediaFile.set(data);
-      });
+      .subscribe(data => this.mediaFile.set(data));
   }
 
   onTimeUpdate(): void {
+    const videoEl = this.video();
+    if (!this.mediaFile()?.videoId || !videoEl) return;
+
     this._improDataService.saveVideoWatched(new MediaHandling({
       mediaId: this.mediaFile().videoId,
       action: MediaAction.SET_TIME,
-      numberValue: this.video().nativeElement.currentTime,
+      numberValue: videoEl.currentTime,
     }))
       .pipe(takeUntilDestroyed(this._destroyRef))
-      .subscribe((data) => {
-        this.mediaFile.set(data);
-      });
+      .subscribe(data => this.mediaFile.set(data));
   }
 
   onRateChange(): void {
+    const videoEl = this.video();
+    if (!this.mediaFile()?.videoId || !videoEl) return;
+
     this._improDataService.saveVideoWatched(new MediaHandling({
       mediaId: this.mediaFile().videoId,
       action: MediaAction.SET_RATE,
-      numberValue: this.video().nativeElement.playbackRate,
+      numberValue: videoEl.playbackRate,
     }))
       .pipe(takeUntilDestroyed(this._destroyRef))
-      .subscribe((data) => {
-        this.mediaFile.set(data);
-      });
+      .subscribe(data => this.mediaFile.set(data));
   }
 
+  /** Passe automatiquement au média suivant */
+  nextMedia(): void {
+    if (this._imageTimeout) {
+      clearTimeout(this._imageTimeout);
+      this._imageTimeout = null;
+    }
+
+    const currentIndex = this.files().indexOf(this.mediaFile()?.videoId);
+    const nextIndex = (currentIndex + 1) % this.files().length;
+    const nextFile = this.files()[nextIndex];
+
+    if (!nextFile) return;
+
+    const ext = nextFile.split('.').pop()?.toLowerCase();
+    if (VIDEO_EXTENSIONS.includes(ext)) {
+      this.onMediaClick(nextFile);
+    } else if (IMG_EXTENSIONS.includes(ext)) {
+      this.onMediaClick(nextFile);
+      this._imageTimeout = setTimeout(() => {
+        this.nextMedia();
+      }, 30_000);
+    }
+  }
 }
