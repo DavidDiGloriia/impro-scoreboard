@@ -54,9 +54,11 @@ export class ImproManagerPanelComponent {
   }
 
   sendData(): void {
+
     this.improData.set(this.improDataForm().clone()
       .withIsImproRunning(true)
-    )
+      .withTitle(this.improDataForm().title || 'Pas de titre')
+      .withCategory(this.improDataForm().category || 'Libre'));
     this.isDirty.set(false);
   }
 
@@ -114,6 +116,7 @@ export class ImproManagerPanelComponent {
   endImpro() {
     this._improCsvService.addImpro(this.improData().toDto())
     this.improData.set(ImproData.newInstance().withIsImproRunning(false));
+    this.onImproDurationChange(180)
     this.isDirty.set(false);
   }
 

@@ -139,10 +139,6 @@
       <option value="Video-Way">
       <option value="Zones d'Humeur">
     </datalist>
-    <button class="btn btn-primary"
-            (click)="setImproCategoryFree()">
-      Libre
-    </button>
   </div>
 
 
@@ -205,7 +201,7 @@
         </button>
         <button type="button" class="btn btn-primary"
                 [disabled]="improData().isImproRunning && !improDataForm().alsoReviseDuration"
-                (click)="onImproDurationChange(240)">
+                (click)="onImproDurationChange(300)">
           5 min
         </button>
       </div>
