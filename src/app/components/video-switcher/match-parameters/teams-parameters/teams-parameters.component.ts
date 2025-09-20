@@ -44,4 +44,17 @@ export class TeamsParametersComponent {
     });
   }
 
+  swapTeams() {
+    const current = this.gameData.value();
+    const updatedGameData = current.clone()
+      .withTeamA(current.teamB.clone())
+      .withTeamB(current.teamA.clone());
+
+    this._improDataService.saveGameData(updatedGameData)
+      .pipe(takeUntilDestroyed(this._destroyRef))
+      .subscribe((data) => {
+        this.gameData.set(data.clone());
+      });
+  }
+
 }

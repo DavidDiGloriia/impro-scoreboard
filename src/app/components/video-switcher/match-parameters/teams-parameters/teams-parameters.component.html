@@ -1,21 +1,28 @@
 <h4 class="fw-bold mb-3">Equipes</h4>
+
+<div class="d-flex justify-content-center mb-3">
+  <button class="btn btn-outline-primary d-flex align-items-center gap-2" (click)="swapTeams()" title="Inverser les équipes">
+    <i class="bi bi-arrow-left-right"></i>
+    Inverser les équipes
+  </button>
+</div>
+
 <div class="row">
+  <app-team-form
+    class="col-md-6"
+    [team]="gameData.value()?.teamA"
+    (teamChange)="onTeamChange($event, TeamNumber.TEAM_A)"
+    [players]="players.value()"
+    [availableTeams]="teams.value()"
+    [teamNumber]="TeamNumber.TEAM_A"
+  ></app-team-form>
 
-    <app-team-form
-      class="col-md-6"
-      [team]="gameData.value()?.teamA"
-      (teamChange)="onTeamChange($event, TeamNumber.TEAM_A)"
-      [players]="players.value()"
-      [availableTeams]="teams.value()"
-      [teamNumber]="TeamNumber.TEAM_A"
-    ></app-team-form>
-
-    <app-team-form
-      class="col-md-6"
-      [team]="gameData.value().teamB"
-      (teamChange)="onTeamChange($event, TeamNumber.TEAM_B)"
-      [players]="players.value()"
-      [availableTeams]="teams.value()"
-      [teamNumber]="TeamNumber.TEAM_B"
-    ></app-team-form>
-  </div>
+  <app-team-form
+    class="col-md-6"
+    [team]="gameData.value()?.teamB"
+    (teamChange)="onTeamChange($event, TeamNumber.TEAM_B)"
+    [players]="players.value()"
+    [availableTeams]="teams.value()"
+    [teamNumber]="TeamNumber.TEAM_B"
+  ></app-team-form>
+</div>
