@@ -18,11 +18,13 @@ import {ProjectionMode} from "@enums/projection-mode.enum";
 import {IMG_EXTENSIONS, VIDEO_EXTENSIONS} from "@constants/media-extentions.constants";
 import {MediaType} from "@enums/media-type.enum";
 import {isNil} from "lodash-es";
+import {ScreenSaverComponent} from "@components/projection/screen-saver/screen-saver.component";
 
 @Component({
   selector: 'app-pubs-watcher',
   imports: [
     NgIf,
+    ScreenSaverComponent,
   ],
   templateUrl: './pubs-watcher.component.html',
   styleUrl: './pubs-watcher.component.scss'
@@ -35,6 +37,9 @@ export class PubsWatcherComponent implements OnInit {
   files: WritableSignal<string[]> = signal([]);
   video: Signal<ElementRef<HTMLVideoElement>> = viewChild('videoPlayer');
   projectionMode: InputSignal<ProjectionMode> = input.required();
+  isMediaNull: Signal<boolean> = computed(() =>
+    isNil(this.videoHandling.value().videoId)
+  );
 
   mediaType: Signal<MediaType> = computed(() => {
 
@@ -102,6 +107,7 @@ export class PubsWatcherComponent implements OnInit {
   }
 
   async onVideoAction(videoHandling: MediaHandling) {
+    console.log(videoHandling);
     switch (videoHandling.action) {
       case MediaAction.SET:
         this.playVideo(videoHandling.videoId);

@@ -1,25 +1,25 @@
 import {
+  AfterViewInit,
   Component,
   computed,
   DestroyRef,
   effect,
   ElementRef,
-  inject,
+  inject, OnDestroy,
   OnInit,
   Signal,
   signal,
   ViewChild,
-  WritableSignal,
-  AfterViewInit
+  WritableSignal
 } from '@angular/core';
-import { UserFilesService } from "@services/user-files.service";
-import { NgForOf } from "@angular/common";
-import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { ImproDataService } from "@services/impro-data.service";
-import { MediaHandling } from "@models/media-handling";
-import { MediaAction } from "@enums/video-action.enum";
-import { MediaType } from "@enums/media-type.enum";
-import { IMG_EXTENSIONS, VIDEO_EXTENSIONS } from "@constants/media-extentions.constants";
+import {UserFilesService} from "@services/user-files.service";
+import {NgForOf} from "@angular/common";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import {ImproDataService} from "@services/impro-data.service";
+import {MediaHandling} from "@models/media-handling";
+import {MediaAction} from "@enums/video-action.enum";
+import {MediaType} from "@enums/media-type.enum";
+import {IMG_EXTENSIONS, VIDEO_EXTENSIONS} from "@constants/media-extentions.constants";
 import {CdkDragDrop, DragDropModule, moveItemInArray} from "@angular/cdk/drag-drop";
 
 @Component({
@@ -28,13 +28,13 @@ import {CdkDragDrop, DragDropModule, moveItemInArray} from "@angular/cdk/drag-dr
   templateUrl: './display-pubs-manager.component.html',
   styleUrl: './display-pubs-manager.component.scss'
 })
-export class DisplayPubsManagerComponent implements OnInit, AfterViewInit {
+export class DisplayPubsManagerComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly MediaType = MediaType;
 
   folderPath: WritableSignal<string> = signal('');
   files: WritableSignal<string[]> = signal([]);
 
-  @ViewChild('myVideo', { static: false }) videoRef!: ElementRef<HTMLVideoElement>;
+  @ViewChild('myVideo', {static: false}) videoRef!: ElementRef<HTMLVideoElement>;
   video: WritableSignal<HTMLVideoElement | null> = signal(null);
 
   mediaFile: WritableSignal<MediaHandling> = signal(null);
@@ -62,9 +62,7 @@ export class DisplayPubsManagerComponent implements OnInit, AfterViewInit {
     private _userFilesService: UserFilesService,
     private _improDataService: ImproDataService,
   ) {
-    effect(() => {
-      this.mediaFile.set(this.videoHandling.value());
-    });
+
   }
 
   ngOnInit(): void {
@@ -88,6 +86,14 @@ export class DisplayPubsManagerComponent implements OnInit, AfterViewInit {
     if (this.videoRef) {
       this.video.set(this.videoRef.nativeElement);
     }
+  }
+
+  ngOnDestroy(): void {
+    if (this._imageTimeout) {
+      clearTimeout(this._imageTimeout);
+    }
+
+    this.onMediaClick(null);
   }
 
   loadFiles(): void {
@@ -188,27 +194,38 @@ export class DisplayPubsManagerComponent implements OnInit, AfterViewInit {
 
     localStorage.setItem('mediaOrder', JSON.stringify(currentFiles));
   }
-  /** Passe automatiquement au média suivant */
+
   nextMedia(): void {
     if (this._imageTimeout) {
       clearTimeout(this._imageTimeout);
       this._imageTimeout = null;
     }
 
-    const currentIndex = this.files().indexOf(this.mediaFile()?.videoId);
-    const nextIndex = (currentIndex + 1) % this.files().length;
-    const nextFile = this.files()[nextIndex];
+    const files = this.files();
+    if (!files.length) return;
 
+    const currentIndex = files.indexOf(this.mediaFile()?.videoId);
+    const nextIndex = currentIndex + 1;
+
+    if (nextIndex >= files.length) {
+      this.onEndOfMedia(); // <-- ta fonction à la fin
+      return;
+    }
+
+    const nextFile = files[nextIndex];
     if (!nextFile) return;
 
     const ext = nextFile.split('.').pop()?.toLowerCase();
-    if (VIDEO_EXTENSIONS.includes(ext)) {
-      this.onMediaClick(nextFile);
-    } else if (IMG_EXTENSIONS.includes(ext)) {
-      this.onMediaClick(nextFile);
+    this.onMediaClick(nextFile);
+
+    if (IMG_EXTENSIONS.includes(ext)) {
       this._imageTimeout = setTimeout(() => {
         this.nextMedia();
       }, 30_000);
     }
+  }
+
+  onEndOfMedia(): void {
+    this.onMediaClick(null);
   }
 }

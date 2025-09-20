@@ -1,24 +1,29 @@
-<div class="vh-100 vw-100 bg-dark"
-     [class.pushed-on-top]="projectionMode() === ProjectionMode.PUSHED_ON_TOP"
->
+@if (!isMediaNull()) {
+  <div class="vh-100 vw-100 bg-dark"
+       [class.pushed-on-top]="projectionMode() === ProjectionMode.PUSHED_ON_TOP"
+  >
 
-  @if (files() && currentVideoPath() && mediaType() === MediaType.VIDEO) {
-    <video
-      #videoPlayer
-      *ngIf="currentVideoPath()"
-      [src]="currentVideoPath()"
-      [muted]="'muted'"
-      class="w-100 h-100"
-    ></video>
-  }
+    @if (files() && currentVideoPath() && mediaType() === MediaType.VIDEO) {
+      <video
+        #videoPlayer
+        *ngIf="currentVideoPath()"
+        [src]="currentVideoPath()"
+        [muted]="'muted'"
+        [autoplay]="true"
+        class="w-100 h-100"
+      ></video>
+    }
 
-  @if (files() && currentVideoPath() && mediaType() === MediaType.IMAGE) {
-    <div class="media-container">
-      <img *ngIf="currentVideoPath()"
-           [src]="currentVideoPath()"
-           alt="Projected Media"
-           class="media-img"/>
-    </div>
-  }
+    @if (files() && currentVideoPath() && mediaType() === MediaType.IMAGE) {
+      <div class="media-container">
+        <img *ngIf="currentVideoPath()"
+             [src]="currentVideoPath()"
+             alt="Projected Media"
+             class="media-img"/>
+      </div>
+    }
 
-</div>
+  </div>
+} @else {
+  <app-screen-saver/>
+}
