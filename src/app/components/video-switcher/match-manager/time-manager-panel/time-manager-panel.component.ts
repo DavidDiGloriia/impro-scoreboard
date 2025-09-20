@@ -23,7 +23,6 @@ export class TimeManagerPanelComponent implements OnInit {
   adjustTIme = output<number>();
 
   shouldGlow: WritableSignal<boolean> = signal(false);
-  firstResetTimerClick: WritableSignal<boolean> = signal(false);
 
   running = signal(false);
 
@@ -31,12 +30,11 @@ export class TimeManagerPanelComponent implements OnInit {
   time = 180; // en secondes
 
   private _timerInterval: any;
-  private _resetClickTimeout: any;
   private _glowTimeout: any;
 
   constructor() {
     effect(() => {
-      if (this.reviseTime()) {
+      if (!this.isImproRunning() || this.reviseTime()) {
         this.time = this.baseTime();
         this.stopTimer();
       }
@@ -57,7 +55,11 @@ export class TimeManagerPanelComponent implements OnInit {
   ngOnInit() {
     this._timerInterval = setInterval(() => {
       if (this.running()) {
-        this.time = this.time > 0 ? this.time - 1 : 0;
+        if (this.time > 0) {
+          this.time--;
+        } else {
+          this.stopTimer(); // ✅ met en pause automatiquement
+        }
       }
     }, 1000);
   }
@@ -77,26 +79,9 @@ export class TimeManagerPanelComponent implements OnInit {
     this.adjustTIme.emit(amount);
   }
 
-  onResetTimerClick() {
-    if (!this.firstResetTimerClick()) {
-      // Premier clic : ajouter la classe btn-aura
-      this.firstResetTimerClick.set(true);
-      this._resetClickTimeout = setTimeout(() => {
-        // Si l'utilisateur n'a pas cliqué une 2e fois dans les 3 secondes
-        this.firstResetTimerClick.set(false);
-      }, 3000);
-    } else {
-      // Deuxième clic dans les 3 secondes : resetTimer
-      clearTimeout(this._resetClickTimeout);
-      this.firstResetTimerClick.set(false);
-      this.resetTimer();
-    }
-  }
-
   resetTimer() {
     this.running.set(false)
     this.time = this.baseTime();
-    this.firstResetTimerClick.set(false);
     this.resetTime.emit();
   }
 }

@@ -13,12 +13,6 @@
   }
 }
 
-.nova {
-  animation: nova 1.5s infinite;
-  border-radius: 0.375rem; /* keeps Bootstrap button shape */
-  transition: transform 0.2s;
-}
-
 @keyframes auraPulse {
   0% {
     transform: scale(1);

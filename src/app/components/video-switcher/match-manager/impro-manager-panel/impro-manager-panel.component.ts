@@ -54,7 +54,6 @@ export class ImproManagerPanelComponent {
   }
 
   sendData(): void {
-
     this.improData.set(this.improDataForm().clone()
       .withIsImproRunning(true)
       .withTitle(this.improDataForm().title || 'Pas de titre')
@@ -76,20 +75,12 @@ export class ImproManagerPanelComponent {
     this.isDirty.set(true);
     }
 
-  setImproCategoryFree() {
-    this.improDataForm.update((improData: ImproData) => {
-      return improData.clone().withCategory('Libre');
-    });
-    this.isDirty.set(true);
-  }
-
   OnImproCategoryChange(value: string) {
     this.improDataForm.update((improData: ImproData) => {
       return improData.clone().withCategory(value);
     });
     this.isDirty.set(true);
   }
-
 
   onImproDurationChange(number: number) {
     this.improDataForm.update((improData: ImproData) => {
@@ -116,7 +107,6 @@ export class ImproManagerPanelComponent {
   endImpro() {
     this._improCsvService.addImpro(this.improData().toDto())
     this.improData.set(ImproData.newInstance().withIsImproRunning(false));
-    this.onImproDurationChange(180)
     this.isDirty.set(false);
   }
 

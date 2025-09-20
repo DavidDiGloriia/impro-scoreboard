@@ -14,7 +14,6 @@ import {
 import {
   DisplayAnthemManagerComponent
 } from "@components/video-switcher/match-manager/display-anthem-manager/display-anthem-manager.component";
-import {TeamPresentationComponent} from "@components/projection/team-presentation/team-presentation.component";
 import {
   DisplayTeamManagerComponent
 } from "@components/video-switcher/match-manager/display-team-manager/display-team-manager.component";

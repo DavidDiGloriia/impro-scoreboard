@@ -61,8 +61,6 @@ export class DisplayMatchManagerComponent {
       });
   }
 
-
-
   onTeamChange(value: Team, teamNumber: TeamNumber) {
     const updatedGameData = this.gameData.value().clone()
       .withTeamA(teamNumber === TeamNumber.TEAM_A ? value : this.gameData.value().teamA)

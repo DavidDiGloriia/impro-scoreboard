@@ -105,18 +105,6 @@ export class TeamManagerPanelComponent {
   }
 
   onResetFoulsClick() {
-    if (!this.firstResetFoulsClick()) {
-      // Premier clic : ajouter la classe btn-aura
-      this.firstResetFoulsClick.set(true);
-      this._resetClickTimeout = setTimeout(() => {
-        // Si l'utilisateur n'a pas cliqué une 2e fois dans les 3 secondes
-        this.firstResetFoulsClick.set(false);
-      }, 3000);
-    } else {
-      // Deuxième clic dans les 3 secondes : resetTimer
-      clearTimeout(this._resetClickTimeout);
-      this.firstResetFoulsClick.set(false);
-      this.resetFouls.emit();
-    }
+    this.resetFouls.emit();
   }
 }
