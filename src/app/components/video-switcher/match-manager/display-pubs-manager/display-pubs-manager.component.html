@@ -34,10 +34,12 @@
         <video #myVideo
                controls
                [src]="mediaPath()"
+               [autoplay]="true"
                (play)="playVideo()"
                (pause)="pauseVideo()"
                (seeked)="onTimeUpdate()"
                (ratechange)="onRateChange()"
+               (ended)="nextMedia()"
                style="width: 100%; height: auto; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
         </video>
       }
