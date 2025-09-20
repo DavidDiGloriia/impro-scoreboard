@@ -13,7 +13,7 @@ export class ImproData {
       title: '',
       nbPlayers: ImproNbPlayers.UNLIMITED,
       customNbPlayerLabel: '',
-      category: 'Libre',
+      category: '',
       duration: 180,
       isImproRunning: false,
       alsoReviseDuration: false,

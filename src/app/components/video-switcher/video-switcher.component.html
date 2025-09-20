@@ -1,7 +1,11 @@
 <nav class="navbar navbar-dark bg-dark">
   <div class="container-fluid">
-    <button class="btn btn-primary me-3" id="new-match-btn" (click)="resetMatch()">Nouveau match</button>
-
+    <div>
+      <button class="btn btn-success me-3" id="new-match-btn" (click)="resetMatch()">Nouveau match</button>
+      <button class="btn btn-primary me-3" id="download-report-btn" (click)="downloadMatchReport()">
+        Télécharger le rapport de match
+      </button>
+    </div>
     <ul class="navbar-nav flex-row gap-3">
       <li class="nav-item">
         <a class="nav-link" routerLink="parameters" routerLinkActive="active">Paramètres du match</a>

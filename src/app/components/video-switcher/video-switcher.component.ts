@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {RouterLink, RouterLinkActive, RouterOutlet} from "@angular/router";
 import {ImproDataService} from "@services/impro-data.service";
+import {ImproCsvService} from "@services/impro-csv.service";
 
 @Component({
   selector: 'app-video-switcher',
@@ -14,7 +15,12 @@ import {ImproDataService} from "@services/impro-data.service";
 })
 export class VideoSwitcherComponent {
   constructor(private improDataService: ImproDataService,
+              private improCsvService: ImproCsvService
   ) {
+  }
+
+  downloadMatchReport() {
+    this.improCsvService.downloadCsv();
   }
 
   resetMatch() {

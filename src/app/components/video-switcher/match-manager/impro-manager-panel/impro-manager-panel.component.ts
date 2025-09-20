@@ -1,18 +1,17 @@
-import {Component, effect, model, ModelSignal, signal, WritableSignal} from '@angular/core';
+import {Component, effect, inject, model, ModelSignal, signal, WritableSignal} from '@angular/core';
 import {ImproData} from "@models/impro-data";
 import {ImproType} from "@enums/impro-type.enum";
 import {FormsModule} from "@angular/forms";
 import {ImproNbPlayers} from "@enums/impro-nb-players.enum";
 import {values} from 'lodash-es';
 import { ImproNbPlayersShortLabel} from "@constants/impro-nb-players.constants";
-import {NgForOf, NgIf} from "@angular/common";
+import {ImproCsvService} from "@services/impro-csv.service";
 
 @Component({
   selector: 'app-impro-manager-panel',
   imports: [
     FormsModule,
-    NgForOf,
-    NgIf
+
   ],
   templateUrl: './impro-manager-panel.component.html',
   styleUrl: './impro-manager-panel.component.scss'
@@ -30,6 +29,8 @@ export class ImproManagerPanelComponent {
   improDurationMinutes: WritableSignal<number> = signal(0);
   improDurationSeconds: WritableSignal<number> = signal(0);
   isDirty: WritableSignal<boolean> = signal(false);
+
+  private _improCsvService: ImproCsvService = inject(ImproCsvService)
 
   constructor() {
     effect(() => {
@@ -111,6 +112,7 @@ export class ImproManagerPanelComponent {
   }
 
   endImpro() {
+    this._improCsvService.addImpro(this.improData().toDto())
     this.improData.set(ImproData.newInstance().withIsImproRunning(false));
     this.isDirty.set(false);
   }
@@ -125,5 +127,4 @@ export class ImproManagerPanelComponent {
       return improData.clone().withAlsoReviseDuration(value);
     });
   }
-
 }
