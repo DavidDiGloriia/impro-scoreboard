@@ -20,10 +20,11 @@ import { MediaHandling } from "@models/media-handling";
 import { MediaAction } from "@enums/video-action.enum";
 import { MediaType } from "@enums/media-type.enum";
 import { IMG_EXTENSIONS, VIDEO_EXTENSIONS } from "@constants/media-extentions.constants";
+import {CdkDragDrop, DragDropModule, moveItemInArray} from "@angular/cdk/drag-drop";
 
 @Component({
   selector: 'app-display-pubs-manager',
-  imports: [NgForOf],
+  imports: [NgForOf, DragDropModule],
   templateUrl: './display-pubs-manager.component.html',
   styleUrl: './display-pubs-manager.component.scss'
 })
@@ -67,10 +68,20 @@ export class DisplayPubsManagerComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this._userFilesService.getMatchFolder()
+    this._userFilesService.getPubsFolder()
       .subscribe(path => this.folderPath.set(path));
 
     this.loadFiles();
+
+    // Charger l'ordre sauvegardé
+    const savedOrder = localStorage.getItem('mediaOrder');
+    if (savedOrder) {
+      const orderArray: string[] = JSON.parse(savedOrder);
+      // On garde uniquement les fichiers encore existants
+      const filtered = orderArray.filter(f => this.files().includes(f));
+      const missing = this.files().filter(f => !filtered.includes(f));
+      this.files.set([...filtered, ...missing]); // merge avec nouveaux fichiers
+    }
   }
 
   ngAfterViewInit(): void {
@@ -80,9 +91,23 @@ export class DisplayPubsManagerComponent implements OnInit, AfterViewInit {
   }
 
   loadFiles(): void {
-    this._userFilesService.getMediaFiles()
-      .subscribe(files => this.files.set(files));
+    this._userFilesService.getPubsMediaFiles()
+      .subscribe(files => {
+        // Vérifier si un ordre est déjà en localStorage
+        const savedOrder = localStorage.getItem('mediaOrder');
+        let orderedFiles = files;
+
+        if (savedOrder) {
+          const orderArray: string[] = JSON.parse(savedOrder);
+          const filtered = orderArray.filter(f => files.includes(f));
+          const missing = files.filter(f => !filtered.includes(f));
+          orderedFiles = [...filtered, ...missing];
+        }
+
+        this.files.set(orderedFiles);
+      });
   }
+
 
   onMediaClick(fileName: string): void {
     if (this._imageTimeout) {
@@ -148,6 +173,21 @@ export class DisplayPubsManagerComponent implements OnInit, AfterViewInit {
       .subscribe(data => this.mediaFile.set(data));
   }
 
+  drop(event: CdkDragDrop<string[]>) {
+    const currentFiles = [...this.files()];
+    moveItemInArray(currentFiles, event.previousIndex, event.currentIndex);
+    this.files.set(currentFiles);
+
+    // Feedback visuel rapide
+    const listEl = document.querySelector('.list-group');
+    listEl?.classList.add('dropped');
+    setTimeout(() => listEl?.classList.remove('dropped'), 300);
+
+    // Sauvegarde dans localStorage
+
+
+    localStorage.setItem('mediaOrder', JSON.stringify(currentFiles));
+  }
   /** Passe automatiquement au média suivant */
   nextMedia(): void {
     if (this._imageTimeout) {

@@ -1,6 +1,6 @@
-<div>
+<div class="main-container">
   <!-- En-tête de l'équipe -->
-  <div class="team-header d-flex flex-column align-items-center mb-3">
+  <div class="team-header">
     <!-- Logo si présent -->
     @if(teamMetadata()?.img){
       <img [src]="teamMetadata().img"
@@ -16,38 +16,35 @@
   </div>
 
   <!-- Joueurs -->
-  <div class="players-container row g-3 justify-content-center">
-    <div *ngFor="let player of this.team().players | keyValueNoSort; let i = index" class="col-6 col-md-4 col-lg-2">
+  <div class="players-container">
+    <div *ngFor="let player of this.team().players | keyValueNoSort; let i = index">
       @let playerValue = player.value;
       @let playerMetadata = playersByCode()[playerValue.code];
       @let playerImg = playerMetadata?.img ? playerMetadata?.img + teamMetadata().playerImgSuffix : teamMetadata()?.playerImgFallback;
 
       @let key = player.key;
+
       <div class="player-bar"
            [style.animationDelay]="automaticPlayerPresentation() ? (i + 1) * 0.4 + 's' : '0.4s'">
+
         <!-- Photo du joueur -->
         <img [src]="playerImg"
              [alt]="playerValue.code"
              class="player-photo"/>
 
-        <!-- Numéro si présent -->
-        <div *ngIf="playerValue.number"
-             class="position-absolute top-0 end-0 m-2 fw-bold text-light opacity-75">
+        <!-- Numéro du joueur -->
+        <div *ngIf="playerValue.number" class="player-number">
           #{{ playerValue.number }}
         </div>
 
-        <!-- Overlay avec rôle et prénom -->
-        <div class="d-flex flex-column justify-content-end p-2"
-             style="background:linear-gradient(0deg,rgba(0,0,0,.8) 30%,transparent);">
-
-          <!-- Rôle si différent de joueur -->
-          <div *ngIf="key !== 'Joueur'"
-               class="player-position small text-uppercase text-muted">
+        <!-- Overlay bas -->
+        <div class="overlay">
+          <!-- Rôle si différent de Joueur -->
+          <div *ngIf="key !== 'Joueur'" class="player-position">
             {{ key | roleName:playersByCode()[playerValue.code]?.isFemale }}
           </div>
-
-          <!-- Prénom du joueur -->
-          <div class="player-name fw-bold fs-5">
+          <!-- Prénom -->
+          <div class="player-name">
             {{ playersByCode()[playerValue.code]?.firstName }}
           </div>
         </div>

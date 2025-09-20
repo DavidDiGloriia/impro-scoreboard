@@ -1,0 +1,27 @@
+.list-group.cdk-drop-list-dragging .list-group-item {
+  transition: transform 200ms ease; // effet fluide
+}
+
+.cdk-drag-preview {
+  @extend .list-group-item;  // si tu utilises SCSS
+  padding: 0.75rem 1.25rem;
+  background-color: #fff;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+
+.cdk-drag-placeholder {
+  opacity: 0.3;
+  border: 2px dashed #0d6efd; // bleu Bootstrap
+  border-radius: 6px;
+}
+
+.list-group.dropped {
+  animation: flash 0.3s;
+}
+
+@keyframes flash {
+  0% { background-color: #e7f1ff; }
+  100% { background-color: transparent; }
+}

@@ -17,6 +17,7 @@ import {MediaAction} from "@enums/video-action.enum";
 import {ProjectionMode} from "@enums/projection-mode.enum";
 import {IMG_EXTENSIONS, VIDEO_EXTENSIONS} from "@constants/media-extentions.constants";
 import {MediaType} from "@enums/media-type.enum";
+import {isNil} from "lodash-es";
 
 @Component({
   selector: 'app-pubs-watcher',
@@ -66,12 +67,22 @@ export class PubsWatcherComponent implements OnInit {
       }
     });
 
+    effect(() => {
+      if(this.files() &&
+        this.currentVideoPath() &&
+        this.mediaType() === MediaType.VIDEO &&
+        !isNil(this.video()?.nativeElement)
+      ) {
+        this.video().nativeElement.muted  = true;
+      }
+    })
+
   }
 
 
   ngOnInit(): void {
     // Abonnement pour le chemin du dossier
-    this._userFilesService.getMatchFolder().subscribe(path => {
+    this._userFilesService.getPubsFolder().subscribe(path => {
       this.folderPath.set(path);
     });
 

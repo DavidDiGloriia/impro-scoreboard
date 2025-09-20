@@ -65,4 +65,17 @@ export class UserFilesService {
         )
     );
   }
+
+  getPubsMediaFiles(): Observable<string[]> {
+    const extensions = ['.mp4', '.jpg', '.jpeg', '.png', '.gif', '.webp'];
+
+    return from(
+      window.electronAPI.listPubsFiles()
+        .then(files =>
+          files.filter(file =>
+            extensions.some(ext => file.toLowerCase().endsWith(ext))
+          )
+        )
+    );
+  }
 }
