@@ -3,7 +3,7 @@ import {Team} from "@models/team";
 import {TeamMetadata} from "@models/team-metadata";
 import {find, keyBy} from "lodash-es";
 import {ImproDataService} from "@services/impro-data.service";
-import { NgIf, UpperCasePipe} from "@angular/common";
+import {NgIf, NgStyle, UpperCasePipe} from "@angular/common";
 import {PlayerMetadata} from "@models/player-metadata";
 import {KeyValueNoSortPipe} from "@pipes/key-value-no-sort.pipe";
 import {RoleNamePipe} from "@pipes/role-name.pipe";
@@ -15,12 +15,16 @@ import {Player} from "@models/player";
     NgIf,
     KeyValueNoSortPipe,
     UpperCasePipe,
-    RoleNamePipe
+    RoleNamePipe,
+    NgStyle
   ],
   templateUrl: './team-presentation.component.html',
   styleUrl: './team-presentation.component.scss'
 })
 export class TeamPresentationComponent {
+  screenStyle = this._improDataService.screenStyle;
+  containerStyle = this._improDataService.containerStyle;
+
   team: InputSignal<Team> = input.required();
 
   teamMetadata: Signal<TeamMetadata> = computed(() => {

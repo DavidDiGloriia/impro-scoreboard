@@ -1,5 +1,7 @@
-<div class="vh-100 vw-100 bg-dark"
+<div [ngStyle]="screenStyle()">
+<div class="bg-black"
      [class.pushed-on-top]="projectionMode() === ProjectionMode.PUSHED_ON_TOP"
+      [ngStyle]="containerStyle()"
 >
 
   @if (files() && currentVideoPath() && mediaType() === MediaType.VIDEO) {
@@ -8,7 +10,8 @@
       *ngIf="currentVideoPath()"
       [src]="currentVideoPath()"
       controls
-      class="w-100 h-100"
+      [ngStyle]="containerStyle()"
+      [class.pushed-on-top]="projectionMode() === ProjectionMode.PUSHED_ON_TOP"
     ></video>
   }
 
@@ -16,9 +19,11 @@
     <div class="media-container">
       <img *ngIf="currentVideoPath()"
            [src]="currentVideoPath()"
+           [ngStyle]="containerStyle()"
            alt="Projected Media"
            class="media-img"/>
     </div>
   }
 
+</div>
 </div>

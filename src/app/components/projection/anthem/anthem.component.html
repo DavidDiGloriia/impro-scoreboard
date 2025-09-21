@@ -1,13 +1,18 @@
-<div class="d-flex justify-content-center align-items-center vh-100 bg-black text-white"
-     [class.pushed-on-top]="projectionMode() === ProjectionMode.PUSHED_ON_TOP">
+<div [ngStyle]="screenStyle()">
+  <div class="d-flex justify-content-center align-items-center bg-black text-white"
+       [class.pushed-on-top]="projectionMode() === ProjectionMode.PUSHED_ON_TOP"
+       [ngStyle]="containerStyle()"
+  >
 
-  <div class="text-center w-75">
-    <div
-      *ngIf="line"
-      class="lineCls"
-      [ngClass]="classLine"
-      [innerHTML]="line">
 
+    <div class="text-center w-75">
+      <div
+        *ngIf="line"
+        class="lineCls"
+        [ngClass]="classLine"
+        [innerHTML]="line">
+
+      </div>
     </div>
   </div>
 </div>

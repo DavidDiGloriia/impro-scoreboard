@@ -78,18 +78,18 @@ export class ImproDataService {
   screenStyle = computed(() => {
     const projectionData = this.projectionData.value();
     return {
-      paddingTop: `${projectionData.top}vh`,
-      paddingBottom: `${projectionData.bottom}vh`,
-      paddingLeft: `${projectionData.left}vw`,
-      paddingRight: `${projectionData.right}vw`,
+      paddingTop: `${projectionData.bottom}vh`,
+      paddingBottom: `${projectionData.top}vh`,
+      paddingLeft: `${projectionData.right}vw`,
+      paddingRight: `${projectionData.left}vw`,
     }
   })
 
   containerStyle = computed(() => {
     const projectionData = this.projectionData.value();
     return {
-      width:`${100 - projectionData.left - projectionData.right}vw`,
-      height:`${100 - projectionData.top - projectionData.bottom}vh`,
+      width:`${100 - projectionData.right - projectionData.left}vw`,
+      height:`${100 - projectionData.bottom - projectionData.top}vh`,
     }
   })
 

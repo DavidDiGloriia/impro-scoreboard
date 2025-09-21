@@ -46,7 +46,7 @@
 
 .players-container {
   width: 100%;
-  height: 600px;
+  height: 550px;
   display: flex;
   gap: 6px;
   flex-wrap: nowrap;
@@ -84,9 +84,9 @@
   position: absolute;
   top: 10px;
   right: 10px;
-  font-size: 3rem;
+  font-size: 3.5rem;
   font-weight: 900;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.7);
   text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
   user-select: none;
 }
@@ -102,7 +102,7 @@
 }
 
 .player-position {
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.07em;
@@ -111,7 +111,7 @@
 }
 
 .player-name {
-  font-size: 2.5rem;
+  font-size: 2.7rem;
   font-weight: 900;
   user-select: none;
   line-height: 1.1;

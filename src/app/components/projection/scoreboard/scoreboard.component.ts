@@ -4,9 +4,10 @@ import {TeamNumber} from "@enums/team-number.enum";
 import {GameData} from "@models/game-data";
 import {ImproData} from "@models/impro-data";
 import {FormatImproHeaderPipe} from "@pipes/format-impro-header.pipe";
-import {TitleCasePipe} from "@angular/common";
+import {NgStyle, TitleCasePipe} from "@angular/common";
 import {FormatTimePipe} from "@pipes/format-time.pipe";
 import {ProjectionMode} from "@enums/projection-mode.enum";
+import {ImproDataService} from "@services/impro-data.service";
 
 @Component({
   selector: 'app-scoreboard',
@@ -14,7 +15,8 @@ import {ProjectionMode} from "@enums/projection-mode.enum";
     ScoreboardTeamComponent,
     FormatImproHeaderPipe,
     TitleCasePipe,
-    FormatTimePipe
+    FormatTimePipe,
+    NgStyle
   ],
   templateUrl: './scoreboard.component.html',
   styleUrl: './scoreboard.component.scss'
@@ -24,9 +26,15 @@ export class ScoreboardComponent {
   readonly ProjectionMode = ProjectionMode;
 
 
+  screenStyle = this._improDataService.screenStyle;
+  containerStyle = this._improDataService.containerStyle;
+
   gameData: InputSignal<GameData> = input.required();
   improData: InputSignal<ImproData> = input.required();
   roundTimer: InputSignal<number> = input(2700); // 45 minutes in seconds
   improTimer: InputSignal<number> = input(180);
   projectionMode: InputSignal<ProjectionMode> = input.required();
+
+  constructor(private _improDataService: ImproDataService) {
+  }
 }

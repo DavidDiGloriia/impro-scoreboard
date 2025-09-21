@@ -10,7 +10,7 @@ import {
   WritableSignal
 } from '@angular/core';
 import {UserFilesService} from "@services/user-files.service";
-import { NgIf} from "@angular/common";
+import {NgIf, NgStyle, UpperCasePipe} from "@angular/common";
 import {ImproDataService} from "@services/impro-data.service";
 import {MediaHandling} from "@models/media-handling";
 import {MediaAction} from "@enums/video-action.enum";
@@ -25,6 +25,8 @@ import {ScreenSaverComponent} from "@components/projection/screen-saver/screen-s
   imports: [
     NgIf,
     ScreenSaverComponent,
+    NgStyle,
+    UpperCasePipe,
   ],
   templateUrl: './pubs-watcher.component.html',
   styleUrl: './pubs-watcher.component.scss'
@@ -33,6 +35,9 @@ export class PubsWatcherComponent implements OnInit {
   protected readonly ProjectionMode = ProjectionMode;
 
   videoHandling = this._improDataService.mediaHandling;
+  screenStyle = this._improDataService.screenStyle;
+  containerStyle = this._improDataService.containerStyle;
+
 
   files: WritableSignal<string[]> = signal([]);
   video: Signal<ElementRef<HTMLVideoElement>> = viewChild('videoPlayer');

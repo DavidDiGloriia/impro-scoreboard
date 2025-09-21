@@ -10,7 +10,7 @@ import {
   WritableSignal
 } from '@angular/core';
 import {UserFilesService} from "@services/user-files.service";
-import {JsonPipe, NgIf} from "@angular/common";
+import {NgIf, NgStyle} from "@angular/common";
 import {ImproDataService} from "@services/impro-data.service";
 import {MediaHandling} from "@models/media-handling";
 import {MediaAction} from "@enums/video-action.enum";
@@ -22,7 +22,7 @@ import {MediaType} from "@enums/media-type.enum";
   selector: 'app-media-watcher',
   imports: [
     NgIf,
-    JsonPipe,
+    NgStyle,
   ],
   templateUrl: './media-watcher.component.html',
   styleUrl: './media-watcher.component.scss'
@@ -31,6 +31,8 @@ export class MediaWatcherComponent implements OnInit {
   protected readonly ProjectionMode = ProjectionMode;
 
   videoHandling = this._improDataService.mediaHandling;
+  screenStyle = this._improDataService.screenStyle;
+  containerStyle = this._improDataService.containerStyle;
 
   files: WritableSignal<string[]> = signal([]);
   video: Signal<ElementRef<HTMLVideoElement>> = viewChild('videoPlayer');

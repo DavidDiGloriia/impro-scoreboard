@@ -1,8 +1,6 @@
 .myContainer {
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  width: 100vw;
   box-sizing: border-box;
   padding: 0;
   margin: 0;
@@ -21,7 +19,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 2vh 2vw;
+  padding: 2% 2%;
 }
 
 .bottom-section {
@@ -33,8 +31,8 @@
 
 .total-timer {
   text-align: center;
-  font-size: 1.5vw;
-  margin-bottom: 2vh;
+  font-size: clamp(1rem, 1.5vw, 1.5rem);
+  margin-bottom: 2%;
 }
 
 .teams {
@@ -42,13 +40,13 @@
   justify-content: space-between;
   align-items: center;
   flex: 1;
-  gap: 3vw; /* Plus d’espace entre les équipes */
+  gap: 2rem;
   min-width: 0;
 }
 
 .round-timer {
   text-align: center;
-  font-size: 7vw;
+  font-size: clamp(2rem, 7vw, 6rem);
   font-weight: bold;
   flex: 0.5;
   display: flex;
@@ -62,7 +60,7 @@
   display: flex;
   align-items: stretch;
   justify-content: center;
-  gap: 2vw; /* Plus d’espace entre image et score */
+  gap: 1.5rem;
   min-width: 0;
 }
 
@@ -70,7 +68,7 @@
 .team > div {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* Empile score et fautes en haut */
+  justify-content: flex-start;
 }
 
 #team-a {
@@ -83,15 +81,10 @@
   text-align: right;
 }
 
-.team {
-  display: flex;
-  gap: 1rem;
-}
-
 .team-img-wrapper {
-  width: 15vw;
+  width: 15%;
   aspect-ratio: 1 / 1;
-  border-radius: 10%;
+  border-radius: 1rem;
   border: 3px solid #fff;
   overflow: hidden;
   flex-shrink: 0;
@@ -99,45 +92,45 @@
 }
 
 .score {
-  font-size: 9vw;
+  font-size: clamp(3rem, 9vw, 10rem);
   margin: 0;
-  padding: 0.5vw 2vw;
-  border-radius: 1vw;
+  padding: 0.5rem 2rem;
+  border-radius: 1rem;
   font-weight: bold;
   text-shadow: 0 0 8px rgba(0, 0, 0, 0.7);
   box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 15vw; /* Hauteur minimum pour garder visuel */
+  min-height: 15vh;
 }
 
 #score-a {
   color: #ff4d4d;
   background-color: rgba(255, 77, 77, 0.15);
-  border: 0.3vw solid #ff4d4d;
+  border: 0.3rem solid #ff4d4d;
   box-shadow: 0 0 15px rgba(255, 77, 77, 0.5);
 }
 
 #score-b {
   color: #3399ff;
   background-color: rgba(51, 153, 255, 0.15);
-  border: 0.3vw solid #3399ff;
+  border: 0.3rem solid #3399ff;
   box-shadow: 0 0 15px rgba(51, 153, 255, 0.5);
 }
 
 .fautes {
   display: flex;
   justify-content: center;
-  gap: 1vw;
-  margin-top: 1.2vh;
+  gap: 1rem;
+  margin-top: 2rem;
 }
 
 .faute-dot {
-  width: 2vw;
-  height: 2vw;
+  width: 2rem;
+  height: 2rem;
   border-radius: 50%;
-  border: 0.3vw solid white;
+  border: 0.3rem solid white;
   background-color: transparent;
   flex-shrink: 0;
 }
@@ -147,7 +140,7 @@
 }
 
 .faute-dot.aigles {
-  background-color: #bfbf88 !important; /* gris-jaune */
+  background-color: #bfbf88 !important;
   border-color: #bfbf88 !important;
 }
 
@@ -157,7 +150,7 @@
   object-fit: cover;
   transform-origin: center;
   transform: scaleX(-1) scale(1.65) translateX(20.2%) translateY(-17.5%);
-  image-rendering: crisp-edges; /* améliore parfois le rendu */
+  image-rendering: crisp-edges;
 }
 
 #team-b .photo-aigles {
@@ -169,7 +162,7 @@
   height: 100%;
   object-fit: cover;
   object-position: top;
-  image-rendering: crisp-edges; /* améliore parfois le rendu */
+  image-rendering: crisp-edges;
   transform: scale(1.40) translateY(15%) translateX(-15%);
 }
 
@@ -199,9 +192,8 @@
 }
 
 #team-a .photo-requins {
-  transform: scaleX(-1)
+  transform: scaleX(-1);
 }
-
 
 .faute-dot.active {
   background-color: white;
@@ -209,96 +201,94 @@
 
 .theme-box {
   background-color: #202020;
-  border-radius: 1vw;
-  padding: 5vh 5vw; /* ← augmenté ici */
-  width: 96vw;
-  max-width: 96vw;
+  border-radius: 1rem;
+  padding: 5% 5%;
+  width: 96%;
+  max-width: 96%;
   text-align: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  box-sizing: border-box; /* ← ajouté ici */
+  box-sizing: border-box;
 }
 
 .theme-box.pushed-on-top{
-  padding: 2vh 5vw; /* ← augmenté ici */
-  margin-top: 5vh;
+  padding: 2% 5%;
+  margin-top: 5%;
 }
 
 .theme-type {
-  font-size: 2vw;
+  font-size: clamp(1rem, 2vw, 2rem);
   font-weight: bold;
   color: #ccc;
-  margin-bottom: 1vh;
+  margin-bottom: 1rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
 
 .theme-title {
-  font-size: 4vw;
+  font-size: clamp(1.5rem, 4vw, 4rem);
   font-weight: bold;
-  margin: 1vh 0;
+  margin: 1rem 0;
   color: white;
   text-transform: uppercase;
 }
 
 .theme-style {
-  font-size: 2vw;
+  font-size: clamp(1rem, 2vw, 2rem);
   color: #ccc;
-  margin-top: 1vh;
+  margin-top: 1rem;
 }
 
 @media (max-width: 768px) {
   .total-timer {
-    font-size: 4vw;
+    font-size: clamp(1rem, 4vw, 2rem);
   }
 
   .round-timer {
-    font-size: 10vw;
+    font-size: clamp(2rem, 10vw, 8rem);
     flex: 1;
-    padding: 0 1vw;
+    padding: 0 1rem;
   }
 
   .teams {
-    gap: 5vw;
+    gap: 2rem;
   }
 
   .team {
-    gap: 3vw;
+    gap: 1.5rem;
   }
 
   .score {
-    font-size: 14vw;
-    padding: 1vw 2.5vw;
-    min-height: 25vw;
+    font-size: clamp(3rem, 14vw, 12rem);
+    padding: 1rem 2.5rem;
+    min-height: 25vh;
   }
 
   .team img {
-    width: 25vw;
+    width: 25%;
     height: auto;
     max-height: 100%;
   }
 
   .fautes {
-    margin-top: 10vh;
+    margin-top: 5rem;
   }
 
   .faute-dot {
-    width: 5vw;
-    height: 5vw;
+    width: 5rem;
+    height: 5rem;
   }
 
   .theme-type {
-    font-size: 4vw;
+    font-size: clamp(1rem, 4vw, 2rem);
   }
 
   .theme-title {
-    font-size: 6vw;
+    font-size: clamp(2rem, 6vw, 4rem);
   }
 
   .theme-style {
-    font-size: 4vw;
+    font-size: clamp(1rem, 4vw, 2rem);
   }
 }
-
-

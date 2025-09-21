@@ -1,5 +1,7 @@
-  <div class="myContainer"
-       [class.pushed-on-top]="projectionMode() === ProjectionMode.PUSHED_ON_TOP"
+<div [ngStyle]="screenStyle()">
+<div class="myContainer"
+     [ngStyle]="containerStyle()"
+     [class.pushed-on-top]="projectionMode() === ProjectionMode.PUSHED_ON_TOP"
   >
     <div class="top-section"
          [class.pushed-on-top]="projectionMode() === ProjectionMode.PUSHED_ON_TOP"
@@ -40,3 +42,4 @@
       </div>
     }
   </div>
+</div>

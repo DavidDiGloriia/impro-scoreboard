@@ -1,14 +1,14 @@
-import {Component, computed, effect, input, InputSignal} from '@angular/core';
-import {NgClass, NgForOf, NgIf} from "@angular/common";
+import {Component, effect, input, InputSignal} from '@angular/core';
+import {NgClass, NgIf, NgStyle} from "@angular/common";
 import { ProjectionMode } from '@enums/projection-mode.enum';
 import {ImproDataService} from "@services/impro-data.service";
 
 @Component({
   selector: 'app-anthem',
   imports: [
-    NgForOf,
     NgClass,
-    NgIf
+    NgIf,
+    NgStyle
   ],
   templateUrl: './anthem.component.html',
   styleUrl: './anthem.component.scss',
@@ -16,6 +16,8 @@ import {ImproDataService} from "@services/impro-data.service";
 export class AnthemComponent {
   protected readonly ProjectionMode = ProjectionMode;
   projectionMode: InputSignal<ProjectionMode> = input.required();
+  screenStyle = this._improDataService.screenStyle;
+  containerStyle = this._improDataService.containerStyle;
 
   line = '';
   classLine: string;
