@@ -19,10 +19,10 @@
 
 <!-- Paragraphe explicatif -->
 <p class="text-center text-muted mb-3">
-  Utilise les flèches ci-dessous ou les touches fléchées du clavier pour ajuster précisément la position de l'écran projeté.
+  Utilisez les flèches ci-dessous ou les touches fléchées du clavier pour ajuster précisément la position de l'écran projeté.
 </p>
 
-<!-- Flèches de contrôle -->
+<!-- Flèches + coordonnées -->
 <div class="d-flex flex-column align-items-center gap-2">
   <!-- Flèche haut -->
   <button
@@ -57,4 +57,11 @@
     (click)="moveProjection('down')">
     ↓
   </button>
+
+  <!-- Coordonnées améliorées et plus grosses -->
+  <div class="mt-2 px-4 py-2 border border-secondary rounded bg-white text-center fs-5 fw-bold">
+    X: {{ projectionData.value().x }} &nbsp;
+    Y: {{ projectionData.value().y }}
+  </div>
+
 </div>

@@ -7,4 +7,5 @@ export enum StorageKey {
   WATCHED_VIDEO = 'watchedVideo',
   PUBS = 'pubs',
   ANTHEM = 'anthem',
+  PROJECTION_DATA = 'projectionData',
 }

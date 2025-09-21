@@ -6,3 +6,4 @@ export * from './player';
 export * from './timer-handling';
 export * from './impro-data';
 export * from './pub-handling';
+export * from './projection-data';

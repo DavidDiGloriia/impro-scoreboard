@@ -3,6 +3,7 @@ import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {DisplayedScreen} from "@enums/displayed-screen.enum";
 import {ImproDataService} from "@services/impro-data.service";
 import {WindowService} from "@services/window.service";
+import {ProjectionData} from "@models/projection-data";
 
 @Component({
   selector: 'app-projection-handling',
@@ -16,6 +17,7 @@ export class ProjectionHandlingComponent implements OnInit, OnDestroy {
   private _previousDisplayedScreen: DisplayedScreen | null = null;
 
   displayedScreen = this._improDataService.displayedScreen;
+  projectionData = this._improDataService.projectionData;
 
   activeButton: 'up' | 'down' | 'left' | 'right' | null = null;
 
@@ -73,10 +75,46 @@ export class ProjectionHandlingComponent implements OnInit, OnDestroy {
 
   moveProjection(direction: 'up' | 'down' | 'left' | 'right') {
     this.activeButton = direction;
+
+    // Récupère les données actuelles
+    const current = this.projectionData.value();
+    let newX = current.x;
+    let newY = current.y;
+
+    // Ajuste en fonction de la direction
+    switch (direction) {
+      case 'up':
+        newY -= 1;
+        break;
+      case 'down':
+        newY += 1;
+        break;
+      case 'left':
+        newX -= 1;
+        break;
+      case 'right':
+        newX += 1;
+        break;
+    }
+
+    this._improDataService.saveProjectionData(
+      new ProjectionData({
+        ...current,
+        x: newX,
+        y: newY
+      })).pipe(takeUntilDestroyed(this._destroyRef)).subscribe({
+      next: (data) => {
+        this.projectionData.set(data);
+      }
+    })
+
+    // Réinitialise l'état du bouton après un petit délai pour l'effet visuel
     setTimeout(() => this.activeButton = null, 150);
   }
 
   resetPosition() {
 
   }
+
+
 }

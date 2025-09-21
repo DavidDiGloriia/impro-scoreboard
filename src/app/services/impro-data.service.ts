@@ -16,6 +16,8 @@ import {TimerHandling} from "@models/timer-handling";
 import {TimerAction} from "@enums/timer-action.enum";
 import {MediaHandling} from "@models/media-handling";
 import {MediaHandlingDto} from "../dtos";
+import {ProjectionData} from "@models/projection-data";
+import {ProjectionDataDto} from "../dtos/projection-data.dto";
 
 @Injectable({
   providedIn: 'root'
@@ -64,6 +66,11 @@ export class ImproDataService {
           this.anthemLine.set(line);
           break;
         }
+        case StorageKey.PROJECTION_DATA.toString(): {
+          const dto = JSON.parse(event.newValue || '{}') as ProjectionDataDto;
+          this.projectionData.set(new ProjectionData(dto));
+          break;
+        }
       }
     });
 
@@ -104,6 +111,11 @@ export class ImproDataService {
   public mediaHandling: ResourceRef<MediaHandling> = rxResource({
     loader: () => this.getMediaWatched(),
     defaultValue: new MediaHandling({})
+  });
+
+  public projectionData: ResourceRef<ProjectionData> = rxResource({
+    loader: () => this.getProjectionData(),
+    defaultValue: new ProjectionData({})
   });
 
   public improTimerHandling: ResourceRef<TimerHandling> = rxResource({
@@ -209,6 +221,20 @@ export class ImproDataService {
     return of(this._storageService.read<MediaHandlingDto>(StorageKey.WATCHED_VIDEO))
       .pipe(
         map((dto: MediaHandlingDto) => new MediaHandling(dto))
+      );
+  }
+
+  getProjectionData(): Observable<ProjectionData> {
+    return of(this._storageService.read<ProjectionDataDto>(StorageKey.PROJECTION_DATA))
+      .pipe(
+        map((dto: ProjectionDataDto) => new ProjectionData(dto))
+      );
+  }
+
+  saveProjectionData(data: ProjectionData): Observable<ProjectionData> {
+    return of(this._storageService.save<ProjectionDataDto>(StorageKey.PROJECTION_DATA, data.toDto()))
+      .pipe(
+        map((dto) => new ProjectionData(dto))
       );
   }
 
