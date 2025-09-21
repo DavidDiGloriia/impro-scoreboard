@@ -46,6 +46,32 @@ ipcMain.handle('list-pubs-files', () => {
 ipcMain.handle('list-match-files', () => {
   return fs.readdirSync(matchFolder);
 });
+
+// Mettre en plein écran une fenêtre spécifique
+ipcMain.handle('set-fullscreen', (event, windowName: 'control' | 'projection', fullscreen: boolean) => {
+  let win: BrowserWindow | null = windowName === 'control' ? controlWindow : projectionWindow;
+  if (win) {
+    win.setFullScreen(fullscreen);
+  }
+});
+
+// Déplacer une fenêtre sur un écran spécifique
+ipcMain.handle('move-window-to-display', (event, windowName: 'control' | 'projection', displayIndex: number) => {
+  const displays = screen.getAllDisplays();
+  const display = displays[displayIndex] || displays[0];
+  let win: BrowserWindow | null = windowName === 'control' ? controlWindow : projectionWindow;
+  if (win) {
+    const bounds = win.getBounds();
+    win.setBounds({
+      x: display.bounds.x + 50, // léger offset si nécessaire
+      y: display.bounds.y + 50,
+      width: bounds.width,
+      height: bounds.height
+    });
+  }
+});
+
+
 // ---------------------------------------------------------
 
 // Empêche plusieurs instances d'Electron
@@ -174,3 +200,5 @@ app.on('activate', () => {
     createWindowsOnce();
   }
 });
+
+

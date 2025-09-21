@@ -2,24 +2,6 @@
 import { Injectable } from '@angular/core';
 import { from, Observable } from 'rxjs';
 
-declare global {
-  interface Window {
-    electronAPI: {
-      // Racine
-      getUserFolder: () => Promise<string>;
-      listUserFiles: () => Promise<string[]>;
-
-      // PUBS
-      getPubsFolder: () => Promise<string>;
-      listPubsFiles: () => Promise<string[]>;
-
-      // MATCH
-      getMatchFolder: () => Promise<string>;
-      listMatchFiles: () => Promise<string[]>;
-    };
-  }
-}
-
 @Injectable({
   providedIn: 'root'
 })

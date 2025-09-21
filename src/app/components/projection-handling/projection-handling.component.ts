@@ -2,6 +2,7 @@ import {Component, DestroyRef, inject, OnDestroy, OnInit} from '@angular/core';
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {DisplayedScreen} from "@enums/displayed-screen.enum";
 import {ImproDataService} from "@services/impro-data.service";
+import {WindowService} from "@services/window.service";
 
 @Component({
   selector: 'app-projection-handling',
@@ -15,6 +16,8 @@ export class ProjectionHandlingComponent implements OnInit, OnDestroy {
   private _previousDisplayedScreen: DisplayedScreen | null = null;
 
   displayedScreen = this._improDataService.displayedScreen;
+
+  constructor(private windowService: WindowService) {}
 
   ngOnInit() {
     this._previousDisplayedScreen = this.displayedScreen.value();
@@ -34,5 +37,13 @@ export class ProjectionHandlingComponent implements OnInit, OnDestroy {
         this.displayedScreen.set(data);
       }
     })
+  }
+
+  fullscreen(win: 'control' | 'projection') {
+    this.windowService.setFullscreen(win, true);
+  }
+
+  move(win: 'control' | 'projection', displayIndex: number) {
+    this.windowService.moveWindowToDisplay(win, displayIndex);
   }
 }
