@@ -1,4 +1,6 @@
 export interface ProjectionDataDto {
-  x?: number;
-  y?: number;
+  left?: number;
+  right?: number;
+  top?: number;
+  bottom?: number;
 }

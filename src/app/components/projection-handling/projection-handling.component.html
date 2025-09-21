@@ -17,51 +17,58 @@
   </button>
 </div>
 
-<!-- Paragraphe explicatif -->
-<p class="text-center text-muted mb-3">
-  Utilisez les flèches ci-dessous ou les touches fléchées du clavier pour ajuster précisément la position de l'écran projeté.
+<p class="text-center text-muted mb-2">
+  Utilise les flèches pour choisir une direction et + et - pour ajuster la position. Tu peux aussi utiliser les boutons ci-dessous.
 </p>
 
-<!-- Flèches + coordonnées -->
-<div class="d-flex flex-column align-items-center gap-2">
-  <!-- Flèche haut -->
+<!-- Pad directionnel + sélection direction -->
+<div class="d-flex flex-column align-items-center mb-5">
+
+  <!-- Bouton Haut -->
   <button
-    class="btn btn-outline-primary"
-    [class.active]="activeButton === 'up'"
-    (click)="moveProjection('up')">
-    ↑
+    class="btn btn-outline-primary btn-lg mb-2"
+    [class.active]="activeDirection === 'top'"
+    (click)="selectDirection('top')">
+    Haut
   </button>
 
   <div class="d-flex gap-2">
-    <!-- Flèche gauche -->
+    <!-- Bouton Gauche -->
     <button
-      class="btn btn-outline-primary"
-      [class.active]="activeButton === 'left'"
-      (click)="moveProjection('left')">
-      ←
+      class="btn btn-outline-primary btn-lg"
+      [class.active]="activeDirection === 'left'"
+      (click)="selectDirection('left')">
+      Gauche
     </button>
 
-    <!-- Flèche droite -->
+    <!-- Bouton Droite -->
     <button
-      class="btn btn-outline-primary"
-      [class.active]="activeButton === 'right'"
-      (click)="moveProjection('right')">
-      →
+      class="btn btn-outline-primary btn-lg"
+      [class.active]="activeDirection === 'right'"
+      (click)="selectDirection('right')">
+      Droite
     </button>
   </div>
 
-  <!-- Flèche bas -->
+  <!-- Bouton Bas -->
   <button
-    class="btn btn-outline-primary"
-    [class.active]="activeButton === 'down'"
-    (click)="moveProjection('down')">
-    ↓
+    class="btn btn-outline-primary btn-lg mt-2"
+    [class.active]="activeDirection === 'bottom'"
+    (click)="selectDirection('bottom')">
+    Bas
   </button>
+</div>
 
-  <!-- Coordonnées améliorées et plus grosses -->
-  <div class="mt-2 px-4 py-2 border border-secondary rounded bg-white text-center fs-5 fw-bold">
-    X: {{ projectionData.value().x }} &nbsp;
-    Y: {{ projectionData.value().y }}
-  </div>
+<!-- Boutons + et - pour ajuster la valeur -->
+<div class="d-flex justify-content-center gap-3 mb-3 mt-5">
+  <button class="btn btn-primary btn-lg px-4" (click)="changeValue(activeDirection, -1)">-</button>
+  <button class="btn btn-primary btn-lg px-4" (click)="changeValue(activeDirection, +1)">+</button>
+</div>
 
+<!-- Affichage des valeurs actuelles -->
+<div class="d-flex justify-content-center gap-4 mt-3 flex-wrap">
+  <span class="badge bg-primary fs-5 px-3 py-2">Haut: {{ projectionData.value().top }}</span>
+  <span class="badge bg-primary fs-5 px-3 py-2">Bas: {{ projectionData.value().bottom }}</span>
+  <span class="badge bg-primary fs-5 px-3 py-2">Gauche: {{ projectionData.value().left }}</span>
+  <span class="badge bg-primary fs-5 px-3 py-2">Droite: {{ projectionData.value().right }}</span>
 </div>

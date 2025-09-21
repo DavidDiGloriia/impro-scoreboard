@@ -5,29 +5,55 @@ export class ProjectionData {
     this._dto = _dto ? _dto : {};
   }
 
-  get x(): number {
-    return this._dto.x || 0;
+  get top(): number {
+    return this._dto.top || 0;
   }
 
-  set x(value: number) {
-    this._dto.x = value;
+  set top(value: number) {
+    this._dto.top = value;
   }
 
-  withX(x: number): ProjectionData {
-    this.x = x;
+  withTop(value: number): ProjectionData {
+    this.top = value;
     return this;
   }
 
-  get y(): number {
-    return this._dto.y || 0;
+  get bottom(): number {
+    return this._dto.bottom || 0;
   }
 
-  set y(value: number) {
-    this._dto.y = value;
+  set bottom(value: number) {
+    this._dto.bottom = value;
   }
 
-  withY(y: number): ProjectionData {
-    this.y = y;
+  withBottom(value: number): ProjectionData {
+    this.bottom = value;
+    return this;
+  }
+
+  get left(): number {
+    return this._dto.left || 0;
+  }
+
+  set left(value: number) {
+    this._dto.left = value;
+  }
+
+  withLeft(value: number): ProjectionData {
+    this.left = value;
+    return this;
+  }
+
+  get right(): number {
+    return this._dto.right || 0;
+  }
+
+  set right(value: number) {
+    this._dto.right = value;
+  }
+
+  withRight(value: number): ProjectionData {
+    this.right = value;
     return this;
   }
 

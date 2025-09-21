@@ -1,9 +1,9 @@
-import {Component, DestroyRef, HostListener, inject, OnDestroy, OnInit} from '@angular/core';
-import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
-import {DisplayedScreen} from "@enums/displayed-screen.enum";
-import {ImproDataService} from "@services/impro-data.service";
-import {WindowService} from "@services/window.service";
-import {ProjectionData} from "@models/projection-data";
+import { Component, DestroyRef, HostListener, inject, OnDestroy, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { DisplayedScreen } from "@enums/displayed-screen.enum";
+import { ImproDataService } from "@services/impro-data.service";
+import { WindowService } from "@services/window.service";
+import { ProjectionData } from "@models/projection-data";
 
 @Component({
   selector: 'app-projection-handling',
@@ -19,8 +19,11 @@ export class ProjectionHandlingComponent implements OnInit, OnDestroy {
   displayedScreen = this._improDataService.displayedScreen;
   projectionData = this._improDataService.projectionData;
 
-  activeButton: 'up' | 'down' | 'left' | 'right' | null = null;
+  // Direction sélectionnée par l'utilisateur via les boutons
+  activeDirection: 'top' | 'bottom' | 'left' | 'right' = 'top';
 
+  // Indicateur pour effet visuel des flèches
+  activeButton: 'up' | 'down' | 'left' | 'right' | null = null;
 
   constructor(private windowService: WindowService) {}
 
@@ -38,15 +41,14 @@ export class ProjectionHandlingComponent implements OnInit, OnDestroy {
     this._previousDisplayedScreen = this.displayedScreen.value();
     this._improDataService.saveDisplayedScreen(screen)
       .pipe(takeUntilDestroyed(this._destroyRef)).subscribe({
-      next: (data) => {
-        this.displayedScreen.set(data);
-      }
-    })
+      next: (data) => this.displayedScreen.set(data)
+    });
   }
 
   notFullscreen(win: 'control' | 'projection') {
     this.windowService.setFullscreen(win, false);
   }
+
   fullscreen(win: 'control' | 'projection') {
     this.windowService.setFullscreen(win, true);
   }
@@ -55,66 +57,73 @@ export class ProjectionHandlingComponent implements OnInit, OnDestroy {
     this.windowService.moveWindowToDisplay(win, displayIndex);
   }
 
+  selectDirection(direction: 'top' | 'bottom' | 'left' | 'right') {
+    this.activeDirection = direction;
+  }
+
   @HostListener('window:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
-    switch (event.key) {
+    switch(event.key) {
       case 'ArrowUp':
-        this.moveProjection('up');
+        this.selectDirection('top');
+        this.activeButton = 'up';
         break;
       case 'ArrowDown':
-        this.moveProjection('down');
+        this.selectDirection('bottom');
+        this.activeButton = 'down';
         break;
       case 'ArrowLeft':
-        this.moveProjection('left');
+        this.selectDirection('left');
+        this.activeButton = 'left';
         break;
       case 'ArrowRight':
-        this.moveProjection('right');
+        this.selectDirection('right');
+        this.activeButton = 'right';
         break;
+      case '+':
+        this.changeValue(this.activeDirection, +1);
+        break;
+      case '-':
+        this.changeValue(this.activeDirection, -1);
+    }
+
+    // Effet visuel temporaire
+    if(this.activeButton) {
+      setTimeout(() => this.activeButton = null, 150);
     }
   }
 
-  moveProjection(direction: 'up' | 'down' | 'left' | 'right') {
-    this.activeButton = direction;
+  changeValue(direction: 'top' | 'bottom' | 'left' | 'right', delta: number) {
+    const current: ProjectionData = this.projectionData.value().clone();
 
-    // Récupère les données actuelles
-    const current = this.projectionData.value();
-    let newX = current.x;
-    let newY = current.y;
-
-    // Ajuste en fonction de la direction
-    switch (direction) {
-      case 'up':
-        newY -= 1;
-        break;
-      case 'down':
-        newY += 1;
-        break;
-      case 'left':
-        newX -= 1;
-        break;
-      case 'right':
-        newX += 1;
-        break;
+    switch(direction) {
+      case 'top': current.top = Math.max(0, current.top + delta); break;
+      case 'bottom': current.bottom = Math.max(0, current.bottom + delta); break;
+      case 'left': current.left = Math.max(0, current.left + delta); break;
+      case 'right': current.right = Math.max(0, current.right + delta); break;
     }
 
-    this._improDataService.saveProjectionData(
-      new ProjectionData({
-        ...current,
-        x: newX,
-        y: newY
-      })).pipe(takeUntilDestroyed(this._destroyRef)).subscribe({
-      next: (data) => {
-        this.projectionData.set(data);
-      }
-    })
+    // Mise à jour locale immédiate
+    this.projectionData.set(current);
 
-    // Réinitialise l'état du bouton après un petit délai pour l'effet visuel
-    setTimeout(() => this.activeButton = null, 150);
+    // Sauvegarde côté service
+    this._improDataService.saveProjectionData(current)
+      .pipe(takeUntilDestroyed(this._destroyRef))
+      .subscribe({
+        next: (data) => this.projectionData.set(data)
+      });
   }
+
+
 
   resetPosition() {
+    const reset: ProjectionData = new ProjectionData({ top: 0, bottom: 0, left: 0, right: 0 });
+    this.projectionData.set(reset);
 
+    this._improDataService.saveProjectionData(reset)
+      .pipe(takeUntilDestroyed(this._destroyRef))
+      .subscribe({
+        next: (data) => this.projectionData.set(data)
+      });
   }
-
-
 }
