@@ -1,10 +1,22 @@
 <div class="row mt-3">
   <div class="card shadow-sm p-4 mb-4">
+    <!-- Dossier -->
     <div class="mb-3">
       <label for="folderPath" class="form-label">Fichiers trouvés à partir de :</label>
       <input type="text" id="folderPath" class="form-control" [value]="folderPath()" disabled>
     </div>
 
+    <!-- Options -->
+    <div class="mb-3 d-flex align-items-center gap-3">
+      <label class="form-check-label">
+        <input type="checkbox" class="form-check-input me-2" [ngModel]="loopEnabled()"
+                (click)="toggleLoop()"
+        />
+        Lire en boucle
+      </label>
+    </div>
+
+    <!-- Liste des médias -->
     <div class="mb-3">
       <h6>Liste des médias :</h6>
       <div class="list-group"
@@ -21,13 +33,21 @@
                 [class.active]="file === mediaFile()?.videoId"
                 (click)="onMediaClick(file)"
                 cdkDrag>
-          {{ file }}
+
+          <div class="d-flex align-items-center gap-2 flex-grow-1">
+            <input type="checkbox"
+                   [checked]="!disabledFiles().has(file)"
+                   (click)="$event.stopPropagation()"
+                   (change)="toggleFile(file)" />
+            {{ file }}
+          </div>
+
           <span class="text-muted ms-2" cdkDragHandle style="cursor: grab;">⠿</span>
         </button>
-
       </div>
     </div>
 
+    <!-- Aperçu -->
     <div style="position: relative; width: 100%; max-width: 800px; margin: auto;">
 
       @if(mediaType() === MediaType.VIDEO){

@@ -3,30 +3,33 @@ import {
   Component,
   computed,
   DestroyRef,
-  effect,
   ElementRef,
-  inject, OnDestroy,
+  inject,
+  OnDestroy,
   OnInit,
   Signal,
   signal,
   ViewChild,
   WritableSignal
 } from '@angular/core';
-import {UserFilesService} from "@services/user-files.service";
-import {NgForOf} from "@angular/common";
-import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
-import {ImproDataService} from "@services/impro-data.service";
-import {MediaHandling} from "@models/media-handling";
-import {MediaAction} from "@enums/video-action.enum";
-import {MediaType} from "@enums/media-type.enum";
-import {IMG_EXTENSIONS, VIDEO_EXTENSIONS} from "@constants/media-extentions.constants";
-import {CdkDragDrop, DragDropModule, moveItemInArray} from "@angular/cdk/drag-drop";
+import { NgForOf, NgIf } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
+
+import { UserFilesService } from "@services/user-files.service";
+import { ImproDataService } from "@services/impro-data.service";
+import { MediaHandling } from "@models/media-handling";
+import { MediaAction } from "@enums/video-action.enum";
+import { MediaType } from "@enums/media-type.enum";
+import { IMG_EXTENSIONS, VIDEO_EXTENSIONS } from "@constants/media-extentions.constants";
 
 @Component({
   selector: 'app-display-pubs-manager',
-  imports: [NgForOf, DragDropModule],
+  standalone: true,
+  imports: [NgForOf, NgIf, DragDropModule, FormsModule],
   templateUrl: './display-pubs-manager.component.html',
-  styleUrl: './display-pubs-manager.component.scss'
+  styleUrls: ['./display-pubs-manager.component.scss']
 })
 export class DisplayPubsManagerComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly MediaType = MediaType;
@@ -34,88 +37,98 @@ export class DisplayPubsManagerComponent implements OnInit, AfterViewInit, OnDes
   folderPath: WritableSignal<string> = signal('');
   files: WritableSignal<string[]> = signal([]);
 
-  @ViewChild('myVideo', {static: false}) videoRef!: ElementRef<HTMLVideoElement>;
+  @ViewChild('myVideo', { static: false }) videoRef?: ElementRef<HTMLVideoElement>;
   video: WritableSignal<HTMLVideoElement | null> = signal(null);
 
-  mediaFile: WritableSignal<MediaHandling> = signal(null);
+  mediaFile: WritableSignal<MediaHandling | null> = signal(null);
   videoHandling = this._improDataService.mediaHandling;
 
+  loopEnabled: WritableSignal<boolean> = signal(false);
+  disabledFiles: WritableSignal<Set<string>> = signal(new Set());
+
   private _destroyRef = inject(DestroyRef);
-  private _imageTimeout: any;
+  private _imageTimeout: any = null;
 
   mediaPath = computed(() => {
-    if (!this.mediaFile()) return null;
-    return this.mediaFile().videoId ? `file://${this.folderPath()}/${this.mediaFile().videoId}` : null;
+    const m = this.mediaFile();
+    if (!m) return null;
+    const id = this.getMediaId(m);
+    return id ? `file://${this.folderPath()}/${id}` : null;
   });
 
-  mediaType: Signal<MediaType> = computed(() => {
+  mediaType: Signal<MediaType | undefined> = computed(() => {
     if (!this.mediaFile()) return undefined;
     const path = this.mediaPath();
     if (!path) return undefined;
-
     const ext = path.split('.').pop()?.toLowerCase();
     if (ext && VIDEO_EXTENSIONS.includes(ext)) return MediaType.VIDEO;
     if (ext && IMG_EXTENSIONS.includes(ext)) return MediaType.IMAGE;
+    return undefined;
   });
 
   constructor(
     private _userFilesService: UserFilesService,
     private _improDataService: ImproDataService,
-  ) {
-
-  }
+  ) {}
 
   ngOnInit(): void {
     this._userFilesService.getPubsFolder()
+      .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe(path => this.folderPath.set(path));
 
     this.loadFiles();
 
-    // Charger l'ordre sauvegardé
-    const savedOrder = localStorage.getItem('mediaOrder');
-    if (savedOrder) {
-      const orderArray: string[] = JSON.parse(savedOrder);
-      // On garde uniquement les fichiers encore existants
-      const filtered = orderArray.filter(f => this.files().includes(f));
-      const missing = this.files().filter(f => !filtered.includes(f));
-      this.files.set([...filtered, ...missing]); // merge avec nouveaux fichiers
+    // Charger état loop et fichiers désactivés
+    const savedLoop = localStorage.getItem('loopEnabled');
+    if (savedLoop !== null) {
+      this.loopEnabled.set(savedLoop === 'true');
+    }
+
+    const savedDisabled = localStorage.getItem('disabledFiles');
+    if (savedDisabled) {
+      try {
+        this.disabledFiles.set(new Set(JSON.parse(savedDisabled)));
+      } catch {
+        this.disabledFiles.set(new Set());
+      }
     }
   }
 
   ngAfterViewInit(): void {
-    if (this.videoRef) {
-      this.video.set(this.videoRef.nativeElement);
-    }
+    setTimeout(() => {
+      if (this.videoRef) this.video.set(this.videoRef.nativeElement);
+    }, 0);
   }
 
   ngOnDestroy(): void {
     if (this._imageTimeout) {
       clearTimeout(this._imageTimeout);
+      this._imageTimeout = null;
     }
-
     this.onMediaClick(null);
   }
 
   loadFiles(): void {
     this._userFilesService.getPubsMediaFiles()
+      .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe(files => {
-        // Vérifier si un ordre est déjà en localStorage
         const savedOrder = localStorage.getItem('mediaOrder');
         let orderedFiles = files;
-
         if (savedOrder) {
-          const orderArray: string[] = JSON.parse(savedOrder);
-          const filtered = orderArray.filter(f => files.includes(f));
-          const missing = files.filter(f => !filtered.includes(f));
-          orderedFiles = [...filtered, ...missing];
+          try {
+            const orderArray: string[] = JSON.parse(savedOrder);
+            const filtered = orderArray.filter(f => files.includes(f));
+            const missing = files.filter(f => !filtered.includes(f));
+            orderedFiles = [...filtered, ...missing];
+          } catch {
+            orderedFiles = files;
+          }
         }
-
         this.files.set(orderedFiles);
       });
   }
 
-
-  onMediaClick(fileName: string): void {
+  onMediaClick(fileName: string | null): void {
     if (this._imageTimeout) {
       clearTimeout(this._imageTimeout);
       this._imageTimeout = null;
@@ -131,10 +144,11 @@ export class DisplayPubsManagerComponent implements OnInit, AfterViewInit, OnDes
 
   playVideo(): void {
     const videoEl = this.video();
-    if (!this.mediaFile()?.videoId || !videoEl) return;
+    const id = this.getMediaId(this.mediaFile());
+    if (!id || !videoEl) return;
 
     this._improDataService.saveVideoWatched(new MediaHandling({
-      mediaId: this.mediaFile().videoId,
+      mediaId: id,
       action: MediaAction.PLAY
     }))
       .pipe(takeUntilDestroyed(this._destroyRef))
@@ -143,10 +157,11 @@ export class DisplayPubsManagerComponent implements OnInit, AfterViewInit, OnDes
 
   pauseVideo(): void {
     const videoEl = this.video();
-    if (!this.mediaFile()?.videoId || !videoEl) return;
+    const id = this.getMediaId(this.mediaFile());
+    if (!id || !videoEl) return;
 
     this._improDataService.saveVideoWatched(new MediaHandling({
-      mediaId: this.mediaFile().videoId,
+      mediaId: id,
       action: MediaAction.PAUSE
     }))
       .pipe(takeUntilDestroyed(this._destroyRef))
@@ -155,12 +170,13 @@ export class DisplayPubsManagerComponent implements OnInit, AfterViewInit, OnDes
 
   onTimeUpdate(): void {
     const videoEl = this.video();
-    if (!this.mediaFile()?.videoId || !videoEl) return;
+    const id = this.getMediaId(this.mediaFile());
+    if (!id || !videoEl) return;
 
     this._improDataService.saveVideoWatched(new MediaHandling({
-      mediaId: this.mediaFile().videoId,
+      mediaId: id,
       action: MediaAction.SET_TIME,
-      numberValue: videoEl.currentTime,
+      numberValue: videoEl.currentTime
     }))
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe(data => this.mediaFile.set(data));
@@ -168,12 +184,13 @@ export class DisplayPubsManagerComponent implements OnInit, AfterViewInit, OnDes
 
   onRateChange(): void {
     const videoEl = this.video();
-    if (!this.mediaFile()?.videoId || !videoEl) return;
+    const id = this.getMediaId(this.mediaFile());
+    if (!id || !videoEl) return;
 
     this._improDataService.saveVideoWatched(new MediaHandling({
-      mediaId: this.mediaFile().videoId,
+      mediaId: id,
       action: MediaAction.SET_RATE,
-      numberValue: videoEl.playbackRate,
+      numberValue: videoEl.playbackRate
     }))
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe(data => this.mediaFile.set(data));
@@ -184,13 +201,9 @@ export class DisplayPubsManagerComponent implements OnInit, AfterViewInit, OnDes
     moveItemInArray(currentFiles, event.previousIndex, event.currentIndex);
     this.files.set(currentFiles);
 
-    // Feedback visuel rapide
     const listEl = document.querySelector('.list-group');
     listEl?.classList.add('dropped');
     setTimeout(() => listEl?.classList.remove('dropped'), 300);
-
-    // Sauvegarde dans localStorage
-
 
     localStorage.setItem('mediaOrder', JSON.stringify(currentFiles));
   }
@@ -201,31 +214,80 @@ export class DisplayPubsManagerComponent implements OnInit, AfterViewInit, OnDes
       this._imageTimeout = null;
     }
 
-    const files = this.files();
-    if (!files.length) return;
-
-    const currentIndex = files.indexOf(this.mediaFile()?.videoId);
-    const nextIndex = currentIndex + 1;
-
-    if (nextIndex >= files.length) {
-      this.onEndOfMedia(); // <-- ta fonction à la fin
+    const activeFiles = this.getActiveFiles();
+    if (!activeFiles.length) {
+      this.onEndOfMedia();
       return;
     }
 
-    const nextFile = files[nextIndex];
-    if (!nextFile) return;
+    const currentId = this.getMediaId(this.mediaFile());
+    const currentIndex = activeFiles.indexOf(currentId ?? '');
+    let nextIndex = currentIndex + 1;
+    if (currentIndex === -1) nextIndex = 0;
 
-    const ext = nextFile.split('.').pop()?.toLowerCase();
-    this.onMediaClick(nextFile);
-
-    if (IMG_EXTENSIONS.includes(ext)) {
-      this._imageTimeout = setTimeout(() => {
-        this.nextMedia();
-      }, 30_000);
+    if (nextIndex >= activeFiles.length) {
+      if (this.loopEnabled()) {
+        nextIndex = 0;
+      } else {
+        this.onEndOfMedia();
+        return;
+      }
     }
+
+    const nextFile = activeFiles[nextIndex];
+    if (!nextFile) {
+      this.onEndOfMedia();
+      return;
+    }
+
+    this.onMediaClick(nextFile);
   }
 
   onEndOfMedia(): void {
+    if (this.loopEnabled()) {
+      const activeFiles = this.getActiveFiles();
+      if (activeFiles.length) {
+        this.onMediaClick(activeFiles[0]);
+        return;
+      }
+    }
     this.onMediaClick(null);
+  }
+
+  toggleFile(file: string): void {
+    const updated = new Set(this.disabledFiles());
+    if (updated.has(file)) updated.delete(file);
+    else updated.add(file);
+    this.disabledFiles.set(updated);
+
+    // sauvegarde dans localStorage
+    localStorage.setItem('disabledFiles', JSON.stringify([...updated]));
+
+    const currentId = this.getMediaId(this.mediaFile());
+    if (currentId && !this.isFileEnabled(currentId)) {
+      this.nextMedia();
+    }
+  }
+
+  toggleLoop(): void {
+    const newVal = !this.loopEnabled();
+    this.loopEnabled.set(newVal);
+
+    // sauvegarde dans localStorage
+    localStorage.setItem('loopEnabled', String(newVal));
+  }
+
+  private isFileEnabled(file: string | null | undefined): boolean {
+    if (!file) return false;
+    return !this.disabledFiles().has(file);
+  }
+
+  private getActiveFiles(): string[] {
+    return this.files().filter(f => this.isFileEnabled(f));
+  }
+
+  private getMediaId(obj: any): string | null {
+    if (!obj) return null;
+    return obj.videoId ?? obj.mediaId ?? obj.media_id ?? null;
   }
 }
