@@ -39,6 +39,9 @@ export class ProjectionHandlingComponent implements OnInit, OnDestroy {
     })
   }
 
+  notFullscreen(win: 'control' | 'projection') {
+    this.windowService.setFullscreen(win, false);
+  }
   fullscreen(win: 'control' | 'projection') {
     this.windowService.setFullscreen(win, true);
   }

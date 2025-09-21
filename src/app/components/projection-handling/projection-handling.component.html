@@ -1,2 +1,14 @@
-<button (click)="fullscreen('projection')">Plein écran projection</button>
-<button (click)="move('projection', 1)">Déplacer sur écran 2</button>
+<div class="p-3 d-flex gap-2">
+  <button class="btn btn-primary" (click)="notFullscreen('projection')">
+    Retirer plein écran
+  </button>
+  <button class="btn btn-primary" (click)="fullscreen('projection')">
+    Plein écran
+  </button>
+  <button class="btn btn-secondary" (click)="move('projection', 1)">
+    Déplacer sur écran 1
+  </button>
+  <button class="btn btn-secondary" (click)="move('projection', 2)">
+    Déplacer sur écran 2
+  </button>
+</div>
