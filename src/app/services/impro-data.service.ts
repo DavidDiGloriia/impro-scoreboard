@@ -1,4 +1,4 @@
-import {Injectable, ResourceRef} from "@angular/core";
+import {computed, Injectable, ResourceRef} from "@angular/core";
 import {LocalStorageService} from "@services/storage.service";
 import {HttpClient} from "@angular/common/http";
 import {GameDataDto, ImproDataDto, PlayerMetadataDto, TeamMetadataDto, TimerHandlingDto} from "../dtos";
@@ -73,12 +73,31 @@ export class ImproDataService {
         }
       }
     });
-
   }
+
+  screenStyle = computed(() => {
+    const projectionData = this.projectionData.value();
+    return {
+      paddingTop: projectionData.y > 0 ? ` ${projectionData.y}vh` : '0',
+      paddingLeft: projectionData.x > 0 ? ` ${projectionData.x}vw` : '0',
+      paddingBottom: projectionData.y < 0 ? ` ${-projectionData.y}vh` : '0',
+      paddingRight: projectionData.x < 0 ? ` ${-projectionData.x}vw` : '0',
+    }
+  })
+
+  containerStyle = computed(() => {
+    const projectionData = this.projectionData.value();
+    const xAbs = Math.abs(projectionData.x);
+    const yAbs = Math.abs(projectionData.y);
+    return {
+      width: xAbs > 0 ? ` ${100 - xAbs}vw` : '100vw',
+      height: yAbs > 0 ? ` ${100 - yAbs}vh` : '100vh',
+    }
+  })
 
   public players: ResourceRef<PlayerMetadata[]> = rxResource({
     loader: () => this.getPlayers(),
-    defaultValue: []
+    defaultValue: [],
   });
 
   public teams: ResourceRef<Record<string, TeamMetadata>> = rxResource({

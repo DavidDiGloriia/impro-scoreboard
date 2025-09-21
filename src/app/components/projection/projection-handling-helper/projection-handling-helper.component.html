@@ -1,15 +1,20 @@
-<div class="main-wrapper">
-  <div class="cell invisible"></div>
-  <div class="cell invisible"></div>
-  <div class="cell invisible"></div>
-  <div class="cell invisible"></div>
-  <div class="cell"></div>
-  <div class="cell invisible"></div>
-  <div class="cell invisible"></div>
-  <div class="cell invisible"></div>
-  <div class="cell invisible"></div>
+<div [ngStyle]="screenStyle()">
+  <div class="main-wrapper"
+       [ngStyle]="containerStyle()"
+  >
+    <div class="cell invisible"></div>
+    <div class="cell invisible"></div>
+    <div class="cell invisible"></div>
+    <div class="cell invisible"></div>
+    <div class="cell"></div>
+    <div class="cell invisible"></div>
+    <div class="cell invisible"></div>
+    <div class="cell invisible"></div>
+    <div class="cell invisible"></div>
 
-  <!-- lignes centrales -->
-  <div class="center-line vertical"></div>
-  <div class="center-line horizontal"></div>
+    <!-- lignes centrales -->
+    <div class="center-line vertical"></div>
+    <div class="center-line horizontal"></div>
+  </div>
 </div>
+
