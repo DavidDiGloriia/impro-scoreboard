@@ -7,4 +7,5 @@ export enum DisplayedScreen {
   ANTHEM = 'ANTHEM',
   MEDIA = 'MEDIA',
   PUBS = 'PUBS',
+  PROJECTION_HANDLING_HELPER = 'PROJECTION_HANDLING_HELPER',
 }

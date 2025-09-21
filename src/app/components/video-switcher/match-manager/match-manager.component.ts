@@ -1,4 +1,4 @@
-import {Component, DestroyRef, inject, ResourceRef} from '@angular/core';
+import {Component, DestroyRef, effect, inject, ResourceRef} from '@angular/core';
 import {DisplayedScreen} from "@enums/displayed-screen.enum";
 import {ImproDataService} from "@services/impro-data.service";
 import {GameData} from "@models/game-data";
@@ -49,6 +49,9 @@ export class MatchManagerComponent {
   private _destroyRef = inject(DestroyRef);
 
   constructor(private _improDataService: ImproDataService) {
+    effect(() => {
+      console.log(this.displayedScreen.value());
+    });
   }
 
   displayScreen(screen: DisplayedScreen) {

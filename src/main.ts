@@ -39,6 +39,10 @@ bootstrapApplication(AppComponent, {
             loadComponent: () => import('./app/components/video-switcher/match-manager/match-manager.component').then(m => m.MatchManagerComponent)
           },
           {
+            path: 'projectionHandling',
+            loadComponent: () => import('./app/components/projection-handling/projection-handling.component').then(m => m.ProjectionHandlingComponent)
+          },
+          {
             path: 'parameters',
             loadComponent: () => import('./app/components/video-switcher/match-parameters/match-parameters.component').then(m => m.MatchParametersComponent)
           },

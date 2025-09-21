@@ -1,0 +1,38 @@
+.main-wrapper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  background-color: red;
+  border: 15px solid lawngreen;
+}
+
+.cell {
+  border: 1px solid yellow;
+  background-color: black;
+}
+
+/* lignes centrales épaisses (au-dessus des cellules) */
+.center-line {
+  position: absolute;
+  background-color: red;
+  z-index: 10;
+}
+
+.center-line.vertical {
+  width: 15px;         /* épaisseur ligne verticale centrale */
+  height: 100%;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+}
+
+.center-line.horizontal {
+  height: 15px;        /* épaisseur ligne horizontale centrale */
+  width: 100%;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}

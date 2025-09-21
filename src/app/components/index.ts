@@ -11,3 +11,5 @@ export * from './video-switcher/match-manager/team-manager-panel/team-manager-pa
 export * from './video-switcher/match-manager/impro-manager-panel/impro-manager-panel.component'
 export * from './video-switcher/match-manager/time-manager-panel/time-manager-panel.component'
 export * from './video-switcher/video-switcher.component'
+export * from './projection-handling/projection-handling.component'
+export * from './projection/projection-handling-helper/projection-handling-helper.component'

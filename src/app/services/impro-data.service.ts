@@ -15,7 +15,7 @@ import {ImproData} from "@models/impro-data";
 import {TimerHandling} from "@models/timer-handling";
 import {TimerAction} from "@enums/timer-action.enum";
 import {MediaHandling} from "@models/media-handling";
-import {MediaHandlingDto} from "../dtos/media-handling.dto";
+import {MediaHandlingDto} from "../dtos";
 
 @Injectable({
   providedIn: 'root'
@@ -102,11 +102,6 @@ export class ImproDataService {
   });
 
   public mediaHandling: ResourceRef<MediaHandling> = rxResource({
-    loader: () => this.getMediaWatched(),
-    defaultValue: new MediaHandling({})
-  });
-
-  public pubsHandling: ResourceRef<MediaHandling> = rxResource({
     loader: () => this.getMediaWatched(),
     defaultValue: new MediaHandling({})
   });

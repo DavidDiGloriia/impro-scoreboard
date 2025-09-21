@@ -28,6 +28,9 @@
   @case (DisplayedScreen.ANTHEM) {
     <app-anthem [projectionMode]="gameData.value().projectionMode" />
   }
+  @case (DisplayedScreen.PROJECTION_HANDLING_HELPER) {
+    <app-projection-handling-helper />
+  }
   @default {
     <app-screen-saver/>
   }

@@ -13,6 +13,9 @@ import {PubsWatcherComponent} from "@components/projection/pubs-watcher/pubs-wat
 import {
   BothTeamsPresentationComponent
 } from "@components/projection/both-teams-presentation/both-teams-presentation.component";
+import {
+  ProjectionHandlingHelperComponent
+} from "@components/projection/projection-handling-helper/projection-handling-helper.component";
 
 @Component({
   selector: 'app-projection',
@@ -24,7 +27,8 @@ import {
     MediaWatcherComponent,
     AnthemComponent,
     PubsWatcherComponent,
-    BothTeamsPresentationComponent
+    BothTeamsPresentationComponent,
+    ProjectionHandlingHelperComponent
   ],
   templateUrl: './projection.component.html',
   styleUrl: './projection.component.scss',
