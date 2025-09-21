@@ -1,4 +1,4 @@
-import {Component, DestroyRef, inject, OnDestroy, OnInit} from '@angular/core';
+import {Component, DestroyRef, HostListener, inject, OnDestroy, OnInit} from '@angular/core';
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {DisplayedScreen} from "@enums/displayed-screen.enum";
 import {ImproDataService} from "@services/impro-data.service";
@@ -16,6 +16,9 @@ export class ProjectionHandlingComponent implements OnInit, OnDestroy {
   private _previousDisplayedScreen: DisplayedScreen | null = null;
 
   displayedScreen = this._improDataService.displayedScreen;
+
+  activeButton: 'up' | 'down' | 'left' | 'right' | null = null;
+
 
   constructor(private windowService: WindowService) {}
 
@@ -48,5 +51,32 @@ export class ProjectionHandlingComponent implements OnInit, OnDestroy {
 
   move(win: 'control' | 'projection', displayIndex: number) {
     this.windowService.moveWindowToDisplay(win, displayIndex);
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    switch (event.key) {
+      case 'ArrowUp':
+        this.moveProjection('up');
+        break;
+      case 'ArrowDown':
+        this.moveProjection('down');
+        break;
+      case 'ArrowLeft':
+        this.moveProjection('left');
+        break;
+      case 'ArrowRight':
+        this.moveProjection('right');
+        break;
+    }
+  }
+
+  moveProjection(direction: 'up' | 'down' | 'left' | 'right') {
+    this.activeButton = direction;
+    setTimeout(() => this.activeButton = null, 150);
+  }
+
+  resetPosition() {
+
   }
 }

@@ -1,4 +1,5 @@
-<div class="p-3 d-flex gap-2">
+<!-- Boutons principaux -->
+<div class="p-3 d-flex flex-wrap gap-2 justify-content-center mb-4">
   <button class="btn btn-primary" (click)="notFullscreen('projection')">
     Retirer plein écran
   </button>
@@ -10,5 +11,50 @@
   </button>
   <button class="btn btn-secondary" (click)="move('projection', 2)">
     Déplacer sur écran 2
+  </button>
+  <button class="btn btn-danger" (click)="resetPosition()">
+    Réinitialiser position
+  </button>
+</div>
+
+<!-- Paragraphe explicatif -->
+<p class="text-center text-muted mb-3">
+  Utilise les flèches ci-dessous ou les touches fléchées du clavier pour ajuster précisément la position de l'écran projeté.
+</p>
+
+<!-- Flèches de contrôle -->
+<div class="d-flex flex-column align-items-center gap-2">
+  <!-- Flèche haut -->
+  <button
+    class="btn btn-outline-primary"
+    [class.active]="activeButton === 'up'"
+    (click)="moveProjection('up')">
+    ↑
+  </button>
+
+  <div class="d-flex gap-2">
+    <!-- Flèche gauche -->
+    <button
+      class="btn btn-outline-primary"
+      [class.active]="activeButton === 'left'"
+      (click)="moveProjection('left')">
+      ←
+    </button>
+
+    <!-- Flèche droite -->
+    <button
+      class="btn btn-outline-primary"
+      [class.active]="activeButton === 'right'"
+      (click)="moveProjection('right')">
+      →
+    </button>
+  </div>
+
+  <!-- Flèche bas -->
+  <button
+    class="btn btn-outline-primary"
+    [class.active]="activeButton === 'down'"
+    (click)="moveProjection('down')">
+    ↓
   </button>
 </div>
