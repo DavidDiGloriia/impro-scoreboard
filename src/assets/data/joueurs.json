@@ -62,7 +62,8 @@
     "femme": true
   },
   {
-    "prenom": "Damien"
+    "prenom": "Damien",
+    "img": "assets/joueurs/damien"
   },
   {
     "prenom": "David",
@@ -137,7 +138,8 @@
     "img": "assets/joueurs/q"
   },
   {
-    "prenom": "Sbu"
+    "prenom": "Sbu",
+    "img": "assets/joueurs/sbu"
   },
   {
     "prenom": "Sophie",
@@ -159,6 +161,7 @@
     "femme": true
   },
   {
-    "prenom": "Wilhem"
+    "prenom": "Wilhem",
+    "img": "assets/joueurs/wilhem"
   }
 ]
