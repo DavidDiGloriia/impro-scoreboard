@@ -4,9 +4,10 @@ import { RoleNamePipe } from '@pipes/role-name.pipe';
 import { Team } from '@models/team';
 import { TeamMetadata } from '@models/team-metadata';
 import { PlayerMetadata } from '@models/player-metadata';
-import { find, keyBy } from 'lodash-es';
+import { find, omit, keyBy  } from 'lodash-es';
 import {NgForOf, NgIf} from "@angular/common";
 import {ImproDataService} from "@services/impro-data.service";
+
 @Component({
   selector: 'app-team-block-presentation',
   imports: [
@@ -28,6 +29,10 @@ export class TeamBlockPresentationComponent {
       return team.name === this.team().name;
     });
   })
+
+
+  filteredTeamPlayers = computed(() => omit(this.team().players, ['coach']));
+
 
   /** Indexation des joueurs par code */
   playersByCode: Signal<{ [name: string]: PlayerMetadata }> = computed(() => {

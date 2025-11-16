@@ -12,10 +12,10 @@
     "prenom": "Alex",
     "nom": "Colusi",
     "img": "assets/joueurs/alex-colusi",
-    "femme": true
+    "femme": false
   },
   {
-    "prenom": "Alex",
+    "prenom": "Alexandra",
     "nom": "Ducoux",
     "img": "assets/joueurs/alexandra-ducoux",
     "femme": true

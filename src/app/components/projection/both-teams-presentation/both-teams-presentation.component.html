@@ -1,13 +1,19 @@
-<div class="container-fluid px-3 py-4 bg-dark text-white">
-  <app-team-block-presentation
-    [team]="gameData().teamA"
-    [automaticPlayerPresentation]="gameData().automaticPlayerPresentation"
-    [players]="players.value()"
-  />
+<div [ngStyle]="screenStyle()">
+  <div class="main-container  mt-3 text-white d-flex flex-column"
+       [ngStyle]="containerStyle()"
+  >
+    <div class="teams-wrapper d-flex flex-column" [class.pushed-on-top]="projectionMode() === ProjectionMode.PUSHED_ON_TOP">
+      <app-team-block-presentation class="team-block"
+                                   [team]="gameData().teamA"
+                                   [automaticPlayerPresentation]="gameData().automaticPlayerPresentation"
+                                   [players]="players.value()"
+      />
 
-  <app-team-block-presentation
-    [team]="gameData().teamB"
-    [automaticPlayerPresentation]="gameData().automaticPlayerPresentation"
-    [players]="players.value()"
-  />
+      <app-team-block-presentation class="team-block"
+                                   [team]="gameData().teamB"
+                                   [automaticPlayerPresentation]="gameData().automaticPlayerPresentation"
+                                   [players]="players.value()"
+      />
+    </div>
+  </div>
 </div>

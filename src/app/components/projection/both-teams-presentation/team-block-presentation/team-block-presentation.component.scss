@@ -1,55 +1,116 @@
+:host {
+  display: block;
+  font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  color: #fff;
+}
+
+/* Conteneur principal du composant enfant */
+.main-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  box-sizing: border-box;
+  padding-bottom: 24px;
+  background-color: black;
+}
+
+/* Conteneur des joueurs - ligne unique */
+.players-container {
+  display: flex;
+  flex-wrap: nowrap;      /* ligne unique */
+  gap: 6px;
+  width: 100%;
+  box-sizing: border-box;
+  height: auto;           /* hauteur dynamique */
+  max-height: 50vh;       /* jamais dépasser 50% de la fenêtre */
+}
+
+/* Barre de joueur - largeur flexible et hauteur proportionnelle */
 .player-bar {
   position: relative;
-  width: 180px;
-  height: 280px;
+  flex: 1 1 0;           /* largeur flexible */
+  min-width: 0;           /* permet de réduire si beaucoup de joueurs */
   border-radius: 12px;
   overflow: hidden;
-  background-color: #1a1a1a;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.8);
+  transform: translateX(-30px);
+  height: 20vw;
+  max-height: 100%;       /* jamais dépasser le container */
 }
 
-.player-bar:hover {
-  transform: scale(1.05);
-  box-shadow: 0 8px 18px rgba(0,0,0,0.6);
-  z-index: 10;
-}
-
-/* Photo */
+/* Image du joueur */
 .player-photo {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: top center;
+  object-position: center;
   display: block;
 }
 
-/* Numéro */
+/* Numéro du joueur */
 .player-number {
   position: absolute;
-  top: 8px;
-  right: 8px;
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: rgba(255, 255, 255, 0.85);
+  top: 10px;
+  right: 10px;
+  font-size: 3.5rem;
+  font-weight: 900;
+  color: rgba(255, 255, 255, 0.7);
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+  user-select: none;
 }
 
-/* Overlay en bas */
+/* Overlay en bas de la carte */
 .overlay {
   position: absolute;
   bottom: 0;
   width: 100%;
-  padding: 10px;
-  background: linear-gradient(0deg, rgba(0,0,0,0.85) 30%, transparent);
-  color: #fff;
+  padding: 22px 16px;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.85) 30%, transparent 100%);
+  color: #eee;
+  box-sizing: border-box;
 }
 
+/* Position du joueur */
 .player-position {
-  font-size: 0.8rem;
+  font-size: 1.3rem;
+  font-weight: 500;
   text-transform: uppercase;
+  letter-spacing: 0.07em;
   color: #bbb;
+  margin-bottom: 4px;
 }
 
+/* Nom du joueur qui rétrécit si la carte devient étroite */
 .player-name {
-  font-size: 1.2rem;
   font-weight: 900;
+  user-select: none;
+  line-height: 1.1;
+  font-size: clamp(1rem, 4vw, 2.7rem);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Animation fade + slide */
+@keyframes fadeSlideIn {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Responsive pour tablettes */
+@media (max-width: 900px) {
+  .player-number { font-size: 2.5rem; }
+  .player-position { font-size: 1.1rem; }
+  .player-name { font-size: 2rem; }
+}
+
+/* Responsive pour mobiles */
+@media (max-width: 600px) {
+  .player-number { font-size: 2rem; }
+  .player-position { font-size: 1rem; }
+  .player-name { font-size: 1.6rem; }
 }
