@@ -1,13 +1,12 @@
-<!-- timer.component.html -->
 <div class="card shadow-sm p-4 mb-4">
-  <h4 class="fw-bold mb-3">{{ label() }}</h4>
-  <div class="mb-3 text-center border rounded p-3 bg-light">
-    <h2 class="fw-bold mb-0">{{ time | formatTime }} </h2>
+  <h5 class="fw-bold mb-2">{{ label() }}</h5>
+  <div class="mb-2 text-center border rounded p-2 bg-light">
+    <h4 class="fw-bold mb-0">{{ time | formatTime }} </h4>
   </div>
 
   <div class="d-flex mb-2 gap-2">
     <button class="btn btn-primary btn-lg flex-fill"
-            [class.nova]="shouldGlow()"
+            [class.btn-aura]="shouldGlow()"
             (click)="running() ? stopTimer() : startTimer()">
       {{ running() ? '▐▐' : '▶' }}
     </button>

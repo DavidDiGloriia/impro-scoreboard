@@ -4,11 +4,16 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  background: #111;
+  background: black;
   color: #fff;
   font-family: Arial, sans-serif;
   overflow: hidden;
 }
+
+:host ::ng-deep body {
+  background-color: #111 !important;
+}
+
 
 .myContainer.pushed-on-top {
   padding-bottom: 35vh;

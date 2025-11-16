@@ -16,6 +16,7 @@ export class TimeManagerPanelComponent implements OnInit {
   baseTime = input.required<number>();
   reviseTime = input.required<boolean>();
   isImproRunning = input.required<boolean>();
+  delay = input.required<number>();
 
   resetTime = output();
   startTime = output();
@@ -44,7 +45,7 @@ export class TimeManagerPanelComponent implements OnInit {
       if (this.isImproRunning() && !this.running()) {
         this._glowTimeout = setTimeout(() => {
           this.shouldGlow.set(true)
-        }, 30000);
+        }, this.delay());
       } else {
         clearTimeout(this._glowTimeout);
         this.shouldGlow.set(false)

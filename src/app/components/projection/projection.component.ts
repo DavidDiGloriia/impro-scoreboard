@@ -1,4 +1,4 @@
-import {Component, effect, OnDestroy, OnInit, ResourceRef, signal, WritableSignal} from '@angular/core';
+import {Component, effect, OnDestroy, OnInit, Renderer2, ResourceRef, signal, WritableSignal} from '@angular/core';
 import {RouterOutlet} from "@angular/router";
 import {DisplayedScreen} from "@enums/displayed-screen.enum";
 import {ImproDataService} from "@services/impro-data.service";
@@ -39,7 +39,9 @@ export class ProjectionComponent implements OnInit, OnDestroy {
   gameData = this._improDataService.gameData;
   improData = this._improDataService.improData;
 
-  constructor(private _improDataService: ImproDataService) {
+  constructor(private _improDataService: ImproDataService,
+              private _renderer: Renderer2
+              ) {
     effect(() => {
       this.improTimer.set(this._improDataService.improData.value().duration);
     });
@@ -79,9 +81,12 @@ export class ProjectionComponent implements OnInit, OnDestroy {
         this.improTimer.update(time => (time > 0 ? time - 1 : 0));
       }
     }, 1000);
+
+    this._renderer.setStyle(document.body, 'background-color', 'black');
   }
 
   ngOnDestroy() {
+    this._renderer.removeStyle(document.body, 'background-color');
     clearInterval(this.roundTimerInterval);
     clearInterval(this.improTimerInterval);
     this._improDataService.saveImproTimer(new TimerHandling().withAction(TimerAction.STOP))

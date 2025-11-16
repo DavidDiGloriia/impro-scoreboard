@@ -28,6 +28,7 @@
                             [baseTime]="improData.value().duration"
                             [reviseTime]="improData.value().alsoReviseDuration"
                             [isImproRunning]="improData.value().isImproRunning"
+                            [delay]="20000"
                             (startTime)="onImproStart()"
                             (stopTime)="onImproStop()"
                             (resetTime)="onImproReset()"
@@ -35,8 +36,9 @@
     />
     <app-time-manager-panel [label]="'Round'"
                             [baseTime]="2700"
+                            [delay]="50000"
                             [reviseTime]="true"
-                            [isImproRunning]="improData.value().isImproRunning"
+                            [isImproRunning]="true"
                             (startTime)="onRoundStart()"
                             (stopTime)="onRoundStop()"
                             (resetTime)="onRoundReset()"
