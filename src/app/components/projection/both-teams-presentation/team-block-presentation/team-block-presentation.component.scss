@@ -54,7 +54,7 @@
   position: absolute;
   top: 10px;
   right: 10px;
-  font-size: 3.5rem;
+  font-size: 3rem;
   font-weight: 900;
   color: rgba(255, 255, 255, 0.7);
   text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
@@ -91,26 +91,4 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-/* Animation fade + slide */
-@keyframes fadeSlideIn {
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-/* Responsive pour tablettes */
-@media (max-width: 900px) {
-  .player-number { font-size: 2.5rem; }
-  .player-position { font-size: 1.1rem; }
-  .player-name { font-size: 2rem; }
-}
-
-/* Responsive pour mobiles */
-@media (max-width: 600px) {
-  .player-number { font-size: 2rem; }
-  .player-position { font-size: 1rem; }
-  .player-name { font-size: 1.6rem; }
 }
