@@ -32,12 +32,19 @@ export class TimeManagerPanelComponent implements OnInit {
 
   private _timerInterval: any;
   private _glowTimeout: any;
+  private _wasImproRunning = false;
 
   constructor() {
     effect(() => {
-      if (!this.isImproRunning() || this.reviseTime()) {
+      const isRunning = this.isImproRunning();
+      const justStarted = isRunning && !this._wasImproRunning;
+      this._wasImproRunning = isRunning;
+
+      if (!isRunning || this.reviseTime()) {
         this.time = this.baseTime();
         this.stopTimer();
+      } else if (justStarted) {
+        this.time = this.baseTime();
       }
     });
 
