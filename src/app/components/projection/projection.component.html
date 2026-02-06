@@ -1,6 +1,6 @@
 @switch (displayedScreen?.value()) {
   @case (DisplayedScreen.SCREEN_SAVER){
-    <app-screen-saver/>
+    <app-screen-saver [projectionMode]="gameData.value().projectionMode"/>
   }
   @case (DisplayedScreen.MATCH) {
     <app-scoreboard [gameData]="gameData.value()"
@@ -34,7 +34,7 @@
     <app-projection-handling-helper />
   }
   @default {
-    <app-screen-saver/>
+    <app-screen-saver [projectionMode]="gameData.value().projectionMode"/>
   }
 }
 

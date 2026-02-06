@@ -1,6 +1,20 @@
 <div [ngStyle]="screenStyle()">
 <div [ngStyle]="containerStyle()"
-  class="bg-black text-white vh-100 d-flex justify-content-center align-items-center">
-  <span class="display-1 fw-bold">{{ 'www.improvisation.be' | uppercase }}</span>
+  class="bg-black text-white vh-100 d-flex flex-column justify-content-center align-items-center overflow-hidden"
+  [class.pushed-on-top]="projectionMode() === ProjectionMode.PUSHED_ON_TOP">
+
+  <span class="display-1 fw-bold mb-3">{{ 'www.improvisation.be' | uppercase }}</span>
+
+  <span class="fs-3 text-secondary mb-5">Suivez-nous sur les réseaux sociaux !</span>
+
+  <div class="d-flex gap-5">
+    <div class="qr">
+      <img src="assets/qrcodes/facebook.png" alt="Facebook" class="w-100 h-100 object-fit-contain"/>
+    </div>
+    <div class="qr">
+      <img src="assets/qrcodes/instagram.png" alt="Instagram" class="w-100 h-100 object-fit-contain"/>
+    </div>
+  </div>
+
 </div>
 </div>
