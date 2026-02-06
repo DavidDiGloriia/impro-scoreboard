@@ -20,7 +20,7 @@
   },
   "mac": {
     "icon": "dist/assets/icons/icon.icns",
-    "target": ["dmg"]
+    "target": ["zip"]
   },
   "linux": {
     "icon": "dist/assets/icons/icon.png",
