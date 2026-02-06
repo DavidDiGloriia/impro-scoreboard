@@ -1,4 +1,6 @@
 {
+  "appId": "com.electron.improvisation-be-app",
+  "productName": "improvisation-be-app",
   "asar": true,
   "directories": {
     "output": "release"
@@ -6,21 +8,27 @@
   "files": [
     "main.js",
     "package.json",
+    "preload.js",
     {
       "from": "dist",
       "to": ".",
       "filter": ["**/*"]
-    }  ],
+    }
+  ],
   "win": {
     "icon": "dist/assets/icons/icon.ico",
-    "target": ["portable"]
+    "target": ["nsis"]
   },
-  "portable": {
-    "splashImage": "dist/assets/icons/electron.bmp"
+  "nsis": {
+    "oneClick": false,
+    "perMachine": true,
+    "allowToChangeInstallationDirectory": true,
+    "artifactName": "IMPROVISATION.BE App - Installateur.exe"
   },
   "mac": {
     "icon": "dist/assets/icons/icon.icns",
-    "target": ["zip"]
+    "target": ["dmg"],
+    "artifactName": "IMPROVISATION.BE-App.${ext}"
   },
   "linux": {
     "icon": "dist/assets/icons/icon.png",

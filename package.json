@@ -24,48 +24,6 @@
   ],
   "main": "app/main.js",
   "private": true,
-  "build": {
-    "appId": "com.electron.improvisation-be-app",
-    "directories": {
-      "output": "app/dist"
-    },
-    "files": [
-      "main.js",
-      "package.json",
-      "preload.js",
-      {
-        "from": "dist",
-        "to": ".",
-        "filter": [
-          "**/*"
-        ]
-      }
-    ],
-    "productName": "IMPROVISATION.BE App",
-    "win": {
-      "target": [
-        "nsis"
-      ],
-      "executableName": "IMPROVISATION.BE App"
-    },
-    "mac": {
-      "target": [
-        "dmg",
-        "zip"
-      ],
-      "category": "public.app-category.entertainment",
-      "artifactName": "IMPROVISATION.BE App",
-      "icon": "build/icons/icon.icns"
-    },
-    "nsis": {
-      "oneClick": false,
-      "perMachine": true,
-      "allowToChangeInstallationDirectory": true,
-      "installerHeader": null,
-      "installerIcon": null,
-      "artifactName": "IMPROVISATION.BE App - Installateur.exe"
-    }
-  },
   "scripts": {
     "postinstall": "electron-builder install-app-deps",
     "ng": "ng",
@@ -79,7 +37,9 @@
     "electron:serve-tsc": "tsc -p tsconfig.serve.json",
     "electron:serve": "wait-on tcp:4200 && npm run electron:serve-tsc && electron . --serve",
     "electron:local": "npm run build:dev && electron .",
-    "electron:build": "ng build --configuration production && electron-builder build --publish=never --debug",
+    "electron:build": "ng build --configuration production && electron-builder build --publish=never",
+    "electron:build:mac": "ng build --configuration production && electron-builder build --mac --publish=never",
+    "electron:build:win": "ng build --configuration production && electron-builder build --win --publish=never",
     "test": "ng test --watch=false",
     "test:watch": "ng test",
     "e2e": "npm run build:prod && playwright test -c e2e/playwright.config.ts e2e/",

@@ -1,14 +1,14 @@
-Install on Windows : 
+Build on Windows (installateur .exe) :
 
-npm run electron:build
-npx electron-builder --windows
+npm run electron:build:win
 
-Install on MacOS :
+Build on MacOS (.dmg) :
 
-ng build --configuration production
-npx electron-builder --config electron-builder.json
+npm run electron:build:mac
 
+codesign --force --deep --sign - /Applications/improvisation-be-app.app
+xattr -rd com.apple.quarantine /Applications/improvisation-be-app.app
 
-Check asar files
+Check asar files :
 
-npx asar list /Applications/angular-electron.app/Contents/Resources/app.asar
+npx asar list /Applications/improvisation-be-app.app/Contents/Resources/app.asar
