@@ -111,7 +111,8 @@
   },
   {
     "prenom": "MP",
-    "femme": true
+    "femme": true,
+    "img": "assets/joueurs/mp"
   },
   {
     "prenom": "Maïlis",
