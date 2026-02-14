@@ -26,6 +26,38 @@
       </div>
     </div>
 
+    @if (isColorTeam()) {
+      <div class="row mb-2 align-items-center">
+        <label class="col-md-3 col-form-label">Nom personnalisé</label>
+        <div class="col-md-9">
+          <input
+            type="text"
+            class="form-control"
+            [ngModel]="team()?.customName || team()?.name"
+            (ngModelChange)="onCustomNameChange($event)"
+            placeholder="Nom personnalisé"
+          />
+        </div>
+      </div>
+
+      <div class="row mb-2 align-items-start">
+        <label class="col-md-3 col-form-label">Logo</label>
+        <div class="col-md-9">
+          <div class="logo-grid">
+            @for (logo of availableLogos; track logo.path) {
+              <div
+                class="logo-thumbnail"
+                [class.active]="team()?.img === logo.path"
+                (click)="onImgChange(logo.path)"
+              >
+                <img [src]="logo.path" [alt]="logo.label" />
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    }
+
     <ng-container *ngFor="let role of roles">
       <div class="row mb-2 align-items-center">
         <label

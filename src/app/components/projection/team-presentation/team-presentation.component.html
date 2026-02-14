@@ -5,14 +5,14 @@
     <div class="team-header">
       @let animation = gameData.value().automaticPlayerPresentation ? (playersCount()) * 0.4 + 's' : '0.4sec';
 
-      <img *ngIf="teamMetadata()?.img"
-           [src]="teamMetadata()?.img"
+      <img *ngIf="team().img || teamMetadata()?.img"
+           [src]="team().img || teamMetadata()?.img"
            [style.animationDelay]="animation"
            class="team-logo"
            alt="Logo équipe"/>
       <div class="team-name"
-           [style.color]="teamMetadata()?.img ? '' :  teamMetadata()?.color"
-      >{{ team().name | uppercase }}
+           [style.color]="(team().img || teamMetadata()?.img) ? '' :  teamMetadata()?.color"
+      >{{ team().displayName | uppercase }}
       </div>
     </div>
 

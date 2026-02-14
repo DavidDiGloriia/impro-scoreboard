@@ -27,6 +27,36 @@ export class Team {
     return this;
   }
 
+  get customName(): string {
+    return this._dto.customName;
+  }
+
+  set customName(value: string) {
+    this._dto.customName = value;
+  }
+
+  withCustomName(customName: string): Team {
+    this.customName = customName;
+    return this;
+  }
+
+  get img(): string {
+    return this._dto.img;
+  }
+
+  set img(value: string) {
+    this._dto.img = value;
+  }
+
+  withImg(img: string): Team {
+    this.img = img;
+    return this;
+  }
+
+  get displayName(): string {
+    return this.customName || this.name;
+  }
+
   get players(): { [role: string]: Player } {
     return this._players;
   }

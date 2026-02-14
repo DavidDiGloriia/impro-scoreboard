@@ -4,7 +4,7 @@
     'team-b': teamNumber() === Team.TEAM_B
   }"
 >
-    @if(teamNumber() === Team.TEAM_A && teamMetadata()?.img) {
+    @if(teamNumber() === Team.TEAM_A && (team().img || teamMetadata()?.img)) {
       <ng-container *ngTemplateOutlet="teamImg"></ng-container>
     }
 
@@ -23,14 +23,14 @@
     </div>
   </div>
 
-    @if(teamNumber() === Team.TEAM_B && teamMetadata()?.img) {
+    @if(teamNumber() === Team.TEAM_B && (team().img || teamMetadata()?.img)) {
       <ng-container *ngTemplateOutlet="teamImg"></ng-container>
     }
 </div>
 
 <ng-template #teamImg>
   <div class="team-img-wrapper">
-    <img [src]="teamMetadata()?.img"
+    <img [src]="team().img || teamMetadata()?.img"
          [class]="photoClass()"
          alt="Membre équipe">
   </div>

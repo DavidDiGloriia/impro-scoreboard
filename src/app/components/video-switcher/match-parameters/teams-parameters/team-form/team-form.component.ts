@@ -31,6 +31,11 @@ export class TeamFormComponent {
   @Input() players: PlayerMetadata[] = [];
   @Input({required: true}) teamNumber: TeamNumber;
 
+  readonly availableLogos: { label: string, path: string }[] = [
+    { label: 'Femmes', path: 'assets/equipes/custom/femmes.png' },
+    { label: 'Hommes', path: 'assets/equipes/custom/hommes.png' },
+  ];
+
   jerseys: Signal<number[]> = computed(() => {
     const team: TeamMetadata = find(this.availableTeams(), (team: TeamMetadata) => {
       return team.name === this.team().name;
@@ -44,12 +49,32 @@ export class TeamFormComponent {
     return groupBy(Object.values(teams), team => team.group);
   });
 
+  isColorTeam: Signal<boolean> = computed(() => {
+    const metadata: TeamMetadata = find(this.availableTeams(), (t: TeamMetadata) => {
+      return t.name === this.team().name;
+    });
+    return metadata?.group === 'couleurs';
+  });
+
   protected readonly TeamNumber = TeamNumber;
 
   onTeamNameChange(value: string) {
     this.team.update((team: Team) => {
-      return team.clone().withName(value)
+      return team.clone().withName(value).withCustomName(undefined).withImg(undefined);
     })
+  }
+
+  onCustomNameChange(value: string) {
+    this.team.update((team: Team) => {
+      return team.clone().withCustomName(value || undefined);
+    });
+  }
+
+  onImgChange(path: string) {
+    this.team.update((team: Team) => {
+      const newImg = team.img === path ? undefined : path;
+      return team.clone().withImg(newImg);
+    });
   }
 
   onPlayerNameChange(value: string, role: Role) {
