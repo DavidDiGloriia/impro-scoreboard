@@ -22,7 +22,6 @@
   "nsis": {
     "oneClick": false,
     "perMachine": true,
-    "allowElevation": true,
     "allowToChangeInstallationDirectory": true,
     "artifactName": "IMPROVISATION.BE App - Installateur.exe"
   },
