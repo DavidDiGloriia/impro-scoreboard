@@ -1,0 +1,169 @@
+[
+  {
+    "prenom": "Alain",
+    "img": "assets/joueurs/alain"
+  },
+  {
+    "prenom": "Alex",
+    "nom": "Christoffel",
+    "img": "assets/joueurs/alex-christoffel"
+  },
+  {
+    "prenom": "Alex",
+    "nom": "Colusi",
+    "img": "assets/joueurs/alex-colusi",
+    "femme": false
+  },
+  {
+    "prenom": "Alexandra",
+    "nom": "Ducoux",
+    "img": "assets/joueurs/alexandra-ducoux",
+    "femme": true
+  },
+  {
+    "prenom": "Alex",
+    "nom": "Pauwels",
+    "img": "assets/joueurs/alex-pauwels"
+  },
+  {
+    "prenom": "Antoine",
+    "img": "assets/joueurs/antoine"
+  },
+  {
+    "prenom": "Arnaud",
+    "img": "assets/joueurs/arnaud"
+  },
+  {
+    "prenom": "Aurore",
+    "img": "assets/joueurs/aurore"
+  },
+  {
+    "prenom": "Benjamin",
+    "img": "assets/joueurs/ben"
+  },
+  {
+    "prenom": "Caroline",
+    "img": "assets/joueurs/caroline",
+    "femme": true
+  },
+  {
+    "prenom": "Cath",
+    "img": "assets/joueurs/cath",
+    "femme": true
+  },
+  {
+    "prenom": "Charlotte",
+    "img": "assets/joueurs/charlotte-otlet",
+    "femme": true
+  },
+  {
+    "prenom": "Clem",
+    "img": "assets/joueurs/clem",
+    "femme": true
+  },
+  {
+    "prenom": "Damien",
+    "img": "assets/joueurs/damien"
+  },
+  {
+    "prenom": "David",
+    "img": "assets/joueurs/david-di-gloria"
+  },
+  {
+    "prenom": "Doc",
+    "img": "assets/joueurs/doc"
+  },
+  {
+    "prenom": "Elodie",
+    "img": "assets/joueurs/elodie",
+    "femme": true
+  },
+  {
+    "prenom": "Emilie",
+    "img": "assets/joueurs/emilie-marliere",
+    "femme": true
+  },
+  {
+    "prenom": "Filou",
+    "img": "assets/joueurs/filou"
+  },
+  {
+    "prenom": "Gab",
+    "img": "assets/joueurs/gab-de-pat",
+    "femme": true
+  },
+  {
+    "prenom": "Janick",
+    "femme": true
+  },
+  {
+    "prenom": "Jess",
+    "img": "assets/joueurs/jess",
+    "femme": true
+  },
+  {
+    "prenom": "Kostia",
+    "img": "assets/joueurs/kostia"
+  },
+  {
+    "prenom": "Lenny",
+    "img": "assets/joueurs/lenny-b-conil"
+  },
+  {
+    "prenom": "MP",
+    "femme": true,
+    "img": "assets/joueurs/mp"
+  },
+  {
+    "prenom": "Maïlis",
+    "img": "assets/joueurs/mailis",
+    "femme": true
+  },
+  {
+    "prenom": "Nico",
+    "img": "assets/joueurs/nicolas"
+  },
+  {
+    "prenom": "Pec",
+    "img": "assets/joueurs/pec"
+  },
+  {
+    "prenom": "Phil",
+    "img": "assets/joueurs/philippe-verbeke"
+  },
+  {
+    "prenom": "Polo",
+    "img": "assets/joueurs/polo"
+  },
+  {
+    "prenom": "Q",
+    "img": "assets/joueurs/q"
+  },
+  {
+    "prenom": "Sbu",
+    "img": "assets/joueurs/sbu"
+  },
+  {
+    "prenom": "Sophie",
+    "img": "assets/joueurs/sophie-hoyas",
+    "femme": true
+  },
+  {
+    "prenom": "Tony",
+    "img": "assets/joueurs/tony"
+  },
+  {
+    "prenom": "Valentine",
+    "img": "assets/joueurs/valentine",
+    "femme": true
+  },
+  {
+    "prenom": "Vincent",
+    "img": "assets/joueurs/vincent",
+    "femme": true
+  },
+  {
+    "prenom": "Wilhem",
+    "img": "assets/joueurs/wilhem"
+  }
+]

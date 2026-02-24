@@ -47,6 +47,10 @@ bootstrapApplication(AppComponent, {
             loadComponent: () => import('./app/components/video-switcher/match-parameters/match-parameters.component').then(m => m.MatchParametersComponent)
           },
           {
+            path: 'reseaux',
+            loadComponent: () => import('./app/components/video-switcher/reseaux-manager/reseaux-manager.component').then(m => m.ReseauxManagerComponent)
+          },
+          {
             path: '**',
             redirectTo: 'parameters',
             pathMatch: 'full'

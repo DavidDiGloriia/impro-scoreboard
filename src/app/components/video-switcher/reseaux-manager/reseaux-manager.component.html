@@ -1,0 +1,14 @@
+<div class="p-3">
+  <div class="d-flex gap-2">
+    <button class="btn btn-outline-primary btn-lg flex-fill"
+            [class.active]="activeScreen === ReseauxScreen.SELECTION"
+            (click)="displayScreen(ReseauxScreen.SELECTION)">SELECTION
+    </button>
+  </div>
+
+  @switch (activeScreen) {
+    @case (ReseauxScreen.SELECTION) {
+      <app-selection-manager/>
+    }
+  }
+</div>

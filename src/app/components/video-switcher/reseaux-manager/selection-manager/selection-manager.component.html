@@ -1,0 +1,327 @@
+<div class="container my-4">
+
+  @if (allPlayers().length === 0) {
+    <div class="alert alert-warning">
+      Aucun joueur configure. Rendez-vous dans <strong>Parametres du match</strong> pour configurer les equipes.
+    </div>
+  } @else {
+
+    <!-- ============================================================ -->
+    <!-- 1. COMPOSITION DU MATCH (les 2 equipes) -->
+    <!-- ============================================================ -->
+    @if (teamAPlayers().length > 0 && teamBPlayers().length > 0) {
+      <div class="section-block">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+          <h4 class="text-white m-0">Composition du match</h4>
+          <button class="btn btn-success"
+                  [disabled]="generating()"
+                  (click)="generateCompoStory()">
+            Telecharger
+          </button>
+        </div>
+
+        <!-- Preview only -->
+        <div class="preview-wrapper">
+          <div class="compo-story-preview"
+               [style.--color-a]="teamAMeta()?.color"
+               [style.--color-b]="teamBMeta()?.color">
+            <ng-container *ngTemplateOutlet="compoContent"></ng-container>
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- ============================================================ -->
+    <!-- 2. STORIES EQUIPE (coach + joueurs par equipe) -->
+    <!-- ============================================================ -->
+    @if (teamAPlayers().length > 0) {
+      <div class="section-block">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+          <h4 class="text-white m-0">Selection {{ gameData.value().teamA.displayName }}</h4>
+          <button class="btn btn-success"
+                  [disabled]="generating()"
+                  (click)="generateTeamStory('A')">
+            Telecharger
+          </button>
+        </div>
+
+        <!-- Preview only -->
+        <div class="preview-wrapper">
+          <div class="team-story-preview"
+               [style.--team-color]="teamAMeta()?.color">
+            <ng-container *ngTemplateOutlet="teamAContent"></ng-container>
+          </div>
+        </div>
+      </div>
+    }
+
+    @if (teamBPlayers().length > 0) {
+      <div class="section-block">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+          <h4 class="text-white m-0">Selection {{ gameData.value().teamB.displayName }}</h4>
+          <button class="btn btn-success"
+                  [disabled]="generating()"
+                  (click)="generateTeamStory('B')">
+            Telecharger
+          </button>
+        </div>
+
+        <!-- Preview only -->
+        <div class="preview-wrapper">
+          <div class="team-story-preview"
+               [style.--team-color]="teamBMeta()?.color">
+            <ng-container *ngTemplateOutlet="teamBContent"></ng-container>
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- ============================================================ -->
+    <!-- 3. STORIES INDIVIDUELLES -->
+    <!-- ============================================================ -->
+    <div class="section-block">
+      <div class="d-flex align-items-center justify-content-between mb-3">
+        <h4 class="text-white m-0">Stories individuelles ({{ allPlayers().length }})</h4>
+        <button class="btn btn-success"
+                [disabled]="generating()"
+                (click)="generateAllIndividual()">
+          {{ generating() ? 'Generation...' : 'Telecharger tout (.zip)' }}
+        </button>
+      </div>
+
+      @if (teamAPlayers().length > 0) {
+        <h6 class="text-muted mb-2">{{ gameData.value().teamA.displayName | uppercase }}</h6>
+        <div class="players-grid mb-4">
+          @for (resolved of teamAPlayers(); track resolved.player.code; let i = $index) {
+            <div class="player-card"
+                 [style.--team-color]="getTeamColor(resolved)"
+                 (click)="generateSingle(i)">
+              <img [src]="getPlayerImg(resolved)" [alt]="resolved.metadata.firstName" class="player-thumb"/>
+              <div class="player-card-overlay">
+                @if (!isSimplePlayer(resolved.role)) {
+                  <span class="player-card-role">{{ resolved.role | roleName:resolved.metadata.isFemale }}</span>
+                }
+                <span class="player-card-name">{{ resolved.metadata.firstName }}</span>
+              </div>
+              @if (resolved.player.number) {
+                <div class="player-card-number">#{{ resolved.player.number }}</div>
+              }
+              <div class="download-hint">
+                @if (generatingIndex() === i) {
+                  <span>...</span>
+                } @else {
+                  <span>&#8681;</span>
+                }
+              </div>
+            </div>
+          }
+        </div>
+      }
+
+      @if (teamBPlayers().length > 0) {
+        <h6 class="text-muted mb-2">{{ gameData.value().teamB.displayName | uppercase }}</h6>
+        <div class="players-grid mb-4">
+          @for (resolved of teamBPlayers(); track resolved.player.code; let i = $index) {
+            @let globalIndex = teamAPlayers().length + i;
+            <div class="player-card"
+                 [style.--team-color]="getTeamColor(resolved)"
+                 (click)="generateSingle(globalIndex)">
+              <img [src]="getPlayerImg(resolved)" [alt]="resolved.metadata.firstName" class="player-thumb"/>
+              <div class="player-card-overlay">
+                @if (!isSimplePlayer(resolved.role)) {
+                  <span class="player-card-role">{{ resolved.role | roleName:resolved.metadata.isFemale }}</span>
+                }
+                <span class="player-card-name">{{ resolved.metadata.firstName }}</span>
+              </div>
+              @if (resolved.player.number) {
+                <div class="player-card-number">#{{ resolved.player.number }}</div>
+              }
+              <div class="download-hint">
+                @if (generatingIndex() === globalIndex) {
+                  <span>...</span>
+                } @else {
+                  <span>&#8681;</span>
+                }
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- OFFSCREEN: all canvases for capture (no scale, no transform) -->
+    <!-- ============================================================ -->
+    <div class="story-offscreen">
+
+      <!-- Individual stories -->
+      @for (resolved of allPlayers(); track resolved.player.code) {
+        <div class="offscreen-canvas" #playerStory
+             [style.--team-color]="getTeamColor(resolved)">
+          <div class="story-bg"></div>
+          <div class="story-header">
+            @if (getTeamLogo(resolved)) {
+              <img [src]="getTeamLogo(resolved)" alt="team logo" class="story-team-logo"/>
+            }
+            <div class="story-team-name">{{ getTeamDisplayName(resolved) | uppercase }}</div>
+            <div class="story-subtitle">SELECTION</div>
+          </div>
+          <div class="story-player-zone">
+            <img [src]="getPlayerImg(resolved)" [alt]="resolved.metadata.firstName" class="story-player-img"/>
+          </div>
+          <div class="story-footer">
+            @if (resolved.player.number) {
+              <div class="story-player-number">#{{ resolved.player.number }}</div>
+            }
+            <div class="story-player-name">{{ resolved.metadata.firstName | uppercase }}</div>
+            @if (!isSimplePlayer(resolved.role)) {
+              <div class="story-player-role">{{ resolved.role | roleName:resolved.metadata.isFemale | uppercase }}</div>
+            }
+          </div>
+        </div>
+      }
+
+      <!-- Team A story -->
+      @if (teamAPlayers().length > 0) {
+        <div class="offscreen-canvas" #teamAOffscreen
+             [style.--team-color]="teamAMeta()?.color">
+          <ng-container *ngTemplateOutlet="teamAContent"></ng-container>
+        </div>
+      }
+
+      <!-- Team B story -->
+      @if (teamBPlayers().length > 0) {
+        <div class="offscreen-canvas" #teamBOffscreen
+             [style.--team-color]="teamBMeta()?.color">
+          <ng-container *ngTemplateOutlet="teamBContent"></ng-container>
+        </div>
+      }
+
+      <!-- Composition story -->
+      @if (teamAPlayers().length > 0 && teamBPlayers().length > 0) {
+        <div class="offscreen-canvas" #compoOffscreen
+             [style.--color-a]="teamAMeta()?.color"
+             [style.--color-b]="teamBMeta()?.color">
+          <ng-container *ngTemplateOutlet="compoContent"></ng-container>
+        </div>
+      }
+
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- TEMPLATES (shared between preview and offscreen)             -->
+    <!-- ============================================================ -->
+    <ng-template #compoContent>
+      <div class="compo-bg">
+        <div class="compo-bg-a"></div>
+        <div class="compo-bg-b"></div>
+      </div>
+      <div class="compo-header">
+        <div class="compo-title">COMPOSITION DU MATCH</div>
+        <div class="compo-teams-header">
+          <div class="compo-team-side">
+            @if (teamAMeta()?.img) {
+              <img [src]="teamAMeta().img" class="compo-team-logo-small" alt=""/>
+            }
+            <span class="compo-team-name-label" [style.color]="teamAMeta()?.color">{{ gameData.value().teamA.displayName | uppercase }}</span>
+          </div>
+          <span class="compo-vs">VS</span>
+          <div class="compo-team-side">
+            <span class="compo-team-name-label" [style.color]="teamBMeta()?.color">{{ gameData.value().teamB.displayName | uppercase }}</span>
+            @if (teamBMeta()?.img) {
+              <img [src]="teamBMeta().img" class="compo-team-logo-small" alt=""/>
+            }
+          </div>
+        </div>
+      </div>
+      <div class="compo-rows">
+        @for (row of compoRows(); track $index) {
+          <div class="compo-row">
+            <div class="compo-cell compo-cell-photo">
+              @if (row.a) {
+                <img [src]="getPlayerImg(row.a)" class="compo-player-photo" alt=""/>
+              }
+            </div>
+            <div class="compo-cell compo-cell-name compo-cell-name-a">
+              @if (row.a) {
+                <span class="compo-player-name">{{ row.a.metadata.firstName | uppercase }}</span>
+                @if (!isSimplePlayer(row.a.role)) {
+                  <span class="compo-player-role compo-role-a">{{ row.a.role | roleName:row.a.metadata.isFemale }}</span>
+                }
+              }
+            </div>
+            <div class="compo-cell compo-cell-sep"></div>
+            <div class="compo-cell compo-cell-name compo-cell-name-b">
+              @if (row.b) {
+                <span class="compo-player-name">{{ row.b.metadata.firstName | uppercase }}</span>
+                @if (!isSimplePlayer(row.b.role)) {
+                  <span class="compo-player-role compo-role-b">{{ row.b.role | roleName:row.b.metadata.isFemale }}</span>
+                }
+              }
+            </div>
+            <div class="compo-cell compo-cell-photo">
+              @if (row.b) {
+                <img [src]="getPlayerImg(row.b)" class="compo-player-photo" alt=""/>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    </ng-template>
+
+    <ng-template #teamAContent>
+      <div class="story-bg"></div>
+      <div class="story-header">
+        @if (teamAMeta()?.img) {
+          <img [src]="teamAMeta().img" alt="team logo" class="story-team-logo"/>
+        }
+        <div class="story-team-name">{{ gameData.value().teamA.displayName | uppercase }}</div>
+        <div class="story-subtitle">SELECTION</div>
+      </div>
+      <div class="team-story-players">
+        @for (resolved of teamAPlayers(); track resolved.player.code) {
+          <div class="team-story-player-row">
+            <img [src]="getPlayerImg(resolved)" class="team-story-player-img" alt=""/>
+            <div class="team-story-player-info">
+              @if (!isSimplePlayer(resolved.role)) {
+                <span class="team-story-player-role">{{ resolved.role | roleName:resolved.metadata.isFemale | uppercase }}</span>
+              }
+              <span class="team-story-player-name">{{ resolved.metadata.firstName | uppercase }}</span>
+            </div>
+            @if (resolved.player.number) {
+              <span class="team-story-player-number">#{{ resolved.player.number }}</span>
+            }
+          </div>
+        }
+      </div>
+    </ng-template>
+
+    <ng-template #teamBContent>
+      <div class="story-bg"></div>
+      <div class="story-header">
+        @if (teamBMeta()?.img) {
+          <img [src]="teamBMeta().img" alt="team logo" class="story-team-logo"/>
+        }
+        <div class="story-team-name">{{ gameData.value().teamB.displayName | uppercase }}</div>
+        <div class="story-subtitle">SELECTION</div>
+      </div>
+      <div class="team-story-players">
+        @for (resolved of teamBPlayers(); track resolved.player.code) {
+          <div class="team-story-player-row">
+            <img [src]="getPlayerImg(resolved)" class="team-story-player-img" alt=""/>
+            <div class="team-story-player-info">
+              @if (!isSimplePlayer(resolved.role)) {
+                <span class="team-story-player-role">{{ resolved.role | roleName:resolved.metadata.isFemale | uppercase }}</span>
+              }
+              <span class="team-story-player-name">{{ resolved.metadata.firstName | uppercase }}</span>
+            </div>
+            @if (resolved.player.number) {
+              <span class="team-story-player-number">#{{ resolved.player.number }}</span>
+            }
+          </div>
+        }
+      </div>
+    </ng-template>
+
+  }
+</div>

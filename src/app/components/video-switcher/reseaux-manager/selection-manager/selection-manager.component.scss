@@ -1,0 +1,464 @@
+:host {
+  display: block;
+  color: #fff;
+}
+
+.section-block {
+  margin-bottom: 2.5rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #333;
+}
+
+/* ============================================================ */
+/* SHARED STORY STYLES (used in previews AND offscreen)         */
+/* ============================================================ */
+.story-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 30%, var(--team-color, #333) 0%, transparent 70%),
+    radial-gradient(ellipse at 50% 100%, var(--team-color, #333) 0%, transparent 50%);
+  opacity: 0.2;
+}
+
+.story-header {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 50px 40px 10px;
+  flex-shrink: 0;
+}
+
+.story-team-logo {
+  width: 110px;
+  height: 110px;
+  object-fit: contain;
+  margin-bottom: 10px;
+  filter: drop-shadow(0 0 24px var(--team-color, #fff));
+}
+
+.story-team-name {
+  font-size: 48px;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  color: #fff;
+  text-shadow: 0 0 30px var(--team-color, #fff);
+}
+
+.story-subtitle {
+  font-size: 30px;
+  font-weight: 300;
+  letter-spacing: 0.35em;
+  color: var(--team-color, #ccc);
+  margin-top: 2px;
+}
+
+/* ============================================================ */
+/* PREVIEW WRAPPER (scale down for display)                     */
+/* ============================================================ */
+.preview-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+/* ============================================================ */
+/* 1. COMPOSITION DU MATCH                                      */
+/* ============================================================ */
+.compo-story-preview {
+  width: 1080px;
+  height: 1920px;
+  position: relative;
+  overflow: hidden;
+  background: #0a0a0a;
+  display: flex;
+  flex-direction: column;
+  transform-origin: top center;
+  transform: scale(0.35);
+  margin-bottom: calc(-1920px * (1 - 0.35));
+}
+
+.compo-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.compo-bg-a {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 20%;
+  height: 100%;
+  background:
+    radial-gradient(ellipse at 15% 25%, var(--color-a, #333) 0%, transparent 65%),
+    radial-gradient(ellipse at 25% 75%, var(--color-a, #333) 0%, transparent 55%),
+    radial-gradient(ellipse at 0% 50%, var(--color-a, #333) 0%, transparent 50%);
+  opacity: 0.3;
+}
+
+.compo-bg-b {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20%;
+  height: 100%;
+  background:
+    radial-gradient(ellipse at 85% 25%, var(--color-b, #333) 0%, transparent 65%),
+    radial-gradient(ellipse at 75% 75%, var(--color-b, #333) 0%, transparent 55%),
+    radial-gradient(ellipse at 100% 50%, var(--color-b, #333) 0%, transparent 50%);
+  opacity: 0.3;
+}
+
+.compo-header {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 60px 40px 20px;
+}
+
+.compo-title {
+  font-size: 56px;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  color: #fff;
+  margin-bottom: 30px;
+}
+
+.compo-teams-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+}
+
+.compo-team-side {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.compo-team-logo-small {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+}
+
+.compo-team-name-label {
+  font-size: 38px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.compo-vs {
+  font-size: 30px;
+  font-weight: 300;
+  color: #666;
+  letter-spacing: 0.1em;
+}
+
+.compo-rows {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 20px 30px;
+  flex: 1;
+  justify-content: center;
+}
+
+.compo-row {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.compo-cell {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.compo-cell-photo {
+  flex-shrink: 0;
+}
+
+.compo-player-photo {
+  width: 150px;
+  height: 190px;
+  object-fit: cover;
+  object-position: center 15%;
+  display: block;
+}
+
+.compo-cell-name {
+  flex: 1;
+  padding: 10px 20px;
+  min-width: 0;
+}
+
+.compo-cell-name-a {
+  text-align: right;
+}
+
+.compo-cell-name-b {
+  text-align: left;
+}
+
+.compo-cell-sep {
+  width: 3px;
+  align-self: stretch;
+  margin: 20px 0;
+  background: linear-gradient(180deg, var(--color-a, #666), #333 50%, var(--color-b, #666));
+  flex-shrink: 0;
+}
+
+.compo-player-name {
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.compo-player-role {
+  font-size: 20px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 2px;
+}
+
+.compo-role-a {
+  color: var(--color-a, #aaa);
+}
+
+.compo-role-b {
+  color: var(--color-b, #aaa);
+}
+
+/* ============================================================ */
+/* 2. STORY EQUIPE (team selection)                             */
+/* ============================================================ */
+.team-story-preview {
+  width: 1080px;
+  height: 1920px;
+  position: relative;
+  overflow: hidden;
+  background: #0a0a0a;
+  display: flex;
+  flex-direction: column;
+  transform-origin: top center;
+  transform: scale(0.3);
+  margin-bottom: calc(-1920px * (1 - 0.3));
+}
+
+.team-story-players {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 10px 40px 30px;
+  flex: 1;
+  justify-content: center;
+}
+
+.team-story-player-row {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  background: rgba(255, 255, 255, 0.06);
+  border-left: 5px solid var(--team-color, #666);
+  border-radius: 16px;
+  overflow: hidden;
+  padding-right: 30px;
+}
+
+.team-story-player-img {
+  width: 180px;
+  height: 220px;
+  object-fit: cover;
+  object-position: center 15%;
+  flex-shrink: 0;
+  border: 3px solid var(--team-color, #333);
+  border-radius: 12px;
+}
+
+.team-story-player-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.team-story-player-name {
+  font-size: 44px;
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+.team-story-player-role {
+  font-size: 24px;
+  font-weight: 400;
+  color: var(--team-color, #aaa);
+  letter-spacing: 0.08em;
+}
+
+.team-story-player-number {
+  font-size: 48px;
+  font-weight: 900;
+  color: var(--team-color, #fff);
+  opacity: 0.5;
+  flex-shrink: 0;
+}
+
+/* ============================================================ */
+/* 3. PLAYER GRID (overview + click to download)                */
+/* ============================================================ */
+.players-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+}
+
+.player-card {
+  position: relative;
+  aspect-ratio: 3/4;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 3px solid var(--team-color, #333);
+  transition: all 0.2s;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
+
+  &:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 16px var(--team-color, #fff);
+
+    .download-hint {
+      opacity: 1;
+    }
+  }
+}
+
+.player-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.player-card-overlay {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 10px 8px;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.85) 30%, transparent 100%);
+  display: flex;
+  flex-direction: column;
+}
+
+.player-card-role {
+  font-size: 0.7rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--team-color, #aaa);
+}
+
+.player-card-name {
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.player-card-number {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: rgba(255, 255, 255, 0.4);
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+}
+
+.download-hint {
+  position: absolute;
+  top: 6px;
+  left: 8px;
+  font-size: 1.4rem;
+  opacity: 0;
+  transition: opacity 0.2s;
+  color: var(--team-color, #fff);
+}
+
+/* ============================================================ */
+/* OFFSCREEN (individual story canvases)                        */
+/* ============================================================ */
+.story-offscreen {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+}
+
+.offscreen-canvas {
+  width: 1080px;
+  height: 1920px;
+  position: relative;
+  overflow: hidden;
+  background: #0a0a0a;
+  display: flex;
+  flex-direction: column;
+}
+
+.story-player-zone {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 0 60px;
+}
+
+.story-player-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 0 40px var(--team-color, transparent));
+  border: 4px solid var(--team-color, #333);
+  border-radius: 16px;
+}
+
+.story-footer {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 30px 40px 80px;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.9) 40%, transparent 100%);
+  flex-shrink: 0;
+}
+
+.story-player-number {
+  font-size: 60px;
+  font-weight: 900;
+  color: var(--team-color, #fff);
+  opacity: 0.6;
+  line-height: 1;
+}
+
+.story-player-name {
+  font-size: 72px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+  line-height: 1.1;
+}
+
+.story-player-role {
+  font-size: 32px;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  color: var(--team-color, #aaa);
+  margin-top: 8px;
+}
