@@ -311,7 +311,12 @@
       <div class="team-story-players">
         @for (resolved of teamAPlayers(); track resolved.player.code) {
           <div class="team-story-player-row">
-            <img [src]="getPlayerImg(resolved)" class="team-story-player-img" [style.object-position]="getFacePosition(resolved)" alt=""/>
+            <div class="team-story-player-img-wrapper">
+              <img [src]="getPlayerImg(resolved)" class="team-story-player-img"
+                   [style.object-position]="getFacePosition(resolved)"
+                   [style.transform-origin]="getFacePosition(resolved)"
+                   [style.transform]="getPlayerScale(resolved)" alt=""/>
+            </div>
             <div class="team-story-player-info">
               @if (!isSimplePlayer(resolved.role)) {
                 <span class="team-story-player-role">{{ resolved.role | roleName:resolved.metadata.isFemale | uppercase }}</span>
@@ -338,7 +343,12 @@
       <div class="team-story-players">
         @for (resolved of teamBPlayers(); track resolved.player.code) {
           <div class="team-story-player-row">
-            <img [src]="getPlayerImg(resolved)" class="team-story-player-img" [style.object-position]="getFacePosition(resolved)" alt=""/>
+            <div class="team-story-player-img-wrapper">
+              <img [src]="getPlayerImg(resolved)" class="team-story-player-img"
+                   [style.object-position]="getFacePosition(resolved)"
+                   [style.transform-origin]="getFacePosition(resolved)"
+                   [style.transform]="getPlayerScale(resolved)" alt=""/>
+            </div>
             <div class="team-story-player-info">
               @if (!isSimplePlayer(resolved.role)) {
                 <span class="team-story-player-role">{{ resolved.role | roleName:resolved.metadata.isFemale | uppercase }}</span>

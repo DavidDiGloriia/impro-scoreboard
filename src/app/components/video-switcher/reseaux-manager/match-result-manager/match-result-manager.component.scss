@@ -95,15 +95,66 @@
   gap: 14px;
 }
 
-.result-team-logo {
+.result-team-logo-round {
   width: 220px;
   height: 220px;
-  object-fit: contain;
-  filter: drop-shadow(0 0 16px var(--color-a, #fff));
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid var(--team-a, rgba(255, 255, 255, 0.2));
+  box-shadow: 0 0 10px var(--team-a, transparent), 0 0 20px var(--team-a, transparent);
+  background: linear-gradient(135deg, #000 10%, color-mix(in srgb, var(--team-a, #111) 25%, #000) 50%, #000 90%);
+  flex-shrink: 0;
 }
 
-.result-team-side-b .result-team-logo {
-  filter: drop-shadow(0 0 16px var(--color-b, #fff));
+.result-team-side-b .result-team-logo-round {
+  border-color: var(--team-b, rgba(255, 255, 255, 0.2));
+  box-shadow: 0 0 10px var(--team-b, transparent), 0 0 20px var(--team-b, transparent);
+  background: linear-gradient(225deg, #000 10%, color-mix(in srgb, var(--team-b, #111) 25%, #000) 50%, #000 90%);
+}
+
+.result-team-logo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+// Team-specific transforms
+.photo-teamA-aigles {
+  transform-origin: center;
+  transform: scaleX(-1) scale(2.5) translateX(13%) translateY(-5%);
+}
+
+.photo-teamB-aigles {
+  transform-origin: center;
+  transform: scale(2.5) translateX(27%) translateY(-5%);
+}
+
+.photo-teamA-pythons {
+  object-position: top;
+  transform: scale(1.7) translateY(25%) translateX(-15%);
+}
+
+.photo-teamB-pythons {
+  object-position: top;
+  transform: scaleX(-1) scale(1.7) translateY(25%) translateX(-15%);
+}
+
+.photo-teamA-lions {
+  object-position: 100% center;
+}
+
+.photo-teamB-lions {
+  object-position: 100% center;
+  transform: scaleX(-1);
+}
+
+.photo-teamA-requins {
+  transform: scaleX(-1);
+  object-position: 0% center;
+}
+
+.photo-teamB-requins {
+  object-position: 0% center;
 }
 
 .result-team-name {
@@ -179,12 +230,17 @@
   padding-right: 30px;
 }
 
-.star-player-img {
+.star-player-img-wrapper {
   width: 160px;
   height: 200px;
-  object-fit: cover;
-  object-position: center 15%;
+  overflow: hidden;
   flex-shrink: 0;
+}
+
+.star-player-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .star-player-placeholder {

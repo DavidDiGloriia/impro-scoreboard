@@ -8,9 +8,10 @@ import {NgTemplateOutlet, UpperCasePipe} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {Team} from '@models/team';
 import {find, keyBy} from 'lodash-es';
-import html2canvas from 'html2canvas-pro';
+import {toPng} from 'html-to-image';
 import {Role} from '@enums/role.enum';
 import {ResolvedPlayer} from '../selection-manager/selection-manager.component';
+import facePositions from '@assets/data/face-positions.json';
 
 registerLocaleData(localeFr);
 
@@ -119,24 +120,41 @@ export class MatchResultManagerComponent {
     return resolved.metadata.img + resolved.teamMetadata.playerImgSuffix;
   }
 
+  private static readonly SCALE_OVERRIDES: Record<string, number> = {
+    'assets/joueurs/doc': 2.8,
+    'assets/joueurs/antoine': 2.5,
+  };
+
   getTeamColor(resolved: ResolvedPlayer): string {
     return resolved.teamMetadata?.color || '#666';
+  }
+
+  getFacePosition(resolved: ResolvedPlayer): string {
+    const src = this.getPlayerImg(resolved);
+    const pos = (facePositions as Record<string, { x: number; y: number }>)[src];
+    return pos ? `${pos.x}% ${pos.y - 10}%` : 'center 5%';
+  }
+
+  getPlayerScale(resolved: ResolvedPlayer): string {
+    const img = resolved.metadata?.img;
+    const key = img ? Object.keys(MatchResultManagerComponent.SCALE_OVERRIDES).find(k => img.startsWith(k)) : null;
+    const scale = key ? MatchResultManagerComponent.SCALE_OVERRIDES[key] : 2.2;
+    return `scale(${scale})`;
   }
 
   async generateStory() {
     if (!this.etoilesOffscreen?.nativeElement) return;
     this.generating.set(true);
     try {
-      const canvas = await html2canvas(this.etoilesOffscreen.nativeElement, {
+      const dataUrl = await toPng(this.etoilesOffscreen.nativeElement, {
         width: 1080,
         height: 1920,
-        scale: 1,
-        useCORS: true,
+        pixelRatio: 1,
         backgroundColor: '#0a0a0a',
       });
       const link = document.createElement('a');
       link.download = 'story-resultat.png';
-      link.href = canvas.toDataURL('image/png');
+      link.href = dataUrl;
       link.click();
     } finally {
       this.generating.set(false);

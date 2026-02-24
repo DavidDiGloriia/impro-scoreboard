@@ -107,16 +107,20 @@
         <div class="result-teams-header">
           <div class="result-team-side">
             @if (teamAMeta()?.img) {
-              <img [src]="teamAMeta().img" class="result-team-logo" alt=""/>
+              <div class="result-team-logo-round">
+                <img [src]="teamAMeta().img" [class]="'result-team-logo-img photo-teamA-' + teamAMeta().code" alt=""/>
+              </div>
             }
-            <span class="result-team-name" [style.color]="teamAMeta()?.color">{{ gameData.value().teamA.displayName | uppercase }}</span>
+            <span class="result-team-name" [style.color]="teamAMeta()?.color">{{ teamAMeta()?.shortName | uppercase }}</span>
           </div>
           <span class="result-vs">VS</span>
           <div class="result-team-side result-team-side-b">
             @if (teamBMeta()?.img) {
-              <img [src]="teamBMeta().img" class="result-team-logo" alt=""/>
+              <div class="result-team-logo-round">
+                <img [src]="teamBMeta().img" [class]="'result-team-logo-img photo-teamB-' + teamBMeta().code" alt=""/>
+              </div>
             }
-            <span class="result-team-name" [style.color]="teamBMeta()?.color">{{ gameData.value().teamB.displayName | uppercase }}</span>
+            <span class="result-team-name" [style.color]="teamBMeta()?.color">{{ teamBMeta()?.shortName | uppercase }}</span>
           </div>
         </div>
       </div>
@@ -130,7 +134,12 @@
         @for (star of stars(); track $index) {
           <div class="star-row" [style.--star-color]="star.resolved ? getTeamColor(star.resolved) : '#666'">
             @if (star.resolved) {
-              <img [src]="getPlayerImg(star.resolved)" class="star-player-img" alt=""/>
+              <div class="star-player-img-wrapper">
+                <img [src]="getPlayerImg(star.resolved)" class="star-player-img"
+                     [style.object-position]="getFacePosition(star.resolved)"
+                     [style.transform-origin]="getFacePosition(star.resolved)"
+                     [style.transform]="getPlayerScale(star.resolved)" alt=""/>
+              </div>
             } @else {
               <div class="star-player-placeholder"></div>
             }
