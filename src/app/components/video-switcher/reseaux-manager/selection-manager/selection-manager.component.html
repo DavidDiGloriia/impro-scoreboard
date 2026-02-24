@@ -238,22 +238,26 @@
         <div class="compo-teams-header">
           <div class="compo-team-side">
             @if (teamAMeta()?.img) {
-              <img [src]="teamAMeta().img" class="compo-team-logo-small" alt=""/>
+              <div class="compo-team-logo-round">
+                <img [src]="teamAMeta().img" [class]="'compo-team-logo-small photo-teamA-' + teamAMeta().code" alt=""/>
+              </div>
             }
             <span class="compo-team-name-label" [style.color]="teamAMeta()?.color">{{ teamAMeta()?.shortName | uppercase }}</span>
           </div>
           <span class="compo-vs">VS</span>
           <div class="compo-team-side compo-team-side-b">
             @if (teamBMeta()?.img) {
-              <img [src]="teamBMeta().img" class="compo-team-logo-small" alt=""/>
+              <div class="compo-team-logo-round">
+                <img [src]="teamBMeta().img" [class]="'compo-team-logo-small photo-teamB-' + teamBMeta().code" alt=""/>
+              </div>
             }
-            <span class="compo-team-name-label" [style.color]="teamBMeta()?.color">{{ gameData.value().teamB.displayName | uppercase }}</span>
+            <span class="compo-team-name-label" [style.color]="teamBMeta()?.color">{{ teamBMeta()?.shortName | uppercase }}</span>
           </div>
         </div>
       </div>
       <div class="compo-info">
         @if (matchDate()) {
-          <span class="compo-date">{{ matchDate() + 'T00:00:00' | date:'EEEE d MMMM yyyy':'':'fr' | uppercase }}@if (matchTime()) { - {{ matchTime() }}}</span>
+          <span class="compo-date">{{ matchDate() + 'T00:00:00' | date:'EEEE d MMMM yyyy':'':'fr' | uppercase }}@if (matchTime()) { - {{ matchTime().replace(':', 'H') }}}</span>
         }
         @if (matchLocation()) {
           <span class="compo-location">{{ matchLocation() | uppercase }}</span>
