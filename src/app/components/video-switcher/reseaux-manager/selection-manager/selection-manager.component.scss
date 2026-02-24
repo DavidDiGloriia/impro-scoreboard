@@ -167,11 +167,12 @@
 
 .photo-teamA-lions {
   object-position: 100% center;
+  transform: scale(1.3) translateX(-7%) translateY(8%);
 }
 
 .photo-teamB-lions {
   object-position: 100% center;
-  transform: scaleX(-1);
+  transform: scaleX(-1) scale(1.3) translateX(-7%) translateY(8%);
 }
 
 .photo-teamA-requins {
