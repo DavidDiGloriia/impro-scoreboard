@@ -80,32 +80,13 @@
 .compo-bg {
   position: absolute;
   inset: 0;
-  overflow: hidden;
-}
-
-.compo-bg-a {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 20%;
-  height: 100%;
   background:
-    radial-gradient(ellipse at 15% 25%, var(--color-a, #333) 0%, transparent 65%),
-    radial-gradient(ellipse at 25% 75%, var(--color-a, #333) 0%, transparent 55%),
-    radial-gradient(ellipse at 0% 50%, var(--color-a, #333) 0%, transparent 50%);
-  opacity: 0.3;
-}
-
-.compo-bg-b {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 20%;
-  height: 100%;
-  background:
-    radial-gradient(ellipse at 85% 25%, var(--color-b, #333) 0%, transparent 65%),
-    radial-gradient(ellipse at 75% 75%, var(--color-b, #333) 0%, transparent 55%),
-    radial-gradient(ellipse at 100% 50%, var(--color-b, #333) 0%, transparent 50%);
+    radial-gradient(ellipse at 10% 25%, var(--color-a, #333) 0%, transparent 40%),
+    radial-gradient(ellipse at 10% 75%, var(--color-a, #333) 0%, transparent 35%),
+    radial-gradient(ellipse at 0% 50%, var(--color-a, #333) 0%, transparent 30%),
+    radial-gradient(ellipse at 90% 25%, var(--color-b, #333) 0%, transparent 40%),
+    radial-gradient(ellipse at 90% 75%, var(--color-b, #333) 0%, transparent 35%),
+    radial-gradient(ellipse at 100% 50%, var(--color-b, #333) 0%, transparent 30%);
   opacity: 0.3;
 }
 
@@ -138,13 +119,18 @@
 }
 
 .compo-team-logo-small {
-  width: 70px;
-  height: 70px;
+  width: 90px;
+  height: 90px;
   object-fit: contain;
+  filter: drop-shadow(0 0 16px var(--color-a, #fff));
+}
+
+.compo-team-side-b .compo-team-logo-small {
+  filter: drop-shadow(0 0 16px var(--color-b, #fff));
 }
 
 .compo-team-name-label {
-  font-size: 38px;
+  font-size: 46px;
   font-weight: 800;
   letter-spacing: 0.04em;
 }
@@ -171,6 +157,7 @@
   display: flex;
   align-items: center;
   background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 16px;
   overflow: hidden;
 }
@@ -191,6 +178,8 @@
   object-fit: cover;
   object-position: center 15%;
   display: block;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
 }
 
 .compo-cell-name {
@@ -269,6 +258,7 @@
   align-items: center;
   gap: 24px;
   background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-left: 5px solid var(--team-color, #666);
   border-radius: 16px;
   overflow: hidden;

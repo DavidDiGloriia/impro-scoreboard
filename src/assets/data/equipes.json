@@ -54,7 +54,7 @@
     "icone": "🦅",
     "img": "assets/equipes/aigles.png",
     "playerImgFallback": "assets/equipes/aigles-player-fallback.jpg",
-    "couleur": "#e6e6cc",
+    "couleur": "#d4b84a",
     "vareuses": [
       2,
       4,
@@ -115,7 +115,7 @@
     "groupe": "couleurs",
     "playerImgFallback": "assets/equipes/aigles-player-fallback.jpg",
     "icone": "⚪",
-    "couleur": "#e6e6cc",
+    "couleur": "#d4b84a",
     "vareuses": [
       2,
       4,

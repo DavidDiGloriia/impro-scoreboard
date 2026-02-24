@@ -212,10 +212,7 @@
     <!-- TEMPLATES (shared between preview and offscreen)             -->
     <!-- ============================================================ -->
     <ng-template #compoContent>
-      <div class="compo-bg">
-        <div class="compo-bg-a"></div>
-        <div class="compo-bg-b"></div>
-      </div>
+      <div class="compo-bg"></div>
       <div class="compo-header">
         <div class="compo-title">COMPOSITION DU MATCH</div>
         <div class="compo-teams-header">
@@ -226,7 +223,7 @@
             <span class="compo-team-name-label" [style.color]="teamAMeta()?.color">{{ gameData.value().teamA.displayName | uppercase }}</span>
           </div>
           <span class="compo-vs">VS</span>
-          <div class="compo-team-side">
+          <div class="compo-team-side compo-team-side-b">
             <span class="compo-team-name-label" [style.color]="teamBMeta()?.color">{{ gameData.value().teamB.displayName | uppercase }}</span>
             @if (teamBMeta()?.img) {
               <img [src]="teamBMeta().img" class="compo-team-logo-small" alt=""/>
