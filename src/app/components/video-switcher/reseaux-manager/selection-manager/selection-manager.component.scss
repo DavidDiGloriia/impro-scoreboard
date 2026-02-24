@@ -127,15 +127,15 @@
   border-radius: 50%;
   overflow: hidden;
   border: 3px solid var(--color-a, rgba(255, 255, 255, 0.2));
-  box-shadow: 0 0 20px var(--color-a, transparent), 0 0 40px var(--color-a, transparent);
-  background: linear-gradient(135deg, #000 10%, color-mix(in srgb, var(--color-a, #111) 40%, #000) 50%, #000 90%);
+  box-shadow: 0 0 10px var(--color-a, transparent), 0 0 20px var(--color-a, transparent);
+  background: linear-gradient(135deg, #000 10%, color-mix(in srgb, var(--color-a, #111) 25%, #000) 50%, #000 90%);
   flex-shrink: 0;
 }
 
 .compo-team-side-b .compo-team-logo-round {
   border-color: var(--color-b, rgba(255, 255, 255, 0.2));
-  box-shadow: 0 0 20px var(--color-b, transparent), 0 0 40px var(--color-b, transparent);
-  background: linear-gradient(225deg, #000 10%, color-mix(in srgb, var(--color-b, #111) 40%, #000) 50%, #000 90%);
+  box-shadow: 0 0 10px var(--color-b, transparent), 0 0 20px var(--color-b, transparent);
+  background: linear-gradient(225deg, #000 10%, color-mix(in srgb, var(--color-b, #111) 25%, #000) 50%, #000 90%);
 }
 
 .compo-team-logo-small {

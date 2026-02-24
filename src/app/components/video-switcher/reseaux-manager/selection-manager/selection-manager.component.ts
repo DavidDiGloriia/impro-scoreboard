@@ -9,7 +9,7 @@ import {FormsModule} from '@angular/forms';
 import {Player} from '@models/player';
 import {Team} from '@models/team';
 import {find, keyBy} from 'lodash-es';
-import html2canvas from 'html2canvas-pro';
+import {toPng} from 'html-to-image';
 import JSZip from 'jszip';
 import {Role} from '@enums/role.enum';
 import {RoleNamePipe} from '@pipes/role-name.pipe';
@@ -125,9 +125,9 @@ export class SelectionManagerComponent {
     if (!elements[index]) return;
     this.generatingIndex.set(index);
     try {
-      const canvas = await this._capture(elements[index].nativeElement);
+      const dataUrl = await this._capture(elements[index].nativeElement);
       const resolved = this.allPlayers()[index];
-      this._downloadCanvas(canvas, `story-${resolved.metadata.firstName.toLowerCase().replace(/\s+/g, '-')}.png`);
+      this._downloadDataUrl(dataUrl, `story-${resolved.metadata.firstName.toLowerCase().replace(/\s+/g, '-')}.png`);
     } finally {
       this.generatingIndex.set(null);
     }
@@ -140,9 +140,9 @@ export class SelectionManagerComponent {
       const elements = this.playerStoryElements.toArray();
       for (let i = 0; i < elements.length; i++) {
         this.generatingIndex.set(i);
-        const canvas = await this._capture(elements[i].nativeElement);
+        const dataUrl = await this._capture(elements[i].nativeElement);
         const resolved = this.allPlayers()[i];
-        const base64 = canvas.toDataURL('image/png').split(',')[1];
+        const base64 = dataUrl.split(',')[1];
         zip.file(`story-${resolved.metadata.firstName.toLowerCase().replace(/\s+/g, '-')}.png`, base64, {base64: true});
       }
       const blob = await zip.generateAsync({type: 'blob'});
@@ -158,9 +158,9 @@ export class SelectionManagerComponent {
     if (!el?.nativeElement) return;
     this.generating.set(true);
     try {
-      const canvas = await this._capture(el.nativeElement);
+      const dataUrl = await this._capture(el.nativeElement);
       const teamData = team === 'A' ? this.gameData.value().teamA : this.gameData.value().teamB;
-      this._downloadCanvas(canvas, `story-equipe-${teamData.displayName.toLowerCase().replace(/\s+/g, '-')}.png`);
+      this._downloadDataUrl(dataUrl, `story-equipe-${teamData.displayName.toLowerCase().replace(/\s+/g, '-')}.png`);
     } finally {
       this.generating.set(false);
     }
@@ -170,27 +170,26 @@ export class SelectionManagerComponent {
     if (!this.compoOffscreen?.nativeElement) return;
     this.generating.set(true);
     try {
-      const canvas = await this._capture(this.compoOffscreen.nativeElement);
-      this._downloadCanvas(canvas, 'story-composition.png');
+      const dataUrl = await this._capture(this.compoOffscreen.nativeElement);
+      this._downloadDataUrl(dataUrl, 'story-composition.png');
     } finally {
       this.generating.set(false);
     }
   }
 
-  private async _capture(el: HTMLElement): Promise<HTMLCanvasElement> {
-    return html2canvas(el, {
+  private async _capture(el: HTMLElement): Promise<string> {
+    return toPng(el, {
       width: 1080,
       height: 1920,
-      scale: 1,
-      useCORS: true,
+      pixelRatio: 1,
       backgroundColor: '#0a0a0a',
     });
   }
 
-  private _downloadCanvas(canvas: HTMLCanvasElement, filename: string) {
+  private _downloadDataUrl(dataUrl: string, filename: string) {
     const link = document.createElement('a');
     link.download = filename;
-    link.href = canvas.toDataURL('image/png');
+    link.href = dataUrl;
     link.click();
   }
 
