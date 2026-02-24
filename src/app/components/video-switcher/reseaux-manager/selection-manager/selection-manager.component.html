@@ -32,16 +32,11 @@
                    (ngModelChange)="matchTime.set($event)"/>
           </div>
           <div class="col">
-            <input type="text" class="form-control form-control-sm bg-white text-dark"
-                   placeholder="Adresse du match"
-                   list="location-suggestions"
-                   [ngModel]="matchLocation()"
-                   (ngModelChange)="matchLocation.set($event)"/>
-            <datalist id="location-suggestions">
-              @for (loc of suggestedLocations; track loc) {
-                <option [value]="loc"></option>
-              }
-            </datalist>
+            <textarea class="form-control form-control-sm bg-white text-dark"
+                      placeholder="Adresse du match"
+                      rows="2"
+                      [ngModel]="matchLocation()"
+                      (ngModelChange)="matchLocation.set($event)"></textarea>
           </div>
         </div>
 
@@ -245,7 +240,7 @@
             @if (teamAMeta()?.img) {
               <img [src]="teamAMeta().img" class="compo-team-logo-small" alt=""/>
             }
-            <span class="compo-team-name-label" [style.color]="teamAMeta()?.color">{{ gameData.value().teamA.displayName | uppercase }}</span>
+            <span class="compo-team-name-label" [style.color]="teamAMeta()?.color">{{ teamAMeta()?.shortName | uppercase }}</span>
           </div>
           <span class="compo-vs">VS</span>
           <div class="compo-team-side compo-team-side-b">
