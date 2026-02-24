@@ -1,0 +1,151 @@
+<div class="container my-4">
+
+  @if (allPlayers().length === 0) {
+    <div class="alert alert-warning">
+      Aucun joueur configure. Rendez-vous dans <strong>Parametres du match</strong> pour configurer les equipes.
+    </div>
+  } @else {
+
+    <div class="section-block">
+      <div class="d-flex align-items-center justify-content-between mb-3">
+        <h4 class="text-white m-0">Resultat du match</h4>
+        <button class="btn btn-success"
+                [disabled]="generating()"
+                (click)="generateStory()">
+          {{ generating() ? 'Generation...' : 'Telecharger' }}
+        </button>
+      </div>
+
+      <!-- Controls -->
+      <div class="row g-2 mb-3 align-items-center">
+        <div class="col-auto">
+          <label class="form-label text-muted mb-0 small">{{ gameData.value().teamA.displayName }}</label>
+          <input type="number" class="form-control form-control-sm bg-white text-dark" min="0"
+                 [ngModel]="scoreA()"
+                 (ngModelChange)="scoreA.set($event)"/>
+        </div>
+        <div class="col-auto pt-4">-</div>
+        <div class="col-auto">
+          <label class="form-label text-muted mb-0 small">{{ gameData.value().teamB.displayName }}</label>
+          <input type="number" class="form-control form-control-sm bg-white text-dark" min="0"
+                 [ngModel]="scoreB()"
+                 (ngModelChange)="scoreB.set($event)"/>
+        </div>
+      </div>
+
+      <div class="row g-2 mb-3">
+        <div class="col-3">
+          <label class="form-label text-muted mb-0 small">1ere etoile</label>
+          <select class="form-select form-select-sm bg-white text-dark"
+                  [ngModel]="star1Code()" (ngModelChange)="star1Code.set($event)">
+            <option value="">--</option>
+            @for (p of allPlayers(); track p.player.code) {
+              <option [value]="p.player.code">{{ p.metadata.firstName }} ({{ p.team.displayName }})</option>
+            }
+          </select>
+        </div>
+        <div class="col-3">
+          <label class="form-label text-muted mb-0 small">2eme etoile</label>
+          <select class="form-select form-select-sm bg-white text-dark"
+                  [ngModel]="star2Code()" (ngModelChange)="star2Code.set($event)">
+            <option value="">--</option>
+            @for (p of allPlayers(); track p.player.code) {
+              <option [value]="p.player.code">{{ p.metadata.firstName }} ({{ p.team.displayName }})</option>
+            }
+          </select>
+        </div>
+        <div class="col-3">
+          <label class="form-label text-muted mb-0 small">3eme etoile</label>
+          <select class="form-select form-select-sm bg-white text-dark"
+                  [ngModel]="star3Code()" (ngModelChange)="star3Code.set($event)">
+            <option value="">--</option>
+            @for (p of allPlayers(); track p.player.code) {
+              <option [value]="p.player.code">{{ p.metadata.firstName }} ({{ p.team.displayName }})</option>
+            }
+          </select>
+        </div>
+        <div class="col-3">
+          <label class="form-label text-muted mb-0 small">Etoile du staff</label>
+          <select class="form-select form-select-sm bg-white text-dark"
+                  [ngModel]="starStaffCode()" (ngModelChange)="starStaffCode.set($event)">
+            <option value="">--</option>
+            @for (p of allPlayers(); track p.player.code) {
+              <option [value]="p.player.code">{{ p.metadata.firstName }} ({{ p.team.displayName }})</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <!-- Preview -->
+      <div class="preview-wrapper">
+        <div class="result-story-preview"
+             [style.--color-a]="bgColorA()"
+             [style.--color-b]="bgColorB()"
+             [style.--team-a]="teamAMeta()?.color"
+             [style.--team-b]="teamBMeta()?.color">
+          <ng-container *ngTemplateOutlet="resultContent"></ng-container>
+        </div>
+      </div>
+    </div>
+
+    <!-- Offscreen -->
+    <div class="story-offscreen">
+      <div class="offscreen-canvas" #etoilesOffscreen
+           [style.--color-a]="bgColorA()"
+           [style.--color-b]="bgColorB()"
+           [style.--team-a]="teamAMeta()?.color"
+           [style.--team-b]="teamBMeta()?.color">
+        <ng-container *ngTemplateOutlet="resultContent"></ng-container>
+      </div>
+    </div>
+
+    <!-- Template -->
+    <ng-template #resultContent>
+      <div class="result-bg"></div>
+      <div class="result-header">
+        <div class="result-title">IMPROVISATION.BE</div>
+        <div class="result-teams-header">
+          <div class="result-team-side">
+            @if (teamAMeta()?.img) {
+              <img [src]="teamAMeta().img" class="result-team-logo" alt=""/>
+            }
+            <span class="result-team-name" [style.color]="teamAMeta()?.color">{{ gameData.value().teamA.displayName | uppercase }}</span>
+          </div>
+          <span class="result-vs">VS</span>
+          <div class="result-team-side result-team-side-b">
+            @if (teamBMeta()?.img) {
+              <img [src]="teamBMeta().img" class="result-team-logo" alt=""/>
+            }
+            <span class="result-team-name" [style.color]="teamBMeta()?.color">{{ gameData.value().teamB.displayName | uppercase }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="result-score-zone">
+        <div class="result-label" [style.color]="resultColor()">{{ resultLabel() }}</div>
+        <div class="result-score">{{ scoreA() }} - {{ scoreB() }}</div>
+      </div>
+
+      <div class="result-stars">
+        @for (star of stars(); track $index) {
+          <div class="star-row" [style.--star-color]="star.resolved ? getTeamColor(star.resolved) : '#666'">
+            @if (star.resolved) {
+              <img [src]="getPlayerImg(star.resolved)" class="star-player-img" alt=""/>
+            } @else {
+              <div class="star-player-placeholder"></div>
+            }
+            <div class="star-info">
+              <span class="star-label">{{ star.label }}</span>
+              @if (star.resolved) {
+                <span class="star-player-name">{{ star.resolved.metadata.firstName | uppercase }}</span>
+              }
+            </div>
+          </div>
+        }
+      </div>
+
+      <div class="result-footer">Retrouvez nos prochains matchs sur www.improvisation.be</div>
+    </ng-template>
+
+  }
+</div>
