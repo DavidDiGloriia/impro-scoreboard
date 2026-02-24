@@ -1,8 +1,11 @@
-import {Component, computed, ElementRef, QueryList, Signal, signal, ViewChild, ViewChildren} from '@angular/core';
+import {Component, computed, ElementRef, LOCALE_ID, QueryList, Signal, signal, ViewChild, ViewChildren} from '@angular/core';
+import {registerLocaleData} from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
 import {ImproDataService} from '@services/impro-data.service';
 import {PlayerMetadata} from '@models/player-metadata';
 import {TeamMetadata} from '@models/team-metadata';
-import {NgTemplateOutlet, UpperCasePipe} from '@angular/common';
+import {DatePipe, NgTemplateOutlet, UpperCasePipe} from '@angular/common';
+import {FormsModule} from '@angular/forms';
 import {Player} from '@models/player';
 import {Team} from '@models/team';
 import {find, keyBy} from 'lodash-es';
@@ -10,6 +13,8 @@ import html2canvas from 'html2canvas-pro';
 import JSZip from 'jszip';
 import {Role} from '@enums/role.enum';
 import {RoleNamePipe} from '@pipes/role-name.pipe';
+
+registerLocaleData(localeFr);
 
 export interface ResolvedPlayer {
   role: string;
@@ -21,7 +26,8 @@ export interface ResolvedPlayer {
 
 @Component({
   selector: 'app-selection-manager',
-  imports: [UpperCasePipe, RoleNamePipe, NgTemplateOutlet],
+  imports: [UpperCasePipe, RoleNamePipe, NgTemplateOutlet, FormsModule, DatePipe],
+  providers: [{provide: LOCALE_ID, useValue: 'fr'}],
   templateUrl: './selection-manager.component.html',
   styleUrl: './selection-manager.component.scss'
 })
@@ -38,6 +44,16 @@ export class SelectionManagerComponent {
 
   generating = signal(false);
   generatingIndex = signal<number | null>(null);
+
+  matchDate = signal(new Date().toISOString().slice(0, 10));
+  matchTime = signal('20:00');
+  matchLocation = signal('');
+
+  readonly suggestedLocations = [
+    'Salle Fernan-Léger, Argenteuil',
+    'Théâtre du Rond-Point, Paris',
+    'Salle Jacques Brel, Fontenay-sous-Bois',
+  ];
 
   protected readonly Role = Role;
 
@@ -192,7 +208,7 @@ export class SelectionManagerComponent {
     if (!teamMetadata) return [];
     const pByCode = this.playersByCode();
     return Object.entries(team.players)
-      .filter(([_, player]) => !!player?.code)
+      .filter(([role, player]) => !!player?.code && role !== Role.COACH)
       .map(([role, player]) => ({role, player, metadata: pByCode[player.code], teamMetadata, team}))
       .filter(r => !!r.metadata);
   }

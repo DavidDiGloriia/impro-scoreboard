@@ -41,4 +41,8 @@ export class TeamMetadata {
     return this._dto.playerImgSuffix;
   }
 
+  get shortName(): string {
+    return this._dto.shortName || this._dto.nom || '';
+  }
+
 }

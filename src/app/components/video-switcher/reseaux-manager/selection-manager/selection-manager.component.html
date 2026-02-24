@@ -7,7 +7,7 @@
   } @else {
 
     <!-- ============================================================ -->
-    <!-- 1. COMPOSITION DU MATCH (les 2 equipes) -->
+    <!-- 1. IMPROVISATION.BE (les 2 equipes) -->
     <!-- ============================================================ -->
     @if (teamAPlayers().length > 0 && teamBPlayers().length > 0) {
       <div class="section-block">
@@ -18,6 +18,31 @@
                   (click)="generateCompoStory()">
             Telecharger
           </button>
+        </div>
+
+        <div class="row g-2 mb-3">
+          <div class="col-auto">
+            <input type="date" class="form-control form-control-sm bg-white text-dark"
+                   [ngModel]="matchDate()"
+                   (ngModelChange)="matchDate.set($event)"/>
+          </div>
+          <div class="col-auto">
+            <input type="time" class="form-control form-control-sm bg-white text-dark"
+                   [ngModel]="matchTime()"
+                   (ngModelChange)="matchTime.set($event)"/>
+          </div>
+          <div class="col">
+            <input type="text" class="form-control form-control-sm bg-white text-dark"
+                   placeholder="Adresse du match"
+                   list="location-suggestions"
+                   [ngModel]="matchLocation()"
+                   (ngModelChange)="matchLocation.set($event)"/>
+            <datalist id="location-suggestions">
+              @for (loc of suggestedLocations; track loc) {
+                <option [value]="loc"></option>
+              }
+            </datalist>
+          </div>
         </div>
 
         <!-- Preview only -->
@@ -164,7 +189,7 @@
               <img [src]="getTeamLogo(resolved)" alt="team logo" class="story-team-logo"/>
             }
             <div class="story-team-name">{{ getTeamDisplayName(resolved) | uppercase }}</div>
-            <div class="story-subtitle">SELECTION</div>
+            <div class="story-subtitle">SÉLECTION</div>
           </div>
           <div class="story-player-zone">
             <img [src]="getPlayerImg(resolved)" [alt]="resolved.metadata.firstName" class="story-player-img"/>
@@ -214,7 +239,7 @@
     <ng-template #compoContent>
       <div class="compo-bg"></div>
       <div class="compo-header">
-        <div class="compo-title">COMPOSITION DU MATCH</div>
+        <div class="compo-title">IMPROVISATION.BE</div>
         <div class="compo-teams-header">
           <div class="compo-team-side">
             @if (teamAMeta()?.img) {
@@ -224,12 +249,20 @@
           </div>
           <span class="compo-vs">VS</span>
           <div class="compo-team-side compo-team-side-b">
-            <span class="compo-team-name-label" [style.color]="teamBMeta()?.color">{{ gameData.value().teamB.displayName | uppercase }}</span>
             @if (teamBMeta()?.img) {
               <img [src]="teamBMeta().img" class="compo-team-logo-small" alt=""/>
             }
+            <span class="compo-team-name-label" [style.color]="teamBMeta()?.color">{{ gameData.value().teamB.displayName | uppercase }}</span>
           </div>
         </div>
+      </div>
+      <div class="compo-info">
+        @if (matchDate()) {
+          <span class="compo-date">{{ matchDate() + 'T00:00:00' | date:'EEEE d MMMM yyyy':'':'fr' | uppercase }}@if (matchTime()) { - {{ matchTime() }}}</span>
+        }
+        @if (matchLocation()) {
+          <span class="compo-location">{{ matchLocation() | uppercase }}</span>
+        }
       </div>
       <div class="compo-rows">
         @for (row of compoRows(); track $index) {
@@ -264,6 +297,7 @@
           </div>
         }
       </div>
+      <div class="compo-footer">Reservations et informations sur www.improvisation.be</div>
     </ng-template>
 
     <ng-template #teamAContent>
@@ -273,7 +307,7 @@
           <img [src]="teamAMeta().img" alt="team logo" class="story-team-logo"/>
         }
         <div class="story-team-name">{{ gameData.value().teamA.displayName | uppercase }}</div>
-        <div class="story-subtitle">SELECTION</div>
+        <div class="story-subtitle">SÉLECTION</div>
       </div>
       <div class="team-story-players">
         @for (resolved of teamAPlayers(); track resolved.player.code) {
@@ -300,7 +334,7 @@
           <img [src]="teamBMeta().img" alt="team logo" class="story-team-logo"/>
         }
         <div class="story-team-name">{{ gameData.value().teamB.displayName | uppercase }}</div>
-        <div class="story-subtitle">SELECTION</div>
+        <div class="story-subtitle">SÉLECTION</div>
       </div>
       <div class="team-story-players">
         @for (resolved of teamBPlayers(); track resolved.player.code) {
