@@ -268,7 +268,7 @@
           <div class="compo-row">
             <div class="compo-cell compo-cell-photo">
               @if (row.a) {
-                <img [src]="getPlayerImg(row.a)" class="compo-player-photo" alt=""/>
+                <img [src]="getPlayerImg(row.a)" class="compo-player-photo" [style.object-position]="getFacePosition(row.a)" [style.transform-origin]="getFacePosition(row.a)" [style.transform]="getPlayerScale(row.a)" alt=""/>
               }
             </div>
             <div class="compo-cell compo-cell-name compo-cell-name-a">
@@ -290,7 +290,7 @@
             </div>
             <div class="compo-cell compo-cell-photo">
               @if (row.b) {
-                <img [src]="getPlayerImg(row.b)" class="compo-player-photo" alt=""/>
+                <img [src]="getPlayerImg(row.b)" class="compo-player-photo" [style.object-position]="getFacePosition(row.b)" [style.transform-origin]="getFacePosition(row.b)" [style.transform]="getPlayerScale(row.b)" alt=""/>
               }
             </div>
           </div>
@@ -311,7 +311,7 @@
       <div class="team-story-players">
         @for (resolved of teamAPlayers(); track resolved.player.code) {
           <div class="team-story-player-row">
-            <img [src]="getPlayerImg(resolved)" class="team-story-player-img" alt=""/>
+            <img [src]="getPlayerImg(resolved)" class="team-story-player-img" [style.object-position]="getFacePosition(resolved)" alt=""/>
             <div class="team-story-player-info">
               @if (!isSimplePlayer(resolved.role)) {
                 <span class="team-story-player-role">{{ resolved.role | roleName:resolved.metadata.isFemale | uppercase }}</span>
@@ -338,7 +338,7 @@
       <div class="team-story-players">
         @for (resolved of teamBPlayers(); track resolved.player.code) {
           <div class="team-story-player-row">
-            <img [src]="getPlayerImg(resolved)" class="team-story-player-img" alt=""/>
+            <img [src]="getPlayerImg(resolved)" class="team-story-player-img" [style.object-position]="getFacePosition(resolved)" alt=""/>
             <div class="team-story-player-info">
               @if (!isSimplePlayer(resolved.role)) {
                 <span class="team-story-player-role">{{ resolved.role | roleName:resolved.metadata.isFemale | uppercase }}</span>

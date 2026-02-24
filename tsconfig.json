@@ -42,6 +42,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowJs": true,
+    "resolveJsonModule": true,
     "target": "ES2022",
     "typeRoots": [
       "node_modules/@types"

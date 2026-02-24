@@ -218,7 +218,7 @@
 }
 
 .compo-date {
-  font-size: 48px;
+  font-size: 54px;
   font-weight: 600;
   letter-spacing: 0.08em;
   color: #ddd;
@@ -273,13 +273,16 @@
 
 .compo-cell-photo {
   flex-shrink: 0;
+  width: 150px;
+  height: 190px;
+  overflow: hidden;
+  border-radius: 12px;
 }
 
 .compo-player-photo {
   width: 150px;
   height: 190px;
   object-fit: cover;
-  object-position: center 15%;
   display: block;
   border: 2px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
@@ -372,7 +375,6 @@
   width: 180px;
   height: 220px;
   object-fit: cover;
-  object-position: center 15%;
   flex-shrink: 0;
 }
 

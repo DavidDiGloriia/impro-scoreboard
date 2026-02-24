@@ -13,6 +13,7 @@ import {toPng} from 'html-to-image';
 import JSZip from 'jszip';
 import {Role} from '@enums/role.enum';
 import {RoleNamePipe} from '@pipes/role-name.pipe';
+import facePositions from '@assets/data/face-positions.json';
 
 registerLocaleData(localeFr);
 
@@ -97,6 +98,24 @@ export class SelectionManagerComponent {
   });
 
   constructor(private _improDataService: ImproDataService) {
+  }
+
+  private static readonly SCALE_OVERRIDES: Record<string, number> = {
+    'assets/joueurs/doc': 2.8,
+    'assets/joueurs/antoine': 2.5,
+  };
+
+  getFacePosition(resolved: ResolvedPlayer): string {
+    const src = this.getPlayerImg(resolved);
+    const pos = (facePositions as Record<string, { x: number; y: number }>)[src];
+    return pos ? `${pos.x}% ${pos.y - 10}%` : 'center 5%';
+  }
+
+  getPlayerScale(resolved: ResolvedPlayer): string {
+    const img = resolved.metadata?.img;
+    const key = img ? Object.keys(SelectionManagerComponent.SCALE_OVERRIDES).find(k => img.startsWith(k)) : null;
+    const scale = key ? SelectionManagerComponent.SCALE_OVERRIDES[key] : 2.2;
+    return `scale(${scale})`;
   }
 
   getPlayerImg(resolved: ResolvedPlayer): string {
