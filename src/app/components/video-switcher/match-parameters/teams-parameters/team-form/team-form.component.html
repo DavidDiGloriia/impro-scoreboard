@@ -68,17 +68,12 @@
         </label>
 
         <div class="col-md-9 d-flex gap-2 align-items-center">
-          <select
-            class="form-select"
-            [ngModel]="team().players[role]?.code"
+          <app-searchable-select
+            [options]="playerOptions"
+            [ngModel]="team().players[role]?.code || ''"
             (ngModelChange)="onPlayerNameChange($event, role)"
-          >
-            <option [value]="''" [selected]="!team().players[role]">Aucun(e)</option>
-            <option *ngFor="let player of players"
-                    [value]="player.code">
-              {{ player.firstName }} {{ player.name }}
-            </option>
-          </select>
+            placeholder="Aucun(e)"
+          ></app-searchable-select>
 
           <input
             *ngIf="role !== 'coach'"

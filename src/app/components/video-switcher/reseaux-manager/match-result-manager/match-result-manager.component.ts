@@ -12,12 +12,13 @@ import {toPng} from 'html-to-image';
 import {Role} from '@enums/role.enum';
 import {ResolvedPlayer} from '../selection-manager/selection-manager.component';
 import facePositions from '@assets/data/face-positions.json';
+import {SearchableSelectComponent, SelectOption} from '@components/searchable-select/searchable-select.component';
 
 registerLocaleData(localeFr);
 
 @Component({
   selector: 'app-match-result-manager',
-  imports: [UpperCasePipe, NgTemplateOutlet, FormsModule],
+  imports: [UpperCasePipe, NgTemplateOutlet, FormsModule, SearchableSelectComponent],
   providers: [{provide: LOCALE_ID, useValue: 'fr'}],
   templateUrl: './match-result-manager.component.html',
   styleUrl: './match-result-manager.component.scss'
@@ -62,6 +63,16 @@ export class MatchResultManagerComponent {
       ...this._resolveTeamPlayers(this.gameData.value().teamA),
       ...this._resolveTeamPlayers(this.gameData.value().teamB),
     ];
+  });
+
+  playerOptions: Signal<SelectOption[]> = computed(() => {
+    const all = this.allPlayers();
+    const metas = all.map(p => p.metadata);
+    const labels = PlayerMetadata.smartLabels(metas);
+    return all.map(p => ({
+      value: p.player.code,
+      label: `${labels.get(p.player.code) || p.metadata.firstName} (${p.team.displayName})`,
+    }));
   });
 
   winner: Signal<'A' | 'B' | 'draw'> = computed(() => {

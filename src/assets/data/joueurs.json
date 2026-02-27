@@ -1,169 +1,209 @@
 [
   {
     "prenom": "Alain",
+    "nom": "Daby",
     "img": "assets/joueurs/alain"
   },
   {
-    "prenom": "Alex",
+    "prenom": "Alexandre",
     "nom": "Christoffel",
     "img": "assets/joueurs/alex-christoffel"
   },
   {
     "prenom": "Alex",
-    "nom": "Colusi",
-    "img": "assets/joueurs/alex-colusi",
-    "femme": false
+    "nom": "Colussi",
+    "img": "assets/joueurs/alex-colusi"
   },
   {
     "prenom": "Alexandra",
+    "shortName": "Alex",
     "nom": "Ducoux",
     "img": "assets/joueurs/alexandra-ducoux",
     "femme": true
   },
   {
-    "prenom": "Alex",
+    "prenom": "Alexandre",
     "nom": "Pauwels",
     "img": "assets/joueurs/alex-pauwels"
   },
   {
     "prenom": "Antoine",
+    "nom": "Lomba",
     "img": "assets/joueurs/antoine"
   },
   {
     "prenom": "Arnaud",
+    "nom": "Vanwelkenhuyzen",
     "img": "assets/joueurs/arnaud"
   },
   {
     "prenom": "Aurore",
+    "nom": "Georges",
     "img": "assets/joueurs/aurore"
   },
   {
     "prenom": "Benjamin",
+    "nom": "Vandenhoofden",
     "img": "assets/joueurs/ben"
   },
   {
     "prenom": "Caroline",
+    "nom": "Paulhan",
     "img": "assets/joueurs/caroline",
     "femme": true
   },
   {
     "prenom": "Cath",
+    "nom": "Cayenberghs",
     "img": "assets/joueurs/cath",
     "femme": true
   },
   {
     "prenom": "Charlotte",
+    "nom": "Otlet",
     "img": "assets/joueurs/charlotte-otlet",
     "femme": true
   },
   {
     "prenom": "Clem",
+    "nom": "Remy",
     "img": "assets/joueurs/clem",
     "femme": true
   },
   {
     "prenom": "Damien",
+    "nom": "Nokin",
     "img": "assets/joueurs/damien"
   },
   {
     "prenom": "David",
+    "nom": "Di Gloria",
     "img": "assets/joueurs/david-di-gloria"
   },
   {
-    "prenom": "Doc",
+    "prenom": "Alexandre",
+    "nom": "Lillo",
+    "alias": "Doc",
     "img": "assets/joueurs/doc"
   },
   {
     "prenom": "Elodie",
+    "nom": "Koch",
     "img": "assets/joueurs/elodie",
     "femme": true
   },
   {
     "prenom": "Emilie",
+    "nom": "Marlière",
     "img": "assets/joueurs/emilie-marliere",
     "femme": true
   },
   {
-    "prenom": "Filou",
+    "prenom": "Philip",
+    "nom": "Lemoine",
+    "alias": "Filou",
     "img": "assets/joueurs/filou"
   },
   {
     "prenom": "Gab",
+    "nom": "de Patoul",
     "img": "assets/joueurs/gab-de-pat",
     "femme": true
   },
   {
     "prenom": "Janick",
+    "nom": "Bries",
     "femme": true
   },
   {
-    "prenom": "Jess",
+    "prenom": "Jésica",
+    "nom": "De Salvador",
     "img": "assets/joueurs/jess",
     "femme": true
   },
   {
     "prenom": "Kostia",
+    "nom": "Zielonka",
     "img": "assets/joueurs/kostia"
   },
   {
     "prenom": "Lenny",
+    "nom": "B. Conil",
     "img": "assets/joueurs/lenny-b-conil"
   },
   {
-    "prenom": "MP",
+    "prenom": "Marie-Pierre",
+    "nom": "van Oldeneel",
+    "alias": "MP",
     "femme": true,
     "img": "assets/joueurs/mp"
   },
   {
     "prenom": "Maïlis",
+    "nom": "Cappeliez",
     "img": "assets/joueurs/mailis",
     "femme": true
   },
   {
-    "prenom": "Nico",
+    "prenom": "Nicolas",
+    "nom": "Goossens",
     "img": "assets/joueurs/nicolas"
   },
   {
-    "prenom": "Pec",
+    "prenom": "Sylvain",
+    "nom": "Verteneuil",
+    "alias": "Pec",
     "img": "assets/joueurs/pec"
   },
   {
-    "prenom": "Phil",
+    "prenom": "Philippe",
+    "nom": "Verbeke",
     "img": "assets/joueurs/philippe-verbeke"
   },
   {
-    "prenom": "Polo",
+    "prenom": "Sébastien",
+    "nom": "Lothe",
+    "alias": "Polo",
     "img": "assets/joueurs/polo"
   },
   {
-    "prenom": "Q",
+    "prenom": "Quentin",
+    "nom": "Gillet",
+    "alias": "Q",
     "img": "assets/joueurs/q"
   },
   {
-    "prenom": "Sbu",
+    "prenom": "Stéphane",
+    "alias": "Sbu",
+    "nom": "Verhaeren",
     "img": "assets/joueurs/sbu"
   },
   {
     "prenom": "Sophie",
+    "nom": "Hoyas",
     "img": "assets/joueurs/sophie-hoyas",
     "femme": true
   },
   {
     "prenom": "Tony",
+    "nom": "Denis",
     "img": "assets/joueurs/tony"
   },
   {
     "prenom": "Valentine",
+    "nom": "Van Gestel",
     "img": "assets/joueurs/valentine",
     "femme": true
   },
   {
     "prenom": "Vincent",
+    "nom": "Verboogen",
     "img": "assets/joueurs/vincent",
     "femme": true
   },
   {
     "prenom": "Wilhem",
+    "nom": "de Baerdemaecker",
     "img": "assets/joueurs/wilhem"
   }
 ]

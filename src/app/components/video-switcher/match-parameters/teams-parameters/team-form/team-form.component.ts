@@ -9,6 +9,7 @@ import {TeamNumber} from "@enums/team-number.enum";
 import {groupBy} from 'lodash-es';
 import {Player} from "@models/player";
 import {find} from 'lodash-es';
+import {SearchableSelectComponent, SelectOption} from '@components/searchable-select/searchable-select.component';
 
 @Component({
   selector: 'app-team-form',
@@ -17,6 +18,7 @@ import {find} from 'lodash-es';
     NgForOf,
     NgIf,
     KeyValuePipe,
+    SearchableSelectComponent,
   ],
   templateUrl: './team-form.component.html',
   styleUrls: ['./team-form.component.scss']
@@ -48,6 +50,11 @@ export class TeamFormComponent {
     const teams = this.availableTeams();
     return groupBy(Object.values(teams), team => team.group);
   });
+
+  get playerOptions(): SelectOption[] {
+    const labels = PlayerMetadata.smartLabels(this.players);
+    return this.players.map(p => ({value: p.code, label: labels.get(p.code) || p.firstName}));
+  }
 
   isColorTeam: Signal<boolean> = computed(() => {
     const metadata: TeamMetadata = find(this.availableTeams(), (t: TeamMetadata) => {

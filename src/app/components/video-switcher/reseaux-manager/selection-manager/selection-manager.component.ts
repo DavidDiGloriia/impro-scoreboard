@@ -38,6 +38,7 @@ export class SelectionManagerComponent {
   @ViewChild('teamAOffscreen') teamAOffscreen: ElementRef<HTMLDivElement>;
   @ViewChild('teamBOffscreen') teamBOffscreen: ElementRef<HTMLDivElement>;
   @ViewChild('compoOffscreen') compoOffscreen: ElementRef<HTMLDivElement>;
+  @ViewChild('fbCompoOffscreen') fbCompoOffscreen: ElementRef<HTMLDivElement>;
 
   gameData = this._improDataService.gameData;
   teams = this._improDataService.teams;
@@ -48,12 +49,12 @@ export class SelectionManagerComponent {
 
   matchDate = signal(new Date().toISOString().slice(0, 10));
   matchTime = signal('20:00');
-  matchLocation = signal('');
+  matchLocation = signal('Collège Notre-Dame de Basse-Wavre\nRue de la Fabrique, 1300 Wavre');
 
   readonly suggestedLocations = [
-    'Salle Fernan-Léger, Argenteuil',
-    'Théâtre du Rond-Point, Paris',
-    'Salle Jacques Brel, Fontenay-sous-Bois',
+    'Collège Notre-Dame de Basse-Wavre\nRue de la Fabrique, 1300 Wavre',
+    'Théâtre de Joli-Bois\nAvenue du Haras 100, 1150 Woluwe-Saint-Pierre',
+    'Centre culturel de Rixensart\nPl. Communale 38, 1332 Rixensart',
   ];
 
   protected readonly Role = Role;
@@ -196,10 +197,21 @@ export class SelectionManagerComponent {
     }
   }
 
-  private async _capture(el: HTMLElement): Promise<string> {
+  async generateFbCompoStory() {
+    if (!this.fbCompoOffscreen?.nativeElement) return;
+    this.generating.set(true);
+    try {
+      const dataUrl = await this._capture(this.fbCompoOffscreen.nativeElement, 1920, 1005);
+      this._downloadDataUrl(dataUrl, 'fb-cover-composition.png');
+    } finally {
+      this.generating.set(false);
+    }
+  }
+
+  private async _capture(el: HTMLElement, width = 1080, height = 1920): Promise<string> {
     return toPng(el, {
-      width: 1080,
-      height: 1920,
+      width,
+      height,
       pixelRatio: 1,
       backgroundColor: '#0a0a0a',
     });

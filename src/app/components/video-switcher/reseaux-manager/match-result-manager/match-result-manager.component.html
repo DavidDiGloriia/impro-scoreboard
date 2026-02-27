@@ -36,43 +36,35 @@
       <div class="row g-2 mb-3">
         <div class="col-3">
           <label class="form-label text-muted mb-0 small">1ere etoile</label>
-          <select class="form-select form-select-sm bg-white text-dark"
-                  [ngModel]="star1Code()" (ngModelChange)="star1Code.set($event)">
-            <option value="">--</option>
-            @for (p of allPlayers(); track p.player.code) {
-              <option [value]="p.player.code">{{ p.metadata.firstName }} ({{ p.team.displayName }})</option>
-            }
-          </select>
+          <app-searchable-select
+            [options]="playerOptions()"
+            [ngModel]="star1Code()" (ngModelChange)="star1Code.set($event)"
+            placeholder="--" size="sm"
+          ></app-searchable-select>
         </div>
         <div class="col-3">
           <label class="form-label text-muted mb-0 small">2eme etoile</label>
-          <select class="form-select form-select-sm bg-white text-dark"
-                  [ngModel]="star2Code()" (ngModelChange)="star2Code.set($event)">
-            <option value="">--</option>
-            @for (p of allPlayers(); track p.player.code) {
-              <option [value]="p.player.code">{{ p.metadata.firstName }} ({{ p.team.displayName }})</option>
-            }
-          </select>
+          <app-searchable-select
+            [options]="playerOptions()"
+            [ngModel]="star2Code()" (ngModelChange)="star2Code.set($event)"
+            placeholder="--" size="sm"
+          ></app-searchable-select>
         </div>
         <div class="col-3">
           <label class="form-label text-muted mb-0 small">3eme etoile</label>
-          <select class="form-select form-select-sm bg-white text-dark"
-                  [ngModel]="star3Code()" (ngModelChange)="star3Code.set($event)">
-            <option value="">--</option>
-            @for (p of allPlayers(); track p.player.code) {
-              <option [value]="p.player.code">{{ p.metadata.firstName }} ({{ p.team.displayName }})</option>
-            }
-          </select>
+          <app-searchable-select
+            [options]="playerOptions()"
+            [ngModel]="star3Code()" (ngModelChange)="star3Code.set($event)"
+            placeholder="--" size="sm"
+          ></app-searchable-select>
         </div>
         <div class="col-3">
           <label class="form-label text-muted mb-0 small">Etoile du staff</label>
-          <select class="form-select form-select-sm bg-white text-dark"
-                  [ngModel]="starStaffCode()" (ngModelChange)="starStaffCode.set($event)">
-            <option value="">--</option>
-            @for (p of allPlayers(); track p.player.code) {
-              <option [value]="p.player.code">{{ p.metadata.firstName }} ({{ p.team.displayName }})</option>
-            }
-          </select>
+          <app-searchable-select
+            [options]="playerOptions()"
+            [ngModel]="starStaffCode()" (ngModelChange)="starStaffCode.set($event)"
+            placeholder="--" size="sm"
+          ></app-searchable-select>
         </div>
       </div>
 
@@ -146,7 +138,7 @@
             <div class="star-info">
               <span class="star-label">{{ star.label }}</span>
               @if (star.resolved) {
-                <span class="star-player-name">{{ star.resolved.metadata.firstName | uppercase }}</span>
+                <span class="star-player-name">{{ star.resolved.metadata.socialName | uppercase }}</span>
               }
             </div>
           </div>

@@ -32,6 +32,14 @@
                    (ngModelChange)="matchTime.set($event)"/>
           </div>
           <div class="col">
+            <div class="d-flex flex-wrap gap-1 mb-1">
+              @for (loc of suggestedLocations; track loc) {
+                <button class="btn btn-sm"
+                        [class.btn-outline-secondary]="matchLocation() !== loc"
+                        [class.btn-success]="matchLocation() === loc"
+                        (click)="matchLocation.set(loc)">{{ loc.split('\n')[0] }}</button>
+              }
+            </div>
             <textarea class="form-control form-control-sm bg-white text-dark"
                       placeholder="Adresse du match"
                       rows="2"
@@ -46,6 +54,31 @@
                [style.--color-a]="teamAMeta()?.color"
                [style.--color-b]="teamBMeta()?.color">
             <ng-container *ngTemplateOutlet="compoContent"></ng-container>
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- ============================================================ -->
+    <!-- 1b. FACEBOOK EVENT COVER (composition paysage) -->
+    <!-- ============================================================ -->
+    @if (teamAPlayers().length > 0 && teamBPlayers().length > 0) {
+      <div class="section-block">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+          <h4 class="text-white m-0">Couverture Facebook</h4>
+          <button class="btn btn-success"
+                  [disabled]="generating()"
+                  (click)="generateFbCompoStory()">
+            Telecharger
+          </button>
+        </div>
+
+        <!-- Preview only -->
+        <div class="preview-wrapper">
+          <div class="fb-compo-preview"
+               [style.--color-a]="teamAMeta()?.color"
+               [style.--color-b]="teamBMeta()?.color">
+            <ng-container *ngTemplateOutlet="fbCompoContent"></ng-container>
           </div>
         </div>
       </div>
@@ -121,7 +154,7 @@
                 @if (!isSimplePlayer(resolved.role)) {
                   <span class="player-card-role">{{ resolved.role | roleName:resolved.metadata.isFemale }}</span>
                 }
-                <span class="player-card-name">{{ resolved.metadata.firstName }}</span>
+                <span class="player-card-name">{{ resolved.metadata.displayName }}</span>
               </div>
               @if (resolved.player.number) {
                 <div class="player-card-number">#{{ resolved.player.number }}</div>
@@ -151,7 +184,7 @@
                 @if (!isSimplePlayer(resolved.role)) {
                   <span class="player-card-role">{{ resolved.role | roleName:resolved.metadata.isFemale }}</span>
                 }
-                <span class="player-card-name">{{ resolved.metadata.firstName }}</span>
+                <span class="player-card-name">{{ resolved.metadata.displayName }}</span>
               </div>
               @if (resolved.player.number) {
                 <div class="player-card-number">#{{ resolved.player.number }}</div>
@@ -193,7 +226,7 @@
             @if (resolved.player.number) {
               <div class="story-player-number">#{{ resolved.player.number }}</div>
             }
-            <div class="story-player-name">{{ resolved.metadata.firstName | uppercase }}</div>
+            <div class="story-player-name">{{ resolved.metadata.socialName | uppercase }}</div>
             @if (!isSimplePlayer(resolved.role)) {
               <div class="story-player-role">{{ resolved.role | roleName:resolved.metadata.isFemale | uppercase }}</div>
             }
@@ -223,6 +256,15 @@
              [style.--color-a]="teamAMeta()?.color"
              [style.--color-b]="teamBMeta()?.color">
           <ng-container *ngTemplateOutlet="compoContent"></ng-container>
+        </div>
+      }
+
+      <!-- Facebook event cover -->
+      @if (teamAPlayers().length > 0 && teamBPlayers().length > 0) {
+        <div class="offscreen-canvas-fb" #fbCompoOffscreen
+             [style.--color-a]="teamAMeta()?.color"
+             [style.--color-b]="teamBMeta()?.color">
+          <ng-container *ngTemplateOutlet="fbCompoContent"></ng-container>
         </div>
       }
 
@@ -273,7 +315,7 @@
             </div>
             <div class="compo-cell compo-cell-name compo-cell-name-a">
               @if (row.a) {
-                <span class="compo-player-name">{{ row.a.metadata.firstName | uppercase }}</span>
+                <span class="compo-player-name">{{ row.a.metadata.displayName | uppercase }}</span>
                 @if (!isSimplePlayer(row.a.role)) {
                   <span class="compo-player-role compo-role-a">{{ row.a.role | roleName:row.a.metadata.isFemale }}</span>
                 }
@@ -282,7 +324,7 @@
             <div class="compo-cell compo-cell-sep"></div>
             <div class="compo-cell compo-cell-name compo-cell-name-b">
               @if (row.b) {
-                <span class="compo-player-name">{{ row.b.metadata.firstName | uppercase }}</span>
+                <span class="compo-player-name">{{ row.b.metadata.displayName | uppercase }}</span>
                 @if (!isSimplePlayer(row.b.role)) {
                   <span class="compo-player-role compo-role-b">{{ row.b.role | roleName:row.b.metadata.isFemale }}</span>
                 }
@@ -321,13 +363,101 @@
               @if (!isSimplePlayer(resolved.role)) {
                 <span class="team-story-player-role">{{ resolved.role | roleName:resolved.metadata.isFemale | uppercase }}</span>
               }
-              <span class="team-story-player-name">{{ resolved.metadata.firstName | uppercase }}</span>
+              <span class="team-story-player-name">{{ resolved.metadata.socialName | uppercase }}</span>
             </div>
             @if (resolved.player.number) {
               <span class="team-story-player-number">#{{ resolved.player.number }}</span>
             }
           </div>
         }
+      </div>
+    </ng-template>
+
+    <ng-template #fbCompoContent>
+      <div class="fb-compo-bg"></div>
+
+      <!-- Header: teams -->
+      <div class="fb-compo-header">
+        <div class="fb-compo-subtitle">MATCH D'IMPROVISATION</div>
+        <div class="fb-compo-teams-bar">
+          <div class="fb-compo-team-side fb-compo-team-side-a">
+            @if (teamAMeta()?.img) {
+              <div class="fb-compo-logo-round">
+                <img [src]="teamAMeta().img" [class]="'compo-team-logo-small photo-teamA-' + teamAMeta().code" alt=""/>
+              </div>
+            }
+            <span class="fb-compo-team-name" [style.color]="teamAMeta()?.color">{{ teamAMeta()?.name | uppercase }}</span>
+          </div>
+          <span class="fb-compo-vs">VS</span>
+          <div class="fb-compo-team-side fb-compo-team-side-b">
+            <span class="fb-compo-team-name" [style.color]="teamBMeta()?.color">{{ teamBMeta()?.name | uppercase }}</span>
+            @if (teamBMeta()?.img) {
+              <div class="fb-compo-logo-round">
+                <img [src]="teamBMeta().img" [class]="'compo-team-logo-small photo-teamB-' + teamBMeta().code" alt=""/>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Player columns -->
+      <div class="fb-compo-players">
+        <div class="fb-compo-col fb-compo-col-a">
+          @for (resolved of teamAPlayers(); track resolved.player.code) {
+            <div class="fb-compo-player-card">
+              <div class="fb-compo-photo-clip">
+                <img [src]="getPlayerImg(resolved)" class="fb-compo-player-photo"
+                     [style.object-position]="getFacePosition(resolved)"
+                     [style.transform-origin]="getFacePosition(resolved)"
+                     [style.transform]="getPlayerScale(resolved)" alt=""/>
+              </div>
+              <div class="fb-compo-player-info">
+                <span class="fb-compo-player-name">{{ resolved.metadata.socialName | uppercase }}</span>
+                @if (!isSimplePlayer(resolved.role)) {
+                  <span class="fb-compo-player-role fb-role-a">{{ resolved.role | roleName:resolved.metadata.isFemale }}</span>
+                }
+              </div>
+            </div>
+          }
+        </div>
+
+        <div class="fb-compo-divider"></div>
+
+        <div class="fb-compo-col fb-compo-col-b">
+          @for (resolved of teamBPlayers(); track resolved.player.code) {
+            <div class="fb-compo-player-card">
+              <div class="fb-compo-player-info">
+                <span class="fb-compo-player-name">{{ resolved.metadata.socialName | uppercase }}</span>
+                @if (!isSimplePlayer(resolved.role)) {
+                  <span class="fb-compo-player-role fb-role-b">{{ resolved.role | roleName:resolved.metadata.isFemale }}</span>
+                }
+              </div>
+              <div class="fb-compo-photo-clip">
+                <img [src]="getPlayerImg(resolved)" class="fb-compo-player-photo"
+                     [style.object-position]="getFacePosition(resolved)"
+                     [style.transform-origin]="getFacePosition(resolved)"
+                     [style.transform]="getPlayerScale(resolved)" alt=""/>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Footer bar -->
+      <div class="fb-compo-footer-bar">
+        @if (matchDate()) {
+          <div class="fb-compo-date-block">
+            <span class="fb-compo-date">{{ matchDate() + 'T00:00:00' | date:'EEEE d MMMM yyyy':'':'fr' | uppercase }}</span>
+            @if (matchTime()) {
+              <span class="fb-compo-time">{{ matchTime().replace(':', 'H') }}</span>
+            }
+          </div>
+        }
+        <div class="fb-compo-footer-sep"></div>
+        @if (matchLocation()) {
+          <span class="fb-compo-location">{{ matchLocation() | uppercase }}</span>
+        }
+        <span class="fb-compo-website">Réservations et informations sur <strong>www.improvisation.be</strong></span>
       </div>
     </ng-template>
 
@@ -353,7 +483,7 @@
               @if (!isSimplePlayer(resolved.role)) {
                 <span class="team-story-player-role">{{ resolved.role | roleName:resolved.metadata.isFemale | uppercase }}</span>
               }
-              <span class="team-story-player-name">{{ resolved.metadata.firstName | uppercase }}</span>
+              <span class="team-story-player-name">{{ resolved.metadata.socialName | uppercase }}</span>
             </div>
             @if (resolved.player.number) {
               <span class="team-story-player-number">#{{ resolved.player.number }}</span>
