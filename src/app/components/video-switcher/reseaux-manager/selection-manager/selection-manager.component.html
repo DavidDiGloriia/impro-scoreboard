@@ -6,200 +6,204 @@
     </div>
   } @else {
 
-    <!-- ============================================================ -->
-    <!-- 1. IMPROVISATION.BE (les 2 equipes) -->
-    <!-- ============================================================ -->
-    @if (teamAPlayers().length > 0 && teamBPlayers().length > 0) {
-      <div class="section-block">
-        <div class="d-flex align-items-center justify-content-between mb-3">
-          <h4 class="text-white m-0">Composition du match</h4>
-          <button class="btn btn-success"
-                  [disabled]="generating()"
-                  (click)="generateCompoStory()">
-            Telecharger
-          </button>
-        </div>
-
-        <div class="row g-2 mb-3">
-          <div class="col-auto">
-            <input type="date" class="form-control form-control-sm bg-white text-dark"
-                   [ngModel]="matchDate()"
-                   (ngModelChange)="matchDate.set($event)"/>
-          </div>
-          <div class="col-auto">
-            <input type="time" class="form-control form-control-sm bg-white text-dark"
-                   [ngModel]="matchTime()"
-                   (ngModelChange)="matchTime.set($event)"/>
-          </div>
-          <div class="col">
-            <div class="d-flex flex-wrap gap-1 mb-1">
-              @for (loc of suggestedLocations; track loc) {
-                <button class="btn btn-sm"
-                        [class.btn-outline-secondary]="matchLocation() !== loc"
-                        [class.btn-success]="matchLocation() === loc"
-                        (click)="matchLocation.set(loc)">{{ loc.split('\n')[0] }}</button>
-              }
-            </div>
-            <textarea class="form-control form-control-sm bg-white text-dark"
-                      placeholder="Adresse du match"
-                      rows="2"
-                      [ngModel]="matchLocation()"
-                      (ngModelChange)="matchLocation.set($event)"></textarea>
-          </div>
-        </div>
-
-        <!-- Preview only -->
-        <div class="preview-wrapper">
-          <div class="compo-story-preview"
-               [style.--color-a]="teamAMeta()?.color"
-               [style.--color-b]="teamBMeta()?.color">
-            <ng-container *ngTemplateOutlet="compoContent"></ng-container>
-          </div>
-        </div>
-      </div>
-    }
-
-    <!-- ============================================================ -->
-    <!-- 1b. FACEBOOK EVENT COVER (composition paysage) -->
-    <!-- ============================================================ -->
-    @if (teamAPlayers().length > 0 && teamBPlayers().length > 0) {
-      <div class="section-block">
-        <div class="d-flex align-items-center justify-content-between mb-3">
-          <h4 class="text-white m-0">Couverture Facebook</h4>
-          <button class="btn btn-success"
-                  [disabled]="generating()"
-                  (click)="generateFbCompoStory()">
-            Telecharger
-          </button>
-        </div>
-
-        <!-- Preview only -->
-        <div class="preview-wrapper">
-          <div class="fb-compo-preview"
-               [style.--color-a]="teamAMeta()?.color"
-               [style.--color-b]="teamBMeta()?.color">
-            <ng-container *ngTemplateOutlet="fbCompoContent"></ng-container>
-          </div>
-        </div>
-      </div>
-    }
-
-    <!-- ============================================================ -->
-    <!-- 2. STORIES EQUIPE (coach + joueurs par equipe) -->
-    <!-- ============================================================ -->
-    @if (teamAPlayers().length > 0) {
-      <div class="section-block">
-        <div class="d-flex align-items-center justify-content-between mb-3">
-          <h4 class="text-white m-0">Selection {{ gameData.value().teamA.displayName }}</h4>
-          <button class="btn btn-success"
-                  [disabled]="generating()"
-                  (click)="generateTeamStory('A')">
-            Telecharger
-          </button>
-        </div>
-
-        <!-- Preview only -->
-        <div class="preview-wrapper">
-          <div class="team-story-preview"
-               [style.--team-color]="teamAMeta()?.color">
-            <ng-container *ngTemplateOutlet="teamAContent"></ng-container>
-          </div>
-        </div>
-      </div>
-    }
-
-    @if (teamBPlayers().length > 0) {
-      <div class="section-block">
-        <div class="d-flex align-items-center justify-content-between mb-3">
-          <h4 class="text-white m-0">Selection {{ gameData.value().teamB.displayName }}</h4>
-          <button class="btn btn-success"
-                  [disabled]="generating()"
-                  (click)="generateTeamStory('B')">
-            Telecharger
-          </button>
-        </div>
-
-        <!-- Preview only -->
-        <div class="preview-wrapper">
-          <div class="team-story-preview"
-               [style.--team-color]="teamBMeta()?.color">
-            <ng-container *ngTemplateOutlet="teamBContent"></ng-container>
-          </div>
-        </div>
-      </div>
-    }
-
-    <!-- ============================================================ -->
-    <!-- 3. STORIES INDIVIDUELLES -->
-    <!-- ============================================================ -->
-    <div class="section-block">
-      <div class="d-flex align-items-center justify-content-between mb-3">
-        <h4 class="text-white m-0">Stories individuelles ({{ allPlayers().length }})</h4>
-        <button class="btn btn-success"
-                [disabled]="generating()"
-                (click)="generateAllIndividual()">
-          {{ generating() ? 'Generation...' : 'Telecharger tout (.zip)' }}
-        </button>
-      </div>
-
+    <!-- Tab navigation -->
+    <div class="custom-tabs">
+      @if (teamAPlayers().length > 0 && teamBPlayers().length > 0) {
+        <button class="custom-tab" [class.active]="selectedTab() === 'compo'"
+                (click)="selectedTab.set('compo')">Composition</button>
+        <button class="custom-tab" [class.active]="selectedTab() === 'fb'"
+                (click)="selectedTab.set('fb')">Couverture Facebook</button>
+      }
       @if (teamAPlayers().length > 0) {
-        <h6 class="text-muted mb-2">{{ gameData.value().teamA.displayName | uppercase }}</h6>
-        <div class="players-grid mb-4">
-          @for (resolved of teamAPlayers(); track resolved.player.code; let i = $index) {
-            <div class="player-card"
-                 [style.--team-color]="getTeamColor(resolved)"
-                 (click)="generateSingle(i)">
-              <img [src]="getPlayerImg(resolved)" [alt]="resolved.metadata.firstName" class="player-thumb"/>
-              <div class="player-card-overlay">
-                @if (!isSimplePlayer(resolved.role)) {
-                  <span class="player-card-role">{{ resolved.role | roleName:resolved.metadata.isFemale }}</span>
-                }
-                <span class="player-card-name">{{ resolved.metadata.displayName }}</span>
+        <button class="custom-tab" [class.active]="selectedTab() === 'teamA'"
+                (click)="selectedTab.set('teamA')">{{ gameData.value().teamA.displayName }}</button>
+      }
+      @if (teamBPlayers().length > 0) {
+        <button class="custom-tab" [class.active]="selectedTab() === 'teamB'"
+                (click)="selectedTab.set('teamB')">{{ gameData.value().teamB.displayName }}</button>
+      }
+      <button class="custom-tab" [class.active]="selectedTab() === 'individual'"
+              (click)="selectedTab.set('individual')">Individuelles ({{ allPlayers().length }})</button>
+      @if (teamAPlayers().length > 0 && teamBPlayers().length > 0) {
+        <button class="custom-tab" [class.active]="selectedTab() === 'result'"
+                (click)="selectedTab.set('result')">Resultat</button>
+      }
+    </div>
+
+    <!-- Tab content -->
+    <div class="tab-content">
+
+      <!-- Composition du match -->
+      @if (selectedTab() === 'compo' && teamAPlayers().length > 0 && teamBPlayers().length > 0) {
+        <div class="tab-pane-active">
+          <div class="tab-toolbar">
+            <button class="btn btn-success"
+                    [disabled]="generating()"
+                    (click)="generateCompoStory()">
+              Telecharger
+            </button>
+          </div>
+          <div class="tab-split">
+            <div class="tab-config">
+              <ng-container *ngTemplateOutlet="matchConfigFields"></ng-container>
+            </div>
+            <div class="tab-preview">
+              <div class="preview-wrapper">
+                <div class="compo-story-preview"
+                     [style.--color-a]="teamAMeta()?.color"
+                     [style.--color-b]="teamBMeta()?.color">
+                  <ng-container *ngTemplateOutlet="compoContent"></ng-container>
+                </div>
               </div>
-              @if (resolved.player.number) {
-                <div class="player-card-number">#{{ resolved.player.number }}</div>
+            </div>
+          </div>
+        </div>
+      }
+
+      <!-- Couverture Facebook -->
+      @if (selectedTab() === 'fb' && teamAPlayers().length > 0 && teamBPlayers().length > 0) {
+        <div class="tab-pane-active">
+          <div class="tab-toolbar">
+            <button class="btn btn-success"
+                    [disabled]="generating()"
+                    (click)="generateFbCompoStory()">
+              Telecharger
+            </button>
+          </div>
+          <div class="tab-split">
+            <div class="tab-config">
+              <ng-container *ngTemplateOutlet="matchConfigFields"></ng-container>
+            </div>
+            <div class="tab-preview">
+              <div class="preview-wrapper">
+                <div class="fb-compo-preview"
+                     [style.--color-a]="teamAMeta()?.color"
+                     [style.--color-b]="teamBMeta()?.color">
+                  <ng-container *ngTemplateOutlet="fbCompoContent"></ng-container>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+
+      <!-- Selection Equipe A -->
+      @if (selectedTab() === 'teamA' && teamAPlayers().length > 0) {
+        <div class="tab-pane-active">
+          <div class="tab-toolbar">
+            <button class="btn btn-success"
+                    [disabled]="generating()"
+                    (click)="generateTeamStory('A')">
+              Telecharger
+            </button>
+          </div>
+          <div class="preview-wrapper">
+            <div class="team-story-preview"
+                 [style.--team-color]="teamAMeta()?.color">
+              <ng-container *ngTemplateOutlet="teamAContent"></ng-container>
+            </div>
+          </div>
+        </div>
+      }
+
+      <!-- Selection Equipe B -->
+      @if (selectedTab() === 'teamB' && teamBPlayers().length > 0) {
+        <div class="tab-pane-active">
+          <div class="tab-toolbar">
+            <button class="btn btn-success"
+                    [disabled]="generating()"
+                    (click)="generateTeamStory('B')">
+              Telecharger
+            </button>
+          </div>
+          <div class="preview-wrapper">
+            <div class="team-story-preview"
+                 [style.--team-color]="teamBMeta()?.color">
+              <ng-container *ngTemplateOutlet="teamBContent"></ng-container>
+            </div>
+          </div>
+        </div>
+      }
+
+      <!-- Resultat du match -->
+      @if (selectedTab() === 'result' && teamAPlayers().length > 0 && teamBPlayers().length > 0) {
+        <div class="tab-pane-active">
+          <app-match-result-manager/>
+        </div>
+      }
+
+      <!-- Stories individuelles -->
+      @if (selectedTab() === 'individual') {
+        <div class="tab-pane-active">
+          <div class="tab-toolbar">
+            <button class="btn btn-success"
+                    [disabled]="generating()"
+                    (click)="generateAllIndividual()">
+              {{ generating() ? 'Generation...' : 'Telecharger tout (.zip)' }}
+            </button>
+          </div>
+
+          @if (teamAPlayers().length > 0) {
+            <h6 class="text-muted mb-2">{{ gameData.value().teamA.displayName | uppercase }}</h6>
+            <div class="players-grid mb-4">
+              @for (resolved of teamAPlayers(); track resolved.player.code; let i = $index) {
+                <div class="player-card"
+                     [style.--team-color]="getTeamColor(resolved)"
+                     (click)="generateSingle(i)">
+                  <img [src]="getPlayerImg(resolved)" [alt]="resolved.metadata.firstName" class="player-thumb"/>
+                  <div class="player-card-overlay">
+                    @if (!isSimplePlayer(resolved.role)) {
+                      <span class="player-card-role">{{ resolved.role | roleName:resolved.metadata.isFemale }}</span>
+                    }
+                    <span class="player-card-name">{{ resolved.metadata.displayName }}</span>
+                  </div>
+                  @if (resolved.player.number) {
+                    <div class="player-card-number">#{{ resolved.player.number }}</div>
+                  }
+                  <div class="download-hint">
+                    @if (generatingIndex() === i) {
+                      <span>...</span>
+                    } @else {
+                      <span>&#8681;</span>
+                    }
+                  </div>
+                </div>
               }
-              <div class="download-hint">
-                @if (generatingIndex() === i) {
-                  <span>...</span>
-                } @else {
-                  <span>&#8681;</span>
-                }
-              </div>
+            </div>
+          }
+
+          @if (teamBPlayers().length > 0) {
+            <h6 class="text-muted mb-2">{{ gameData.value().teamB.displayName | uppercase }}</h6>
+            <div class="players-grid mb-4">
+              @for (resolved of teamBPlayers(); track resolved.player.code; let i = $index) {
+                @let globalIndex = teamAPlayers().length + i;
+                <div class="player-card"
+                     [style.--team-color]="getTeamColor(resolved)"
+                     (click)="generateSingle(globalIndex)">
+                  <img [src]="getPlayerImg(resolved)" [alt]="resolved.metadata.firstName" class="player-thumb"/>
+                  <div class="player-card-overlay">
+                    @if (!isSimplePlayer(resolved.role)) {
+                      <span class="player-card-role">{{ resolved.role | roleName:resolved.metadata.isFemale }}</span>
+                    }
+                    <span class="player-card-name">{{ resolved.metadata.displayName }}</span>
+                  </div>
+                  @if (resolved.player.number) {
+                    <div class="player-card-number">#{{ resolved.player.number }}</div>
+                  }
+                  <div class="download-hint">
+                    @if (generatingIndex() === globalIndex) {
+                      <span>...</span>
+                    } @else {
+                      <span>&#8681;</span>
+                    }
+                  </div>
+                </div>
+              }
             </div>
           }
         </div>
       }
 
-      @if (teamBPlayers().length > 0) {
-        <h6 class="text-muted mb-2">{{ gameData.value().teamB.displayName | uppercase }}</h6>
-        <div class="players-grid mb-4">
-          @for (resolved of teamBPlayers(); track resolved.player.code; let i = $index) {
-            @let globalIndex = teamAPlayers().length + i;
-            <div class="player-card"
-                 [style.--team-color]="getTeamColor(resolved)"
-                 (click)="generateSingle(globalIndex)">
-              <img [src]="getPlayerImg(resolved)" [alt]="resolved.metadata.firstName" class="player-thumb"/>
-              <div class="player-card-overlay">
-                @if (!isSimplePlayer(resolved.role)) {
-                  <span class="player-card-role">{{ resolved.role | roleName:resolved.metadata.isFemale }}</span>
-                }
-                <span class="player-card-name">{{ resolved.metadata.displayName }}</span>
-              </div>
-              @if (resolved.player.number) {
-                <div class="player-card-number">#{{ resolved.player.number }}</div>
-              }
-              <div class="download-hint">
-                @if (generatingIndex() === globalIndex) {
-                  <span>...</span>
-                } @else {
-                  <span>&#8681;</span>
-                }
-              </div>
-            </div>
-          }
-        </div>
-      }
     </div>
 
     <!-- ============================================================ -->
@@ -220,7 +224,8 @@
             <div class="story-subtitle">SÉLECTION</div>
           </div>
           <div class="story-player-zone">
-            <img [src]="getPlayerImg(resolved)" [alt]="resolved.metadata.firstName" class="story-player-img"/>
+            <img [src]="getPlayerImg(resolved)" [alt]="resolved.metadata.firstName" class="story-player-img"
+                 [style.object-position]="getFacePosition(resolved)"/>
           </div>
           <div class="story-footer">
             @if (resolved.player.number) {
@@ -273,6 +278,33 @@
     <!-- ============================================================ -->
     <!-- TEMPLATES (shared between preview and offscreen)             -->
     <!-- ============================================================ -->
+    <ng-template #matchConfigFields>
+      <div class="config-fields">
+        <label class="form-label text-muted mb-1 small">Date</label>
+        <input type="date" class="form-control form-control-sm bg-white text-dark mb-2"
+               [ngModel]="matchDate()"
+               (ngModelChange)="matchDate.set($event)"/>
+        <label class="form-label text-muted mb-1 small">Heure</label>
+        <input type="time" class="form-control form-control-sm bg-white text-dark mb-2"
+               [ngModel]="matchTime()"
+               (ngModelChange)="matchTime.set($event)"/>
+        <label class="form-label text-muted mb-1 small">Lieu</label>
+        <div class="d-flex flex-wrap gap-1 mb-1">
+          @for (loc of suggestedLocations; track loc) {
+            <button class="btn btn-sm"
+                    [class.btn-outline-secondary]="matchLocation() !== loc"
+                    [class.btn-success]="matchLocation() === loc"
+                    (click)="matchLocation.set(loc)">{{ loc.split('\n')[0] }}</button>
+          }
+        </div>
+        <textarea class="form-control form-control-sm bg-white text-dark"
+                  placeholder="Adresse du match"
+                  rows="3"
+                  [ngModel]="matchLocation()"
+                  (ngModelChange)="matchLocation.set($event)"></textarea>
+      </div>
+    </ng-template>
+
     <ng-template #compoContent>
       <div class="compo-bg"></div>
       <div class="compo-header">

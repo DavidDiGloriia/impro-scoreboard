@@ -1,31 +1,30 @@
-<div class="container my-4">
+@if (allPlayers().length === 0) {
+  <div class="alert alert-warning">
+    Aucun joueur configure. Rendez-vous dans <strong>Parametres du match</strong> pour configurer les equipes.
+  </div>
+} @else {
 
-  @if (allPlayers().length === 0) {
-    <div class="alert alert-warning">
-      Aucun joueur configure. Rendez-vous dans <strong>Parametres du match</strong> pour configurer les equipes.
-    </div>
-  } @else {
+  <div class="tab-toolbar">
+    <button class="btn btn-success"
+            [disabled]="generating()"
+            (click)="generateStory()">
+      {{ generating() ? 'Generation...' : 'Telecharger' }}
+    </button>
+  </div>
 
-    <div class="section-block">
-      <div class="d-flex align-items-center justify-content-between mb-3">
-        <h4 class="text-white m-0">Resultat du match</h4>
-        <button class="btn btn-success"
-                [disabled]="generating()"
-                (click)="generateStory()">
-          {{ generating() ? 'Generation...' : 'Telecharger' }}
-        </button>
-      </div>
-
-      <!-- Controls -->
-      <div class="row g-2 mb-3 align-items-center">
-        <div class="col-auto">
+  <div class="tab-split">
+    <div class="tab-config">
+      <!-- Score -->
+      <label class="form-label text-muted mb-1 small">Score</label>
+      <div class="d-flex align-items-center gap-2 mb-3">
+        <div>
           <label class="form-label text-muted mb-0 small">{{ gameData.value().teamA.displayName }}</label>
           <input type="number" class="form-control form-control-sm bg-white text-dark" min="0"
                  [ngModel]="scoreA()"
                  (ngModelChange)="scoreA.set($event)"/>
         </div>
-        <div class="col-auto pt-4">-</div>
-        <div class="col-auto">
+        <span class="pt-3">-</span>
+        <div>
           <label class="form-label text-muted mb-0 small">{{ gameData.value().teamB.displayName }}</label>
           <input type="number" class="form-control form-control-sm bg-white text-dark" min="0"
                  [ngModel]="scoreB()"
@@ -33,42 +32,42 @@
         </div>
       </div>
 
-      <div class="row g-2 mb-3">
-        <div class="col-3">
-          <label class="form-label text-muted mb-0 small">1ere etoile</label>
-          <app-searchable-select
-            [options]="playerOptions()"
-            [ngModel]="star1Code()" (ngModelChange)="star1Code.set($event)"
-            placeholder="--" size="sm"
-          ></app-searchable-select>
-        </div>
-        <div class="col-3">
-          <label class="form-label text-muted mb-0 small">2eme etoile</label>
-          <app-searchable-select
-            [options]="playerOptions()"
-            [ngModel]="star2Code()" (ngModelChange)="star2Code.set($event)"
-            placeholder="--" size="sm"
-          ></app-searchable-select>
-        </div>
-        <div class="col-3">
-          <label class="form-label text-muted mb-0 small">3eme etoile</label>
-          <app-searchable-select
-            [options]="playerOptions()"
-            [ngModel]="star3Code()" (ngModelChange)="star3Code.set($event)"
-            placeholder="--" size="sm"
-          ></app-searchable-select>
-        </div>
-        <div class="col-3">
-          <label class="form-label text-muted mb-0 small">Etoile du staff</label>
-          <app-searchable-select
-            [options]="playerOptions()"
-            [ngModel]="starStaffCode()" (ngModelChange)="starStaffCode.set($event)"
-            placeholder="--" size="sm"
-          ></app-searchable-select>
-        </div>
+      <!-- Stars -->
+      <div class="mb-2">
+        <label class="form-label text-muted mb-0 small">1ere etoile</label>
+        <app-searchable-select
+          [options]="playerOptions()"
+          [ngModel]="star1Code()" (ngModelChange)="star1Code.set($event)"
+          placeholder="--" size="sm"
+        ></app-searchable-select>
       </div>
+      <div class="mb-2">
+        <label class="form-label text-muted mb-0 small">2eme etoile</label>
+        <app-searchable-select
+          [options]="playerOptions()"
+          [ngModel]="star2Code()" (ngModelChange)="star2Code.set($event)"
+          placeholder="--" size="sm"
+        ></app-searchable-select>
+      </div>
+      <div class="mb-2">
+        <label class="form-label text-muted mb-0 small">3eme etoile</label>
+        <app-searchable-select
+          [options]="playerOptions()"
+          [ngModel]="star3Code()" (ngModelChange)="star3Code.set($event)"
+          placeholder="--" size="sm"
+        ></app-searchable-select>
+      </div>
+      <div class="mb-2">
+        <label class="form-label text-muted mb-0 small">Etoile du staff</label>
+        <app-searchable-select
+          [options]="playerOptions()"
+          [ngModel]="starStaffCode()" (ngModelChange)="starStaffCode.set($event)"
+          placeholder="--" size="sm"
+        ></app-searchable-select>
+      </div>
+    </div>
 
-      <!-- Preview -->
+    <div class="tab-preview">
       <div class="preview-wrapper">
         <div class="result-story-preview"
              [style.--color-a]="bgColorA()"
@@ -79,6 +78,7 @@
         </div>
       </div>
     </div>
+  </div>
 
     <!-- Offscreen -->
     <div class="story-offscreen">
@@ -148,5 +148,4 @@
       <div class="result-footer">Retrouvez nos prochains matchs sur www.improvisation.be</div>
     </ng-template>
 
-  }
-</div>
+}

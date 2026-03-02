@@ -14,6 +14,7 @@ import JSZip from 'jszip';
 import {Role} from '@enums/role.enum';
 import {RoleNamePipe} from '@pipes/role-name.pipe';
 import facePositions from '@assets/data/face-positions.json';
+import {MatchResultManagerComponent} from '../match-result-manager/match-result-manager.component';
 
 registerLocaleData(localeFr);
 
@@ -27,7 +28,7 @@ export interface ResolvedPlayer {
 
 @Component({
   selector: 'app-selection-manager',
-  imports: [UpperCasePipe, RoleNamePipe, NgTemplateOutlet, FormsModule, DatePipe],
+  imports: [UpperCasePipe, RoleNamePipe, NgTemplateOutlet, FormsModule, DatePipe, MatchResultManagerComponent],
   providers: [{provide: LOCALE_ID, useValue: 'fr'}],
   templateUrl: './selection-manager.component.html',
   styleUrl: './selection-manager.component.scss'
@@ -46,6 +47,7 @@ export class SelectionManagerComponent {
 
   generating = signal(false);
   generatingIndex = signal<number | null>(null);
+  selectedTab = signal<'compo' | 'fb' | 'teamA' | 'teamB' | 'individual' | 'result'>('compo');
 
   matchDate = signal(new Date().toISOString().slice(0, 10));
   matchTime = signal('20:00');

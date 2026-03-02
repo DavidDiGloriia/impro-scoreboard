@@ -3,10 +3,26 @@
   color: #fff;
 }
 
-.section-block {
-  margin-bottom: 2.5rem;
-  padding-bottom: 2rem;
-  border-bottom: 1px solid #333;
+.tab-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.75rem;
+}
+
+.tab-split {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+.tab-config {
+  flex: 0 0 340px;
+  min-width: 0;
+}
+
+.tab-preview {
+  flex: 1;
+  min-width: 0;
 }
 
 /* ============================================================ */
