@@ -26,12 +26,9 @@ export class PlayerMetadata {
     return this._dto.alias || this._dto.prenom || '';
   }
 
-  /** For social media: "Prénom «Alias» Nom" or "Prénom Nom" */
+  /** For social media: alias if exists, otherwise prénom */
   get socialName(): string {
-    const parts = [this._dto.prenom];
-    if (this._dto.alias) parts.push(this._dto.alias);
-    if (this._dto.nom) parts.push(this._dto.nom);
-    return parts.join(' ');
+    return this._dto.alias || this._dto.prenom || '';
   }
 
   get img(): string {
