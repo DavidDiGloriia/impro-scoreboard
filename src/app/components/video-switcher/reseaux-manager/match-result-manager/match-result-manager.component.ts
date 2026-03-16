@@ -35,10 +35,13 @@ export class MatchResultManagerComponent {
   scoreA = signal(0);
   scoreB = signal(0);
 
-  star1Code = signal<string>('');
-  star2Code = signal<string>('');
-  star3Code = signal<string>('');
-  starStaffCode = signal<string>('');
+  starDefs = [
+    {label: '1ere etoile', displayLabel: '1ÈRE ÉTOILE'},
+    {label: '2eme etoile', displayLabel: '2ÈME ÉTOILE'},
+    {label: '3eme etoile', displayLabel: '3ÈME ÉTOILE'},
+    {label: 'Etoile du staff', displayLabel: 'ÉTOILE DU STAFF'},
+  ];
+  starCodes = signal<string[][]>([[''], [''], [''], ['']]);
 
   protected readonly Role = Role;
 
@@ -115,15 +118,31 @@ export class MatchResultManagerComponent {
   stars: Signal<{ label: string; resolved: ResolvedPlayer | null }[]> = computed(() => {
     const all = this.allPlayers();
     const resolve = (code: string) => all.find(p => p.player.code === code) || null;
-    return [
-      {label: '1ÈRE ÉTOILE', resolved: resolve(this.star1Code())},
-      {label: '2ÈME ÉTOILE', resolved: resolve(this.star2Code())},
-      {label: '3ÈME ÉTOILE', resolved: resolve(this.star3Code())},
-      {label: 'ÉTOILE DU STAFF', resolved: resolve(this.starStaffCode())},
-    ];
+    const codes = this.starCodes();
+    return this.starDefs.flatMap((def, i) =>
+      codes[i].map(code => ({label: def.displayLabel, resolved: resolve(code)}))
+    );
   });
 
   constructor(private _improDataService: ImproDataService) {
+  }
+
+  setStarCode(starIndex: number, slotIndex: number, code: string) {
+    this.starCodes.update(all => all.map((codes, i) =>
+      i === starIndex ? codes.map((c, j) => j === slotIndex ? code : c) : codes
+    ));
+  }
+
+  addStarSlot(starIndex: number) {
+    this.starCodes.update(all => all.map((codes, i) =>
+      i === starIndex ? [...codes, ''] : codes
+    ));
+  }
+
+  removeStarSlot(starIndex: number, slotIndex: number) {
+    this.starCodes.update(all => all.map((codes, i) =>
+      i === starIndex ? codes.filter((_, j) => j !== slotIndex) : codes
+    ));
   }
 
   getPlayerImg(resolved: ResolvedPlayer): string {

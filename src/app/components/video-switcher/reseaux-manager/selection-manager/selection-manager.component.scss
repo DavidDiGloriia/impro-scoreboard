@@ -394,24 +394,24 @@
 }
 
 /* ============================================================ */
-/* 1b. FACEBOOK EVENT COVER (1920x1005)                        */
+/* 1b. FACEBOOK PAGE COVER (851x315)                           */
 /* ============================================================ */
 .fb-compo-preview {
-  width: 1920px;
-  height: 1005px;
+  width: 851px;
+  height: 315px;
   position: relative;
   overflow: hidden;
   background: #0a0a0a;
   display: flex;
   flex-direction: column;
   transform-origin: top center;
-  transform: scale(0.28);
-  margin-bottom: calc(-1005px * (1 - 0.28));
+  transform: scale(0.6);
+  margin-bottom: calc(-315px * (1 - 0.6));
 }
 
 .offscreen-canvas-fb {
-  width: 1920px;
-  height: 1005px;
+  width: 851px;
+  height: 315px;
   position: relative;
   overflow: hidden;
   background: #0a0a0a;
@@ -437,16 +437,16 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 28px 80px 0;
+  padding: 14px 30px 0;
   flex-shrink: 0;
 }
 
 .fb-compo-subtitle {
-  font-size: 28px;
+  font-size: 9px;
   font-weight: 400;
   letter-spacing: 0.35em;
   color: rgba(255, 255, 255, 0.65);
-  margin-bottom: 14px;
+  margin-bottom: 0;
 }
 
 .fb-compo-teams-bar {
@@ -459,7 +459,7 @@
 .fb-compo-team-side {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 10px;
   flex: 1;
   min-width: 0;
 }
@@ -473,42 +473,42 @@
 }
 
 .fb-compo-logo-round {
-  width: 100px;
-  height: 100px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
   overflow: hidden;
   flex-shrink: 0;
 }
 
 .fb-compo-team-side-a .fb-compo-logo-round {
-  border: 2px solid var(--color-a, rgba(255, 255, 255, 0.2));
-  box-shadow: 0 0 14px var(--color-a, transparent);
+  border: 1px solid var(--color-a, rgba(255, 255, 255, 0.2));
+  box-shadow: 0 0 8px var(--color-a, transparent);
   background: linear-gradient(135deg, #000 10%, color-mix(in srgb, var(--color-a, #111) 25%, #000) 50%, #000 90%);
 }
 
 .fb-compo-team-side-b .fb-compo-logo-round {
-  border: 2px solid var(--color-b, rgba(255, 255, 255, 0.2));
-  box-shadow: 0 0 14px var(--color-b, transparent);
+  border: 1px solid var(--color-b, rgba(255, 255, 255, 0.2));
+  box-shadow: 0 0 8px var(--color-b, transparent);
   background: linear-gradient(225deg, #000 10%, color-mix(in srgb, var(--color-b, #111) 25%, #000) 50%, #000 90%);
 }
 
 .fb-compo-team-name {
-  font-size: 44px;
+  font-size: 20px;
   font-weight: 800;
   letter-spacing: 0.04em;
 }
 
 .fb-compo-vs {
-  font-size: 50px;
+  font-size: 16px;
   font-weight: 900;
   color: #fff;
   letter-spacing: 0.1em;
   flex-shrink: 0;
-  padding: 0 50px;
+  padding: 0 12px;
   text-shadow:
-    0 0 8px rgba(255, 255, 255, 0.4),
-    0 0 20px rgba(240, 192, 64, 0.4),
-    0 0 50px rgba(240, 160, 32, 0.25);
+    0 0 4px rgba(255, 255, 255, 0.4),
+    0 0 10px rgba(240, 192, 64, 0.4),
+    0 0 20px rgba(240, 160, 32, 0.25);
 }
 
 /* --- Player columns --- */
@@ -517,7 +517,7 @@
   z-index: 1;
   display: flex;
   flex: 1;
-  padding: 12px 50px;
+  padding: 2px 80px;
   min-height: 0;
 }
 
@@ -526,40 +526,40 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 7px;
-  padding: 0 12px;
+  gap: 3px;
+  padding: 0 4px;
   min-width: 0;
 }
 
 .fb-compo-divider {
-  width: 2px;
+  width: 1px;
   background: linear-gradient(180deg, transparent 5%, var(--color-a, #444) 25%, rgba(255, 255, 255, 0.12) 50%, var(--color-b, #444) 75%, transparent 95%);
   flex-shrink: 0;
-  margin: 8px 0;
+  margin: 4px 0;
 }
 
 .fb-compo-player-card {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 6px;
   background: rgba(255, 255, 255, 0.04);
-  border-radius: 10px;
+  border-radius: 4px;
   overflow: hidden;
 }
 
 .fb-compo-photo-clip {
-  width: 80px;
-  height: 80px;
+  width: 34px;
+  height: 34px;
   overflow: hidden;
   flex-shrink: 0;
 }
 
 .fb-compo-col-a .fb-compo-photo-clip {
-  border-radius: 8px 0 0 8px;
+  border-radius: 4px 0 0 4px;
 }
 
 .fb-compo-col-b .fb-compo-photo-clip {
-  border-radius: 0 8px 8px 0;
+  border-radius: 0 4px 4px 0;
 }
 
 .fb-compo-player-photo {
@@ -581,17 +581,17 @@
 }
 
 .fb-compo-player-name {
-  font-size: 28px;
+  font-size: 11px;
   font-weight: 800;
   line-height: 1.2;
 }
 
 .fb-compo-player-role {
-  font-size: 17px;
+  font-size: 7px;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  margin-top: 1px;
+  margin-top: 0;
 }
 
 .fb-role-a {
@@ -608,42 +608,42 @@
   z-index: 1;
   display: flex;
   align-items: center;
-  padding: 20px 80px;
+  padding: 4px 24px;
   background: linear-gradient(0deg, rgba(0, 0, 0, 0.7) 0%, transparent 100%);
   flex-shrink: 0;
-  gap: 30px;
+  gap: 10px;
 }
 
 .fb-compo-date-block {
   display: flex;
   align-items: baseline;
-  gap: 16px;
+  gap: 6px;
   flex-shrink: 0;
 }
 
 .fb-compo-date {
-  font-size: 30px;
+  font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.04em;
   color: #fff;
 }
 
 .fb-compo-time {
-  font-size: 30px;
+  font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.04em;
   color: #fff;
 }
 
 .fb-compo-footer-sep {
-  width: 2px;
-  height: 36px;
+  width: 1px;
+  height: 14px;
   background: rgba(255, 255, 255, 0.2);
   flex-shrink: 0;
 }
 
 .fb-compo-location {
-  font-size: 20px;
+  font-size: 8px;
   font-weight: 300;
   letter-spacing: 0.04em;
   color: #aaa;
@@ -652,7 +652,7 @@
 }
 
 .fb-compo-website {
-  font-size: 22px;
+  font-size: 9px;
   font-weight: 400;
   letter-spacing: 0.04em;
   color: rgba(255, 255, 255, 0.6);

@@ -33,38 +33,24 @@
       </div>
 
       <!-- Stars -->
-      <div class="mb-2">
-        <label class="form-label text-muted mb-0 small">1ere etoile</label>
-        <app-searchable-select
-          [options]="playerOptions()"
-          [ngModel]="star1Code()" (ngModelChange)="star1Code.set($event)"
-          placeholder="--" size="sm"
-        ></app-searchable-select>
-      </div>
-      <div class="mb-2">
-        <label class="form-label text-muted mb-0 small">2eme etoile</label>
-        <app-searchable-select
-          [options]="playerOptions()"
-          [ngModel]="star2Code()" (ngModelChange)="star2Code.set($event)"
-          placeholder="--" size="sm"
-        ></app-searchable-select>
-      </div>
-      <div class="mb-2">
-        <label class="form-label text-muted mb-0 small">3eme etoile</label>
-        <app-searchable-select
-          [options]="playerOptions()"
-          [ngModel]="star3Code()" (ngModelChange)="star3Code.set($event)"
-          placeholder="--" size="sm"
-        ></app-searchable-select>
-      </div>
-      <div class="mb-2">
-        <label class="form-label text-muted mb-0 small">Etoile du staff</label>
-        <app-searchable-select
-          [options]="playerOptions()"
-          [ngModel]="starStaffCode()" (ngModelChange)="starStaffCode.set($event)"
-          placeholder="--" size="sm"
-        ></app-searchable-select>
-      </div>
+      @for (def of starDefs; track $index; let si = $index) {
+        <div class="mb-2">
+          <label class="form-label text-muted mb-0 small">{{ def.label }}</label>
+          @for (code of starCodes()[si]; track $index; let ji = $index) {
+            <div class="d-flex align-items-center gap-1 mb-1">
+              <app-searchable-select class="flex-grow-1"
+                [options]="playerOptions()"
+                [ngModel]="code" (ngModelChange)="setStarCode(si, ji, $event)"
+                placeholder="--" size="sm"
+              ></app-searchable-select>
+              @if (starCodes()[si].length > 1) {
+                <button type="button" class="btn btn-outline-danger btn-sm" (click)="removeStarSlot(si, ji)">&times;</button>
+              }
+            </div>
+          }
+          <button type="button" class="btn btn-outline-secondary btn-sm btn-xs" (click)="addStarSlot(si)">+ Ex-aequo</button>
+        </div>
+      }
     </div>
 
     <div class="tab-preview">

@@ -203,18 +203,18 @@ export class SelectionManagerComponent {
     if (!this.fbCompoOffscreen?.nativeElement) return;
     this.generating.set(true);
     try {
-      const dataUrl = await this._capture(this.fbCompoOffscreen.nativeElement, 1920, 1005);
+      const dataUrl = await this._capture(this.fbCompoOffscreen.nativeElement, 851, 315, 4);
       this._downloadDataUrl(dataUrl, 'fb-cover-composition.png');
     } finally {
       this.generating.set(false);
     }
   }
 
-  private async _capture(el: HTMLElement, width = 1080, height = 1920): Promise<string> {
+  private async _capture(el: HTMLElement, width = 1080, height = 1920, pixelRatio = 1): Promise<string> {
     return toPng(el, {
       width,
       height,
-      pixelRatio: 1,
+      pixelRatio,
       backgroundColor: '#0a0a0a',
     });
   }
