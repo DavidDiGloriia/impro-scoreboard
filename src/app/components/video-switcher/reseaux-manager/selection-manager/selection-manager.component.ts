@@ -203,7 +203,7 @@ export class SelectionManagerComponent {
     if (!this.fbCompoOffscreen?.nativeElement) return;
     this.generating.set(true);
     try {
-      const dataUrl = await this._capture(this.fbCompoOffscreen.nativeElement, 851, 315, 4);
+      const dataUrl = await this._capture(this.fbCompoOffscreen.nativeElement, 820, 360, 4);
       this._downloadDataUrl(dataUrl, 'fb-cover-composition.png');
     } finally {
       this.generating.set(false);
