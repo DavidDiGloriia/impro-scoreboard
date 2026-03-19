@@ -47,7 +47,7 @@ export class SelectionManagerComponent {
 
   generating = signal(false);
   generatingIndex = signal<number | null>(null);
-  selectedTab = signal<'compo' | 'fb' | 'teamA' | 'teamB' | 'individual' | 'result'>('compo');
+  selectedTab = signal<'compo' | 'fb' | 'teamA' | 'teamB' | 'individual' | 'result'>('fb');
 
   matchDate = signal(new Date().toISOString().slice(0, 10));
   matchTime = signal('20:00');

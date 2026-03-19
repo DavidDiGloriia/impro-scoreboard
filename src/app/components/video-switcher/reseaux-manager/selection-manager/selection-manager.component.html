@@ -9,10 +9,10 @@
     <!-- Tab navigation -->
     <div class="custom-tabs">
       @if (teamAPlayers().length > 0 && teamBPlayers().length > 0) {
-        <button class="custom-tab" [class.active]="selectedTab() === 'compo'"
-                (click)="selectedTab.set('compo')">Composition</button>
         <button class="custom-tab" [class.active]="selectedTab() === 'fb'"
                 (click)="selectedTab.set('fb')">Couverture Facebook</button>
+        <button class="custom-tab" [class.active]="selectedTab() === 'compo'"
+                (click)="selectedTab.set('compo')">Composition</button>
       }
       @if (teamAPlayers().length > 0) {
         <button class="custom-tab" [class.active]="selectedTab() === 'teamA'"
@@ -420,8 +420,6 @@
           </div>
         </div>
       </div>
-      <div class="fb-compo-header-sep"></div>
-
       <!-- Player columns -->
       <div class="fb-compo-players">
         @if (teamAMeta()?.img) {
