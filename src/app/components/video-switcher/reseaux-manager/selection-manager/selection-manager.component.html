@@ -411,7 +411,7 @@
       </div>
       <!-- Header: teams -->
       <div class="fb-compo-header">
-        <div class="fb-compo-subtitle">CHAMPIONNAT IMPROVISATION.BE</div>
+        <div class="fb-compo-subtitle">MATCH D'IMPROVISATION</div>
         <div class="fb-compo-teams-bar">
           <span class="fb-compo-team-name" [style.--team-name-color]="teamAMeta()?.color">{{ teamAMeta()?.shortName | uppercase }}</span>
           <span class="fb-compo-vs">VS</span>
@@ -481,10 +481,12 @@
             }
           </div>
         }
-        <div class="fb-compo-footer-sep"></div>
         @if (matchLocation()) {
-          <span class="fb-compo-location">{{ matchLocation() | uppercase }}</span>
+          <div class="fb-compo-footer-sep"></div>
+          <span class="fb-compo-location" [innerHTML]="matchLocation()"></span>
         }
+      </div>
+      <div class="fb-compo-footer-website">
         <span class="fb-compo-website">Réservations et informations sur <strong>www.improvisation.be</strong></span>
       </div>
     </ng-template>

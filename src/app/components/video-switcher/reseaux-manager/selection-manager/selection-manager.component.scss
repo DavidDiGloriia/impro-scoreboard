@@ -450,10 +450,10 @@
 
 
 .fb-compo-subtitle {
-  font-size: 13px;
-  font-weight: 700;
+  font-size: 15px;
+  font-weight: 800;
   letter-spacing: 0.2em;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.95);
   margin-bottom: 8px;
 }
 
@@ -490,7 +490,7 @@
 }
 
 .fb-compo-team-name {
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.04em;
   color: #fff !important;
@@ -655,13 +655,20 @@
   position: relative;
   z-index: 1;
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  padding: 4px 160px 4px;
+  padding: 6px 160px 0;
+  flex-shrink: 0;
+  gap: 10px;
+}
+
+.fb-compo-footer-website {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 0 160px 3px;
   background: linear-gradient(0deg, rgba(0, 0, 0, 0.7) 0%, transparent 100%);
   flex-shrink: 0;
-  gap: 4px 10px;
 }
 
 .fb-compo-date-block {
@@ -675,14 +682,14 @@
 }
 
 .fb-compo-date {
-  font-size: 14px;
+  font-size: 17px;
   font-weight: 800;
   letter-spacing: 0.04em;
   color: #fff;
 }
 
 .fb-compo-time {
-  font-size: 14px;
+  font-size: 17px;
   font-weight: 800;
   letter-spacing: 0.04em;
   color: #fff;
@@ -696,8 +703,8 @@
 }
 
 .fb-compo-location {
-  font-size: 7px;
-  font-weight: 300;
+  font-size: 8px;
+  font-weight: 400;
   letter-spacing: 0.04em;
   color: #ddd;
   white-space: pre-line;
