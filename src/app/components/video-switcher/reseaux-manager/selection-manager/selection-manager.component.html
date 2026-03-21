@@ -411,13 +411,9 @@
       <div class="fb-compo-header">
         <div class="fb-compo-subtitle">CHAMPIONNAT IMPROVISATION.BE</div>
         <div class="fb-compo-teams-bar">
-          <div class="fb-compo-team-side fb-compo-team-side-a">
-            <span class="fb-compo-team-name" [style.color]="teamAMeta()?.color">{{ teamAMeta()?.shortName | uppercase }}</span>
-          </div>
+          <span class="fb-compo-team-name" [style.--team-name-color]="teamAMeta()?.color">{{ teamAMeta()?.shortName | uppercase }}</span>
           <span class="fb-compo-vs">VS</span>
-          <div class="fb-compo-team-side fb-compo-team-side-b">
-            <span class="fb-compo-team-name" [style.color]="teamBMeta()?.color">{{ teamBMeta()?.shortName | uppercase }}</span>
-          </div>
+          <span class="fb-compo-team-name" [style.--team-name-color]="teamBMeta()?.color">{{ teamBMeta()?.shortName | uppercase }}</span>
         </div>
       </div>
       <!-- Player columns -->
