@@ -339,6 +339,7 @@
   height: 190px;
   object-fit: cover;
   display: block;
+  image-rendering: -webkit-optimize-contrast;
 }
 
 .compo-row > .compo-cell-photo:first-child {
@@ -433,7 +434,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    opacity: 0.12;
+    opacity: 0.17;
   }
 }
 
@@ -534,7 +535,7 @@
   width: 235px;
   height: 235px;
   top: -5px;
-  opacity: 0.20;
+  opacity: 0.15;
   overflow: hidden;
   pointer-events: none;
   z-index: 1;
@@ -614,6 +615,7 @@
   height: 100%;
   object-fit: cover;
   display: block;
+  image-rendering: -webkit-optimize-contrast;
 }
 
 .fb-compo-player-info {
@@ -774,6 +776,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  image-rendering: -webkit-optimize-contrast;
 }
 
 .team-story-player-info {
@@ -916,6 +919,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  image-rendering: -webkit-optimize-contrast;
   filter: drop-shadow(0 0 20px var(--team-color, transparent));
   border: 4px solid var(--team-color, #333);
   border-radius: 16px;
