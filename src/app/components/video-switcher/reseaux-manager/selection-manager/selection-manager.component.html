@@ -413,23 +413,27 @@
       <div class="fb-compo-header">
         <div class="fb-compo-subtitle">MATCH D'IMPROVISATION</div>
         <div class="fb-compo-teams-bar">
-          <span class="fb-compo-team-name" [style.--team-name-color]="teamAMeta()?.color">{{ teamAMeta()?.shortName | uppercase }}</span>
+          <div class="fb-compo-team-side fb-compo-team-side-a">
+            @if (teamAMeta()?.img) {
+              <div class="fb-compo-logo-round">
+                <img [src]="teamAMeta().img" [class]="'fb-compo-logo-img photo-teamA-' + teamAMeta().code" alt=""/>
+              </div>
+            }
+            <span class="fb-compo-team-name" [style.--team-name-color]="teamAMeta()?.color">{{ teamAMeta()?.shortName | uppercase }}</span>
+          </div>
           <span class="fb-compo-vs">VS</span>
-          <span class="fb-compo-team-name" [style.--team-name-color]="teamBMeta()?.color">{{ teamBMeta()?.shortName | uppercase }}</span>
+          <div class="fb-compo-team-side fb-compo-team-side-b">
+            <span class="fb-compo-team-name" [style.--team-name-color]="teamBMeta()?.color">{{ teamBMeta()?.shortName | uppercase }}</span>
+            @if (teamBMeta()?.img) {
+              <div class="fb-compo-logo-round">
+                <img [src]="teamBMeta().img" [class]="'fb-compo-logo-img photo-teamB-' + teamBMeta().code" alt=""/>
+              </div>
+            }
+          </div>
         </div>
       </div>
       <!-- Player columns -->
       <div class="fb-compo-players">
-        @if (teamAMeta()?.img) {
-          <div class="fb-compo-watermark fb-compo-watermark-a">
-            <img [src]="teamAMeta().img" [class]="'fb-compo-watermark-img photo-teamA-' + teamAMeta().code" alt=""/>
-          </div>
-        }
-        @if (teamBMeta()?.img) {
-          <div class="fb-compo-watermark fb-compo-watermark-b">
-            <img [src]="teamBMeta().img" [class]="'fb-compo-watermark-img photo-teamB-' + teamBMeta().code" alt=""/>
-          </div>
-        }
         <div class="fb-compo-col fb-compo-col-a">
           @for (resolved of teamAPlayers(); track resolved.player.code) {
             <div class="fb-compo-player-card">

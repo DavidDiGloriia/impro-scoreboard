@@ -104,8 +104,9 @@ export class SelectionManagerComponent {
   }
 
   private static readonly SCALE_OVERRIDES: Record<string, number> = {
-    'assets/joueurs/doc': 2.8,
-    'assets/joueurs/antoine': 2.5,
+    'assets/joueurs/doc': 2.6,
+    'assets/joueurs/antoine': 2.3,
+    'assets/joueurs/charlotte-otlet': 1.9,
   };
 
   getFacePosition(resolved: ResolvedPlayer): string {
@@ -117,7 +118,7 @@ export class SelectionManagerComponent {
   getPlayerScale(resolved: ResolvedPlayer): string {
     const img = resolved.metadata?.img;
     const key = img ? Object.keys(SelectionManagerComponent.SCALE_OVERRIDES).find(k => img.startsWith(k)) : null;
-    const scale = key ? SelectionManagerComponent.SCALE_OVERRIDES[key] : 2.2;
+    const scale = key ? SelectionManagerComponent.SCALE_OVERRIDES[key] : 2.0;
     return `scale(${scale})`;
   }
 
