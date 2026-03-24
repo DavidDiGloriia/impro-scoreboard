@@ -479,7 +479,7 @@
       <div class="fb-compo-footer-bar">
         @if (matchDate()) {
           <div class="fb-compo-date-block">
-            <span class="fb-compo-date">{{ matchDate() + 'T00:00:00' | date:'EEEE d MMMM yyyy':'':'fr' | uppercase }}</span>
+            <span class="fb-compo-date">{{ matchDate() + 'T00:00:00' | date:'EEEE d MMMM':'':'fr' | uppercase }}</span>
             @if (matchTime()) {
               <span class="fb-compo-time">{{ matchTime().replace(':', 'H') }}</span>
             }
