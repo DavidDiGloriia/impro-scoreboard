@@ -104,21 +104,25 @@ export class SelectionManagerComponent {
   }
 
   private static readonly SCALE_OVERRIDES: Record<string, number> = {
-    'assets/joueurs/doc': 2.6,
-    'assets/joueurs/antoine': 2.3,
-    'assets/joueurs/charlotte-otlet': 1.9,
+    'assets/joueurs/doc': 2.1,
+    'assets/joueurs/antoine': 1.8,
+    'assets/joueurs/charlotte-otlet': 1.3,
+    'assets/joueurs/gab-de-pat': 1.3,
+    'assets/joueurs/david-di-gloria': 1.65,
+    'assets/joueurs/lenny-b-conil': 1.4,
+    'assets/joueurs/elodie': 1.4,
   };
 
   getFacePosition(resolved: ResolvedPlayer): string {
     const src = this.getPlayerImg(resolved);
     const pos = (facePositions as Record<string, { x: number; y: number }>)[src];
-    return pos ? `${pos.x}% ${pos.y - 10}%` : 'center 5%';
+    return pos ? `${pos.x}% ${pos.y - 20}%` : 'center -5%';
   }
 
   getPlayerScale(resolved: ResolvedPlayer): string {
     const img = resolved.metadata?.img;
     const key = img ? Object.keys(SelectionManagerComponent.SCALE_OVERRIDES).find(k => img.startsWith(k)) : null;
-    const scale = key ? SelectionManagerComponent.SCALE_OVERRIDES[key] : 2.0;
+    const scale = key ? SelectionManagerComponent.SCALE_OVERRIDES[key] : 1.6;
     return `scale(${scale})`;
   }
 
@@ -204,7 +208,7 @@ export class SelectionManagerComponent {
     if (!this.fbCompoOffscreen?.nativeElement) return;
     this.generating.set(true);
     try {
-      const dataUrl = await this._capture(this.fbCompoOffscreen.nativeElement, 820, 360, 4);
+      const dataUrl = await this._capture(this.fbCompoOffscreen.nativeElement, 851, 315, 4);
       this._downloadDataUrl(dataUrl, 'fb-cover-composition.png');
     } finally {
       this.generating.set(false);
