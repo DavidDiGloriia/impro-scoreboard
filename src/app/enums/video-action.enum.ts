@@ -4,4 +4,7 @@ export enum MediaAction {
   PAUSE = 'pause',
   SET_TIME = 'setTime',
   SET_RATE = 'setRate',
+  SET_PAGE = 'setPage',
+  SET_SCROLL = 'setScroll',
+  SET_ZOOM = 'setZoom',
 }

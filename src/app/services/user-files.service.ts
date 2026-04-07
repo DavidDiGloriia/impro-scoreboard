@@ -36,7 +36,7 @@ export class UserFilesService {
 
   // Filtrage des fichiers média
   getMediaFiles(): Observable<string[]> {
-    const extensions = ['.mp4', '.jpg', '.jpeg', '.png', '.gif', '.webp'];
+    const extensions = ['.mp4', '.jpg', '.jpeg', '.png', '.gif', '.webp', '.pdf'];
 
     return from(
       window.electronAPI.listMatchFiles()

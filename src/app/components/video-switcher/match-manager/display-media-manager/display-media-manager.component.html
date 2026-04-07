@@ -42,6 +42,40 @@
              class="mw-50 object-fit-contain rounded shadow">
       }
 
+      @if(mediaType() === MediaType.PDF){
+        <div class="pdf-viewport">
+          <iframe [src]="pdfUrl()"
+                  class="pdf-controlled-iframe"
+                  [style.top.px]="pdfScrollY()"
+                  [style.transform]="pdfScaleTransform()">
+          </iframe>
+        </div>
+
+        <div class="d-flex align-items-center justify-content-center gap-2 mt-2 flex-wrap">
+          <button class="btn btn-outline-secondary btn-sm" (click)="prevPage()" [disabled]="currentPage() <= 1">
+            ◀ Prev
+          </button>
+          <span class="fw-medium">
+            Page {{ currentPage() }}
+            @if(totalPages() !== null) { / {{ totalPages() }} }
+          </span>
+          <button class="btn btn-outline-secondary btn-sm" (click)="nextPage()" [disabled]="totalPages() !== null && currentPage() >= totalPages()">
+            Next ▶
+          </button>
+
+          <span class="mx-1 text-muted">|</span>
+
+          <button class="btn btn-outline-secondary btn-sm" (click)="scrollUp()" title="Scroll up">↑</button>
+          <button class="btn btn-outline-secondary btn-sm" (click)="scrollDown()" title="Scroll down">↓</button>
+
+          <span class="mx-1 text-muted">|</span>
+
+          <button class="btn btn-outline-secondary btn-sm" (click)="zoomOut()" [disabled]="pdfZoom() <= 0.5">−</button>
+          <span class="fw-medium">{{ pdfZoom() * 100 }}%</span>
+          <button class="btn btn-outline-secondary btn-sm" (click)="zoomIn()" [disabled]="pdfZoom() >= 3">+</button>
+        </div>
+      }
+
     </div>
   </div>
 </div>

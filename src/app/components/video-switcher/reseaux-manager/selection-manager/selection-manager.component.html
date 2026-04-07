@@ -77,8 +77,9 @@
             <div class="tab-preview">
               <div class="preview-wrapper">
                 <div class="fb-compo-preview"
-                     [style.--color-a]="teamAMeta()?.color"
-                     [style.--color-b]="teamBMeta()?.color">
+                     [class.fb-etoiles]="matchDesEtoiles()"
+                     [style.--color-a]="matchDesEtoiles() ? GOLD : teamAMeta()?.color"
+                     [style.--color-b]="matchDesEtoiles() ? GOLD : teamBMeta()?.color">
                   <ng-container *ngTemplateOutlet="fbCompoContent"></ng-container>
                 </div>
               </div>
@@ -267,8 +268,9 @@
       <!-- Facebook event cover -->
       @if (teamAPlayers().length > 0 && teamBPlayers().length > 0) {
         <div class="offscreen-canvas-fb" #fbCompoOffscreen
-             [style.--color-a]="teamAMeta()?.color"
-             [style.--color-b]="teamBMeta()?.color">
+             [class.fb-etoiles]="matchDesEtoiles()"
+             [style.--color-a]="matchDesEtoiles() ? GOLD : teamAMeta()?.color"
+             [style.--color-b]="matchDesEtoiles() ? GOLD : teamBMeta()?.color">
           <ng-container *ngTemplateOutlet="fbCompoContent"></ng-container>
         </div>
       }
@@ -280,6 +282,12 @@
     <!-- ============================================================ -->
     <ng-template #matchConfigFields>
       <div class="config-fields">
+        <div class="form-check form-switch mb-3">
+          <input class="form-check-input" type="checkbox" id="matchDesEtoilesToggle"
+                 [ngModel]="matchDesEtoiles()"
+                 (ngModelChange)="matchDesEtoiles.set($event)"/>
+          <label class="form-check-label text-warning" for="matchDesEtoilesToggle">Match des Étoiles</label>
+        </div>
         <label class="form-label text-muted mb-1 small">Date</label>
         <input type="date" class="form-control form-control-sm bg-white text-dark mb-2"
                [ngModel]="matchDate()"
@@ -411,26 +419,33 @@
       </div>
       <!-- Header: teams -->
       <div class="fb-compo-header">
-        <div class="fb-compo-subtitle">MATCH D'IMPROVISATION</div>
-        <div class="fb-compo-teams-bar">
-          <div class="fb-compo-team-side fb-compo-team-side-a">
-            @if (teamAMeta()?.img) {
-              <div class="fb-compo-logo-round">
-                <img [src]="teamAMeta().img" [class]="'fb-compo-logo-img photo-teamA-' + teamAMeta().code" alt=""/>
-              </div>
-            }
-            <span class="fb-compo-team-name" [style.--team-name-color]="teamAMeta()?.color">{{ teamAMeta()?.shortName | uppercase }}</span>
+        @if (matchDesEtoiles()) {
+          <div class="fb-compo-subtitle">MATCH D'IMPROVISATION</div>
+          <div class="fb-compo-teams-bar">
+            <span class="fb-etoiles-team-name">LES ÉTOILES</span>
           </div>
-          <span class="fb-compo-vs">VS</span>
-          <div class="fb-compo-team-side fb-compo-team-side-b">
-            <span class="fb-compo-team-name" [style.--team-name-color]="teamBMeta()?.color">{{ teamBMeta()?.shortName | uppercase }}</span>
-            @if (teamBMeta()?.img) {
-              <div class="fb-compo-logo-round">
-                <img [src]="teamBMeta().img" [class]="'fb-compo-logo-img photo-teamB-' + teamBMeta().code" alt=""/>
-              </div>
-            }
+        } @else {
+          <div class="fb-compo-subtitle">MATCH D'IMPROVISATION</div>
+          <div class="fb-compo-teams-bar">
+            <div class="fb-compo-team-side fb-compo-team-side-a">
+              @if (teamAMeta()?.img) {
+                <div class="fb-compo-logo-round">
+                  <img [src]="teamAMeta().img" [class]="'fb-compo-logo-img photo-teamA-' + teamAMeta().code" alt=""/>
+                </div>
+              }
+              <span class="fb-compo-team-name" [style.--team-name-color]="teamAMeta()?.color">{{ teamAMeta()?.shortName | uppercase }}</span>
+            </div>
+            <span class="fb-compo-vs">VS</span>
+            <div class="fb-compo-team-side fb-compo-team-side-b">
+              <span class="fb-compo-team-name" [style.--team-name-color]="teamBMeta()?.color">{{ teamBMeta()?.shortName | uppercase }}</span>
+              @if (teamBMeta()?.img) {
+                <div class="fb-compo-logo-round">
+                  <img [src]="teamBMeta().img" [class]="'fb-compo-logo-img photo-teamB-' + teamBMeta().code" alt=""/>
+                </div>
+              }
+            </div>
           </div>
-        </div>
+        }
       </div>
       <!-- Player columns -->
       <div class="fb-compo-players">
@@ -445,7 +460,7 @@
               </div>
               <div class="fb-compo-player-info">
                 <span class="fb-compo-player-name">{{ resolved.metadata.socialName | uppercase }}</span>
-                @if (!isSimplePlayer(resolved.role)) {
+                @if (!isSimplePlayer(resolved.role) && !matchDesEtoiles()) {
                   <span class="fb-compo-player-role fb-role-a">{{ resolved.role | roleName:resolved.metadata.isFemale }}</span>
                 }
               </div>
@@ -460,7 +475,7 @@
             <div class="fb-compo-player-card">
               <div class="fb-compo-player-info">
                 <span class="fb-compo-player-name">{{ resolved.metadata.socialName | uppercase }}</span>
-                @if (!isSimplePlayer(resolved.role)) {
+                @if (!isSimplePlayer(resolved.role) && !matchDesEtoiles()) {
                   <span class="fb-compo-player-role fb-role-b">{{ resolved.role | roleName:resolved.metadata.isFemale }}</span>
                 }
               </div>

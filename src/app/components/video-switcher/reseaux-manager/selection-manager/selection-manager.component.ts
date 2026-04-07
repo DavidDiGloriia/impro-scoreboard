@@ -49,9 +49,12 @@ export class SelectionManagerComponent {
   generatingIndex = signal<number | null>(null);
   selectedTab = signal<'compo' | 'fb' | 'teamA' | 'teamB' | 'individual' | 'result'>('fb');
 
+  matchDesEtoiles = signal(false);
   matchDate = signal(new Date().toISOString().slice(0, 10));
   matchTime = signal('20:00');
   matchLocation = signal('Collège Notre-Dame de Basse-Wavre\nRue de la Fabrique, 1300 Wavre');
+
+  readonly GOLD = '#D4AF37';
 
   readonly suggestedLocations = [
     'Collège Notre-Dame de Basse-Wavre\nRue de la Fabrique, 1300 Wavre',

@@ -25,5 +25,19 @@
     </div>
   }
 
+  @if (files() && currentVideoPath() && mediaType() === MediaType.PDF) {
+    <div class="pdf-pushed-wrapper"
+         [ngStyle]="containerStyle()"
+         [class.pushed-on-top]="projectionMode() === ProjectionMode.PUSHED_ON_TOP">
+      <div class="pdf-viewport">
+        <iframe [src]="pdfUrl()"
+                class="pdf-controlled-iframe"
+                [style.top.px]="pdfScrollY()"
+                [style.transform]="pdfScaleTransform()">
+        </iframe>
+      </div>
+    </div>
+  }
+
 </div>
 </div>

@@ -733,6 +733,84 @@
 }
 
 /* ============================================================ */
+/* 1c. FACEBOOK COVER – MATCH DES ÉTOILES                      */
+/* ============================================================ */
+$gold: #E8C840;
+$gold-light: #F0D860;
+$gold-dark: #B08E20;
+
+.fb-etoiles {
+  background: radial-gradient(ellipse at 50% 50%, #2A2208 0%, #0a0a0a 70%) !important;
+
+  .fb-compo-bg {
+    background: linear-gradient(90deg, $gold-dark 0%, $gold 35%, $gold-light 50%, $gold 65%, $gold-dark 100%);
+    opacity: 0.6;
+
+    .fb-compo-bg-photo {
+      opacity: 0.15;
+    }
+  }
+
+  .fb-compo-divider {
+    background: linear-gradient(180deg, transparent 0%, $gold 15%, $gold-light 50%, $gold 85%, transparent 100%);
+  }
+
+  .fb-compo-col-a .fb-compo-player-card {
+    border-left-color: color-mix(in srgb, $gold 50%, transparent);
+  }
+
+  .fb-compo-col-a .fb-compo-photo-clip {
+    border-left-color: $gold;
+  }
+
+  .fb-compo-col-b .fb-compo-player-card {
+    border-right-color: color-mix(in srgb, $gold 50%, transparent);
+  }
+
+  .fb-compo-col-b .fb-compo-photo-clip {
+    border-right-color: $gold;
+  }
+
+  .fb-compo-player-role {
+    color: $gold-light !important;
+  }
+
+  .fb-compo-date-block {
+    background: rgba($gold, 0.2);
+  }
+
+  .fb-compo-footer-sep {
+    background: rgba($gold-light, 0.3);
+  }
+
+  .fb-compo-vs {
+    text-shadow:
+      0 0 6px rgba($gold-light, 0.6),
+      0 0 14px rgba($gold, 0.7),
+      0 0 28px rgba($gold-dark, 0.5),
+      0 0 50px rgba($gold-dark, 0.3);
+  }
+
+  .fb-compo-logo-round {
+    border-color: $gold;
+    box-shadow: 0 0 6px $gold, 0 0 14px $gold, 0 0 28px $gold-dark;
+    background: linear-gradient(135deg, #000 10%, color-mix(in srgb, $gold 55%, #000) 50%, #000 90%);
+  }
+}
+
+.fb-etoiles-team-name {
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  white-space: nowrap;
+  background: linear-gradient(180deg, #FFF8DC 0%, $gold-light 30%, $gold 55%, $gold-dark 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 6px rgba($gold, 0.5)) drop-shadow(0 1px 2px rgba(0, 0, 0, 0.6));
+}
+
+/* ============================================================ */
 /* 2. STORY EQUIPE (team selection)                             */
 /* ============================================================ */
 .team-story-preview {
