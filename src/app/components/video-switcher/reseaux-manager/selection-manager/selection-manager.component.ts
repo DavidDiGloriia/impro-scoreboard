@@ -50,6 +50,7 @@ export class SelectionManagerComponent {
   selectedTab = signal<'compo' | 'fb' | 'teamA' | 'teamB' | 'individual' | 'result'>('fb');
 
   matchDesEtoiles = signal(false);
+  finaleType = signal<'none' | 'petite' | 'grande'>('none');
   matchDate = signal(new Date().toISOString().slice(0, 10));
   matchTime = signal('20:00');
   matchLocation = signal('Collège Notre-Dame de Basse-Wavre\nRue de la Fabrique, 1300 Wavre');
