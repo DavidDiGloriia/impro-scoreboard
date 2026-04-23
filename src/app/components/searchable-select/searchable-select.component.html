@@ -1,0 +1,33 @@
+<div class="searchable-select" [class.open]="isOpen">
+  <input #searchInput
+         type="text"
+         class="form-select"
+         [class.form-select-sm]="size === 'sm'"
+         [placeholder]="placeholder"
+         [value]="displayText"
+         (focus)="onFocus()"
+         (blur)="onBlur()"
+         (input)="onInput($any($event.target).value)"
+         (keydown)="onKeydown($event)"
+         autocomplete="off"/>
+  @if (isOpen) {
+    <div class="dropdown-list">
+      <div class="dropdown-item"
+           [class.highlighted]="highlightedIndex === -1"
+           (mousedown)="selectEmpty()">
+        <em>{{ placeholder || 'Aucun(e)' }}</em>
+      </div>
+      @for (option of filteredOptions; track option.value; let i = $index) {
+        <div class="dropdown-item"
+             [class.highlighted]="highlightedIndex === i"
+             [class.selected]="option.value === selectedValue"
+             (mousedown)="select(option)">
+          {{ option.label }}
+        </div>
+      }
+      @if (filteredOptions.length === 0) {
+        <div class="dropdown-item disabled">Aucun résultat</div>
+      }
+    </div>
+  }
+</div>
