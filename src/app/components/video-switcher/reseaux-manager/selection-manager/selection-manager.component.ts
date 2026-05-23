@@ -55,7 +55,16 @@ export class SelectionManagerComponent {
   matchTime = signal('20:00');
   matchLocation = signal('Collège Notre-Dame de Basse-Wavre\nRue de la Fabrique, 1300 Wavre');
 
+  playerTeamOverrides = signal<Record<string, string>>({});
+
   readonly GOLD = '#D4AF37';
+
+  readonly VAREUSE_OPTIONS = [
+    {key: 'pythons', label: '🐍', color: '#33cc33'},
+    {key: 'requins', label: '🦈', color: '#3399ff'},
+    {key: 'lions', label: '🦁', color: '#ff4d4d'},
+    {key: 'aigles', label: '🦅', color: '#f5c400'},
+  ];
 
   readonly suggestedLocations = [
     'Collège Notre-Dame de Basse-Wavre\nRue de la Fabrique, 1300 Wavre',
@@ -91,6 +100,16 @@ export class SelectionManagerComponent {
 
   allPlayers: Signal<ResolvedPlayer[]> = computed(() => {
     return [...this.teamAPlayers(), ...this.teamBPlayers()];
+  });
+
+  fbTeamAPlayers: Signal<ResolvedPlayer[]> = computed(() => {
+    if (!this.matchDesEtoiles()) return this.teamAPlayers();
+    return this.teamAPlayers().map(p => this._applyTeamOverride(p));
+  });
+
+  fbTeamBPlayers: Signal<ResolvedPlayer[]> = computed(() => {
+    if (!this.matchDesEtoiles()) return this.teamBPlayers();
+    return this.teamBPlayers().map(p => this._applyTeamOverride(p));
   });
 
   compoRows: Signal<{ a: ResolvedPlayer | null; b: ResolvedPlayer | null }[]> = computed(() => {
@@ -149,6 +168,26 @@ export class SelectionManagerComponent {
 
   isSimplePlayer(role: string): boolean {
     return role === 'joueur 3' || role === 'joueur 4' || role === 'joueur 5' || role === 'joueur 6';
+  }
+
+  setPlayerTeam(playerCode: string, teamKey: string) {
+    this.playerTeamOverrides.update(map => {
+      const copy = {...map};
+      if (copy[playerCode] === teamKey) {
+        delete copy[playerCode];
+      } else {
+        copy[playerCode] = teamKey;
+      }
+      return copy;
+    });
+  }
+
+  private _applyTeamOverride(resolved: ResolvedPlayer): ResolvedPlayer {
+    const overrideKey = this.playerTeamOverrides()[resolved.player.code];
+    if (!overrideKey) return resolved;
+    const overrideTeam = this.teams.value()[overrideKey];
+    if (!overrideTeam) return resolved;
+    return {...resolved, teamMetadata: overrideTeam};
   }
 
   async generateSingle(index: number) {

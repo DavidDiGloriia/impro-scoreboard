@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Jouteurs - Equipes</title>
+  <style>
+    body { font-family: sans-serif; padding: 24px; }
+    .columns {
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+    .columns fieldset {
+      border: 1px solid #bbb;
+      border-radius: 6px;
+      padding: 16px 20px 20px;
+    }
+    .columns legend {
+      padding: 0 8px;
+      font-weight: bold;
+    }
+    .columns .stack {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .fields {
+      display: grid;
+      grid-template-columns: max-content 80px;
+      gap: 10px 16px;
+      align-items: center;
+    }
+    .fields label { justify-self: start; }
+    .fields input[type="number"],
+    .fields .value,
+    .fields .total-value {
+      width: 80px;
+      padding: 4px 8px;
+      box-sizing: border-box;
+      text-align: right;
+    }
+    .fields input[type="checkbox"] {
+      justify-self: end;
+      margin-right: 32px;
+    }
+    .fields .value,
+    .fields .total-label,
+    .fields .total-value {
+      font-weight: bold;
+    }
+    .fields .separator {
+      grid-column: 1 / -1;
+      border-top: 1px solid #ccc;
+      margin: 6px 0 0;
+    }
+    .schedule-row {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+    .schedule {
+      margin-top: 0;
+      flex: 0 0 auto;
+    }
+    .matrix {
+      margin-top: 0;
+      flex: 0 0 auto;
+    }
+    .schedule h3 {
+      margin: 0 0 8px;
+      font-size: 14px;
+    }
+    .schedule table {
+      border-collapse: collapse;
+    }
+    .schedule td {
+      padding: 4px 8px;
+      border-bottom: 1px solid #eee;
+      font-size: 14px;
+    }
+    .schedule td.j {
+      color: #888;
+      font-variant-numeric: tabular-nums;
+      padding-right: 12px;
+    }
+    .match {
+      display: inline-grid;
+      grid-template-columns: 90px 30px 90px;
+      align-items: center;
+      gap: 4px;
+    }
+    .team {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 3px;
+      color: #fff;
+      font-weight: bold;
+      font-size: 13px;
+      text-align: center;
+    }
+    .match .vs { text-align: center; margin: 0; }
+    .team.pythons { background: #2e8b3d; }
+    .team.aigles  { background: #d9a300; }
+    .team.lions   { background: #c52a2a; }
+    .team.requins { background: #1f6fb2; }
+    .vs {
+      margin: 0 8px;
+      color: #888;
+      font-size: 12px;
+    }
+    .schedule .finale-row td {
+      border-bottom: none;
+      padding-top: 10px;
+    }
+    .schedule .finale-label {
+      font-weight: bold;
+      color: #555;
+      padding-right: 12px;
+    }
+    .matrix {
+      margin-top: 24px;
+    }
+    .matrix h3 {
+      margin: 0 0 8px;
+      font-size: 14px;
+    }
+    .matrix table {
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .matrix th, .matrix td {
+      padding: 6px 10px;
+      text-align: center;
+      border: 1px solid #ddd;
+    }
+    .matrix th { background: #f5f5f5; }
+    .matrix td.row-head { text-align: left; }
+    .matrix td.diag { background: #f0f0f0; color: #aaa; }
+    .matrix td.total {
+      background: #fafafa;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="columns">
+
+    <fieldset>
+      <legend>Jouteurs</legend>
+      <div class="fields">
+        <label for="anciens">Nombre de réguliers (anciens)</label>
+        <input type="number" id="anciens" min="0" value="0"/>
+
+        <label for="recrues">Nombre de recrues</label>
+        <input type="number" id="recrues" min="0" value="0"/>
+
+        <label>Nombre de réguliers</label>
+        <span id="reguliersTotal" class="value">0</span>
+
+        <label for="semiPapy">Nombre de semi papy</label>
+        <input type="number" id="semiPapy" min="0" value="0"/>
+
+        <label for="papy">Nombre de papy</label>
+        <input type="number" id="papy" min="0" value="0"/>
+
+        <div class="separator"></div>
+
+        <span class="total-label">Nombre total de jouteurs</span>
+        <span id="total" class="total-value">0</span>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Par équipe</legend>
+      <div class="fields">
+        <span class="total-label">Anciens (reg)</span>
+        <span id="anciensParEquipe" class="total-value">0</span>
+
+        <span class="total-label">Recrues</span>
+        <span id="recruesParEquipe" class="total-value">0</span>
+
+        <span class="total-label">Semis papys</span>
+        <span id="semiPapyParEquipe" class="total-value">0</span>
+
+        <span class="total-label">Papys</span>
+        <span id="papyParEquipe" class="total-value">0</span>
+
+        <div class="separator"></div>
+
+        <span class="total-label">Réguliere</span>
+        <span id="reguliersParEquipe" class="total-value">0</span>
+
+        <span class="total-label">Papys + semis</span>
+        <span id="papySemiParEquipe" class="total-value">0</span>
+
+        <div class="separator"></div>
+
+        <span class="total-label">Total / équipe</span>
+        <span id="totalParEquipe" class="total-value">0</span>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Équipes &amp; matchs</legend>
+      <div class="fields">
+        <label for="equipes">Nombre d'équipes</label>
+        <input type="number" id="equipes" min="0" step="1" value="4"/>
+
+        <label for="matchs">Nombre de matchs</label>
+        <input type="number" id="matchs" min="0" step="1" value="12"/>
+
+        <label for="matchsSpeciaux">Nombre de matchs spéciaux</label>
+        <input type="number" id="matchsSpeciaux" min="0" step="1" value="2"/>
+
+        <label for="petiteFinale">Petite finale</label>
+        <input type="checkbox" id="petiteFinale" checked/>
+
+        <div class="separator"></div>
+
+        <span class="total-label">Matchs saison (hors finales)</span>
+        <span id="matchsSaison" class="total-value">0</span>
+
+        <span class="total-label">Matchs (finales incluses)</span>
+        <span id="matchsAvecFinales" class="total-value">0</span>
+
+        <span class="total-label">Matchs par équipe (saison)</span>
+        <span id="matchsParEquipe" class="total-value">0</span>
+
+        <span class="total-label">Matchs par équipe (finales incluses)</span>
+        <span id="matchsParEquipeAvecFinales" class="total-value">0</span>
+      </div>
+    </fieldset>
+
+    <div class="stack">
+      <fieldset>
+        <legend>Coaching</legend>
+        <div class="fields">
+          <label for="coachs">Nombre de coachs</label>
+          <input type="number" id="coachs" min="1" step="1" value="2"/>
+
+          <div class="separator"></div>
+
+          <span class="total-label">Présence pondérée totale</span>
+          <span id="presenceTotal" class="total-value">0</span>
+
+          <span class="total-label">Coachés / coach</span>
+          <span id="coachesParCoach" class="total-value">0</span>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Temps de jeu</legend>
+        <div class="fields">
+          <label for="jouteursParMatch">Jouteurs / match / équipe</label>
+          <input type="number" id="jouteursParMatch" min="1" step="1" value="4"/>
+
+          <label for="matchsParRecrue">Matchs par recrue</label>
+          <input type="number" id="matchsParRecrue" min="0" step="1" value="5"/>
+
+          <div class="separator"></div>
+
+          <span class="total-label">Matchs / non-recrue</span>
+          <span id="matchsParNonRecrue" class="total-value">0</span>
+        </div>
+      </fieldset>
+    </div>
+
+  </div>
+
+  <div class="schedule-row">
+    <div class="schedule">
+      <h3>Exemple de rencontres (saison)</h3>
+      <table id="scheduleTable"></table>
+    </div>
+
+    <div class="matrix">
+      <h3>Rencontres par équipe (saison)</h3>
+      <table id="matrixTable"></table>
+    </div>
+  </div>
+
+  <script>
+    const anciens          = document.getElementById('anciens');
+    const recrues          = document.getElementById('recrues');
+    const reguliersTotal   = document.getElementById('reguliersTotal');
+    const semiPapy         = document.getElementById('semiPapy');
+    const papy             = document.getElementById('papy');
+    const total            = document.getElementById('total');
+    const equipes          = document.getElementById('equipes');
+    const matchs           = document.getElementById('matchs');
+    const matchsSpeciaux   = document.getElementById('matchsSpeciaux');
+    const petiteFinale     = document.getElementById('petiteFinale');
+    const matchsSaison     = document.getElementById('matchsSaison');
+    const matchsAvecFinales = document.getElementById('matchsAvecFinales');
+    const matchsParEquipe  = document.getElementById('matchsParEquipe');
+    const matchsParEquipeAvecFinales = document.getElementById('matchsParEquipeAvecFinales');
+    const anciensParEquipe   = document.getElementById('anciensParEquipe');
+    const recruesParEquipe   = document.getElementById('recruesParEquipe');
+    const reguliersParEquipe = document.getElementById('reguliersParEquipe');
+    const semiPapyParEquipe  = document.getElementById('semiPapyParEquipe');
+    const papyParEquipe      = document.getElementById('papyParEquipe');
+    const papySemiParEquipe  = document.getElementById('papySemiParEquipe');
+    const totalParEquipe     = document.getElementById('totalParEquipe');
+    const coachs             = document.getElementById('coachs');
+    const presenceTotal      = document.getElementById('presenceTotal');
+    const coachesParCoach    = document.getElementById('coachesParCoach');
+    const jouteursParMatch   = document.getElementById('jouteursParMatch');
+    const matchsParRecrue    = document.getElementById('matchsParRecrue');
+    const matchsParNonRecrue = document.getElementById('matchsParNonRecrue');
+
+    function fmt(n) {
+      return Number.isInteger(n) ? n : n.toFixed(2);
+    }
+
+    function updateTotal() {
+      const a  = parseInt(anciens.value, 10)  || 0;
+      const re = parseInt(recrues.value, 10)  || 0;
+      const s  = parseInt(semiPapy.value, 10) || 0;
+      const p  = parseInt(papy.value, 10)     || 0;
+      reguliersTotal.textContent = a + re;
+      total.textContent = a + re + s + p;
+
+      const e   = parseInt(equipes.value, 10)        || 0;
+      const m   = parseInt(matchs.value, 10)         || 0;
+      const ms  = parseInt(matchsSpeciaux.value, 10) || 0;
+      // Petite finale impossible avec moins de 4 équipes
+      petiteFinale.disabled = e < 4;
+      const petiteActive = petiteFinale.checked && e >= 4;
+      const finales = 1 + (petiteActive ? 1 : 0); // grande + (petite)
+      // matchs total = saison + spéciaux + finales (les finales sont incluses dans m)
+      const avecFinales = m - ms;          // tout sauf les spéciaux (= saison + finales)
+      const saison = avecFinales - finales; // matchs de saison hors finales
+
+      const div = (x) => e > 0 ? x / e : 0;
+      anciensParEquipe.textContent   = fmt(div(a));
+      recruesParEquipe.textContent   = fmt(div(re));
+      reguliersParEquipe.textContent = fmt(div(a + re));
+      semiPapyParEquipe.textContent  = fmt(div(s));
+      papyParEquipe.textContent      = fmt(div(p));
+      papySemiParEquipe.textContent  = fmt(div(p + s));
+      totalParEquipe.textContent     = fmt(div(a + re + s + p));
+
+      const c        = parseInt(coachs.value, 10) || 0;
+      const presence = a + re + 0.5 * s; // papy = 0
+      presenceTotal.textContent   = fmt(presence);
+      coachesParCoach.textContent = c > 0 ? fmt(presence / c) : '0';
+
+      // Matchs par joueur hors recrue (finales comprises, spéciaux exclus)
+      const jpm = parseInt(jouteursParMatch.value, 10) || 0;
+      const mpr = parseInt(matchsParRecrue.value, 10)  || 0;
+      // total de places à pourvoir = avecFinales × 2 équipes × jouteurs/match/équipe
+      const totalSlots   = avecFinales * 2 * jpm;
+      const recrueSlots  = re * mpr;
+      const nonRecrues   = a + s + p;
+      const mpnr = nonRecrues > 0 ? (totalSlots - recrueSlots) / nonRecrues : 0;
+      matchsParNonRecrue.textContent = fmt(mpnr);
+
+      matchsSaison.textContent = saison;
+      matchsAvecFinales.textContent = avecFinales;
+
+      const mpe = e > 0 ? (2 * saison) / e : 0;
+      const mpeFinales = e > 0 ? (2 * avecFinales) / e : 0;
+      matchsParEquipe.textContent = fmt(mpe);
+      matchsParEquipeAvecFinales.textContent = fmt(mpeFinales);
+
+      renderSchedule(saison, e);
+    }
+
+    const TEAMS_ALL = [
+      { name: 'Pythons', cls: 'pythons' },
+      { name: 'Aigles',  cls: 'aigles'  },
+      { name: 'Lions',   cls: 'lions'   },
+      { name: 'Requins', cls: 'requins' },
+    ];
+
+    function getTeams(n) {
+      const clamped = Math.max(0, Math.min(n, TEAMS_ALL.length));
+      return TEAMS_ALL.slice(0, clamped);
+    }
+
+    function teamChip(t) {
+      return `<span class="team ${t.cls}">${t.name}</span>`;
+    }
+
+    // Génère une liste de paires [i, j] aussi équilibrée que possible :
+    // chaque paire est jouée à peu près le même nombre de fois,
+    // et chaque équipe joue à peu près le même nombre de matchs.
+    function generateMatchups(teamCount, totalMatches) {
+      const allPairs = [];
+      for (let i = 0; i < teamCount; i++) {
+        for (let j = i + 1; j < teamCount; j++) allPairs.push([i, j]);
+      }
+      if (allPairs.length === 0) return [];
+
+      const pairCnt = allPairs.map(() => 0);
+      const teamCnt = new Array(teamCount).fill(0);
+      const result  = [];
+
+      for (let m = 0; m < totalMatches; m++) {
+        let best = 0;
+        let bestKey = [Infinity, Infinity, Infinity];
+        for (let p = 0; p < allPairs.length; p++) {
+          const [i, j] = allPairs[p];
+          const key = [pairCnt[p], Math.max(teamCnt[i], teamCnt[j]), teamCnt[i] + teamCnt[j]];
+          if (key[0] < bestKey[0] ||
+              (key[0] === bestKey[0] && key[1] < bestKey[1]) ||
+              (key[0] === bestKey[0] && key[1] === bestKey[1] && key[2] < bestKey[2])) {
+            bestKey = key;
+            best = p;
+          }
+        }
+        const [i, j] = allPairs[best];
+        pairCnt[best]++;
+        teamCnt[i]++;
+        teamCnt[j]++;
+        result.push([i, j]);
+      }
+      return result;
+    }
+
+    function renderSchedule(saisonCount, equipesCount) {
+      const TEAMS = getTeams(equipesCount);
+      const table = document.getElementById('scheduleTable');
+
+      const matchups = generateMatchups(TEAMS.length, saisonCount);
+
+      // Priorité d'alignement à gauche : Pythons > Aigles > ordre par défaut
+      const leftPriority = [0, 1].filter(idx => idx < TEAMS.length);
+
+      let html = '';
+      for (let i = 0; i < matchups.length; i++) {
+        let [ai, bi] = matchups[i];
+        for (const p of leftPriority) {
+          if (bi === p) { [ai, bi] = [bi, ai]; break; }
+          if (ai === p) break;
+        }
+        html += `<tr><td class="j">J${i + 1}</td><td><span class="match">${teamChip(TEAMS[ai])}<span class="vs">vs</span>${teamChip(TEAMS[bi])}</span></td></tr>`;
+      }
+
+      table.innerHTML = html;
+
+      renderMatrix(matchups, equipesCount);
+    }
+
+    function renderMatrix(matchups, equipesCount) {
+      const TEAMS = getTeams(equipesCount);
+      const n = TEAMS.length;
+      const counts = Array.from({ length: n }, () => Array(n).fill(0));
+      for (const [i, j] of matchups) {
+        counts[i][j]++;
+        counts[j][i]++;
+      }
+
+      let html = '<tr><th></th>';
+      for (const t of TEAMS) html += `<th>${teamChip(t)}</th>`;
+      html += '<th>Total</th></tr>';
+
+      for (let i = 0; i < n; i++) {
+        html += `<tr><td class="row-head">${teamChip(TEAMS[i])}</td>`;
+        let total = 0;
+        for (let j = 0; j < n; j++) {
+          if (i === j) {
+            html += '<td class="diag">—</td>';
+          } else {
+            html += `<td>${counts[i][j]}</td>`;
+            total += counts[i][j];
+          }
+        }
+        html += `<td class="total">${total}</td></tr>`;
+      }
+
+      document.getElementById('matrixTable').innerHTML = html;
+    }
+
+    [anciens, recrues, semiPapy, papy, equipes, matchs, matchsSpeciaux, petiteFinale, coachs, jouteursParMatch, matchsParRecrue]
+      .forEach(el => el.addEventListener('input', updateTotal));
+    petiteFinale.addEventListener('change', updateTotal);
+
+    updateTotal();
+  </script>
+
+</body>
+</html>

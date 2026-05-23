@@ -760,6 +760,56 @@
 }
 
 /* ============================================================ */
+/* VAREUSE PICKER (match des étoiles)                           */
+/* ============================================================ */
+.vareuse-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.vareuse-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.vareuse-player-name {
+  font-size: 0.8rem;
+  color: #ccc;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.vareuse-dots {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.vareuse-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  padding: 0;
+  transition: border-color 0.15s, transform 0.15s;
+
+  &:hover {
+    transform: scale(1.2);
+  }
+
+  &.active {
+    border-color: #fff;
+    box-shadow: 0 0 4px rgba(255, 255, 255, 0.6);
+  }
+}
+
+/* ============================================================ */
 /* 1c. FACEBOOK COVER – MATCH DES ÉTOILES                      */
 /* ============================================================ */
 $gold: #E8C840;

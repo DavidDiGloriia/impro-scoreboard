@@ -288,6 +288,25 @@
                  (ngModelChange)="matchDesEtoiles.set($event)"/>
           <label class="form-check-label text-warning" for="matchDesEtoilesToggle">Match des Étoiles</label>
         </div>
+        @if (matchDesEtoiles()) {
+          <label class="form-label text-muted mb-1 small">Vareuses</label>
+          <div class="vareuse-list mb-3">
+            @for (resolved of allPlayers(); track resolved.player.code) {
+              <div class="vareuse-row">
+                <span class="vareuse-player-name">{{ resolved.metadata.displayName }}</span>
+                <div class="vareuse-dots">
+                  @for (opt of VAREUSE_OPTIONS; track opt.key) {
+                    <button type="button" class="vareuse-dot"
+                            [style.background]="opt.color"
+                            [class.active]="playerTeamOverrides()[resolved.player.code] === opt.key"
+                            (click)="setPlayerTeam(resolved.player.code, opt.key)"
+                            [title]="opt.label"></button>
+                  }
+                </div>
+              </div>
+            }
+          </div>
+        }
         <label class="form-label text-muted mb-1 small">Finale</label>
         <div class="btn-group btn-group-sm mb-3 d-flex" role="group">
           <input type="radio" class="btn-check" name="finaleType" id="finaleNone"
@@ -435,7 +454,7 @@
           <div class="fb-compo-subtitle">
             MATCH D'IMPROVISATION
             @if (finaleType() !== 'none') {
-              <span class="fb-compo-finale">{{ finaleType() === 'petite' ? 'LA PETITE FINALE' : 'LA GRANDE FINALE' }}</span>
+              <span class="fb-compo-finale">{{ finaleType() === 'petite' ? 'LA PETITE FINALE' : 'LA FINALE' }}</span>
             }
           </div>
           <div class="fb-compo-teams-bar">
@@ -445,7 +464,7 @@
           <div class="fb-compo-subtitle">
             MATCH D'IMPROVISATION
             @if (finaleType() !== 'none') {
-              <span class="fb-compo-finale">{{ finaleType() === 'petite' ? 'LA PETITE FINALE' : 'LA GRANDE FINALE' }}</span>
+              <span class="fb-compo-finale">{{ finaleType() === 'petite' ? 'LA PETITE FINALE' : 'LA FINALE' }}</span>
             }
           </div>
           <div class="fb-compo-teams-bar">
@@ -477,7 +496,7 @@
           </svg>
         }
         <div class="fb-compo-col fb-compo-col-a">
-          @for (resolved of teamAPlayers(); track resolved.player.code) {
+          @for (resolved of fbTeamAPlayers(); track resolved.player.code) {
             <div class="fb-compo-player-card">
               <div class="fb-compo-photo-clip">
                 <img [src]="getPlayerImg(resolved)" class="fb-compo-player-photo"
@@ -498,7 +517,7 @@
         <div class="fb-compo-divider"></div>
 
         <div class="fb-compo-col fb-compo-col-b">
-          @for (resolved of teamBPlayers(); track resolved.player.code) {
+          @for (resolved of fbTeamBPlayers(); track resolved.player.code) {
             <div class="fb-compo-player-card">
               <div class="fb-compo-player-info">
                 <span class="fb-compo-player-name">{{ resolved.metadata.socialName | uppercase }}</span>
