@@ -4,6 +4,7 @@ import { DisplayedScreen } from "@enums/displayed-screen.enum";
 import { ImproDataService } from "@services/impro-data.service";
 import { WindowService } from "@services/window.service";
 import { ProjectionData } from "@models/projection-data";
+import { AUTO_MOVE_PROJECTION_STORAGE_KEY } from "../../app.component";
 
 @Component({
   selector: 'app-projection-handling',
@@ -25,11 +26,21 @@ export class ProjectionHandlingComponent implements OnInit, OnDestroy {
   // Indicateur pour effet visuel des flèches
   activeButton: 'up' | 'down' | 'left' | 'right' | null = null;
 
+  // Déplacement automatique de la projection sur un nouvel écran branché
+  autoMoveProjectionOnNewDisplay = localStorage.getItem(AUTO_MOVE_PROJECTION_STORAGE_KEY) === 'true';
+
   constructor(private windowService: WindowService) {}
 
   ngOnInit() {
     this._previousDisplayedScreen = this.displayedScreen.value();
     this.displayScreen(DisplayedScreen.PROJECTION_HANDLING_HELPER);
+  }
+
+  toggleAutoMoveProjectionOnNewDisplay(enabled: boolean) {
+    this.autoMoveProjectionOnNewDisplay = enabled;
+    localStorage.setItem(AUTO_MOVE_PROJECTION_STORAGE_KEY, String(enabled));
+    this.windowService.setAutoMoveProjectionOnNewDisplay(enabled)
+      .pipe(takeUntilDestroyed(this._destroyRef)).subscribe();
   }
 
   ngOnDestroy() {

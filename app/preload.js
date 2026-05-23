@@ -15,4 +15,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
     ipcRenderer.invoke('set-fullscreen', windowName, fullscreen),
   moveWindowToDisplay: (windowName, displayIndex) =>
     ipcRenderer.invoke('move-window-to-display', windowName, displayIndex),
+  setAutoMoveProjectionOnNewDisplay: (enabled) =>
+    ipcRenderer.invoke('set-auto-move-projection-on-new-display', enabled),
 });

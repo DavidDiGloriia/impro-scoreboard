@@ -4,6 +4,7 @@ import * as fs from 'fs';
 
 let controlWindow: BrowserWindow | null = null;
 let projectionWindow: BrowserWindow | null = null;
+let autoMoveProjectionOnNewDisplay = false;
 
 const args = process.argv.slice(1);
 const serve = args.some(val => val === '--serve');
@@ -53,6 +54,12 @@ ipcMain.handle('set-fullscreen', (event, windowName: 'control' | 'projection', f
   if (win) {
     win.setFullScreen(fullscreen);
   }
+});
+
+// Activer/désactiver le déplacement automatique de la projection sur un nouvel écran
+ipcMain.handle('set-auto-move-projection-on-new-display', (event, enabled: boolean) => {
+  autoMoveProjectionOnNewDisplay = enabled;
+  console.log('[auto-move-projection] flag mis à jour:', enabled);
 });
 
 // Déplacer une fenêtre sur un écran spécifique
@@ -187,6 +194,37 @@ function createWindowsOnce() {
 app.on('ready', () => {
   destroyWindows();
   setTimeout(createWindowsOnce, 400);
+
+  // Quand un nouvel écran est branché, on déplace automatiquement
+  // la fenêtre de projection dessus et on la passe en plein écran.
+  // On s'assure aussi que la fenêtre de contrôle reste sur l'écran principal.
+  screen.on('display-added', (_event, newDisplay) => {
+    if (!autoMoveProjectionOnNewDisplay) return;
+
+    if (projectionWindow) {
+      projectionWindow.setFullScreen(false);
+      projectionWindow.setBounds({
+        x: newDisplay.bounds.x,
+        y: newDisplay.bounds.y,
+        width: newDisplay.bounds.width,
+        height: newDisplay.bounds.height,
+      });
+      // Laisse le temps à macOS/Windows de finir le déplacement avant le fullscreen
+      setTimeout(() => projectionWindow?.setFullScreen(true), 500);
+    }
+
+    if (controlWindow) {
+      const primary = screen.getPrimaryDisplay();
+      controlWindow.setFullScreen(false);
+      const bounds = controlWindow.getBounds();
+      controlWindow.setBounds({
+        x: primary.bounds.x + 100,
+        y: primary.bounds.y + 100,
+        width: bounds.width,
+        height: bounds.height,
+      });
+    }
+  });
 });
 
 app.on('window-all-closed', () => {

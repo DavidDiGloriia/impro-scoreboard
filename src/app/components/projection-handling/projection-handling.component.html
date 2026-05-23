@@ -17,6 +17,18 @@
   </button>
 </div>
 
+<div class="form-check d-flex justify-content-center mb-4">
+  <input
+    class="form-check-input me-2"
+    type="checkbox"
+    id="autoMoveProjectionOnNewDisplay"
+    [checked]="autoMoveProjectionOnNewDisplay"
+    (change)="toggleAutoMoveProjectionOnNewDisplay($any($event.target).checked)">
+  <label class="form-check-label" for="autoMoveProjectionOnNewDisplay">
+    Mettre automatiquement la projection sur l'écran secondaire
+  </label>
+</div>
+
 <p class="text-center text-muted mb-2">
   Utilise les flèches pour choisir une direction et + et - pour ajuster la position. Tu peux aussi utiliser les boutons ci-dessous.
 </p>

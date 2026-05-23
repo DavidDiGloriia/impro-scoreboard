@@ -14,6 +14,7 @@ declare global {
       // --- Window ---
       setFullscreen: (windowName: 'control' | 'projection', fullscreen: boolean) => Promise<void>;
       moveWindowToDisplay: (windowName: 'control' | 'projection', displayIndex: number) => Promise<void>;
+      setAutoMoveProjectionOnNewDisplay: (enabled: boolean) => Promise<void>;
     };
   }
 }

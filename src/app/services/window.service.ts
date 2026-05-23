@@ -13,4 +13,8 @@ export class WindowService {
   moveWindowToDisplay(windowName: 'control' | 'projection', displayIndex: number): Observable<void> {
     return from(window.electronAPI.moveWindowToDisplay(windowName, displayIndex));
   }
+
+  setAutoMoveProjectionOnNewDisplay(enabled: boolean): Observable<void> {
+    return from(window.electronAPI.setAutoMoveProjectionOnNewDisplay(enabled));
+  }
 }
