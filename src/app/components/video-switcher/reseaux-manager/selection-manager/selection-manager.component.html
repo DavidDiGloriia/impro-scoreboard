@@ -506,7 +506,7 @@
               </div>
               <div class="fb-compo-player-info">
                 <span class="fb-compo-player-name">{{ resolved.metadata.socialName | uppercase }}</span>
-                @if (!isSimplePlayer(resolved.role) && !matchDesEtoiles()) {
+                @if (!isSimplePlayer(resolved.role)) {
                   <span class="fb-compo-player-role fb-role-a">{{ resolved.role | roleName:resolved.metadata.isFemale }}</span>
                 }
               </div>
@@ -521,7 +521,7 @@
             <div class="fb-compo-player-card">
               <div class="fb-compo-player-info">
                 <span class="fb-compo-player-name">{{ resolved.metadata.socialName | uppercase }}</span>
-                @if (!isSimplePlayer(resolved.role) && !matchDesEtoiles()) {
+                @if (!isSimplePlayer(resolved.role)) {
                   <span class="fb-compo-player-role fb-role-b">{{ resolved.role | roleName:resolved.metadata.isFemale }}</span>
                 }
               </div>

@@ -28,6 +28,22 @@
   text-align: right;
 }
 
+/* mascotte + logo improvisation.be, regroupés à droite du nom d'équipe */
+.team-branding {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.impro-logo {
+  height: 64px;
+  width: auto;
+  user-select: none;
+  opacity: 0;
+  transform: translateX(-30px);
+  animation: fadeSlideIn 0.7s forwards;
+}
+
 .team-logo {
   height: 140px;
   width: auto;

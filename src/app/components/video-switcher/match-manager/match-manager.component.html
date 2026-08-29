@@ -1,12 +1,12 @@
 <div class="p-3">
   <div class="d-flex gap-2">
     <button class="btn btn-outline-primary btn-lg flex-fill"
-            [class.active]="displayedScreen.value() === DisplayedScreen.SCREEN_SAVER"
-            (click)="displayScreen(DisplayedScreen.SCREEN_SAVER)">ECRAN DE VEILLE
+            [class.active]="displayedScreen.value() === DisplayedScreen.PUBS"
+            (click)="displayScreen(DisplayedScreen.PUBS)">PUBS
     </button>
     <button class="btn btn-outline-primary btn-lg flex-fill"
-            [class.active]="displayedScreen.value() === DisplayedScreen.MATCH"
-            (click)="displayScreen(DisplayedScreen.MATCH)">AFFICHER MATCH
+            [class.active]="displayedScreen.value() === DisplayedScreen.SCREEN_SAVER"
+            (click)="displayScreen(DisplayedScreen.SCREEN_SAVER)">ECRAN DE VEILLE
     </button>
     <button *ngIf="gameData.value().teamA.name"
             class="btn btn-outline-primary btn-lg flex-fill"
@@ -18,22 +18,22 @@
             [class.active]="displayedScreen.value() === DisplayedScreen.TEAM_B"
             (click)="displayScreen(DisplayedScreen.TEAM_B)">PRÉSENTER {{ gameData?.value().teamB.name | uppercase }}
     </button>
-    <button *ngIf="gameData.value().teamB.name"
-            class="btn  btn-outline-primary btn-lg flex-fill"
-            [class.active]="displayedScreen.value() === DisplayedScreen.BOTH_TEAMS"
-            (click)="displayScreen(DisplayedScreen.BOTH_TEAMS)">ÉTOILES PUBLIC
-    </button>
-    <button class="btn btn-outline-primary btn-lg flex-fill"
-            [class.active]="displayedScreen.value() === DisplayedScreen.MEDIA"
-            (click)="displayScreen(DisplayedScreen.MEDIA)">PROJETER UN MEDIA
-    </button>
     <button class="btn btn-outline-primary btn-lg flex-fill"
             [class.active]="displayedScreen.value() === DisplayedScreen.ANTHEM"
             (click)="displayScreen(DisplayedScreen.ANTHEM)">HYMNE
     </button>
     <button class="btn btn-outline-primary btn-lg flex-fill"
-            [class.active]="displayedScreen.value() === DisplayedScreen.PUBS"
-            (click)="displayScreen(DisplayedScreen.PUBS)">PUBS
+            [class.active]="displayedScreen.value() === DisplayedScreen.MATCH"
+            (click)="displayScreen(DisplayedScreen.MATCH)">AFFICHER MATCH
+    </button>
+    <button class="btn btn-outline-primary btn-lg flex-fill"
+            [class.active]="displayedScreen.value() === DisplayedScreen.MEDIA"
+            (click)="displayScreen(DisplayedScreen.MEDIA)">PROJETER UN MEDIA
+    </button>
+    <button *ngIf="gameData.value().teamB.name"
+            class="btn  btn-outline-primary btn-lg flex-fill"
+            [class.active]="displayedScreen.value() === DisplayedScreen.BOTH_TEAMS"
+            (click)="displayScreen(DisplayedScreen.BOTH_TEAMS)">ÉTOILES PUBLIC
     </button>
   </div>
 

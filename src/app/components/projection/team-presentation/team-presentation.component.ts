@@ -8,6 +8,7 @@ import {PlayerMetadata} from "@models/player-metadata";
 import {KeyValueNoSortPipe} from "@pipes/key-value-no-sort.pipe";
 import {RoleNamePipe} from "@pipes/role-name.pipe";
 import {Player} from "@models/player";
+import {whiteLogoForColor} from "@constants/logo.constants";
 
 @Component({
   selector: 'app-team-presentation',
@@ -32,6 +33,9 @@ export class TeamPresentationComponent {
       return team.name === this.team().name;
     });
   })
+
+  /** Logo improvisation.be à la couleur de l'équipe, affiché à droite de la mascotte. */
+  logoSrc: Signal<string> = computed(() => whiteLogoForColor(this.teamMetadata()?.color));
 
   displayedPlayers: Signal<Record<string, Player>> = computed(() => {
     if(this.gameData.value().automaticPlayerPresentation ) {

@@ -1,13 +1,52 @@
-.social-block {
-  width: 320px;
+.screen-saver {
+  --gap-y: 6vh;      // espace entre le logo, l'accroche et les QR
+  --qr-size: 250px;
+  --qr-gap: 6vw;
+
+  padding: 5vh 5vw;
+}
+
+.screen-saver-logo {
+  width: min(45vw, 70vh);
+  object-fit: contain;
+  margin-bottom: var(--gap-y);
+}
+
+.screen-saver-website {
+  font-size: 3rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  margin-top: var(--gap-y);
+}
+
+.screen-saver-subtitle {
+  margin-bottom: var(--gap-y);
+}
+
+.qr-row {
+  gap: var(--qr-gap);
+}
+
+.qr-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.qr-label {
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .qr {
-  width: 280px;
-  height: 280px;
+  width: var(--qr-size);
+  height: var(--qr-size);
   background: white;
-  padding: 16px;
-  border-radius: 16px;
+  padding: 20px;
+  border-radius: 20px;
   box-shadow: 0 0 30px rgba(255, 255, 255, 0.15);
 }
 
@@ -16,6 +55,23 @@
   letter-spacing: 0.05em;
 }
 
+// Projecteur au sol : tout le contenu doit tenir dans les 65vh du haut.
 .pushed-on-top {
+  --gap-y: 3vh;
+  --qr-size: 180px;
+  --qr-gap: 4vw;
+
   padding-bottom: 35vh;
+
+  .screen-saver-logo {
+    width: min(38vw, 48vh);
+  }
+
+  .qr-label {
+    font-size: 1.25rem;
+  }
+
+  .screen-saver-website {
+    font-size: 2.25rem;
+  }
 }

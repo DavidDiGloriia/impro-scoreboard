@@ -5,11 +5,18 @@
     <div class="team-header">
       @let animation = gameData.value().automaticPlayerPresentation ? (playersCount()) * 0.4 + 's' : '0.4sec';
 
-      <img *ngIf="team().img || teamMetadata()?.img"
-           [src]="team().img || teamMetadata()?.img"
-           [style.animationDelay]="animation"
-           class="team-logo"
-           alt="Logo équipe"/>
+      <div class="team-branding">
+        <img *ngIf="team().img || teamMetadata()?.img"
+             [src]="team().img || teamMetadata()?.img"
+             [style.animationDelay]="animation"
+             class="team-logo"
+             alt="Logo équipe"/>
+
+        <img [src]="logoSrc()"
+             [style.animationDelay]="animation"
+             class="impro-logo"
+             alt="improvisation.be"/>
+      </div>
       <div class="team-name"
            [style.color]="(team().img || teamMetadata()?.img) ? '' :  teamMetadata()?.color"
       >{{ team().displayName | uppercase }}

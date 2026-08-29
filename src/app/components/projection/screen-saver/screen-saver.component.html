@@ -1,20 +1,28 @@
 <div [ngStyle]="screenStyle()">
 <div [ngStyle]="containerStyle()"
-  class="bg-black text-white vh-100 d-flex flex-column justify-content-center align-items-center overflow-hidden"
+  class="screen-saver bg-black text-white vh-100 d-flex flex-column justify-content-center align-items-center overflow-hidden"
   [class.pushed-on-top]="projectionMode() === ProjectionMode.PUSHED_ON_TOP">
 
-  <span class="display-1 fw-bold mb-3">{{ 'www.improvisation.be' | uppercase }}</span>
+  <img [src]="logoSrc()" alt="Improvisation.be" class="screen-saver-logo"/>
 
-  <span class="fs-3 text-secondary mb-5">Suivez-nous sur les réseaux sociaux !</span>
+  <span class="fs-3 text-secondary screen-saver-subtitle">Suivez-nous sur les réseaux sociaux !</span>
 
-  <div class="d-flex" style="gap: 5rem">
-    <div class="qr">
-      <img src="assets/qrcodes/facebook.png" alt="Facebook" class="w-100 h-100 object-fit-contain"/>
+  <div class="qr-row d-flex">
+    <div class="qr-block">
+      <div class="qr">
+        <img src="assets/qrcodes/facebook.png" alt="Facebook" class="w-100 h-100 object-fit-contain"/>
+      </div>
+      <span class="qr-label">Facebook</span>
     </div>
-    <div class="qr">
-      <img src="assets/qrcodes/instagram.png" alt="Instagram" class="w-100 h-100 object-fit-contain"/>
+    <div class="qr-block">
+      <div class="qr">
+        <img src="assets/qrcodes/instagram.png" alt="Instagram" class="w-100 h-100 object-fit-contain"/>
+      </div>
+      <span class="qr-label">Instagram</span>
     </div>
   </div>
+
+  <span class="screen-saver-website">www.improvisation.be</span>
 
 </div>
 </div>
