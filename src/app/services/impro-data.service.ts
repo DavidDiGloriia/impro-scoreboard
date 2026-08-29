@@ -18,6 +18,9 @@ import {MediaHandling} from "@models/media-handling";
 import {MediaHandlingDto} from "../dtos";
 import {ProjectionData} from "@models/projection-data";
 import {ProjectionDataDto} from "../dtos/projection-data.dto";
+import {whiteLogoForColor} from "@constants/logo.constants";
+import {find} from "lodash-es";
+import {Team} from "@models/team";
 
 @Injectable({
   providedIn: 'root'
@@ -92,6 +95,24 @@ export class ImproDataService {
       height:`${100 - projectionData.bottom - projectionData.top}vh`,
     }
   })
+
+  /**
+   * Logo improvisation.be à la couleur de l'équipe qui mène, mono en cas d'égalité.
+   */
+  leaderLogo = computed(() => {
+    const gameData = this.gameData.value();
+    const teamA = gameData.teamA;
+    const teamB = gameData.teamB;
+
+    if (teamA.score === teamB.score) {
+      return whiteLogoForColor();
+    }
+
+    const leader: Team = teamA.score > teamB.score ? teamA : teamB;
+    const metadata: TeamMetadata = find(this.teams.value(), (t: TeamMetadata) => t.name === leader.name);
+
+    return whiteLogoForColor(metadata?.color);
+  });
 
   public players: ResourceRef<PlayerMetadata[]> = rxResource({
     loader: () => this.getPlayers(),

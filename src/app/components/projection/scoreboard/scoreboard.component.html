@@ -6,9 +6,11 @@
     <div class="top-section"
          [class.pushed-on-top]="projectionMode() === ProjectionMode.PUSHED_ON_TOP"
     >
-      <div class="total-timer">
-        <span id="total-timer">{{ roundTimer() | formatTime }} </span>
-      </div>
+      @if (roundTimer()) {
+        <div class="total-timer">
+          <span id="total-timer">{{ roundTimer() | formatTime }} </span>
+        </div>
+      }
       <div class="teams"
       >
         <app-scoreboard-team [teamNumber]="Team.TEAM_A"
@@ -17,6 +19,8 @@
         <div class="round-timer">
           @if(improData().isImproRunning){
             <br><span id="round-timer">{{ improTimer() | formatTime }}</span>
+          } @else {
+            <img [src]="logoSrc()" alt="improvisation.be" class="scoreboard-logo"/>
           }
         </div>
         <app-scoreboard-team [teamNumber]="Team.TEAM_B"

@@ -35,6 +35,9 @@ export class ScoreboardComponent {
   improTimer: InputSignal<number> = input(180);
   projectionMode: InputSignal<ProjectionMode> = input.required();
 
+  /** Logo affiché à la place du thème quand aucune impro n'est en cours. */
+  logoSrc = this._improDataService.leaderLogo;
+
   constructor(private _improDataService: ImproDataService) {
   }
 }
