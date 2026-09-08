@@ -37,7 +37,12 @@ export class PlayerMediaComponent {
   }
 
   onVideoLoaded(event: Event): void {
-    (event.target as HTMLVideoElement).playbackRate = PLAYER_VIDEO_PLAYBACK_RATE;
+    const video = event.target as HTMLVideoElement;
+    video.playbackRate = PLAYER_VIDEO_PLAYBACK_RATE;
+    // `muted` posé en propriété + play() explicite : l'attribut seul, ajouté après création de l'élément
+    // par Angular, n'est pas pris en compte par Chrome et l'autoplay reste bloqué.
+    video.muted = true;
+    video.play().catch(() => { /* autoplay refusé : on garde la première image */ });
   }
 
   onVideoError(): void {

@@ -1,8 +1,15 @@
+/* Police unique de l'app (embarquée via @fontsource/poppins, voir angular.json) */
+$font-family-app: "Poppins", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+
+:root {
+  --bs-body-font-family: #{$font-family-app};
+}
+
 html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-  font-family: 'Arial', sans-serif;
+  font-family: $font-family-app;
 }
 
 .cursor-pointer {

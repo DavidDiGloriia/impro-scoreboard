@@ -6,8 +6,10 @@ import {ImproData} from "@models/impro-data";
 import {FormatImproHeaderPipe} from "@pipes/format-impro-header.pipe";
 import {NgStyle, TitleCasePipe} from "@angular/common";
 import {FormatTimePipe} from "@pipes/format-time.pipe";
+import {JoinNonEmptyPipe} from "@pipes/join-non-empty.pipe";
 import {ProjectionMode} from "@enums/projection-mode.enum";
 import {ImproDataService} from "@services/impro-data.service";
+import {TeamLayoutComponent} from "@components/projection/team-layout/team-layout.component";
 
 @Component({
   selector: 'app-scoreboard',
@@ -16,7 +18,9 @@ import {ImproDataService} from "@services/impro-data.service";
     FormatImproHeaderPipe,
     TitleCasePipe,
     FormatTimePipe,
-    NgStyle
+    JoinNonEmptyPipe,
+    NgStyle,
+    TeamLayoutComponent
   ],
   templateUrl: './scoreboard.component.html',
   styleUrl: './scoreboard.component.scss'

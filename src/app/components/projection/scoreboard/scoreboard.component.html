@@ -3,6 +3,10 @@
      [ngStyle]="containerStyle()"
      [class.pushed-on-top]="projectionMode() === ProjectionMode.PUSHED_ON_TOP"
   >
+    <!-- Décors de coin en fond : équipe A à gauche, équipe B à droite -->
+    <app-team-layout class="layout layout-left" [team]="gameData().teamA" side="left"/>
+    <app-team-layout class="layout layout-right" [team]="gameData().teamB" side="right"/>
+
     <div class="top-section"
          [class.pushed-on-top]="projectionMode() === ProjectionMode.PUSHED_ON_TOP"
     >
@@ -33,14 +37,12 @@
         <div class="theme-box"
              [class.pushed-on-top]="projectionMode() === ProjectionMode.PUSHED_ON_TOP"
         >
+          <!-- type ∙ nombre de joueurs ∙ catégorie, sur une ligne au-dessus du titre -->
           <div class="theme-type" id="theme-type">
-            {{ improData() | formatImproHeader }}
+            {{ [improData() | formatImproHeader, improData().category | titlecase] | joinNonEmpty:' ∙ ' }}
           </div>
           <div class="theme-title" id="theme-title">
             {{  improData().title }}
-          </div>
-          <div class="theme-style" id="theme-style">
-            {{  (improData().category | titlecase) }}
           </div>
         </div>
       </div>

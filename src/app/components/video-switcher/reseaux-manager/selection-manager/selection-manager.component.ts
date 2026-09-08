@@ -60,10 +60,10 @@ export class SelectionManagerComponent {
   readonly GOLD = '#D4AF37';
 
   readonly VAREUSE_OPTIONS = [
-    {key: 'pythons', label: '🐍', color: '#33cc33'},
-    {key: 'requins', label: '🦈', color: '#3399ff'},
-    {key: 'lions', label: '🦁', color: '#ff4d4d'},
-    {key: 'aigles', label: '🦅', color: '#f5c400'},
+    {key: 'pythons', label: '🐍', color: '#15ab15'},
+    {key: 'requins', label: '🦈', color: '#3399cc'},
+    {key: 'lions', label: '🦁', color: '#ff3333'},
+    {key: 'aigles', label: '🦅', color: '#fac019'},
   ];
 
   readonly suggestedLocations = [

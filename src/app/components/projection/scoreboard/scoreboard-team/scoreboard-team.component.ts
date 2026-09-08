@@ -45,7 +45,7 @@ export class ScoreboardTeamComponent {
     if (!this.teamMetadata()) {
       return {};
     }
-    const color = this.teamMetadata().color ?? '#ff4d4d';
+    const color = this.teamMetadata().color ?? '#ff3333';
 
     const bgColor = this._hexToRgba(color, 0.15);
     const textShadow = `0 0 8px ${this._hexToRgba(color, 0.7)}`;

@@ -1,4 +1,5 @@
 .myContainer {
+  position: relative;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
@@ -6,8 +7,31 @@
   margin: 0;
   background: black;
   color: #fff;
-  font-family: Arial, sans-serif;
   overflow: hidden;
+}
+
+/* Décors de coin des deux équipes, en fond et atténués pour laisser les scores lisibles. */
+.layout {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  z-index: 0;
+  opacity: 0.55;
+}
+
+.layout-left {
+  left: 0;
+}
+
+.layout-right {
+  right: 0;
+}
+
+/* Le contenu passe devant les décors */
+.top-section,
+.bottom-section {
+  position: relative;
+  z-index: 1;
 }
 
 :host ::ng-deep body {
@@ -118,17 +142,17 @@
 }
 
 #score-a {
-  color: #ff4d4d;
-  background-color: rgba(255, 77, 77, 0.15);
-  border: 0.3rem solid #ff4d4d;
-  box-shadow: 0 0 15px rgba(255, 77, 77, 0.5);
+  color: #ff3333;
+  background-color: rgba(255, 51, 51, 0.15);
+  border: 0.3rem solid #ff3333;
+  box-shadow: 0 0 15px rgba(255, 51, 51, 0.5);
 }
 
 #score-b {
-  color: #3399ff;
-  background-color: rgba(51, 153, 255, 0.15);
-  border: 0.3rem solid #3399ff;
-  box-shadow: 0 0 15px rgba(51, 153, 255, 0.5);
+  color: #3399cc;
+  background-color: rgba(51, 153, 204, 0.15);
+  border: 0.3rem solid #3399cc;
+  box-shadow: 0 0 15px rgba(51, 153, 204, 0.5);
 }
 
 .fautes {
@@ -211,9 +235,8 @@
   background-color: white;
 }
 
+/* Thème de l'impro : texte seul, sans cadre */
 .theme-box {
-  background-color: #202020;
-  border-radius: 1rem;
   padding: 5% 5%;
   width: 96%;
   max-width: 96%;
@@ -246,11 +269,6 @@
   text-transform: uppercase;
 }
 
-.theme-style {
-  font-size: clamp(1rem, 2vw, 2rem);
-  color: #ccc;
-  margin-top: 1rem;
-}
 
 @media (max-width: 768px) {
   .total-timer {
@@ -300,7 +318,4 @@
     font-size: clamp(2rem, 6vw, 4rem);
   }
 
-  .theme-style {
-    font-size: clamp(1rem, 4vw, 2rem);
-  }
 }

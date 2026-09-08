@@ -1,6 +1,5 @@
 :host {
   display: block;
-  font-family: "Poppins", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
   color: #fff;
 }
 
@@ -34,15 +33,12 @@
   filter: grayscale(100%);
 }
 
-/* Décors de coin (SVG Figma, 551 x 1080) : pleine hauteur, par-dessus la vidéo (fond noir), sous la légende. */
+/* Décors de coin : pleine hauteur, par-dessus la vidéo (fond noir), sous la légende. */
 .corner {
   position: absolute;
   top: 0;
   height: 100%;
-  width: auto;
   z-index: 2;
-  pointer-events: none;
-  user-select: none;
   opacity: 0;
   animation: fadeIn 0.9s 0.2s forwards;
 }

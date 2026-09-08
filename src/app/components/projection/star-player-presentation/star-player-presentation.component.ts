@@ -1,4 +1,4 @@
-import {Component, computed, effect, input, InputSignal, Signal, signal} from '@angular/core';
+import {Component, computed, input, InputSignal, Signal} from '@angular/core';
 import {NgStyle, UpperCasePipe} from "@angular/common";
 import {find, keyBy} from "lodash-es";
 import {ImproDataService} from "@services/impro-data.service";
@@ -12,6 +12,7 @@ import {StarPlayer} from "@models/star-player";
 import {RoleNamePipe} from "@pipes/role-name.pipe";
 import {PlayerMediaComponent} from "@components/projection/player-media/player-media.component";
 import {whiteLogoForColor} from "@constants/logo.constants";
+import {TeamLayoutComponent} from "@components/projection/team-layout/team-layout.component";
 
 /**
  * Écran "étoiles individuelles" : le joueur sélectionné depuis le video-switcher
@@ -23,7 +24,8 @@ import {whiteLogoForColor} from "@constants/logo.constants";
     NgStyle,
     UpperCasePipe,
     RoleNamePipe,
-    PlayerMediaComponent
+    PlayerMediaComponent,
+    TeamLayoutComponent
   ],
   templateUrl: './star-player-presentation.component.html',
   styleUrl: './star-player-presentation.component.scss'
@@ -73,22 +75,6 @@ export class StarPlayerPresentationComponent {
   /** Logo improvisation.be à la couleur de l'équipe du joueur (mono si aucun joueur). */
   logoSrc: Signal<string> = computed(() => whiteLogoForColor(this.teamMetadata()?.color));
 
-  /** Déclinaison de décor utilisée quand l'équipe n'a pas (encore) la sienne dans assets/layout. */
-  private static readonly DEFAULT_LAYOUT = 'lions';
-
-  /** true si le décor de l'équipe courante n'existe pas : on retombe sur la déclinaison par défaut. */
-  private _cornerMissing = signal(false);
-
-  /** Chemin du décor de coin pour l'équipe du joueur sélectionné. */
-  cornerSrc(side: 'left' | 'right'): string {
-    const code = this._cornerMissing() ? StarPlayerPresentationComponent.DEFAULT_LAYOUT
-      : (this.teamMetadata()?.code || StarPlayerPresentationComponent.DEFAULT_LAYOUT);
-    return `assets/layout/${code}-${side}.svg`;
-  }
-
-  onCornerMissing(): void {
-    this._cornerMissing.set(true);
-  }
 
 
   constructor(private _improDataService: ImproDataService) {

@@ -5,7 +5,7 @@
          [style.object-fit]="fit()"
          [src]="video()"
          autoplay
-         muted
+         [muted]="true"
          playsinline
          preload="auto"
          (loadedmetadata)="onVideoLoaded($event)"

@@ -9,10 +9,9 @@
       @for (star of [starPlayer()]; track star.team + '/' + star.role) {
         <div class="star-card" [style.--team-color]="teamMetadata()?.color">
 
-          <!-- Décors de coin (export Figma) : assets/layout/<équipe>-left.svg et -right.svg.
-               Repli sur la déclinaison Lions si l'équipe n'a pas encore la sienne. -->
-          <img class="corner corner-left" [src]="cornerSrc('left')" (error)="onCornerMissing()" alt=""/>
-          <img class="corner corner-right" [src]="cornerSrc('right')" (error)="onCornerMissing()" alt=""/>
+          <!-- Décors de coin de l'équipe du joueur -->
+          <app-team-layout class="corner corner-left" [team]="team()" side="left"/>
+          <app-team-layout class="corner corner-right" [team]="team()" side="right"/>
 
           <app-player-media class="star-media"
                             [img]="playerImg()"
