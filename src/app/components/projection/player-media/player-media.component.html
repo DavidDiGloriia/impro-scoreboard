@@ -1,0 +1,14 @@
+@if (!video() || videoFailed()) {
+  <img [src]="img()" [alt]="alt()" class="player-photo" [style.object-fit]="fit()"/>
+} @else {
+  <video class="player-video"
+         [style.object-fit]="fit()"
+         [src]="video()"
+         autoplay
+         muted
+         playsinline
+         preload="auto"
+         (loadedmetadata)="onVideoLoaded($event)"
+         (error)="onVideoError()">
+  </video>
+}

@@ -22,6 +22,9 @@ import {Team} from "@models/team";
 import {
   DisplayPubsManagerComponent
 } from "@components/video-switcher/match-manager/display-pubs-manager/display-pubs-manager.component";
+import {
+  DisplayStarPlayerManagerComponent
+} from "@components/video-switcher/match-manager/display-star-player-manager/display-star-player-manager.component";
 
 @Component({
   selector: 'app-match-manager',
@@ -32,7 +35,8 @@ import {
     DisplayMediaManagerComponent,
     DisplayAnthemManagerComponent,
     DisplayTeamManagerComponent,
-    DisplayPubsManagerComponent
+    DisplayPubsManagerComponent,
+    DisplayStarPlayerManagerComponent
   ],
   templateUrl: './match-manager.component.html',
   styleUrl: './match-manager.component.scss'

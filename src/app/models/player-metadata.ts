@@ -35,6 +35,11 @@ export class PlayerMetadata {
     return this._dto.img;
   }
 
+  /** Vidéo du joueur : même chemin que l'image de base, avec l'extension .mp4. */
+  get videoSrc(): string | undefined {
+    return this._dto.img ? `${this._dto.img}.mp4` : undefined;
+  }
+
   get isFemale(): boolean {
     return this._dto.femme || false;
   }

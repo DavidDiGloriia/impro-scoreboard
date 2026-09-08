@@ -6,3 +6,4 @@ export * from './player.dto';
 export * from './impro-data.dto';
 export * from './timer-handling.dto';
 export * from './media-handling.dto';
+export * from './star-player.dto';

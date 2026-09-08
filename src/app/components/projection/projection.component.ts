@@ -16,6 +16,9 @@ import {
 import {
   ProjectionHandlingHelperComponent
 } from "@components/projection/projection-handling-helper/projection-handling-helper.component";
+import {
+  StarPlayerPresentationComponent
+} from "@components/projection/star-player-presentation/star-player-presentation.component";
 
 @Component({
   selector: 'app-projection',
@@ -28,7 +31,8 @@ import {
     AnthemComponent,
     PubsWatcherComponent,
     BothTeamsPresentationComponent,
-    ProjectionHandlingHelperComponent
+    ProjectionHandlingHelperComponent,
+    StarPlayerPresentationComponent
   ],
   templateUrl: './projection.component.html',
   styleUrl: './projection.component.scss',

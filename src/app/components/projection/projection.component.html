@@ -21,6 +21,9 @@
                                  [projectionMode]="gameData.value().projectionMode"
     />
   }
+  @case (DisplayedScreen.STAR_PLAYER) {
+    <app-star-player-presentation [projectionMode]="gameData.value().projectionMode"/>
+  }
   @case (DisplayedScreen.MEDIA) {
     <app-media-watcher [projectionMode]="gameData.value().projectionMode"/>
   }

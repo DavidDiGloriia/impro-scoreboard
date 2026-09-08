@@ -1,0 +1,41 @@
+<div [ngStyle]="screenStyle()">
+  <div class="main-container"
+       [class.pushed-on-top]="projectionMode() === ProjectionMode.PUSHED_ON_TOP"
+       [ngStyle]="containerStyle()">
+
+    @if (starPlayer().isSet && player()) {
+      @let role = starPlayer().role;
+      <!-- La clé (équipe + rôle) force la recréation du bloc, donc le redémarrage de la vidéo et des animations. -->
+      @for (star of [starPlayer()]; track star.team + '/' + star.role) {
+        <div class="star-card" [style.--team-color]="teamMetadata()?.color">
+
+          <!-- Décors de coin (export Figma) : assets/layout/<équipe>-left.svg et -right.svg.
+               Repli sur la déclinaison Lions si l'équipe n'a pas encore la sienne. -->
+          <img class="corner corner-left" [src]="cornerSrc('left')" (error)="onCornerMissing()" alt=""/>
+          <img class="corner corner-right" [src]="cornerSrc('right')" (error)="onCornerMissing()" alt=""/>
+
+          <app-player-media class="star-media"
+                            [img]="playerImg()"
+                            [video]="playerMetadata()?.videoSrc"
+                            [alt]="player()?.code"
+                            fit="contain"/>
+
+          <!-- Rôle + nom – numéro, centrés en bas -->
+          <div class="caption">
+            @if (role !== 'Joueur') {
+              <div class="player-position">{{ role | roleName:playerMetadata()?.isFemale }}</div>
+            }
+            <div class="player-name">
+              {{ playerMetadata()?.displayName | uppercase }}@if (player()?.number) {<span class="separator">–</span>{{ player()?.number }}}
+            </div>
+          </div>
+        </div>
+      }
+    } @else {
+      <div class="empty-state">
+        <img [src]="logoSrc()" alt="improvisation.be" class="impro-logo"/>
+        <div class="empty-title">LES ÉTOILES</div>
+      </div>
+    }
+  </div>
+</div>

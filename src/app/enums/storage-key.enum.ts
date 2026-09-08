@@ -8,4 +8,5 @@ export enum StorageKey {
   PUBS = 'pubs',
   ANTHEM = 'anthem',
   PROJECTION_DATA = 'projectionData',
+  STAR_PLAYER = 'starPlayer',
 }

@@ -35,6 +35,11 @@
             [class.active]="displayedScreen.value() === DisplayedScreen.BOTH_TEAMS"
             (click)="displayScreen(DisplayedScreen.BOTH_TEAMS)">ÉTOILES PUBLIC
     </button>
+    <button *ngIf="gameData.value().teamA.name"
+            class="btn btn-outline-primary btn-lg flex-fill"
+            [class.active]="displayedScreen.value() === DisplayedScreen.STAR_PLAYER"
+            (click)="displayScreen(DisplayedScreen.STAR_PLAYER)">ÉTOILES INDIVIDUELLES
+    </button>
   </div>
 
   @switch (displayedScreen.value()) {
@@ -49,6 +54,9 @@
     }
     @case (DisplayedScreen.PUBS) {
       <app-display-pubs-manager/>
+    }
+    @case (DisplayedScreen.STAR_PLAYER) {
+      <app-display-star-player-manager/>
     }
     @case (DisplayedScreen.TEAM_A) {
       @if (!gameData.value().automaticPlayerPresentation) {

@@ -21,6 +21,8 @@ import {ProjectionDataDto} from "../dtos/projection-data.dto";
 import {whiteLogoForColor} from "@constants/logo.constants";
 import {find} from "lodash-es";
 import {Team} from "@models/team";
+import {StarPlayer} from "@models/star-player";
+import {StarPlayerDto} from "../dtos/star-player.dto";
 
 @Injectable({
   providedIn: 'root'
@@ -72,6 +74,11 @@ export class ImproDataService {
         case StorageKey.PROJECTION_DATA.toString(): {
           const dto = JSON.parse(event.newValue || '{}') as ProjectionDataDto;
           this.projectionData.set(new ProjectionData(dto));
+          break;
+        }
+        case StorageKey.STAR_PLAYER.toString(): {
+          const dto = JSON.parse(event.newValue || '{}') as StarPlayerDto;
+          this.starPlayer.set(new StarPlayer(dto));
           break;
         }
       }
@@ -168,6 +175,12 @@ export class ImproDataService {
     defaultValue: DisplayedScreen.MATCH
   });
 
+  /** Joueur mis à l'honneur sur l'écran "étoiles individuelles". */
+  public starPlayer: ResourceRef<StarPlayer> = rxResource({
+    loader: () => this.getStarPlayer(),
+    defaultValue: StarPlayer.none()
+  });
+
   getTeams(): Observable<Record<string, TeamMetadata>> {
     return this._httpClient.get<Record<string, TeamMetadataDto>>('assets/data/equipes.json').pipe(
       map(dtoRecord =>
@@ -225,6 +238,9 @@ export class ImproDataService {
 
     this._storageService.clear(StorageKey.ANTHEM);
     this.anthemLine.set('');
+
+    this._storageService.clear(StorageKey.STAR_PLAYER);
+    this.starPlayer.set(StarPlayer.none());
   }
 
   saveGameData(gameData: GameData): Observable<GameData> {
@@ -287,6 +303,20 @@ export class ImproDataService {
     return of(this._storageService.save<TimerHandlingDto>(StorageKey.ROUND_TIMER, timer.toDto()))
       .pipe(
         map((dto) => new TimerHandling(dto))
+      );
+  }
+
+  getStarPlayer(): Observable<StarPlayer> {
+    return of(this._storageService.read<StarPlayerDto>(StorageKey.STAR_PLAYER))
+      .pipe(
+        map((dto: StarPlayerDto) => new StarPlayer(dto))
+      );
+  }
+
+  saveStarPlayer(starPlayer: StarPlayer): Observable<StarPlayer> {
+    return of(this._storageService.save<StarPlayerDto>(StorageKey.STAR_PLAYER, starPlayer.toDto()))
+      .pipe(
+        map((dto) => new StarPlayer(dto))
       );
   }
 
