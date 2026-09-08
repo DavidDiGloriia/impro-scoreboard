@@ -24,6 +24,7 @@
   box-sizing: border-box;
   height: auto;           /* hauteur dynamique */
   max-height: 50vh;       /* jamais dépasser 50% de la fenêtre */
+  justify-content: center; /* rangée centrée quand les cartes sont plafonnées */
 }
 
 /* Barre de joueur - largeur flexible et hauteur proportionnelle */
@@ -37,6 +38,7 @@
   transform: translateX(-30px);
   height: 20vw;
   max-height: 100%;       /* jamais dépasser le container */
+  max-width: calc(20vw * 0.85); /* pas de cartes trop larges avec peu de joueurs */
 }
 
 /* Image du joueur */

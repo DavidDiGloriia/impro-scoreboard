@@ -27,3 +27,17 @@
 
   height: 100%; /* prend la hauteur du container */
 }
+
+/* Les deux rangées occupent la hauteur disponible et sont centrées verticalement ;
+   en mode "en hauteur" (projecteur près du sol) elles restent en haut. */
+.teams-wrapper {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  justify-content: center;
+  gap: 2vh;
+}
+
+.teams-wrapper.pushed-on-top {
+  justify-content: flex-start;
+}
