@@ -6,6 +6,7 @@ export interface TeamMetadataDto {
   groupe?: string;
   icone?: string;
   playerImgFallback?: string;
+  /** Suffixe ajouté au chemin de base des joueurs, sans extension (ex. "-lions"). */
   playerImgSuffix?: string;
   shortName?: string;
 }

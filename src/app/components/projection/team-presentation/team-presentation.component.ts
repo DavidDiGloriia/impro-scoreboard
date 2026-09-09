@@ -9,6 +9,8 @@ import {KeyValueNoSortPipe} from "@pipes/key-value-no-sort.pipe";
 import {RoleNamePipe} from "@pipes/role-name.pipe";
 import {Player} from "@models/player";
 import {whiteLogoForColor} from "@constants/logo.constants";
+import {TeamLayoutComponent} from "@components/projection/team-layout/team-layout.component";
+import {TeamMascotComponent} from "@components/projection/team-mascot/team-mascot.component";
 
 @Component({
   selector: 'app-team-presentation',
@@ -17,7 +19,9 @@ import {whiteLogoForColor} from "@constants/logo.constants";
     KeyValueNoSortPipe,
     UpperCasePipe,
     RoleNamePipe,
-    NgStyle
+    NgStyle,
+    TeamLayoutComponent,
+    TeamMascotComponent
   ],
   templateUrl: './team-presentation.component.html',
   styleUrl: './team-presentation.component.scss'

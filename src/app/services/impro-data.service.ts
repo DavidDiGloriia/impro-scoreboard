@@ -2,10 +2,10 @@ import {computed, Injectable, ResourceRef} from "@angular/core";
 import {LocalStorageService} from "@services/storage.service";
 import {HttpClient} from "@angular/common/http";
 import {GameDataDto, ImproDataDto, PlayerMetadataDto, TeamMetadataDto, TimerHandlingDto} from "../dtos";
-import {PlayerMetadata} from "@models/player-metadata";
+import {PhotosManifest, PlayerMetadata} from "@models/player-metadata";
 import {map} from "rxjs/operators";
 import {mapValues} from "lodash-es";
-import {Observable, of} from "rxjs";
+import {forkJoin, Observable, of} from "rxjs";
 import {TeamMetadata} from "@models/team-metadata";
 import {GameData} from "@models/game-data";
 import {StorageKey} from "@enums/storage-key.enum";
@@ -211,9 +211,13 @@ export class ImproDataService {
     return of(this._storageService.read<DisplayedScreen>(StorageKey.DISPLAYED_SCREEN));
   }
 
+  /** Joueurs + manifeste des photos (généré par scripts/photos-manifest.js), pour résoudre l'extension des photos. */
   getPlayers(): Observable<PlayerMetadata[]> {
-    return this._httpClient.get<PlayerMetadataDto[]>('assets/data/joueurs.json').pipe(
-      map(dtoArray => dtoArray.map(dto => new PlayerMetadata(dto)))
+    return forkJoin({
+      players: this._httpClient.get<PlayerMetadataDto[]>('assets/data/joueurs.json'),
+      photos: this._httpClient.get<PhotosManifest>('assets/data/photos.json'),
+    }).pipe(
+      map(({players, photos}) => players.map(dto => new PlayerMetadata(dto, photos)))
     );
   }
 

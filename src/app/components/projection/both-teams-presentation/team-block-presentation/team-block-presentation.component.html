@@ -7,8 +7,7 @@
         @let playerValue = player.value;
         @let playerMetadata = playersByCode()[playerValue.code];
         <div class="player-bar">
-          @let
-          playerImg = playerMetadata?.img ? playerMetadata?.img + teamMetadata().playerImgSuffix : teamMetadata()?.playerImgFallback;
+          @let playerImg = playerMetadata?.imgSrc(teamMetadata()) ?? teamMetadata()?.playerImgFallback;
           <img [src]="playerImg" [alt]="playerValue.code"
                class="player-photo"/>
           <div *ngIf="playerValue.number" class="player-number">#{{ playerValue.number }}</div>

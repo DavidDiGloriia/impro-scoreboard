@@ -3,6 +3,10 @@
   class="screen-saver bg-black text-white vh-100 d-flex flex-column justify-content-center align-items-center overflow-hidden"
   [class.pushed-on-top]="projectionMode() === ProjectionMode.PUSHED_ON_TOP">
 
+  <!-- Décors de coin en fond : équipe A à gauche, équipe B à droite, comme sur le scoreboard -->
+  <app-team-layout class="layout layout-left" [team]="gameData.value().teamA" side="left"/>
+  <app-team-layout class="layout layout-right" [team]="gameData.value().teamB" side="right"/>
+
   <img [src]="logoSrc()" alt="Improvisation.be" class="screen-saver-logo"/>
 
   <span class="fs-3 text-secondary screen-saver-subtitle">Suivez-nous sur les réseaux sociaux !</span>

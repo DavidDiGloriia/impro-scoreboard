@@ -4,6 +4,30 @@
   --qr-gap: 6vw;
 
   padding: 5vh 5vw;
+  position: relative;
+}
+
+/* Décors de coin des deux équipes, en fond et atténués pour laisser le contenu lisible. */
+.layout {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  z-index: 0;
+  opacity: 0.55;
+}
+
+.layout-left {
+  left: 0;
+}
+
+.layout-right {
+  right: 0;
+}
+
+/* Le contenu passe devant les décors */
+.screen-saver > :not(.layout) {
+  position: relative;
+  z-index: 1;
 }
 
 .screen-saver-logo {

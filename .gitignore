@@ -50,3 +50,6 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# Binaire compilé de scripts/detect-faces.swift
+scripts/.cache

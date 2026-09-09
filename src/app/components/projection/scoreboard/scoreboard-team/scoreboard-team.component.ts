@@ -5,6 +5,7 @@ import { Team } from '@models/team';
 import {ImproDataService} from "@services/impro-data.service";
 import { find } from 'lodash-es';
 import {TeamMetadata} from "@models/team-metadata";
+import {TeamMascotComponent} from "@components/projection/team-mascot/team-mascot.component";
 
 @Component({
   selector: 'app-scoreboard-team',
@@ -12,7 +13,8 @@ import {TeamMetadata} from "@models/team-metadata";
     NgTemplateOutlet,
     NgClass,
     NgStyle,
-    JsonPipe
+    JsonPipe,
+    TeamMascotComponent
   ],
   templateUrl: './scoreboard-team.component.html',
   styleUrl: './scoreboard-team.component.scss'
@@ -32,14 +34,6 @@ export class ScoreboardTeamComponent {
       return team.name === this.team().name;
     });
   })
-
-  photoClass: Signal<string> = computed(() => {
-    if (!this.teamMetadata() &&  this.teamMetadata().group !== 'animaux') {
-      return '';
-    }
-
-    return `photo-${this.teamNumber()}-${this.teamMetadata().code}`;
-  });
 
   scoreStyle: Signal<Record<string, string>> = computed(() => {
     if (!this.teamMetadata()) {

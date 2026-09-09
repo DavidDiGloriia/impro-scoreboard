@@ -3,7 +3,7 @@
     "nom": "Les Pythons",
     "shortName": "Pythons",
     "icone": "🐍",
-    "playerImgSuffix": "-pythons-Photoroom.jpg",
+    "playerImgSuffix": "-pythons",
     "img": "assets/equipes/pythons.png",
     "couleur": "#15ab15",
     "groupe": "animaux",
@@ -20,7 +20,7 @@
     "nom": "Les Requins",
     "shortName": "Requins",
     "playerImgFallback": "assets/equipes/requins-player-fallback.jpg",
-    "playerImgSuffix": "-requins-Photoroom.jpg",
+    "playerImgSuffix": "-requins",
     "icone": "🦈",
     "img": "assets/equipes/requins.png",
     "couleur":  "#3399cc",
@@ -36,7 +36,7 @@
   "lions": {
     "nom": "Les Lions",
     "shortName": "Lions",
-    "playerImgSuffix": "-lions-Photoroom.jpg",
+    "playerImgSuffix": "-lions",
     "icone": "🦁",
     "groupe": "animaux",
     "couleur": "#ff3333",
@@ -53,7 +53,7 @@
   "aigles": {
     "nom": "Les Aigles",
     "shortName": "Aigles",
-    "playerImgSuffix": "-aigles-Photoroom.jpg",
+    "playerImgSuffix": "-aigles",
     "groupe": "animaux",
     "icone": "🦅",
     "img": "assets/equipes/aigles.png",
@@ -70,7 +70,7 @@
   "verts": {
     "nom": "Les Verts",
     "shortName": "Verts",
-    "playerImgSuffix": "-pythons-Photoroom.jpg",
+    "playerImgSuffix": "-pythons",
     "groupe": "couleurs",
     "icone": "🟢",
     "playerImgFallback": "assets/equipes/pythons-player-fallback.jpg",
@@ -86,7 +86,7 @@
   "bleus": {
     "nom": "Les Bleus",
     "shortName": "Bleus",
-    "playerImgSuffix": "-requins-Photoroom.jpg",
+    "playerImgSuffix": "-requins",
     "playerImgFallback": "assets/equipes/requins-player-fallback.jpg",
     "groupe": "couleurs",
     "icone": "🔵",
@@ -103,7 +103,7 @@
   "rouges": {
     "nom": "Les Rouges",
     "shortName": "Rouges",
-    "playerImgSuffix": "-lions-Photoroom.jpg",
+    "playerImgSuffix": "-lions",
     "playerImgFallback": "assets/equipes/lions-player-fallback.jpg",
     "groupe": "couleurs",
     "icone": "🔴",
@@ -119,7 +119,7 @@
   "blancs": {
     "nom": "Les Blancs",
     "shortName": "Blancs",
-    "playerImgSuffix": "-aigles-Photoroom.jpg",
+    "playerImgSuffix": "-aigles",
     "groupe": "couleurs",
     "playerImgFallback": "assets/equipes/aigles-player-fallback.jpg",
     "icone": "⚪",

@@ -51,7 +51,7 @@ export class DisplayStarPlayerManagerComponent {
   playerImg(team: Team, code: string): string {
     const metadata = this.teamMetadata(team);
     const playerMetadata = this.playersByCode()[code];
-    return playerMetadata?.img ? playerMetadata.img + (metadata?.playerImgSuffix ?? '') : metadata?.playerImgFallback;
+    return playerMetadata?.imgSrc(metadata) ?? metadata?.playerImgFallback;
   }
 
   hasVideo(code: string): boolean {

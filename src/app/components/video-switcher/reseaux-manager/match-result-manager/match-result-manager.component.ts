@@ -11,7 +11,7 @@ import {find, keyBy} from 'lodash-es';
 import {toPng} from 'html-to-image';
 import {Role} from '@enums/role.enum';
 import {ResolvedPlayer} from '../selection-manager/selection-manager.component';
-import facePositions from '@assets/data/face-positions.json';
+import {facePosition} from '@models/face-position';
 import {SearchableSelectComponent, SelectOption} from '@components/searchable-select/searchable-select.component';
 
 registerLocaleData(localeFr);
@@ -147,23 +147,22 @@ export class MatchResultManagerComponent {
 
   getPlayerImg(resolved: ResolvedPlayer): string {
     if (!resolved.metadata?.img || !resolved.teamMetadata) return '';
-    return resolved.metadata.img + resolved.teamMetadata.playerImgSuffix;
+    return resolved.metadata.imgSrc(resolved.teamMetadata);
   }
-
-  private static readonly SCALE_OVERRIDES: Record<string, number> = {
-    'assets/joueurs/doc': 2.8,
-    'assets/joueurs/antoine': 2.5,
-  };
 
   getTeamColor(resolved: ResolvedPlayer): string {
     return resolved.teamMetadata?.color || '#666';
   }
 
   getFacePosition(resolved: ResolvedPlayer): string {
-    const src = this.getPlayerImg(resolved);
-    const pos = (facePositions as Record<string, { x: number; y: number }>)[src];
+    const pos = facePosition(resolved.metadata?.imgKey(resolved.teamMetadata));
     return pos ? `${pos.x}% ${pos.y - 10}%` : 'center 5%';
   }
+
+  private static readonly SCALE_OVERRIDES: Record<string, number> = {
+    'assets/joueurs/doc': 2.8,
+    'assets/joueurs/antoine': 2.5,
+  };
 
   getPlayerScale(resolved: ResolvedPlayer): string {
     const img = resolved.metadata?.img;

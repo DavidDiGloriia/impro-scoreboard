@@ -30,8 +30,6 @@
 
 <ng-template #teamImg>
   <div class="team-img-wrapper">
-    <img [src]="team().img || teamMetadata()?.img"
-         [class]="photoClass()"
-         alt="Membre équipe">
+    <app-team-mascot [team]="team()" [side]="teamNumber()"/>
   </div>
 </ng-template>

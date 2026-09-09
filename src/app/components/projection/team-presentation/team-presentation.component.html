@@ -6,12 +6,6 @@
       @let animation = gameData.value().automaticPlayerPresentation ? (playersCount()) * 0.4 + 's' : '0.4sec';
 
       <div class="team-branding">
-        <img *ngIf="team().img || teamMetadata()?.img"
-             [src]="team().img || teamMetadata()?.img"
-             [style.animationDelay]="animation"
-             class="team-logo"
-             alt="Logo équipe"/>
-
         <img [src]="logoSrc()"
              [style.animationDelay]="animation"
              class="impro-logo"
@@ -30,10 +24,16 @@
         @let animation = gameData.value().automaticPlayerPresentation ? (i + 1) * 0.4 + 's' : '0.4sec';
         <div class="player-bar"
              [style.animationDelay]="animation">
-          @let
-          playerImg = playerMetadata?.img ? playerMetadata?.img + teamMetadata().playerImgSuffix : teamMetadata()?.playerImgFallback;
-          <img [src]="playerImg" [alt]="playerValue.code"
-               class="player-photo"/>
+          <!-- Décors de l'équipe dans le fond de la carte, visibles derrière les photos détourées -->
+          <app-team-layout class="card-layout card-layout-left" [team]="team()" side="left"/>
+          <app-team-layout class="card-layout card-layout-right" [team]="team()" side="right"/>
+          @if (playerMetadata?.hasPhoto(teamMetadata())) {
+            <img [src]="playerMetadata.imgSrc(teamMetadata())" [alt]="playerValue.code"
+                 class="player-photo"/>
+          } @else {
+            <!-- Pas de photo : la mascotte remplit la carte, cadrée comme sur l'écran de match -->
+            <app-team-mascot class="player-mascot" [team]="team()"/>
+          }
           <div *ngIf="playerValue.number" class="player-number">#{{ playerValue.number }}</div>
           <div class="overlay">
             <div *ngIf="player.key !== 'Joueur'" class="player-position">

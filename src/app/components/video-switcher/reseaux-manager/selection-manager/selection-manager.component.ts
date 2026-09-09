@@ -13,7 +13,7 @@ import {toPng} from 'html-to-image';
 import JSZip from 'jszip';
 import {Role} from '@enums/role.enum';
 import {RoleNamePipe} from '@pipes/role-name.pipe';
-import facePositions from '@assets/data/face-positions.json';
+import {facePosition} from '@models/face-position';
 import {MatchResultManagerComponent} from '../match-result-manager/match-result-manager.component';
 
 registerLocaleData(localeFr);
@@ -126,21 +126,18 @@ export class SelectionManagerComponent {
   constructor(private _improDataService: ImproDataService) {
   }
 
+  getFacePosition(resolved: ResolvedPlayer): string {
+    const pos = facePosition(resolved.metadata?.imgKey(resolved.teamMetadata));
+    return pos ? `${pos.x}% ${pos.y - 20}%` : 'center -5%';
+  }
+
   private static readonly SCALE_OVERRIDES: Record<string, number> = {
-    'assets/joueurs/doc': 2.1,
-    'assets/joueurs/antoine': 1.8,
     'assets/joueurs/charlotte-otlet': 1.3,
     'assets/joueurs/gab-de-pat': 1.3,
     'assets/joueurs/david-di-gloria': 1.65,
     'assets/joueurs/lenny-b-conil': 1.4,
     'assets/joueurs/elodie': 1.4,
   };
-
-  getFacePosition(resolved: ResolvedPlayer): string {
-    const src = this.getPlayerImg(resolved);
-    const pos = (facePositions as Record<string, { x: number; y: number }>)[src];
-    return pos ? `${pos.x}% ${pos.y - 20}%` : 'center -5%';
-  }
 
   getPlayerScale(resolved: ResolvedPlayer): string {
     const img = resolved.metadata?.img;
@@ -151,7 +148,7 @@ export class SelectionManagerComponent {
 
   getPlayerImg(resolved: ResolvedPlayer): string {
     if (!resolved.metadata?.img || !resolved.teamMetadata) return '';
-    return resolved.metadata.img + resolved.teamMetadata.playerImgSuffix;
+    return resolved.metadata.imgSrc(resolved.teamMetadata);
   }
 
   getTeamColor(resolved: ResolvedPlayer): string {
