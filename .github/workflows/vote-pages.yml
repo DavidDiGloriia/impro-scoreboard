@@ -34,6 +34,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      - name: ImageMagick (vignettes WebP)
+        run: sudo apt-get update -q && sudo apt-get install -y -q imagemagick
       - name: Vignettes et données
         run: node scripts/vote-build.js
       - uses: actions/configure-pages@v5
