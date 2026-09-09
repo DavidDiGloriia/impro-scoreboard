@@ -17,12 +17,13 @@ export class DisplayVoteManagerComponent {
   matchId: Signal<string> = computed(() => voteMatchId(this._improDataService.gameData.value(), this._improDataService.teams.value()));
   url: Signal<string> = computed(() => voteUrl(this._improDataService.gameData.value(), this._improDataService.teams.value()));
 
-  copied = signal(false);
+  /** Quel lien vient d'être copié, pour le retour visuel sur le bouton. */
+  copied = signal<'vote' | 'results' | null>(null);
 
-  copyUrl(): void {
-    navigator.clipboard?.writeText(this.url()).then(() => {
-      this.copied.set(true);
-      setTimeout(() => this.copied.set(false), 2000);
+  copy(text: string, which: 'vote' | 'results'): void {
+    navigator.clipboard?.writeText(text).then(() => {
+      this.copied.set(which);
+      setTimeout(() => this.copied.set(null), 2000);
     });
   }
 }

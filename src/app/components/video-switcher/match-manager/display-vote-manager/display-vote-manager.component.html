@@ -10,10 +10,13 @@
       <dd><code>{{ matchId() }}</code></dd>
       <dt>Lien de vote</dt>
       <dd class="vote-url"><code>{{ url() }}</code></dd>
+      <dt>Résultats</dt>
+      <dd class="vote-url"><code class="results-url">{{ resultsUrl }}</code><br>
+        <span class="text-muted">À ouvrir sur ton téléphone ou dans un navigateur, connexion Google.</span></dd>
     </dl>
     <div class="d-flex gap-2 mt-3">
-      <button class="btn btn-outline-secondary" (click)="copyUrl()">{{ copied() ? 'Lien copié' : 'Copier le lien de vote' }}</button>
-      <a class="btn btn-outline-primary" [href]="resultsUrl" target="_blank" rel="noopener">Voir les résultats</a>
+      <button class="btn btn-outline-secondary" (click)="copy(url(), 'vote')">{{ copied() === 'vote' ? 'Lien copié' : 'Copier le lien de vote' }}</button>
+      <button class="btn btn-outline-primary" (click)="copy(resultsUrl, 'results')">{{ copied() === 'results' ? 'Lien copié' : 'Copier le lien des résultats' }}</button>
     </div>
   </div>
 </div>
