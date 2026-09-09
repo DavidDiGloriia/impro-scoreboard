@@ -2,9 +2,10 @@
 // L'URL (générée par l'écran « Votez » de l'app) porte tout le nécessaire :
 //   ?m=<id du match>&a=<code équipe A>&b=<code équipe B>&pa=<joueurs A>&pb=<joueurs B>
 //   joueurs : liste "code:numéro:rôle" séparée par des virgules, code = prénom + nom comme dans joueurs.json.
-// Les votes sont écrits dans Firestore : matches/<id>/ballots/<auto>.
+// Les votes sont écrits dans Firestore : matches/<id>/ballots/<e-mail>, donc un seul bulletin par adresse et par match
+// (vérifié par firestore.rules). Une empreinte d'appareil est jointe pour repérer les votes multiples au dépouillement.
 import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
-import {getFirestore, collection, addDoc, doc, setDoc, serverTimestamp} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js';
+import {getFirestore, doc, setDoc, serverTimestamp} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js';
 import {firebaseConfig} from './firebase-config.js';
 
 const POINTS_LABELS = ['1re', '2e', '3e'];
@@ -18,6 +19,8 @@ const $ = (sel) => document.querySelector(sel);
 const teamsEl = $('#teams');
 const submitEl = $('#submit');
 const statusEl = $('#status');
+const emailEl = $('#email');
+const EMAIL_RE = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
 
 /** Sélection ordonnée : [{code, team}] (3 max). */
 let picks = [];
@@ -169,12 +172,35 @@ function updateSelection() {
     el.classList.toggle('filled', !!pick);
     el.querySelector('.pick-name').textContent = pick ? displayName(pick.code) : '—';
   });
-  submitEl.disabled = picks.length !== 3;
+  const email = normalizedEmail();
+  emailEl.classList.toggle('invalid', emailEl.value.trim() !== '' && !EMAIL_RE.test(email));
+  submitEl.disabled = picks.length !== 3 || !EMAIL_RE.test(email);
+  statusEl.classList.remove('error');
   if (picks.length < 3) {
     statusEl.textContent = `Encore ${3 - picks.length} choix`;
-    statusEl.classList.remove('error');
+  } else if (!EMAIL_RE.test(email)) {
+    statusEl.textContent = 'Indiquez votre adresse e-mail pour valider';
   } else {
     statusEl.textContent = '';
+  }
+}
+
+function normalizedEmail() {
+  return emailEl.value.trim().toLowerCase();
+}
+
+/** Empreinte d'appareil : identifiant aléatoire conservé dans le navigateur, pour repérer les doublons au dépouillement. */
+function deviceId() {
+  const key = 'vote-etoiles:device';
+  try {
+    let id = localStorage.getItem(key);
+    if (!id) {
+      id = crypto.randomUUID ? crypto.randomUUID() : String(Math.random()).slice(2) + Date.now();
+      localStorage.setItem(key, id);
+    }
+    return id;
+  } catch {
+    return 'inconnu';
   }
 }
 
@@ -197,7 +223,8 @@ function showDone(saved) {
 }
 
 async function submit() {
-  if (picks.length !== 3) return;
+  const email = normalizedEmail();
+  if (picks.length !== 3 || !EMAIL_RE.test(email)) return;
   submitEl.disabled = true;
   statusEl.textContent = 'Envoi…';
   statusEl.classList.remove('error');
@@ -205,10 +232,13 @@ async function submit() {
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const [first, second, third] = picks.map(p => `${p.team}:${p.code}`);
-    await addDoc(collection(db, 'matches', matchId, 'ballots'), {
-      first, second, third,
+    // L'adresse est l'identifiant du bulletin : une seconde tentative avec la même adresse est refusée par les règles.
+    await setDoc(doc(db, 'matches', matchId, 'ballots', email), {
+      email, first, second, third,
+      device: deviceId(),
       createdAt: serverTimestamp(),
     });
+    try { localStorage.setItem('vote-etoiles:email', email); } catch { /* ignore */ }
     // Fiche du match (composition) pour la page de résultats ; fusionnée, donc sans écraser les autres votants.
     await setDoc(doc(db, 'matches', matchId), {
       teamA: teamCodes.a, teamB: teamCodes.b,
@@ -219,7 +249,9 @@ async function submit() {
     showDone(picks);
   } catch (e) {
     console.error(e);
-    statusEl.textContent = 'Envoi impossible. Vérifiez votre connexion et réessayez.';
+    statusEl.textContent = e?.code === 'permission-denied'
+      ? 'Un vote a déjà été enregistré avec cette adresse pour ce match.'
+      : 'Envoi impossible. Vérifiez votre connexion et réessayez.';
     statusEl.classList.add('error');
     submitEl.disabled = false;
   }
@@ -243,6 +275,8 @@ async function main() {
   }
   $('#subtitle').textContent = `${teamName('a')} vs ${teamName('b')} · choisissez vos trois étoiles, dans l'ordre.`;
   render();
+  try { emailEl.value = localStorage.getItem('vote-etoiles:email') || ''; } catch { /* ignore */ }
+  emailEl.addEventListener('input', updateSelection);
   submitEl.addEventListener('click', submit);
 }
 

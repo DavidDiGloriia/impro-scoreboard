@@ -55,7 +55,11 @@ async function tally() {
     });
   }
   const rows = [...scores.values()].sort((x, y) => y.points - x.points || y.firsts - x.firsts || y.votes - x.votes);
-  countEl.textContent = `${snap.size} bulletin${snap.size > 1 ? 's' : ''}`;
+  // Doublons probables : plusieurs adresses depuis le même appareil
+  const devices = new Map();
+  snap.docs.forEach(d => { const dev = d.data().device; if (dev) devices.set(dev, (devices.get(dev) || 0) + 1); });
+  const suspicious = [...devices.values()].filter(n => n > 1).reduce((a, n) => a + n - 1, 0);
+  countEl.textContent = `${snap.size} bulletin${snap.size > 1 ? 's' : ''}` + (suspicious ? ` · ${suspicious} doublon${suspicious > 1 ? 's' : ''} d'appareil probable${suspicious > 1 ? 's' : ''}` : '');
   statusEl.textContent = '';
   tableEl.innerHTML = `
     <table>
