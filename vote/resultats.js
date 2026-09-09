@@ -11,6 +11,10 @@ const auth = getAuth(app);
 
 const $ = (sel) => document.querySelector(sel);
 const signinEl = $('#signin'), matchEl = $('#match'), refreshEl = $('#refresh'), countEl = $('#count'), statusEl = $('#status'), tableEl = $('#table');
+const copyEmailsEl = $('#copy-emails'), drawEl = $('#draw'), drawResultEl = $('#draw-result');
+
+/** Adresses laissées pour le tirage au sort, dédoublonnées, pour le match affiché. */
+let emails = [];
 
 let meta = {players: [], teams: {}};
 let matches = [];
@@ -55,11 +59,10 @@ async function tally() {
     });
   }
   const rows = [...scores.values()].sort((x, y) => y.points - x.points || y.firsts - x.firsts || y.votes - x.votes);
-  // Doublons probables : plusieurs adresses depuis le même appareil
-  const devices = new Map();
-  snap.docs.forEach(d => { const dev = d.data().device; if (dev) devices.set(dev, (devices.get(dev) || 0) + 1); });
-  const suspicious = [...devices.values()].filter(n => n > 1).reduce((a, n) => a + n - 1, 0);
-  countEl.textContent = `${snap.size} bulletin${snap.size > 1 ? 's' : ''}` + (suspicious ? ` · ${suspicious} doublon${suspicious > 1 ? 's' : ''} d'appareil probable${suspicious > 1 ? 's' : ''}` : '');
+  emails = [...new Set(snap.docs.map(d => d.data().email).filter(Boolean))];
+  countEl.textContent = `${snap.size} bulletin${snap.size > 1 ? 's' : ''} · ${emails.length} adresse${emails.length > 1 ? 's' : ''} pour le tirage`;
+  copyEmailsEl.hidden = drawEl.hidden = !emails.length;
+  drawResultEl.textContent = '';
   statusEl.textContent = '';
   tableEl.innerHTML = `
     <table>
@@ -87,6 +90,14 @@ signinEl.addEventListener('click', async () => {
   }
 });
 matchEl.addEventListener('change', tally);
+copyEmailsEl.addEventListener('click', async () => {
+  await navigator.clipboard.writeText(emails.join('\n'));
+  statusEl.textContent = `${emails.length} adresse${emails.length > 1 ? 's' : ''} copiée${emails.length > 1 ? 's' : ''}.`;
+});
+drawEl.addEventListener('click', () => {
+  const winner = emails[Math.floor(Math.random() * emails.length)];
+  drawResultEl.textContent = winner ? `🎟 ${winner}` : '';
+});
 refreshEl.addEventListener('click', () => loadMatches().catch(showError));
 
 function showError(e) {

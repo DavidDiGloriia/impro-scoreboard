@@ -2,8 +2,8 @@
 // L'URL (générée par l'écran « Votez » de l'app) porte tout le nécessaire :
 //   ?m=<id du match>&a=<code équipe A>&b=<code équipe B>&pa=<joueurs A>&pb=<joueurs B>
 //   joueurs : liste "code:numéro:rôle" séparée par des virgules, code = prénom + nom comme dans joueurs.json.
-// Les votes sont écrits dans Firestore : matches/<id>/ballots/<e-mail>, donc un seul bulletin par adresse et par match
-// (vérifié par firestore.rules). Une empreinte d'appareil est jointe pour repérer les votes multiples au dépouillement.
+// Les votes sont écrits dans Firestore : matches/<id>/ballots/<empreinte d'appareil>, donc un seul bulletin par téléphone
+// et par match (vérifié par firestore.rules). L'adresse e-mail est facultative : elle sert au tirage au sort de places.
 import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
 import {getFirestore, doc, setDoc, serverTimestamp} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js';
 import {firebaseConfig} from './firebase-config.js';
@@ -173,13 +173,14 @@ function updateSelection() {
     el.querySelector('.pick-name').textContent = pick ? displayName(pick.code) : '—';
   });
   const email = normalizedEmail();
-  emailEl.classList.toggle('invalid', emailEl.value.trim() !== '' && !EMAIL_RE.test(email));
-  submitEl.disabled = picks.length !== 3 || !EMAIL_RE.test(email);
+  const emailOk = email === '' || EMAIL_RE.test(email);
+  emailEl.classList.toggle('invalid', !emailOk);
+  submitEl.disabled = picks.length !== 3 || !emailOk;
   statusEl.classList.remove('error');
   if (picks.length < 3) {
     statusEl.textContent = `Encore ${3 - picks.length} choix`;
-  } else if (!EMAIL_RE.test(email)) {
-    statusEl.textContent = 'Indiquez votre adresse e-mail pour valider';
+  } else if (!emailOk) {
+    statusEl.textContent = 'Adresse e-mail incomplète';
   } else {
     statusEl.textContent = '';
   }
@@ -189,7 +190,7 @@ function normalizedEmail() {
   return emailEl.value.trim().toLowerCase();
 }
 
-/** Empreinte d'appareil : identifiant aléatoire conservé dans le navigateur, pour repérer les doublons au dépouillement. */
+/** Empreinte d'appareil : identifiant aléatoire conservé dans le navigateur, qui sert d'identifiant au bulletin. */
 function deviceId() {
   const key = 'vote-etoiles:device';
   try {
@@ -200,7 +201,8 @@ function deviceId() {
     }
     return id;
   } catch {
-    return 'inconnu';
+    // navigation privée sans stockage : identifiant éphémère, le vote passe quand même
+    return 'ephemere-' + String(Math.random()).slice(2) + Date.now();
   }
 }
 
@@ -224,7 +226,7 @@ function showDone(saved) {
 
 async function submit() {
   const email = normalizedEmail();
-  if (picks.length !== 3 || !EMAIL_RE.test(email)) return;
+  if (picks.length !== 3 || (email && !EMAIL_RE.test(email))) return;
   submitEl.disabled = true;
   statusEl.textContent = 'Envoi…';
   statusEl.classList.remove('error');
@@ -232,13 +234,14 @@ async function submit() {
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const [first, second, third] = picks.map(p => `${p.team}:${p.code}`);
-    // L'adresse est l'identifiant du bulletin : une seconde tentative avec la même adresse est refusée par les règles.
-    await setDoc(doc(db, 'matches', matchId, 'ballots', email), {
-      email, first, second, third,
-      device: deviceId(),
+    // L'empreinte d'appareil est l'identifiant du bulletin : un second vote depuis le même téléphone est refusé par les règles.
+    const device = deviceId();
+    await setDoc(doc(db, 'matches', matchId, 'ballots', device), {
+      device, first, second, third,
+      ...(email ? {email} : {}),
       createdAt: serverTimestamp(),
     });
-    try { localStorage.setItem('vote-etoiles:email', email); } catch { /* ignore */ }
+    if (email) { try { localStorage.setItem('vote-etoiles:email', email); } catch { /* ignore */ } }
     // Fiche du match (composition) pour la page de résultats ; fusionnée, donc sans écraser les autres votants.
     await setDoc(doc(db, 'matches', matchId), {
       teamA: teamCodes.a, teamB: teamCodes.b,
@@ -250,7 +253,7 @@ async function submit() {
   } catch (e) {
     console.error(e);
     statusEl.textContent = e?.code === 'permission-denied'
-      ? 'Un vote a déjà été enregistré avec cette adresse pour ce match.'
+      ? 'Un vote a déjà été enregistré depuis ce téléphone pour ce match.'
       : 'Envoi impossible. Vérifiez votre connexion et réessayez.';
     statusEl.classList.add('error');
     submitEl.disabled = false;

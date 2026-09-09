@@ -34,11 +34,13 @@ dans `src/app/constants/vote.constants.ts`).
    dernière pause.
 3. Résultats : bouton **Voir les résultats** du panneau, ou `resultats.html`, connexion Google, choisir le match.
 
-Chaque votant donne son adresse e-mail : elle sert d'identifiant au bulletin, donc une seule voix par adresse et
-par match, refusée côté serveur par les règles. Une empreinte d'appareil est jointe au bulletin ; la page de
-résultats signale les appareils ayant envoyé plusieurs adresses. L'adresse n'est pas vérifiée (pas de lien de
-confirmation) : c'est un frein aux doublons, pas une élection. Un filtrage par adresse IP demanderait un serveur,
-donc la formule payante Firebase.
+Une seule voix par téléphone et par match : une empreinte d'appareil (identifiant aléatoire gardé dans le
+navigateur) sert d'identifiant au bulletin, et les règles refusent un second bulletin pour la même empreinte.
+Contournable en vidant le stockage du navigateur : c'est un frein aux doublons, pas une élection. Un filtrage par
+adresse IP demanderait un serveur, donc la formule payante Firebase.
+
+Le votant peut laisser son adresse e-mail (facultatif) pour « tenter de gagner 2 places pour un prochain match ».
+La page de résultats compte les adresses, les copie dans le presse-papiers et tire un gagnant au sort.
 
 ## Tester en local
 

@@ -205,11 +205,10 @@ html, body {
 }
 .email-label {
   display: block;
-  font-size: 0.65rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--muted);
-  margin: 0 0 4px 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--gold);
+  margin: 0 0 6px 4px;
 }
 .email-field input {
   width: 100%;

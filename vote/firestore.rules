@@ -26,13 +26,13 @@ ce qu
       allow delete: if false;
 
       match /ballots/{ballotId} {
-        // Un bulletin par adresse e-mail (l'adresse est l'identifiant du document) : trois choix distincts,
-        // empreinte d'appareil, horodatage serveur. Jamais modifiable, donc pas de second vote.
+        // Un bulletin par appareil (l'empreinte d'appareil est l'identifiant du document) : trois choix distincts,
+        // e-mail facultatif pour le tirage au sort, horodatage serveur. Jamais modifiable, donc pas de second vote.
         allow read: if isOrganizer();
-        allow create: if request.resource.data.keys().hasOnly(['email', 'first', 'second', 'third', 'device', 'createdAt'])
-          && isEmail(request.resource.data.email)
-          && ballotId == request.resource.data.email
-          && request.resource.data.device is string && request.resource.data.device.size() < 80
+        allow create: if request.resource.data.keys().hasOnly(['device', 'first', 'second', 'third', 'email', 'createdAt'])
+          && request.resource.data.device is string && request.resource.data.device.size() > 8 && request.resource.data.device.size() < 80
+          && ballotId == request.resource.data.device
+          && (!('email' in request.resource.data) || isEmail(request.resource.data.email))
           && isCode(request.resource.data.first)
           && isCode(request.resource.data.second)
           && isCode(request.resource.data.third)
