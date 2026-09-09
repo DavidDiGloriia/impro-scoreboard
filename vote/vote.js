@@ -270,6 +270,10 @@ async function main() {
   }
   await loadData();
   players = {a: parsePlayers(params.get('pa')), b: parsePlayers(params.get('pb'))};
+  if (params.has('reset')) {
+    // Pour tester : oublie le vote précédent et l'empreinte d'appareil (donc un nouveau bulletin sera accepté).
+    try { localStorage.removeItem(lockKey()); localStorage.removeItem('vote-etoiles:device'); } catch { /* ignore */ }
+  }
   let already = null;
   try { already = JSON.parse(localStorage.getItem(lockKey()) || 'null'); } catch { /* ignore */ }
   if (already?.length === 3) {

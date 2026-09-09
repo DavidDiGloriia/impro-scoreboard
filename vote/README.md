@@ -51,3 +51,6 @@ npm run vote:serve
 puis ouvrir l'adresse affichée avec les paramètres d'un match, par exemple
 `http://localhost:4300/?m=test&a=lions&b=aigles&pa=S%C3%A9bastienLothe:42:capitaine,Cl%C3%A9menceX:6&pb=DavidDi%20Gloria:5`.
 Sans `firebase-config.js` renseigné, la page s'affiche mais l'envoi échoue.
+
+Pour revoter depuis le même navigateur pendant les tests, ajouter `&reset=1` à l'adresse : le vote précédent et
+l'empreinte d'appareil sont oubliés, un nouveau bulletin est donc accepté.
