@@ -1,0 +1,33 @@
+.vote-panel {
+  max-width: 900px;
+}
+
+.vote-title {
+  font-size: 1.4rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
+
+.vote-help {
+  color: #666;
+}
+
+.vote-facts {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.4rem 1.5rem;
+  margin: 0;
+
+  dt {
+    font-weight: 600;
+    color: #666;
+  }
+
+  dd {
+    margin: 0;
+  }
+}
+
+.vote-url code {
+  word-break: break-all;
+}

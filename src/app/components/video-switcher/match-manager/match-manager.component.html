@@ -40,6 +40,11 @@
             [class.active]="displayedScreen.value() === DisplayedScreen.STAR_PLAYER"
             (click)="displayScreen(DisplayedScreen.STAR_PLAYER)">ÉTOILES INDIVIDUELLES
     </button>
+    <button *ngIf="gameData.value().teamA.name && gameData.value().teamB.name"
+            class="btn btn-outline-primary btn-lg flex-fill"
+            [class.active]="displayedScreen.value() === DisplayedScreen.VOTE"
+            (click)="displayScreen(DisplayedScreen.VOTE)">VOTE ÉTOILES
+    </button>
   </div>
 
   @switch (displayedScreen.value()) {
@@ -57,6 +62,9 @@
     }
     @case (DisplayedScreen.STAR_PLAYER) {
       <app-display-star-player-manager/>
+    }
+    @case (DisplayedScreen.VOTE) {
+      <app-display-vote-manager/>
     }
     @case (DisplayedScreen.TEAM_A) {
       @if (!gameData.value().automaticPlayerPresentation) {

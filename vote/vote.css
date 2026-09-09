@@ -1,0 +1,240 @@
+/* Page de vote des étoiles, pensée pour téléphone. Même police et même noir que l'écran de projection. */
+:root {
+  --bg: #000;
+  --fg: #fff;
+  --muted: rgba(255, 255, 255, 0.6);
+  --card: #141414;
+  --gold: #f5c518;
+  --team-a: #ff3333;
+  --team-b: #3399cc;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  overflow-x: hidden;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: "Poppins", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.app {
+  max-width: 560px;
+  width: 100%;
+  margin: 0 auto;
+  padding: max(16px, env(safe-area-inset-top)) 16px 120px;
+}
+
+/* --- En-tête --- */
+.header { text-align: center; padding: 8px 0 12px; }
+.logo { height: 44px; width: auto; }
+.title {
+  margin: 12px 0 6px;
+  font-size: 2.4rem;
+  line-height: 0.95;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+.subtitle { margin: 0; color: var(--muted); font-size: 0.95rem; }
+
+/* --- Rappel des 3 choix --- */
+.picks {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  padding: 10px 0;
+  background: linear-gradient(var(--bg) 80%, transparent);
+}
+.pick {
+  min-width: 0; /* les noms en une ligne ne doivent pas élargir la colonne */
+  background: var(--card);
+  border-radius: 12px;
+  padding: 8px 8px 10px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: border-color 0.2s, transform 0.2s;
+}
+.pick.filled { border-color: var(--gold); }
+.pick-star { display: block; color: rgba(255, 255, 255, 0.25); font-size: 1.1rem; line-height: 1; }
+.pick.filled .pick-star { color: var(--gold); }
+.pick-label { display: block; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-top: 2px; }
+.pick-name {
+  display: block;
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* --- Équipes et joueurs --- */
+.team { margin-top: 20px; }
+.team-name {
+  font-size: 1.5rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  color: var(--team-color, #fff);
+  margin: 0 0 10px;
+  padding-left: 12px;
+  border-left: 5px solid var(--team-color, #fff);
+  line-height: 1.1;
+}
+.players {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+@media (min-width: 420px) { .players { grid-template-columns: repeat(3, 1fr); } }
+
+.player {
+  position: relative;
+  min-width: 0;
+  border: 0;
+  padding: 0;
+  background: var(--card);
+  border-radius: 14px;
+  overflow: hidden;
+  aspect-ratio: 2 / 3;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  outline: 3px solid transparent;
+  outline-offset: -3px;
+  transition: outline-color 0.15s, transform 0.15s, opacity 0.2s;
+  -webkit-tap-highlight-color: transparent;
+}
+.player:active { transform: scale(0.97); }
+.player.selected { outline-color: var(--gold); }
+.player.dimmed { opacity: 0.55; }
+
+.player-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  /* teinte de l'équipe derrière les photos détourées */
+  background: radial-gradient(ellipse at 50% 30%, color-mix(in srgb, var(--team-color) 45%, #000) 0%, #000 75%);
+}
+.player-initials {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: color-mix(in srgb, var(--team-color) 70%, #fff);
+  background: radial-gradient(ellipse at 50% 30%, color-mix(in srgb, var(--team-color) 45%, #000) 0%, #000 75%);
+}
+.player-number {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  font-weight: 900;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.85);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+}
+.player-rank {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--gold);
+  color: #000;
+  font-weight: 900;
+  font-size: 0.9rem;
+  display: none;
+  place-items: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+.player.selected .player-rank { display: grid; }
+.player-caption {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  padding: 18px 8px 8px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+}
+.player-role {
+  display: block;
+  font-size: 0.55rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+}
+.player-name {
+  display: block;
+  font-weight: 800;
+  font-size: 0.95rem;
+  line-height: 1.1;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* --- Pied fixe : bouton d'envoi --- */
+.footer {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  padding: 12px 16px max(12px, env(safe-area-inset-bottom));
+  background: linear-gradient(transparent, var(--bg) 40%);
+  text-align: center;
+}
+.submit {
+  width: 100%;
+  max-width: 528px;
+  padding: 16px;
+  border: 0;
+  border-radius: 14px;
+  font: inherit;
+  font-weight: 900;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: var(--gold);
+  color: #000;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.15s;
+}
+.submit:disabled { opacity: 0.35; cursor: default; }
+.submit:not(:disabled):active { transform: scale(0.98); }
+.status { margin: 8px 0 0; min-height: 1.2em; font-size: 0.85rem; color: var(--muted); }
+.status.error { color: #ff6b6b; }
+
+/* --- Merci --- */
+.done { text-align: center; padding: 40px 0; }
+.done-stars { color: var(--gold); font-size: 3rem; letter-spacing: 0.1em; }
+.done-title { font-size: 2.6rem; font-weight: 900; margin: 8px 0; text-transform: uppercase; }
+.done-text { color: var(--muted); margin: 0 0 20px; }
+.done-list { list-style: none; padding: 0; margin: 0 auto; max-width: 320px; text-align: left; }
+.done-list li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--card);
+  border-radius: 12px;
+  padding: 10px 14px;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+.done-list .rank { color: var(--gold); font-weight: 900; }
+.done-list .team { font-size: 0.7rem; color: var(--muted); margin-left: auto; text-transform: uppercase; }
+.done-hint { color: var(--muted); font-size: 0.9rem; margin-top: 24px; }
+
+/* --- Erreurs de chargement --- */
+.empty { text-align: center; color: var(--muted); padding: 40px 16px; }

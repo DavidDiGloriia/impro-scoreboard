@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#000000">
+  <title>Les étoiles du match · improvisation.be</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="vote.css">
+</head>
+<body>
+  <main id="app" class="app">
+    <header class="header">
+      <img src="logo.svg" alt="improvisation.be" class="logo">
+      <h1 class="title">Les étoiles<br>du match</h1>
+      <p class="subtitle" id="subtitle">Choisissez vos trois joueurs préférés, dans l'ordre.</p>
+    </header>
+
+    <section id="picks" class="picks" aria-live="polite">
+      <div class="pick" data-rank="1"><span class="pick-star">★</span><span class="pick-label">1<sup>re</sup> étoile</span><span class="pick-name">—</span></div>
+      <div class="pick" data-rank="2"><span class="pick-star">★</span><span class="pick-label">2<sup>e</sup> étoile</span><span class="pick-name">—</span></div>
+      <div class="pick" data-rank="3"><span class="pick-star">★</span><span class="pick-label">3<sup>e</sup> étoile</span><span class="pick-name">—</span></div>
+    </section>
+
+    <section id="teams" class="teams"></section>
+
+    <footer class="footer">
+      <button id="submit" class="submit" disabled>Envoyer mon vote</button>
+      <p id="status" class="status"></p>
+    </footer>
+  </main>
+
+  <template id="done-template">
+    <section class="done">
+      <div class="done-stars">★★★</div>
+      <h2 class="done-title">Merci !</h2>
+      <p class="done-text">Votre vote est enregistré.</p>
+      <ol class="done-list"></ol>
+      <p class="done-hint">Restez jusqu'à l'annonce des étoiles !</p>
+    </section>
+  </template>
+
+  <script type="module" src="vote.js"></script>
+</body>
+</html>

@@ -4,3 +4,4 @@ export * from './impro-type.constants';
 export * from './projection-mode.constants';
 export * from './media-extentions.constants'
 export * from './logo.constants';
+export * from './vote.constants';

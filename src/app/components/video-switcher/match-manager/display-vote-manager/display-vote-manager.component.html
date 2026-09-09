@@ -1,0 +1,19 @@
+<div class="container-fluid my-4">
+  <div class="vote-panel">
+    <div class="vote-title">Vote des étoiles</div>
+    <p class="vote-help">
+      Le QR code affiché à l'écran contient la composition des deux équipes : le public classe ses trois joueurs
+      préférés depuis son téléphone. Les votes sont enregistrés sous l'identifiant de match ci-dessous.
+    </p>
+    <dl class="vote-facts">
+      <dt>Match</dt>
+      <dd><code>{{ matchId() }}</code></dd>
+      <dt>Lien de vote</dt>
+      <dd class="vote-url"><code>{{ url() }}</code></dd>
+    </dl>
+    <div class="d-flex gap-2 mt-3">
+      <button class="btn btn-outline-secondary" (click)="copyUrl()">{{ copied() ? 'Lien copié' : 'Copier le lien de vote' }}</button>
+      <a class="btn btn-outline-primary" [href]="resultsUrl" target="_blank" rel="noopener">Voir les résultats</a>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,39 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Adresses Google autorisées à lire les résultats (page resultats.html).
+    function isOrganizer() {
+      return request.auth != null
+        && request.auth.token.email in ['ddigloria@emasphere.com'];
+    }
+
+    function isCode(value) {
+      return value is string && value.size() > 2 && value.size() < 120 && value.matches('^[ab]:.+$');
+    }
+
+    match /matches/{matchId} {
+      // Fiche du match écrite par la page de vote : composition des équipes, sans rien de sensible.
+      allow read: if isOrganizer();
+      allow create, update: if matchId.matches('^[A-Za-z0-9_-]{3,80}$')
+        && request.resource.data.keys().hasOnly(['teamA', 'teamB', 'playersA', 'playersB', 'updatedAt'])
+        && request.resource.data.playersA is list && request.resource.data.playersA.size() <= 12
+        && request.resource.data.playersB is list && request.resource.data.playersB.size() <= 12;
+      allow delete: if false;
+
+      match /ballots/{ballotId} {
+        // Un bulletin : trois choix distincts, horodatage serveur. Jamais modifiable.
+        allow read: if isOrganizer();
+        allow create: if request.resource.data.keys().hasOnly(['first', 'second', 'third', 'createdAt'])
+          && isCode(request.resource.data.first)
+          && isCode(request.resource.data.second)
+          && isCode(request.resource.data.third)
+          && request.resource.data.first != request.resource.data.second
+          && request.resource.data.first != request.resource.data.third
+          && request.resource.data.second != request.resource.data.third
+          && request.resource.data.createdAt == request.time;
+        allow update, delete: if false;
+      }
+    }
+  }
+}

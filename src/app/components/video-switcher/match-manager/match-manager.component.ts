@@ -25,6 +25,9 @@ import {
 import {
   DisplayStarPlayerManagerComponent
 } from "@components/video-switcher/match-manager/display-star-player-manager/display-star-player-manager.component";
+import {
+  DisplayVoteManagerComponent
+} from "@components/video-switcher/match-manager/display-vote-manager/display-vote-manager.component";
 
 @Component({
   selector: 'app-match-manager',
@@ -36,7 +39,8 @@ import {
     DisplayAnthemManagerComponent,
     DisplayTeamManagerComponent,
     DisplayPubsManagerComponent,
-    DisplayStarPlayerManagerComponent
+    DisplayStarPlayerManagerComponent,
+    DisplayVoteManagerComponent
   ],
   templateUrl: './match-manager.component.html',
   styleUrl: './match-manager.component.scss'

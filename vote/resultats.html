@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Résultats des étoiles · improvisation.be</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="vote.css">
+  <style>
+    .results { max-width: 720px; margin: 0 auto; padding: 24px 16px 60px; }
+    .toolbar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin: 16px 0; }
+    .toolbar select, .toolbar button {
+      font: inherit; padding: 10px 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.2);
+      background: var(--card); color: var(--fg);
+    }
+    .toolbar button { cursor: pointer; font-weight: 700; }
+    .toolbar button.primary { background: var(--gold); color: #000; border-color: var(--gold); }
+    .count { color: var(--muted); font-size: 0.9rem; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { padding: 10px 8px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    th { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 600; }
+    td.num { text-align: right; font-variant-numeric: tabular-nums; }
+    tr.top td { font-weight: 800; }
+    tr.top .rank { color: var(--gold); }
+    .team-tag { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 8px; vertical-align: middle; }
+    .hint { color: var(--muted); font-size: 0.85rem; }
+  </style>
+</head>
+<body>
+  <main class="results">
+    <header class="header">
+      <img src="logo.svg" alt="improvisation.be" class="logo">
+      <h1 class="title">Résultats<br>des étoiles</h1>
+      <p class="subtitle">Réservé à l'organisation.</p>
+    </header>
+    <div class="toolbar">
+      <button id="signin" class="primary">Se connecter avec Google</button>
+      <select id="match" hidden></select>
+      <button id="refresh" hidden>Actualiser</button>
+      <span id="count" class="count"></span>
+    </div>
+    <p id="status" class="status"></p>
+    <div id="table"></div>
+    <p class="hint">Barème : 3 points pour une 1<sup>re</sup> étoile, 2 pour une 2<sup>e</sup>, 1 pour une 3<sup>e</sup>. Les égalités sont départagées au nombre de 1<sup>res</sup> étoiles.</p>
+  </main>
+  <script type="module" src="resultats.js"></script>
+</body>
+</html>

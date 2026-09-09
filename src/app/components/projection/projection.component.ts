@@ -19,6 +19,7 @@ import {
 import {
   StarPlayerPresentationComponent
 } from "@components/projection/star-player-presentation/star-player-presentation.component";
+import {VoteScreenComponent} from "@components/projection/vote-screen/vote-screen.component";
 
 @Component({
   selector: 'app-projection',
@@ -32,7 +33,8 @@ import {
     PubsWatcherComponent,
     BothTeamsPresentationComponent,
     ProjectionHandlingHelperComponent,
-    StarPlayerPresentationComponent
+    StarPlayerPresentationComponent,
+    VoteScreenComponent
   ],
   templateUrl: './projection.component.html',
   styleUrl: './projection.component.scss',
