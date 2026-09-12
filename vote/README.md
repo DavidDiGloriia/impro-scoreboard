@@ -10,7 +10,7 @@ reste hors ligne, seule la page de vote a besoin d'internet.
 - `resultats.html`, `resultats.js` : dépouillement, réservé à l'organisation (connexion Google).
 - `firebase-config.js` : configuration du projet Firebase, à renseigner (voir plus bas).
 - `firestore.rules` : règles de sécurité Firestore, à coller dans la console Firebase.
-- `data/`, `photos/` et `layout/` : générés par `npm run vote:build` (copie de `joueurs.json`, `equipes.json`, vignettes 320 px
+- `data/`, `photos/` et `layout/` : générés par `npm run vote:build` (copie de `joueurs.json`, `equipes.json`, `face-positions.json`, vignettes 720 px
   et décors d'équipe `assets/layout`). Non versionnés.
 
 ## Mise en place (une fois)

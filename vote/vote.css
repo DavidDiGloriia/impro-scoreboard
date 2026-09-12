@@ -39,18 +39,18 @@ html, body {
   padding: 8px 0 10px;
   background: var(--bg);
 }
-.logo { height: 44px; width: auto; }
+.logo { height: 36px; width: auto; }
 /* une seule ligne : la taille est réduite par vote.js (fitTitle) jusqu'à ce que le texte tienne */
 .title {
-  margin: 12px 0 6px;
-  font-size: 1.6rem;
+  margin: 10px 0 4px;
+  font-size: 1.3rem;
   line-height: 1.15;
   font-weight: 900;
   letter-spacing: -0.02em;
   text-transform: uppercase;
   white-space: nowrap;
 }
-.subtitle { margin: 0; color: var(--gold); font-size: 1.05rem; font-weight: 700; }
+.subtitle { margin: 0; color: var(--gold); font-size: 0.9rem; font-weight: 700; }
 
 /* --- Rappel des 3 choix, dans le pied fixe au-dessus du champ e-mail --- */
 .picks {
@@ -65,7 +65,7 @@ html, body {
   min-width: 0; /* les noms en une ligne ne doivent pas élargir la colonne */
   background: var(--card);
   border-radius: 12px;
-  padding: 7px 8px 8px;
+  padding: 6px 8px 7px;
   text-align: center;
   border: 1px solid rgba(255, 255, 255, 0.08);
   transition: border-color 0.2s, transform 0.2s;
@@ -74,11 +74,11 @@ html, body {
 .pick[data-rank="2"], .player[data-rank="2"] { --rank-color: var(--silver); }
 .pick[data-rank="3"], .player[data-rank="3"] { --rank-color: var(--bronze); }
 .pick.filled { border-color: var(--rank-color); }
-.pick-label { display: block; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--rank-color); }
+.pick-label { display: block; font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--rank-color); }
 .pick-name {
   display: block;
   font-weight: 700;
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   margin-top: 2px;
   white-space: nowrap;
   overflow: hidden;
@@ -101,7 +101,7 @@ html, body {
   background: #000; /* carte noire, comme sur l'écran de présentation */
   border-radius: 14px;
   overflow: hidden;
-  aspect-ratio: 2 / 3;
+  aspect-ratio: 4 / 5; /* cadré sur le visage, pas besoin du corps entier */
   cursor: pointer;
   color: inherit;
   font: inherit;
@@ -125,13 +125,14 @@ html, body {
 }
 .card-layout-left { left: 0; }
 .card-layout-right { right: 0; }
+/* object-position, transform-origin et scale posés par vote.js d'après face-positions.json */
 .player-photo {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center top;
+  object-position: center -5%;
 }
 .player-initials {
   position: absolute;
@@ -148,7 +149,7 @@ html, body {
   top: 6px;
   right: 8px;
   font-weight: 900;
-  font-size: 1rem;
+  font-size: 0.85rem;
   color: rgba(255, 255, 255, 0.85);
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
 }
@@ -156,13 +157,13 @@ html, body {
   position: absolute;
   top: 6px;
   left: 6px;
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   background: var(--rank-color, var(--gold));
   color: #000;
   font-weight: 900;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   display: none;
   place-items: center;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
@@ -171,12 +172,12 @@ html, body {
 .player-caption {
   position: absolute;
   left: 0; right: 0; bottom: 0;
-  padding: 18px 8px 8px;
+  padding: 16px 8px 7px;
   background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
 }
 .player-role {
   display: block;
-  font-size: 0.55rem;
+  font-size: 0.5rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--muted);
@@ -184,7 +185,7 @@ html, body {
 .player-name {
   display: block;
   font-weight: 800;
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   line-height: 1.1;
   text-transform: uppercase;
   letter-spacing: -0.02em;
@@ -197,7 +198,7 @@ html, body {
 .footer {
   position: fixed;
   left: 0; right: 0; bottom: 0;
-  padding: 26px 16px max(12px, env(safe-area-inset-bottom));
+  padding: 22px 16px max(10px, env(safe-area-inset-bottom));
   /* opaque sous les champs, court fondu au-dessus pour ne pas couper les photos net */
   background: linear-gradient(transparent 0, var(--bg) 22px);
   text-align: center;
@@ -211,14 +212,14 @@ html, body {
 }
 .email-label {
   display: block;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 600;
   color: var(--gold);
-  margin: 0 0 6px 4px;
+  margin: 0 0 5px 4px;
 }
 .email-field input {
   width: 100%;
-  padding: 13px 14px;
+  padding: 11px 14px;
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.15);
   background: var(--card);
@@ -238,14 +239,14 @@ html, body {
   margin: 0 auto 10px;
   padding: 0 4px;
   text-align: left;
-  font-size: 0.8rem;
+  font-size: 0.72rem;
   font-weight: 600;
   cursor: pointer;
 }
 .newsletter-field input {
   flex: 0 0 auto;
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   margin: 0;
   accent-color: var(--gold);
   cursor: pointer;
@@ -254,12 +255,12 @@ html, body {
 .submit {
   width: 100%;
   max-width: 528px;
-  padding: 16px;
+  padding: 14px;
   border: 0;
   border-radius: 14px;
   font: inherit;
   font-weight: 900;
-  font-size: 1.1rem;
+  font-size: 1rem;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   background: var(--gold);
@@ -269,13 +270,13 @@ html, body {
 }
 .submit:disabled { opacity: 0.35; cursor: default; }
 .submit:not(:disabled):active { transform: scale(0.98); }
-.status { margin: 8px 0 0; min-height: 1.2em; font-size: 0.85rem; color: var(--muted); }
+.status { margin: 6px 0 0; min-height: 1.2em; font-size: 0.8rem; color: var(--muted); }
 .status.error { color: #ff6b6b; }
 
 /* --- Merci --- */
 .done { text-align: center; padding: 40px 0; }
-.done-stars { color: var(--gold); font-size: 3rem; letter-spacing: 0.1em; }
-.done-title { font-size: 2.6rem; font-weight: 900; margin: 8px 0; text-transform: uppercase; }
+.done-stars { color: var(--gold); font-size: 2.5rem; letter-spacing: 0.1em; }
+.done-title { font-size: 2.2rem; font-weight: 900; margin: 8px 0; text-transform: uppercase; }
 .done-text { color: var(--muted); margin: 0 0 20px; }
 .done-list { list-style: none; padding: 0; margin: 0 auto; max-width: 320px; text-align: left; }
 .done-list li {
@@ -293,9 +294,9 @@ html, body {
 .done-list li:nth-child(3) .rank { color: var(--bronze); }
 .done-list .team { font-size: 0.7rem; color: var(--muted); margin-left: auto; text-transform: uppercase; }
 .done-follow {
-  margin: 32px 0 14px;
+  margin: 28px 0 14px;
   font-weight: 800;
-  font-size: 1.15rem;
+  font-size: 1rem;
   line-height: 1.3;
   text-transform: uppercase;
   letter-spacing: -0.01em;
@@ -303,14 +304,14 @@ html, body {
 .social { display: flex; justify-content: center; gap: 10px; }
 .social-link {
   display: inline-block;
-  padding: 13px 22px;
+  padding: 11px 20px;
   border-radius: 999px;
   background: var(--card);
   border: 1px solid rgba(255, 255, 255, 0.15);
   color: var(--fg);
   text-decoration: none;
   font-weight: 700;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
 }
 .social-link:active { background: var(--gold); color: #000; }
 

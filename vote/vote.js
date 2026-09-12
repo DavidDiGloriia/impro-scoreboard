@@ -12,6 +12,15 @@ import {firebaseConfig} from './firebase-config.js';
 const POINTS_LABELS = ['1re', '2e', '3e'];
 /** Décor utilisé quand l'équipe n'a pas le sien dans layout/ (même repli que l'app). */
 const DEFAULT_LAYOUT = 'lions';
+/** Zoom sur le visage, et exceptions par joueur : mêmes valeurs que la composition réseaux de l'app. */
+const FACE_SCALE = 1.6;
+const FACE_SCALE_OVERRIDES = {
+  'assets/joueurs/charlotte-otlet': 1.3,
+  'assets/joueurs/gab-de-pat': 1.3,
+  'assets/joueurs/david-di-gloria': 1.65,
+  'assets/joueurs/lenny-b-conil': 1.4,
+  'assets/joueurs/elodie': 1.4,
+};
 const ROLE_LABELS = {capitaine: 'Capitaine', assistant: 'Assistant', coach: 'Coach'};
 
 /** Libellé du rôle, accordé d'après le champ femme de joueurs.json (comme le pipe roleName de l'app). */
@@ -37,15 +46,17 @@ const EMAIL_RE = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
 /** Sélection ordonnée : [{code, team}] (3 max). */
 let picks = [];
 let players = {a: [], b: []};
-let meta = {players: [], teams: {}, photos: {}};
+let meta = {players: [], teams: {}, photos: {}, faces: {}};
 
 async function loadData() {
-  const [joueurs, equipes, photos] = await Promise.all([
+  const optional = (url) => fetch(url).then(r => r.ok ? r.json() : {}).catch(() => ({}));
+  const [joueurs, equipes, photos, faces] = await Promise.all([
     fetch('data/joueurs.json').then(r => r.json()),
     fetch('data/equipes.json').then(r => r.json()),
-    fetch('data/photos.json').then(r => r.ok ? r.json() : {}).catch(() => ({})),
+    optional('data/photos.json'),
+    optional('data/face-positions.json'),
   ]);
-  meta = {players: joueurs, teams: equipes, photos};
+  meta = {players: joueurs, teams: equipes, photos, faces};
 }
 
 function parsePlayers(raw) {
@@ -75,6 +86,22 @@ function photoSrc(code, teamCode) {
   if (!p?.img) return null;
   const stem = p.img.substring(p.img.lastIndexOf('/') + 1);
   return meta.photos[`${stem}-${teamCode}`] || meta.photos[stem] || null;
+}
+
+/**
+ * Cadrage de la photo sur le visage (face-positions.json, clé = chemin sans extension + suffixe d'équipe,
+ * comme PlayerMetadata.imgKey) : même règle que la composition réseaux de l'app.
+ */
+function frameOnFace(img, code, teamCode) {
+  const p = playerMeta(code);
+  if (!p?.img) return;
+  const suffix = meta.teams[teamCode]?.playerImgSuffix ?? `-${teamCode}`;
+  const pos = meta.faces[p.img + suffix] || meta.faces[p.img];
+  const origin = pos ? `${pos.x}% ${pos.y - 20}%` : 'center -5%';
+  const overrideKey = Object.keys(FACE_SCALE_OVERRIDES).find(k => p.img.startsWith(k));
+  img.style.objectPosition = origin;
+  img.style.transformOrigin = origin;
+  img.style.transform = `scale(${overrideKey ? FACE_SCALE_OVERRIDES[overrideKey] : FACE_SCALE})`;
 }
 
 function teamName(side) {
@@ -129,6 +156,7 @@ function renderPlayer(pl, side) {
     img.src = src;
     img.alt = '';
     img.loading = 'lazy';
+    frameOnFace(img, pl.code, teamCodes[side]);
     img.onerror = () => { img.replaceWith(initialsEl(pl.code)); };
     btn.appendChild(img);
   } else {
@@ -224,9 +252,9 @@ function matchDate() {
 function fitTitle() {
   const el = $('#title');
   if (!el) return;
-  let size = 1.6;
+  let size = 1.3;
   el.style.fontSize = `${size}rem`;
-  while (el.scrollWidth > el.clientWidth && size > 0.85) {
+  while (el.scrollWidth > el.clientWidth && size > 0.8) {
     size -= 0.05;
     el.style.fontSize = `${size.toFixed(2)}rem`;
   }

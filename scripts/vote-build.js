@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 /**
  * Prépare le site de vote (dossier vote/) pour le déploiement :
- *  - copie joueurs.json et equipes.json dans vote/data/
+ *  - copie joueurs.json, equipes.json et face-positions.json (cadrage des visages) dans vote/data/
  *  - copie les décors d'équipe (assets/layout/<code>-left.svg, -right.svg) dans vote/layout/
- *  - génère des vignettes légères des photos de joueurs dans vote/photos/ (320 px de large)
+ *  - génère des vignettes des photos de joueurs dans vote/photos/ (720 px de large : deux colonnes sur un écran
+ *    de téléphone à haute densité, sans flou)
  *    et le manifeste vote/data/photos.json : { "<nom sans extension>": "photos/<fichier>" }
  * Utilise ImageMagick (magick/convert, WebP) si présent, sinon sips (macOS, même format que l'original).
  * Usage : npm run vote:build
@@ -20,12 +21,14 @@ const OUT_DATA = path.join(OUT_DIR, 'data');
 const OUT_PHOTOS = path.join(OUT_DIR, 'photos');
 const LAYOUT_DIR = path.join(ROOT, 'src', 'assets', 'layout');
 const OUT_LAYOUT = path.join(OUT_DIR, 'layout');
-const WIDTH = 320;
+const WIDTH = 720;
+/** Largeur des vignettes déjà générées : si elle change, on les refait toutes. */
+const WIDTH_MARKER = path.join(OUT_PHOTOS, '.width');
 const EXTENSIONS = ['png', 'webp', 'jpg', 'jpeg'];
 
 fs.mkdirSync(OUT_DATA, {recursive: true});
 fs.mkdirSync(OUT_PHOTOS, {recursive: true});
-for (const file of ['joueurs.json', 'equipes.json']) {
+for (const file of ['joueurs.json', 'equipes.json', 'face-positions.json']) {
   fs.copyFileSync(path.join(DATA_DIR, file), path.join(OUT_DATA, file));
 }
 // Décors de fond des cartes joueurs, les mêmes que sur l'écran de projection.
@@ -56,6 +59,11 @@ for (const file of fs.readdirSync(PHOTOS_DIR).sort()) {
   }
 }
 
+if (!fs.existsSync(WIDTH_MARKER) || fs.readFileSync(WIDTH_MARKER, 'utf8').trim() !== String(WIDTH)) {
+  for (const file of fs.readdirSync(OUT_PHOTOS)) fs.unlinkSync(path.join(OUT_PHOTOS, file));
+  fs.writeFileSync(WIDTH_MARKER, `${WIDTH}\n`);
+}
+
 const manifest = {};
 let generated = 0;
 for (const [stem, file] of Object.entries(sources)) {
@@ -82,7 +90,7 @@ for (const [stem, file] of Object.entries(sources)) {
 }
 // Vignettes orphelines (photo supprimée)
 for (const file of fs.readdirSync(OUT_PHOTOS)) {
-  if (!Object.values(manifest).includes(`photos/${file}`)) fs.unlinkSync(path.join(OUT_PHOTOS, file));
+  if (file !== '.width' && !Object.values(manifest).includes(`photos/${file}`)) fs.unlinkSync(path.join(OUT_PHOTOS, file));
 }
 fs.writeFileSync(path.join(OUT_DATA, 'photos.json'), JSON.stringify(manifest, null, 2) + '\n');
 console.log(`vote/ : ${Object.keys(manifest).length} vignettes (${generated} régénérées, ${magick ? 'ImageMagick/WebP' : 'sips'}), données copiées.`);
