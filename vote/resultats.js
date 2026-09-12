@@ -6,6 +6,8 @@ import {firebaseConfig} from './firebase-config.js';
 
 const POINTS = [3, 2, 1];
 const TOP = 8;
+/** Votes suspects : même signature d'appareil et même 1re étoile à moins de SUSPECT_GAP_SECONDS d'intervalle. */
+const SUSPECT_GAP_SECONDS = 60;
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
@@ -13,7 +15,6 @@ const auth = getAuth(app);
 const $ = (sel) => document.querySelector(sel);
 const signinEl = $('#signin'), signoutEl = $('#signout'), matchEl = $('#match'), refreshEl = $('#refresh'), countEl = $('#count'), statusEl = $('#status'), tableEl = $('#table');
 const windowEl = $('#window'), fromEl = $('#from'), toEl = $('#to');
-const dupEl = $('#dup'), dupModeEl = $('#dup-mode'), dupGapEl = $('#dup-gap');
 const tabsEl = $('#tabs'), suspectsEl = $('#suspects'), tabSuspectsEl = $('#tab-suspects');
 const drawEl = $('#draw'), drawResultEl = $('#draw-result');
 const newsletterEl = $('#newsletter'), newsletterTitleEl = $('#newsletter-title'), newsletterListEl = $('#newsletter-list'), copyNewsletterEl = $('#copy-newsletter');
@@ -64,19 +65,19 @@ const fmtTime = (d) => d.toLocaleTimeString('fr-BE', {hour: '2-digit', minute: '
 const fmtTimeSec = (d) => d.toLocaleTimeString('fr-BE', {hour: '2-digit', minute: '2-digit', second: '2-digit'});
 
 /**
- * Votes suspects : bulletins identiques (3 étoiles, ou 1re seule) envoyés à moins de `gap` secondes du précédent
- * bulletin identique. Le premier de chaque rafale est gardé. Rien n'est supprimé dans Firestore : c'est un filtre
- * du dépouillement, la liste des écartés est affichée dans l'onglet « Votes suspects ».
+ * Votes suspects : même signature d'appareil (sig) et même 1re étoile à moins de `gapSeconds` du précédent bulletin
+ * semblable. Le premier de chaque rafale est gardé. Rien n'est supprimé dans Firestore : c'est un filtre du
+ * dépouillement, la liste des écartés est affichée dans l'onglet « Votes suspects ».
  */
-function splitSuspects(ballots, mode, gapSeconds) {
+function splitSuspects(ballots, gapSeconds) {
   const sorted = [...ballots].sort((a, b) => (a.data().createdAt?.toMillis?.() || 0) - (b.data().createdAt?.toMillis?.() || 0));
   const lastSeen = new Map();
   const kept = [], suspects = [];
   for (const d of sorted) {
     const b = d.data();
-    // mode « device » : sans signature (anciens bulletins, crypto indisponible) le bulletin n'est jamais suspect
-    if (mode === 'device' && !b.sig) { kept.push(d); continue; }
-    const key = mode === 'first' ? b.first : mode === 'device' ? `${b.sig}|${b.first}` : `${b.first}|${b.second}|${b.third}`;
+    // sans signature (anciens bulletins, crypto indisponible) le bulletin n'est jamais suspect
+    if (!b.sig) { kept.push(d); continue; }
+    const key = `${b.sig}|${b.first}`;
     const t = b.createdAt?.toMillis?.() || 0;
     const prev = lastSeen.get(key);
     if (prev !== undefined && t - prev <= gapSeconds * 1000) {
@@ -121,7 +122,7 @@ async function loadMatches() {
   const snap = await getDocs(query(collection(db, 'matches'), orderBy('updatedAt', 'desc'), limit(30)));
   matches = snap.docs.map(d => ({id: d.id, ...d.data()}));
   matchEl.innerHTML = matches.map(m => `<option value="${m.id}">${m.id}</option>`).join('');
-  matchEl.hidden = refreshEl.hidden = windowEl.hidden = dupEl.hidden = tabsEl.hidden = !matches.length;
+  matchEl.hidden = refreshEl.hidden = windowEl.hidden = tabsEl.hidden = !matches.length;
   if (!matches.length) statusEl.textContent = 'Aucun vote enregistré pour le moment.';
   else await tally();
 }
@@ -140,8 +141,7 @@ async function tally() {
   };
   const inTime = snap.docs.filter(inWindow);
   const ignored = snap.size - inTime.length;
-  const gap = Math.max(0, Number(dupGapEl.value) || 0);
-  const {kept: ballots, suspects} = splitSuspects(inTime, dupModeEl.value, gap);
+  const {kept: ballots, suspects} = splitSuspects(inTime, SUSPECT_GAP_SECONDS);
   renderSuspects(suspects, match);
   statusEl.textContent = '';
   statusEl.classList.remove('error');
@@ -209,7 +209,7 @@ signoutEl.addEventListener('click', async () => {
   // Retour à l'état initial : plus de match, plus de tableau, plus d'adresses en mémoire.
   matches = []; emails = []; newsletterEmails = [];
   matchEl.innerHTML = ''; tableEl.innerHTML = ''; countEl.textContent = ''; drawResultEl.textContent = '';
-  matchEl.hidden = refreshEl.hidden = windowEl.hidden = dupEl.hidden = tabsEl.hidden = newsletterEl.hidden = drawEl.hidden = true;
+  matchEl.hidden = refreshEl.hidden = windowEl.hidden = tabsEl.hidden = newsletterEl.hidden = drawEl.hidden = true;
   suspectsEl.innerHTML = '';
   newsletterListEl.value = '';
   statusEl.textContent = 'Déconnecté.';
@@ -218,8 +218,6 @@ signoutEl.addEventListener('click', async () => {
 matchEl.addEventListener('change', tally);
 fromEl.addEventListener('change', () => tally().catch(showError));
 toEl.addEventListener('change', () => tally().catch(showError));
-dupModeEl.addEventListener('change', () => tally().catch(showError));
-dupGapEl.addEventListener('change', () => tally().catch(showError));
 tabsEl.addEventListener('click', (e) => {
   const tab = e.target.closest('.tab');
   if (!tab) return;

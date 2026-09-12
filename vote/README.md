@@ -49,9 +49,8 @@ Le votant peut laisser son adresse e-mail (facultatif) pour « tenter de gagner 
 et cocher une case pour s'inscrire aussi à la newsletter (champ `newsletter: true` dans le bulletin, uniquement avec
 une adresse). La page de résultats ne compte que les votes reçus dans un créneau horaire, réglable, par défaut de 20 h le jour du
 match (date dans l'identifiant du match) à minuit : les bulletins de test de l'après-midi sont ignorés. Elle affiche
-le top 8, écarte les votes suspects (à moins de N secondes d'intervalle : même signature technique du navigateur et
-même 1re étoile par défaut, ou 3 étoiles identiques, ou 1re seule ; le premier compte, les suivants sont listés dans un
-onglet dédié, rien n'est supprimé), compte les adresses, copie celles de la newsletter dans le
+le top 8, écarte les votes suspects (même signature technique du navigateur et même 1re étoile à moins d'une minute
+d'intervalle ; le premier compte, les suivants sont listés dans un onglet dédié, rien n'est supprimé), compte les adresses, copie celles de la newsletter dans le
 presse-papiers, et tire un gagnant au sort parmi toutes les adresses laissées.
 
 Après modification de `firestore.rules`, recoller le fichier dans la console Firebase (*Firestore > Règles*),
