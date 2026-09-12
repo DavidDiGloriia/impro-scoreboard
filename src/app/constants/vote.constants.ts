@@ -5,7 +5,7 @@ import {Role} from "@enums/role.enum";
 import {find} from "lodash-es";
 
 /** Page de vote des étoiles (dossier vote/ du dépôt, déployée sur GitHub Pages par .github/workflows/vote-pages.yml). */
-export const VOTE_BASE_URL = 'https://daviddigloriia.github.io/impro-scoreboard/';
+export const VOTE_BASE_URL = 'https://improvisationbe-apps.github.io/impro-scoreboard/';
 
 /** Page de dépouillement, réservée à l'organisation (connexion Google). */
 export const VOTE_RESULTS_URL = VOTE_BASE_URL + 'resultats.html';

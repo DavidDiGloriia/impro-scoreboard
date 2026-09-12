@@ -20,12 +20,12 @@ reste hors ligne, seule la page de vote a besoin d'internet.
    recopier sa configuration dans `firebase-config.js`.
 2. **Règles** : dans *Firestore > Règles*, coller le contenu de `firestore.rules` et adapter la liste des adresses
    Google autorisées à lire les résultats (`isOrganizer`).
-3. **Domaines autorisés** : dans *Authentication > Paramètres > Domaines autorisés*, ajouter `daviddigloriia.github.io`.
+3. **Domaines autorisés** : dans *Authentication > Paramètres > Domaines autorisés*, ajouter `improvisationbe-apps.github.io`.
 4. **GitHub Pages** : le workflow `.github/workflows/vote-pages.yml` déploie le dossier à chaque push sur `main`
    qui touche la page, les données ou les photos. Il active Pages tout seul au premier passage ; sinon,
    *Settings > Pages > Source : GitHub Actions*.
 
-L'adresse de la page est `https://daviddigloriia.github.io/impro-scoreboard/` (constante `VOTE_BASE_URL`
+L'adresse de la page est `https://improvisationbe-apps.github.io/impro-scoreboard/` (constante `VOTE_BASE_URL`
 dans `src/app/constants/vote.constants.ts`).
 
 ## Le soir du match
@@ -70,4 +70,5 @@ puis ouvrir l'adresse affichée avec les paramètres d'un match, par exemple
 Sans `firebase-config.js` renseigné, la page s'affiche mais l'envoi échoue.
 
 Pour revoter depuis le même navigateur pendant les tests, ajouter `&reset=1` à l'adresse : le vote précédent et
-l'empreinte d'appareil sont oubliés, un nouveau bulletin est donc accepté.
+l'empreinte d'appareil sont oubliés, un nouveau bulletin est donc accepté. `&merci=1` affiche directement l'écran de fin,
+sans rien enregistrer (`http://localhost:4300/apercu/merci` dans l'aperçu).

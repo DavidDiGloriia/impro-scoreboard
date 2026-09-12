@@ -9,7 +9,6 @@ import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase
 import {getFirestore, doc, setDoc, serverTimestamp} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js';
 import {firebaseConfig} from './firebase-config.js';
 
-const POINTS_LABELS = ['1re', '2e', '3e'];
 /** Décor utilisé quand l'équipe n'a pas le sien dans layout/ (même repli que l'app). */
 const DEFAULT_LAYOUT = 'lions';
 /** Zoom sur le visage, et exceptions par joueur : mêmes valeurs que la composition réseaux de l'app. */
@@ -92,16 +91,26 @@ function photoSrc(code, teamCode) {
  * Cadrage de la photo sur le visage (face-positions.json, clé = chemin sans extension + suffixe d'équipe,
  * comme PlayerMetadata.imgKey) : même règle que la composition réseaux de l'app.
  */
-function frameOnFace(img, code, teamCode) {
+function frameOnFace(img, code, teamCode, {zoom = 1, center = false} = {}) {
   const p = playerMeta(code);
   if (!p?.img) return;
   const suffix = meta.teams[teamCode]?.playerImgSuffix ?? `-${teamCode}`;
-  const pos = meta.faces[p.img + suffix] || meta.faces[p.img];
-  const origin = pos ? `${pos.x}% ${pos.y - 20}%` : 'center -5%';
+  const pos = meta.faces[p.img + suffix] || meta.faces[p.img] || {x: 50, y: 25};
   const overrideKey = Object.keys(FACE_SCALE_OVERRIDES).find(k => p.img.startsWith(k));
-  img.style.objectPosition = origin;
-  img.style.transformOrigin = origin;
-  img.style.transform = `scale(${overrideKey ? FACE_SCALE_OVERRIDES[overrideKey] : FACE_SCALE})`;
+  const scale = ((overrideKey ? FACE_SCALE_OVERRIDES[overrideKey] : FACE_SCALE) * zoom).toFixed(2);
+  if (center) {
+    // petite vignette : le visage au milieu du cadre (translation en % du cadre, après le zoom autour du visage)
+    const origin = `${pos.x}% ${pos.y}%`;
+    img.style.objectPosition = origin;
+    img.style.transformOrigin = origin;
+    img.style.transform = `translate(${50 - pos.x}%, ${50 - pos.y}%) scale(${scale})`;
+  } else {
+    // grande carte : point d'ancrage remonté de 20 % pour laisser de l'air au-dessus de la tête (même règle que l'app)
+    const origin = `${pos.x}% ${pos.y - 20}%`;
+    img.style.objectPosition = origin;
+    img.style.transformOrigin = origin;
+    img.style.transform = `scale(${scale})`;
+  }
 }
 
 function teamName(side) {
@@ -140,13 +149,9 @@ function renderPlayer(pl, side) {
   for (const edge of ['left', 'right']) {
     const layout = document.createElement('img');
     layout.className = `card-layout card-layout-${edge}`;
-    layout.src = `layout/${teamCodes[side] || DEFAULT_LAYOUT}-${edge}.svg`;
     layout.alt = '';
     layout.draggable = false;
-    layout.onerror = () => {
-      if (layout.src.includes(`/${DEFAULT_LAYOUT}-`)) layout.remove();
-      else layout.src = `layout/${DEFAULT_LAYOUT}-${edge}.svg`;
-    };
+    teamLayout(layout, teamCodes[side], edge);
     btn.appendChild(layout);
   }
   const src = photoSrc(pl.code, teamCodes[side]);
@@ -242,24 +247,6 @@ function updateSelection() {
   }
 }
 
-/** Date du match tirée de l'identifiant ("2026-09-17-lions-aigles" → "17/09/26"), vide si absente. */
-function matchDate() {
-  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(matchId);
-  return m ? `${m[3]}/${m[2]}/${m[1].slice(2)}` : '';
-}
-
-/** Titre sur une seule ligne : on réduit la taille de police jusqu'à ce qu'il tienne dans la largeur (0,85 rem minimum). */
-function fitTitle() {
-  const el = $('#title');
-  if (!el) return;
-  let size = 1.3;
-  el.style.fontSize = `${size}rem`;
-  while (el.scrollWidth > el.clientWidth && size > 0.8) {
-    size -= 0.05;
-    el.style.fontSize = `${size.toFixed(2)}rem`;
-  }
-}
-
 /** La marge basse de la page suit la hauteur réelle du pied fixe, pour que le dernier joueur reste atteignable. */
 function fitFooter() {
   const app = $('#app');
@@ -291,17 +278,27 @@ function lockKey() {
   return `vote-etoiles:${matchId}`;
 }
 
-function showDone(saved) {
+/** Décor d'une équipe (layout/<code>-left.svg ou -right.svg), avec repli sur le décor par défaut puis retrait. */
+function teamLayout(img, teamCode, edge) {
+  img.src = `layout/${teamCode || DEFAULT_LAYOUT}-${edge}.svg`;
+  img.onerror = () => {
+    if (img.src.includes(`/${DEFAULT_LAYOUT}-`)) img.remove();
+    else img.src = `layout/${DEFAULT_LAYOUT}-${edge}.svg`;
+  };
+}
+
+function showDone() {
   const tpl = document.getElementById('done-template');
   const done = tpl.content.cloneNode(true);
-  const list = done.querySelector('.done-list');
-  saved.forEach((pick, i) => {
-    const li = document.createElement('li');
-    li.innerHTML = `<span class="rank">${POINTS_LABELS[i]}</span><span>${displayName(pick.code)}</span><span class="team">${teamName(pick.team)}</span>`;
-    list.appendChild(li);
-  });
   const app = $('#app');
+  // On garde l'en-tête tel quel (logo), sans la consigne ; le reste est remplacé.
+  const header = $('.header');
+  header.querySelectorAll('.subtitle').forEach(el => el.remove());
   app.innerHTML = '';
+  app.appendChild(header);
+  app.style.paddingBottom = ''; // plus de pied fixe à compenser
+  app.classList.add('done-page');
+  document.body.classList.add('done-page');
   app.appendChild(done);
 }
 
@@ -332,7 +329,7 @@ async function submit() {
       updatedAt: serverTimestamp(),
     }, {merge: true}).catch(() => { /* facultatif */ });
     try { localStorage.setItem(lockKey(), JSON.stringify(picks)); } catch { /* navigation privée */ }
-    showDone(picks);
+    showDone();
   } catch (e) {
     console.error(e);
     statusEl.textContent = e?.code === 'permission-denied'
@@ -357,16 +354,17 @@ async function main() {
     // Pour tester : oublie le vote précédent et l'empreinte d'appareil (donc un nouveau bulletin sera accepté).
     try { localStorage.removeItem(lockKey()); localStorage.removeItem('vote-etoiles:device'); } catch { /* ignore */ }
   }
+  if (params.has('merci')) {
+    // Pour tester : affiche l'écran de fin sans rien enregistrer.
+    showDone();
+    return;
+  }
   let already = null;
   try { already = JSON.parse(localStorage.getItem(lockKey()) || 'null'); } catch { /* ignore */ }
   if (already?.length === 3) {
-    showDone(already);
+    showDone();
     return;
   }
-  $('#title').textContent = `${teamName('a')} vs ${teamName('b')}${matchDate() ? ` · ${matchDate()}` : ''}`;
-  fitTitle();
-  if (document.fonts?.ready) document.fonts.ready.then(fitTitle); // Poppins arrive après le premier rendu
-  window.addEventListener('resize', fitTitle);
   render();
   try { emailEl.value = localStorage.getItem('vote-etoiles:email') || ''; } catch { /* ignore */ }
   emailEl.addEventListener('input', updateSelection);

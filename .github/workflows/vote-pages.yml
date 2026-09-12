@@ -1,5 +1,5 @@
 # Déploie la page de vote des étoiles (dossier vote/) sur GitHub Pages.
-# URL : https://daviddigloriia.github.io/impro-scoreboard/
+# URL : https://improvisationbe-apps.github.io/impro-scoreboard/
 name: 'Vote étoiles (GitHub Pages)'
 
 on:
