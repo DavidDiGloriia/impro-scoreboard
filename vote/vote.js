@@ -258,6 +258,58 @@ function normalizedEmail() {
   return emailEl.value.trim().toLowerCase();
 }
 
+/**
+ * Signature technique du navigateur, stable en navigation privée : navigateur, système, modèle (Android),
+ * écran, langue, fuseau, carte graphique… Envoyée hachée (sig) avec un libellé lisible (agent) pour que la page
+ * de résultats repère les rafales de votes venant probablement du même appareil. Ce n'est pas un identifiant
+ * unique : des téléphones identiques partagent la même signature.
+ */
+async function deviceSignature() {
+  const n = navigator;
+  let model = '', platformVersion = '';
+  try {
+    const hints = await n.userAgentData?.getHighEntropyValues?.(['model', 'platformVersion']);
+    model = hints?.model || '';
+    platformVersion = hints?.platformVersion || '';
+  } catch { /* pas de Client Hints */ }
+  let gpu = '';
+  try {
+    const gl = document.createElement('canvas').getContext('webgl');
+    const info = gl?.getExtension('WEBGL_debug_renderer_info');
+    gpu = info ? gl.getParameter(info.UNMASKED_RENDERER_WEBGL) : '';
+  } catch { /* WebGL indisponible */ }
+  const parts = [
+    n.userAgent, n.platform || '', model, platformVersion,
+    `${screen.width}x${screen.height}@${devicePixelRatio || 1}`,
+    n.language, Intl.DateTimeFormat().resolvedOptions().timeZone || '',
+    String(n.hardwareConcurrency || ''), String(n.maxTouchPoints || ''), gpu,
+  ];
+  let sig = '';
+  try {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(parts.join('|')));
+    sig = [...new Uint8Array(buf)].slice(0, 12).map(b => b.toString(16).padStart(2, '0')).join('');
+  } catch { /* pas de crypto : pas de signature */ }
+  return {sig, agent: deviceLabel(n.userAgent, model, platformVersion, gpu)};
+}
+
+/** Libellé court et lisible de l'appareil, ex. « iPhone · iOS 18.1 · 390×844 » ou « Android · SM-G991B · Chrome ». */
+function deviceLabel(ua, model, platformVersion, gpu) {
+  const screenLabel = `${Math.min(screen.width, screen.height)}×${Math.max(screen.width, screen.height)}`;
+  let device = 'Navigateur';
+  if (/iPhone/.test(ua)) device = 'iPhone';
+  else if (/iPad|Macintosh.*Mobile/.test(ua)) device = 'iPad';
+  else if (/Android/.test(ua)) device = 'Android';
+  else if (/Macintosh/.test(ua)) device = 'Mac';
+  else if (/Windows/.test(ua)) device = 'Windows';
+  const ios = /OS (\d+)[._](\d+)/.exec(ua);
+  const os = device === 'iPhone' || device === 'iPad' ? (ios ? `iOS ${ios[1]}.${ios[2]}` : 'iOS')
+    : device === 'Android' ? `Android ${platformVersion.split('.')[0] || (/Android (\d+)/.exec(ua) || [])[1] || ''}`.trim() : '';
+  const androidModel = model || (/Android[^;]*;\s*([^;)]+?)(?:\s+Build|\))/.exec(ua) || [])[1] || '';
+  const browser = /CriOS|Chrome/.test(ua) ? 'Chrome' : /FxiOS|Firefox/.test(ua) ? 'Firefox' : /SamsungBrowser/.test(ua) ? 'Samsung' : /Safari/.test(ua) ? 'Safari' : '';
+  return [device, androidModel, os, browser, screenLabel, gpu && !/Apple GPU/.test(gpu) ? gpu.slice(0, 30) : '']
+    .filter(Boolean).join(' · ').slice(0, 110);
+}
+
 /** Empreinte d'appareil : identifiant aléatoire conservé dans le navigateur, qui sert d'identifiant au bulletin. */
 function deviceId() {
   const key = 'vote-etoiles:device';
@@ -315,8 +367,10 @@ async function submit() {
     const [first, second, third] = picks.map(p => `${p.team}:${p.code}`);
     // L'empreinte d'appareil est l'identifiant du bulletin : un second vote depuis le même téléphone est refusé par les règles.
     const device = deviceId();
+    const {sig, agent} = await deviceSignature();
     await setDoc(doc(db, 'matches', matchId, 'ballots', device), {
       device, first, second, third,
+      ...(sig ? {sig, agent} : {}),
       ...(email ? {email} : {}),
       ...(newsletter ? {newsletter: true} : {}),
       createdAt: serverTimestamp(),

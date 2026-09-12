@@ -35,6 +35,11 @@ dans `src/app/constants/vote.constants.ts`).
    dernière pause.
 3. Résultats : bouton **Voir les résultats** du panneau, ou `resultats.html`, connexion Google, choisir le match.
 
+Chaque bulletin porte aussi une signature technique du navigateur (`sig`, haché SHA-256 de : user agent, modèle
+Android via Client Hints, écran, langue, fuseau, carte graphique… et `agent`, libellé lisible du type « iPhone · iOS 18.1 ·
+390×844 »). Stable en navigation privée, elle sert à la détection des votes suspects. Elle n'est pas unique : les iPhone
+d'un même modèle sous la même version d'iOS partagent la même. La page de vote en informe le votant en une ligne.
+
 Une seule voix par téléphone et par match : une empreinte d'appareil (identifiant aléatoire gardé dans le
 navigateur) sert d'identifiant au bulletin, et les règles refusent un second bulletin pour la même empreinte.
 Contournable en vidant le stockage du navigateur : c'est un frein aux doublons, pas une élection. Un filtrage par
@@ -44,7 +49,9 @@ Le votant peut laisser son adresse e-mail (facultatif) pour « tenter de gagner 
 et cocher une case pour s'inscrire aussi à la newsletter (champ `newsletter: true` dans le bulletin, uniquement avec
 une adresse). La page de résultats ne compte que les votes reçus dans un créneau horaire, réglable, par défaut de 20 h le jour du
 match (date dans l'identifiant du match) à minuit : les bulletins de test de l'après-midi sont ignorés. Elle affiche
-le top 8, compte les adresses, copie celles de la newsletter dans le
+le top 8, écarte les votes suspects (à moins de N secondes d'intervalle : même signature technique du navigateur et
+même 1re étoile par défaut, ou 3 étoiles identiques, ou 1re seule ; le premier compte, les suivants sont listés dans un
+onglet dédié, rien n'est supprimé), compte les adresses, copie celles de la newsletter dans le
 presse-papiers, et tire un gagnant au sort parmi toutes les adresses laissées.
 
 Après modification de `firestore.rules`, recoller le fichier dans la console Firebase (*Firestore > Règles*),

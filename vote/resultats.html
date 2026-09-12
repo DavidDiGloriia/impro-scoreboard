@@ -18,6 +18,14 @@
     .toolbar .ms-auto { margin-left: auto; }
     .count { color: var(--muted); font-size: 0.9rem; }
     .window { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: 0.9rem; }
+    .window select, .window .gap { font: inherit; padding: 8px 10px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.2); background: var(--card); color: var(--fg); }
+    .window .gap { width: 70px; }
+    .tabs { display: flex; gap: 6px; margin-top: 18px; border-bottom: 1px solid rgba(255,255,255,0.12); }
+    .tab { font: inherit; font-weight: 700; padding: 10px 14px; border: 0; border-bottom: 3px solid transparent; background: none; color: var(--muted); cursor: pointer; }
+    .tab.active { color: var(--fg); border-bottom-color: var(--gold); }
+    .suspect-empty { color: var(--muted); padding: 16px 0; }
+    td.time { white-space: nowrap; font-variant-numeric: tabular-nums; }
+    td.agent { font-size: 0.8rem; color: var(--muted); max-width: 220px; }
     .window input { font: inherit; padding: 8px 10px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.2); background: var(--card); color: var(--fg); color-scheme: dark; }
     table { width: 100%; border-collapse: collapse; margin-top: 10px; }
     th, td { padding: 10px 8px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.08); }
@@ -52,6 +60,15 @@
         <span>Votes de</span> <input id="from" type="time" value="20:00">
         <span>à</span> <input id="to" type="time" value="00:00">
       </label>
+      <label id="dup" class="window" hidden>
+        <span>Suspect :</span>
+        <select id="dup-mode">
+          <option value="device" selected>même appareil probable + même 1<sup>re</sup> étoile</option>
+          <option value="all">3 étoiles identiques</option>
+          <option value="first">même 1<sup>re</sup> étoile</option>
+        </select>
+        <span>en moins de</span> <input id="dup-gap" type="number" min="0" max="3600" step="5" value="30" class="gap"> <span>s</span>
+      </label>
       <button id="refresh" hidden>Actualiser</button>
       <button id="draw" hidden>Tirer un gagnant</button>
       <span id="count" class="count"></span>
@@ -59,7 +76,12 @@
     </div>
     <p id="status" class="status"></p>
     <p id="draw-result" class="status" style="font-size:1.2rem;font-weight:800;color:var(--gold)"></p>
+    <nav id="tabs" class="tabs" hidden>
+      <button class="tab active" data-tab="table">Classement</button>
+      <button class="tab" data-tab="suspects" id="tab-suspects">Votes suspects</button>
+    </nav>
     <div id="table"></div>
+    <div id="suspects" hidden></div>
     <section id="newsletter" class="newsletter" hidden>
       <div class="newsletter-head">
         <h2 id="newsletter-title" class="newsletter-title">Adresses newsletter</h2>
@@ -68,6 +90,7 @@
       <textarea id="newsletter-list" class="newsletter-list" readonly spellcheck="false"></textarea>
     </section>
     <p class="hint">Seuls les votes reçus dans le créneau sont comptés, par défaut de 20 h le jour du match à minuit. Le jour du match vient de l'identifiant (ex. 2026-09-17-aigles-requins) ; une heure de fin inférieure ou égale à l'heure de début passe au lendemain.</p>
+    <p class="hint">Votes suspects : bulletins envoyés à moins de N secondes d'intervalle et jugés identiques selon le réglage : même signature technique du navigateur (système, écran, modèle Android…) et même 1<sup>re</sup> étoile ; les 3 étoiles identiques ; ou la 1<sup>re</sup> seule. Le premier est gardé, les suivants sont écartés du classement, du tirage et de la newsletter, et listés dans l'onglet « Votes suspects ». La signature n'est pas unique : des téléphones identiques la partagent.</p>
     <p class="hint">Top 8. Barème : 3 points pour une 1<sup>re</sup> étoile, 2 pour une 2<sup>e</sup>, 1 pour une 3<sup>e</sup>. Les égalités sont départagées au nombre de 1<sup>res</sup> étoiles, puis de 2<sup>es</sup>.</p>
   </main>
   <script type="module" src="resultats.js"></script>
