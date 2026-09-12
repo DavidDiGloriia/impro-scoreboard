@@ -10,6 +10,7 @@ import {Team} from "@models/team";
 import {TeamMetadata} from "@models/team-metadata";
 import {PlayerMetadata} from "@models/player-metadata";
 import {StarPlayer} from "@models/star-player";
+import {TeamLayoutComponent} from "@components/projection/team-layout/team-layout.component";
 
 /**
  * Panneau de l'écran "étoiles individuelles" : un clic sur un joueur le projette en grand,
@@ -20,7 +21,8 @@ import {StarPlayer} from "@models/star-player";
   imports: [
     KeyValueNoSortPipe,
     RoleNamePipe,
-    UpperCasePipe
+    UpperCasePipe,
+    TeamLayoutComponent
   ],
   templateUrl: './display-star-player-manager.component.html',
   styleUrl: './display-star-player-manager.component.scss'

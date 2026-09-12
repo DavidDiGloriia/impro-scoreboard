@@ -15,6 +15,9 @@
                  [class.player-dimmed]="starPlayer().isSet && !selected"
                  [style.--team-color]="metadata?.color"
                  (click)="onSelectPlayer(teamNumber, player.key)">
+              <!-- Décors de l'équipe en fond de carte -->
+              <app-team-layout class="card-layout card-layout-left" [team]="team" side="left"/>
+              <app-team-layout class="card-layout card-layout-right" [team]="team" side="right"/>
               <img [src]="playerImg(team, playerValue.code)" [alt]="playerValue.code" class="player-photo"/>
               @if (playerValue.number) {
                 <div class="player-number">#{{ playerValue.number }}</div>

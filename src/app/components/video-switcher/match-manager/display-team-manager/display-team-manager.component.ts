@@ -8,13 +8,15 @@ import {RoleNamePipe} from "@pipes/role-name.pipe";
 import {TeamMetadata} from "@models/team-metadata";
 import {NgIf} from "@angular/common";
 import {Player} from "@models/player";
+import {TeamLayoutComponent} from "@components/projection/team-layout/team-layout.component";
 
 @Component({
   selector: 'app-display-team-manager',
   imports: [
     KeyValueNoSortPipe,
     RoleNamePipe,
-    NgIf
+    NgIf,
+    TeamLayoutComponent
   ],
   templateUrl: './display-team-manager.component.html',
   styleUrl: './display-team-manager.component.scss'

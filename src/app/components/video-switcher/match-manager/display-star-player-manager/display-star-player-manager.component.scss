@@ -30,12 +30,29 @@
   max-width: calc(280px * 0.75);
   border-radius: 12px;
   overflow: hidden;
+  background-color: black;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.8);
   cursor: pointer;
   transform: scale(1);
   transition: transform 0.15s ease, filter 0.15s ease, box-shadow 0.15s ease;
   border: 4px solid transparent;
   box-sizing: border-box;
+}
+
+/* Décors de l'équipe en fond de carte, pleine hauteur, collés aux bords, derrière la photo détourée */
+.card-layout {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  z-index: 0;
+}
+
+.card-layout-left {
+  left: 0;
+}
+
+.card-layout-right {
+  right: 0;
 }
 
 .player-bar:hover {
@@ -53,6 +70,8 @@
 }
 
 .player-photo {
+  position: relative;
+  z-index: 1;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -61,6 +80,7 @@
 
 .player-number {
   position: absolute;
+  z-index: 2;
   top: 8px;
   right: 10px;
   font-size: 2rem;
@@ -72,6 +92,7 @@
 
 .video-badge {
   position: absolute;
+  z-index: 2;
   top: 10px;
   left: 10px;
   width: 28px;
@@ -88,6 +109,7 @@
 
 .overlay {
   position: absolute;
+  z-index: 2;
   bottom: 0;
   width: 100%;
   padding: 16px 12px;
