@@ -17,6 +17,8 @@
     .toolbar button.primary { background: var(--gold); color: #000; border-color: var(--gold); }
     .toolbar .ms-auto { margin-left: auto; }
     .count { color: var(--muted); font-size: 0.9rem; }
+    .window { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: 0.9rem; }
+    .window input { font: inherit; padding: 8px 10px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.2); background: var(--card); color: var(--fg); color-scheme: dark; }
     table { width: 100%; border-collapse: collapse; margin-top: 10px; }
     th, td { padding: 10px 8px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.08); }
     th { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 600; }
@@ -25,6 +27,15 @@
     tr.top .rank { color: var(--gold); }
     .team-tag { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 8px; vertical-align: middle; }
     .hint { color: var(--muted); font-size: 0.85rem; }
+    .newsletter { margin-top: 28px; }
+    .newsletter-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px; }
+    .newsletter-title { font-size: 1rem; font-weight: 800; margin: 0; text-transform: uppercase; letter-spacing: 0.04em; }
+    .newsletter-head button { font: inherit; padding: 8px 14px; border-radius: 10px; border: 1px solid var(--gold); background: var(--gold); color: #000; font-weight: 700; cursor: pointer; }
+    .newsletter-list {
+      width: 100%; min-height: 160px; resize: vertical; box-sizing: border-box;
+      font: 0.9rem/1.5 ui-monospace, Menlo, monospace; padding: 10px 12px; border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.2); background: var(--card); color: var(--fg); outline: none;
+    }
   </style>
 </head>
 <body>
@@ -37,8 +48,11 @@
     <div class="toolbar">
       <button id="signin" class="primary">Se connecter avec Google</button>
       <select id="match" hidden></select>
+      <label id="window" class="window" hidden>
+        <span>Votes de</span> <input id="from" type="time" value="20:00">
+        <span>à</span> <input id="to" type="time" value="00:00">
+      </label>
       <button id="refresh" hidden>Actualiser</button>
-      <button id="copy-newsletter" hidden>Copier les adresses newsletter</button>
       <button id="draw" hidden>Tirer un gagnant</button>
       <span id="count" class="count"></span>
       <button id="signout" class="ms-auto" hidden>Se déconnecter</button>
@@ -46,6 +60,14 @@
     <p id="status" class="status"></p>
     <p id="draw-result" class="status" style="font-size:1.2rem;font-weight:800;color:var(--gold)"></p>
     <div id="table"></div>
+    <section id="newsletter" class="newsletter" hidden>
+      <div class="newsletter-head">
+        <h2 id="newsletter-title" class="newsletter-title">Adresses newsletter</h2>
+        <button id="copy-newsletter">Copier</button>
+      </div>
+      <textarea id="newsletter-list" class="newsletter-list" readonly spellcheck="false"></textarea>
+    </section>
+    <p class="hint">Seuls les votes reçus dans le créneau sont comptés, par défaut de 20 h le jour du match à minuit. Le jour du match vient de l'identifiant (ex. 2026-09-17-aigles-requins) ; une heure de fin inférieure ou égale à l'heure de début passe au lendemain.</p>
     <p class="hint">Top 8. Barème : 3 points pour une 1<sup>re</sup> étoile, 2 pour une 2<sup>e</sup>, 1 pour une 3<sup>e</sup>. Les égalités sont départagées au nombre de 1<sup>res</sup> étoiles, puis de 2<sup>es</sup>.</p>
   </main>
   <script type="module" src="resultats.js"></script>
