@@ -10,9 +10,16 @@ import {getFirestore, doc, setDoc, serverTimestamp} from 'https://www.gstatic.co
 import {firebaseConfig} from './firebase-config.js';
 
 const POINTS_LABELS = ['1re', '2e', '3e'];
-const PRIVACY_DRAW = "L'adresse ne sert qu'au tirage au sort et n'est pas réutilisée. Un seul vote par téléphone.";
-const PRIVACY_NEWSLETTER = 'Un seul vote par téléphone.';
-const ROLE_LABELS = {capitaine: 'Capitaine', assistant: 'Assistant·e', coach: 'Coach'};
+/** Décor utilisé quand l'équipe n'a pas le sien dans layout/ (même repli que l'app). */
+const DEFAULT_LAYOUT = 'lions';
+const ROLE_LABELS = {capitaine: 'Capitaine', assistant: 'Assistant', coach: 'Coach'};
+
+/** Libellé du rôle, accordé d'après le champ femme de joueurs.json (comme le pipe roleName de l'app). */
+function roleLabel(role, code) {
+  const label = ROLE_LABELS[role];
+  if (!label) return '';
+  return role === 'assistant' && playerMeta(code)?.femme ? 'Assistante' : label;
+}
 
 const params = new URLSearchParams(location.search);
 const matchId = (params.get('m') || '').replace(/[^\w-]/g, '');
@@ -24,7 +31,6 @@ const submitEl = $('#submit');
 const statusEl = $('#status');
 const emailEl = $('#email');
 const newsletterEl = $('#newsletter');
-const privacyEl = $('#privacy');
 const footerEl = $('#footer');
 const EMAIL_RE = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
 
@@ -80,25 +86,19 @@ function teamColor(side) {
   return meta.teams[teamCodes[side]]?.couleur || (side === 'a' ? 'var(--team-a)' : 'var(--team-b)');
 }
 
+/** Une grille à deux colonnes : équipe A à gauche, équipe B à droite, ligne par ligne. Pas de titre d'équipe, la couleur suffit. */
 function render() {
   teamsEl.innerHTML = '';
-  for (const side of ['a', 'b']) {
-    if (!players[side].length) continue;
-    const section = document.createElement('section');
-    section.className = 'team';
-    section.style.setProperty('--team-color', teamColor(side));
-    const h = document.createElement('h2');
-    h.className = 'team-name';
-    h.textContent = teamName(side);
-    section.appendChild(h);
-    const grid = document.createElement('div');
-    grid.className = 'players';
-    for (const pl of players[side]) {
-      grid.appendChild(renderPlayer(pl, side));
+  const grid = document.createElement('div');
+  grid.className = 'players';
+  const rows = Math.max(players.a.length, players.b.length);
+  for (let i = 0; i < rows; i++) {
+    for (const side of ['a', 'b']) {
+      const pl = players[side][i];
+      grid.appendChild(pl ? renderPlayer(pl, side) : document.createElement('span'));
     }
-    section.appendChild(grid);
-    teamsEl.appendChild(section);
   }
+  teamsEl.appendChild(grid);
   updateSelection();
 }
 
@@ -108,6 +108,20 @@ function renderPlayer(pl, side) {
   btn.className = 'player';
   btn.dataset.code = pl.code;
   btn.dataset.team = side;
+  btn.style.setProperty('--team-color', teamColor(side));
+  // Décors de l'équipe en fond de carte, comme sur l'écran de présentation
+  for (const edge of ['left', 'right']) {
+    const layout = document.createElement('img');
+    layout.className = `card-layout card-layout-${edge}`;
+    layout.src = `layout/${teamCodes[side] || DEFAULT_LAYOUT}-${edge}.svg`;
+    layout.alt = '';
+    layout.draggable = false;
+    layout.onerror = () => {
+      if (layout.src.includes(`/${DEFAULT_LAYOUT}-`)) layout.remove();
+      else layout.src = `layout/${DEFAULT_LAYOUT}-${edge}.svg`;
+    };
+    btn.appendChild(layout);
+  }
   const src = photoSrc(pl.code, teamCodes[side]);
   if (src) {
     const img = document.createElement('img');
@@ -131,10 +145,10 @@ function renderPlayer(pl, side) {
   btn.appendChild(rank);
   const caption = document.createElement('span');
   caption.className = 'player-caption';
-  if (ROLE_LABELS[pl.role]) {
+  if (roleLabel(pl.role, pl.code)) {
     const role = document.createElement('span');
     role.className = 'player-role';
-    role.textContent = ROLE_LABELS[pl.role];
+    role.textContent = roleLabel(pl.role, pl.code);
     caption.appendChild(role);
   }
   const name = document.createElement('span');
@@ -171,6 +185,8 @@ function updateSelection() {
     const index = picks.findIndex(p => p.code === btn.dataset.code && p.team === btn.dataset.team);
     btn.classList.toggle('selected', index >= 0);
     btn.classList.toggle('dimmed', picks.length === 3 && index < 0);
+    // rang porté par l'attribut, pour la couleur or / argent / bronze de la pastille
+    if (index >= 0) btn.dataset.rank = String(index + 1); else delete btn.dataset.rank;
     btn.querySelector('.player-rank').textContent = index >= 0 ? String(index + 1) : '';
   });
   document.querySelectorAll('.pick').forEach((el, i) => {
@@ -184,11 +200,11 @@ function updateSelection() {
   // la newsletter demande une adresse : sans adresse, la case ne peut pas être prise en compte
   const newsletterOk = !newsletter || email !== '';
   emailEl.classList.toggle('invalid', !emailOk || !newsletterOk);
-  privacyEl.textContent = newsletter ? PRIVACY_NEWSLETTER : PRIVACY_DRAW;
   submitEl.disabled = picks.length !== 3 || !emailOk || !newsletterOk;
   statusEl.classList.remove('error');
+  // pas de compteur de choix : le bouton grisé et les trois cadres suffisent
   if (picks.length < 3) {
-    statusEl.textContent = `Encore ${3 - picks.length} choix`;
+    statusEl.textContent = '';
   } else if (!emailOk) {
     statusEl.textContent = 'Adresse e-mail incomplète';
   } else if (!newsletterOk) {
@@ -202,6 +218,18 @@ function updateSelection() {
 function matchDate() {
   const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(matchId);
   return m ? `${m[3]}/${m[2]}/${m[1].slice(2)}` : '';
+}
+
+/** Titre sur une seule ligne : on réduit la taille de police jusqu'à ce qu'il tienne dans la largeur (0,85 rem minimum). */
+function fitTitle() {
+  const el = $('#title');
+  if (!el) return;
+  let size = 1.6;
+  el.style.fontSize = `${size}rem`;
+  while (el.scrollWidth > el.clientWidth && size > 0.85) {
+    size -= 0.05;
+    el.style.fontSize = `${size.toFixed(2)}rem`;
+  }
 }
 
 /** La marge basse de la page suit la hauteur réelle du pied fixe, pour que le dernier joueur reste atteignable. */
@@ -307,14 +335,10 @@ async function main() {
     showDone(already);
     return;
   }
-  const titleEl = $('#title');
-  titleEl.textContent = `${teamName('a')} vs ${teamName('b')}`;
-  if (matchDate()) {
-    const date = document.createElement('span');
-    date.className = 'date';
-    date.textContent = ` · ${matchDate()}`;
-    titleEl.appendChild(date);
-  }
+  $('#title').textContent = `${teamName('a')} vs ${teamName('b')}${matchDate() ? ` · ${matchDate()}` : ''}`;
+  fitTitle();
+  if (document.fonts?.ready) document.fonts.ready.then(fitTitle); // Poppins arrive après le premier rendu
+  window.addEventListener('resize', fitTitle);
   render();
   try { emailEl.value = localStorage.getItem('vote-etoiles:email') || ''; } catch { /* ignore */ }
   emailEl.addEventListener('input', updateSelection);

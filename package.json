@@ -31,6 +31,7 @@
     "photos:cutout": "mkdir -p scripts/.cache && swiftc -O -o scripts/.cache/cutout scripts/cutout.swift && scripts/.cache/cutout",
     "vote:build": "node scripts/vote-build.js",
     "vote:serve": "npm run vote:build && npx --yes serve vote -l 4300",
+    "vote:apercu": "node scripts/vote-apercu.js",
     "faces:detect": "mkdir -p scripts/.cache && swiftc -O -o scripts/.cache/detect-faces scripts/detect-faces.swift && scripts/.cache/detect-faces",
     "preng:serve": "npm run photos:manifest",
     "prebuild": "npm run photos:manifest",

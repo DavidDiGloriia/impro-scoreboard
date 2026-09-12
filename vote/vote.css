@@ -5,6 +5,8 @@
   --muted: rgba(255, 255, 255, 0.6);
   --card: #141414;
   --gold: #f5c518;
+  --silver: #c9ced6;
+  --bronze: #cd7f32;
   --team-a: #ff3333;
   --team-b: #3399cc;
   color-scheme: dark;
@@ -14,7 +16,7 @@
 
 html, body {
   margin: 0;
-  overflow-x: hidden;
+  overflow-x: clip;
   background: var(--bg);
   color: var(--fg);
   font-family: "Poppins", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
@@ -28,18 +30,26 @@ html, body {
   padding: max(16px, env(safe-area-inset-top)) 16px 320px; /* bas : ajusté par vote.js à la hauteur du pied fixe */
 }
 
-/* --- En-tête --- */
-.header { text-align: center; padding: 8px 0 12px; }
+/* --- En-tête, collant en haut de page --- */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  text-align: center;
+  padding: 8px 0 10px;
+  background: var(--bg);
+}
 .logo { height: 44px; width: auto; }
+/* une seule ligne : la taille est réduite par vote.js (fitTitle) jusqu'à ce que le texte tienne */
 .title {
   margin: 12px 0 6px;
-  font-size: clamp(1.15rem, 5.2vw, 1.6rem);
+  font-size: 1.6rem;
   line-height: 1.15;
   font-weight: 900;
   letter-spacing: -0.02em;
   text-transform: uppercase;
+  white-space: nowrap;
 }
-.title .date { white-space: nowrap; }
 .subtitle { margin: 0; color: var(--gold); font-size: 1.05rem; font-weight: 700; }
 
 /* --- Rappel des 3 choix, dans le pied fixe au-dessus du champ e-mail --- */
@@ -51,18 +61,20 @@ html, body {
   margin: 0 auto 10px;
 }
 .pick {
+  --rank-color: var(--gold);
   min-width: 0; /* les noms en une ligne ne doivent pas élargir la colonne */
   background: var(--card);
   border-radius: 12px;
-  padding: 8px 8px 10px;
+  padding: 7px 8px 8px;
   text-align: center;
   border: 1px solid rgba(255, 255, 255, 0.08);
   transition: border-color 0.2s, transform 0.2s;
 }
-.pick.filled { border-color: var(--gold); }
-.pick-star { display: block; color: rgba(255, 255, 255, 0.25); font-size: 1.1rem; line-height: 1; }
-.pick.filled .pick-star { color: var(--gold); }
-.pick-label { display: block; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-top: 2px; }
+/* or, argent, bronze */
+.pick[data-rank="2"], .player[data-rank="2"] { --rank-color: var(--silver); }
+.pick[data-rank="3"], .player[data-rank="3"] { --rank-color: var(--bronze); }
+.pick.filled { border-color: var(--rank-color); }
+.pick-label { display: block; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--rank-color); }
 .pick-name {
   display: block;
   font-weight: 700;
@@ -73,23 +85,12 @@ html, body {
   text-overflow: ellipsis;
 }
 
-/* --- Équipes et joueurs --- */
-.team { margin-top: 20px; }
-.team-name {
-  font-size: 1.5rem;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: -0.02em;
-  color: var(--team-color, #fff);
-  margin: 0 0 10px;
-  padding-left: 12px;
-  border-left: 5px solid var(--team-color, #fff);
-  line-height: 1.1;
-}
+/* --- Joueurs : équipe A dans la colonne de gauche, équipe B à droite, la couleur du fond suffit à les distinguer --- */
 .players {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 10px;
+  margin-top: 8px;
 }
 
 .player {
@@ -97,7 +98,7 @@ html, body {
   min-width: 0;
   border: 0;
   padding: 0;
-  background: var(--card);
+  background: #000; /* carte noire, comme sur l'écran de présentation */
   border-radius: 14px;
   overflow: hidden;
   aspect-ratio: 2 / 3;
@@ -114,6 +115,16 @@ html, body {
 .player.selected { outline-color: var(--gold); }
 .player.dimmed { opacity: 0.55; }
 
+/* Décors de l'équipe en fond de carte, pleine hauteur, collés aux bords gauche et droit, derrière la photo détourée */
+.card-layout {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: auto;
+  pointer-events: none;
+}
+.card-layout-left { left: 0; }
+.card-layout-right { right: 0; }
 .player-photo {
   position: absolute;
   inset: 0;
@@ -121,8 +132,6 @@ html, body {
   height: 100%;
   object-fit: cover;
   object-position: center top;
-  /* teinte de l'équipe derrière les photos détourées */
-  background: radial-gradient(ellipse at 50% 30%, color-mix(in srgb, var(--team-color) 45%, #000) 0%, #000 75%);
 }
 .player-initials {
   position: absolute;
@@ -132,7 +141,7 @@ html, body {
   font-size: 2.2rem;
   font-weight: 900;
   color: color-mix(in srgb, var(--team-color) 70%, #fff);
-  background: radial-gradient(ellipse at 50% 30%, color-mix(in srgb, var(--team-color) 45%, #000) 0%, #000 75%);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
 }
 .player-number {
   position: absolute;
@@ -150,7 +159,7 @@ html, body {
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: var(--gold);
+  background: var(--rank-color, var(--gold));
   color: #000;
   font-weight: 900;
   font-size: 0.9rem;
@@ -241,13 +250,6 @@ html, body {
   accent-color: var(--gold);
   cursor: pointer;
 }
-.privacy {
-  margin: 6px auto 0;
-  max-width: 528px;
-  font-size: 0.7rem;
-  color: rgba(255, 255, 255, 0.4);
-  line-height: 1.3;
-}
 
 .submit {
   width: 100%;
@@ -287,6 +289,8 @@ html, body {
   font-weight: 700;
 }
 .done-list .rank { color: var(--gold); font-weight: 900; }
+.done-list li:nth-child(2) .rank { color: var(--silver); }
+.done-list li:nth-child(3) .rank { color: var(--bronze); }
 .done-list .team { font-size: 0.7rem; color: var(--muted); margin-left: auto; text-transform: uppercase; }
 .done-follow {
   margin: 32px 0 14px;

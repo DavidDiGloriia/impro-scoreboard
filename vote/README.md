@@ -10,7 +10,8 @@ reste hors ligne, seule la page de vote a besoin d'internet.
 - `resultats.html`, `resultats.js` : dépouillement, réservé à l'organisation (connexion Google).
 - `firebase-config.js` : configuration du projet Firebase, à renseigner (voir plus bas).
 - `firestore.rules` : règles de sécurité Firestore, à coller dans la console Firebase.
-- `data/` et `photos/` : générés par `npm run vote:build` (copie de `joueurs.json`, `equipes.json` et vignettes 320 px). Non versionnés.
+- `data/`, `photos/` et `layout/` : générés par `npm run vote:build` (copie de `joueurs.json`, `equipes.json`, vignettes 320 px
+  et décors d'équipe `assets/layout`). Non versionnés.
 
 ## Mise en place (une fois)
 
@@ -48,6 +49,17 @@ Après modification de `firestore.rules`, recoller le fichier dans la console Fi
 sinon les bulletins avec `newsletter` sont refusés.
 
 ## Tester en local
+
+```
+npm run vote:apercu
+```
+
+ouvre `http://localhost:4300/apercu` : la page de vote dans un cadre au format téléphone, avec un match d'exemple
+(équipes et nombre de joueurs au choix) et un QR code pour l'ouvrir sur un vrai téléphone connecté au même Wi-Fi.
+Les fichiers de `vote/` sont servis tels quels, sans cache : modifier, recharger. Un envoi écrit un vrai bulletin
+dans un match d'essai dont l'identifiant finit par `-apercu`.
+
+Pour servir le dossier tel quel, sans la page d'aperçu :
 
 ```
 npm run vote:serve

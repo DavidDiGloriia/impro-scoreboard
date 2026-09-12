@@ -2,6 +2,7 @@
 /**
  * Prépare le site de vote (dossier vote/) pour le déploiement :
  *  - copie joueurs.json et equipes.json dans vote/data/
+ *  - copie les décors d'équipe (assets/layout/<code>-left.svg, -right.svg) dans vote/layout/
  *  - génère des vignettes légères des photos de joueurs dans vote/photos/ (320 px de large)
  *    et le manifeste vote/data/photos.json : { "<nom sans extension>": "photos/<fichier>" }
  * Utilise ImageMagick (magick/convert, WebP) si présent, sinon sips (macOS, même format que l'original).
@@ -17,6 +18,8 @@ const DATA_DIR = path.join(ROOT, 'src', 'assets', 'data');
 const OUT_DIR = path.join(ROOT, 'vote');
 const OUT_DATA = path.join(OUT_DIR, 'data');
 const OUT_PHOTOS = path.join(OUT_DIR, 'photos');
+const LAYOUT_DIR = path.join(ROOT, 'src', 'assets', 'layout');
+const OUT_LAYOUT = path.join(OUT_DIR, 'layout');
 const WIDTH = 320;
 const EXTENSIONS = ['png', 'webp', 'jpg', 'jpeg'];
 
@@ -24,6 +27,11 @@ fs.mkdirSync(OUT_DATA, {recursive: true});
 fs.mkdirSync(OUT_PHOTOS, {recursive: true});
 for (const file of ['joueurs.json', 'equipes.json']) {
   fs.copyFileSync(path.join(DATA_DIR, file), path.join(OUT_DATA, file));
+}
+// Décors de fond des cartes joueurs, les mêmes que sur l'écran de projection.
+fs.mkdirSync(OUT_LAYOUT, {recursive: true});
+for (const file of fs.readdirSync(LAYOUT_DIR).filter(f => f.endsWith('.svg'))) {
+  fs.copyFileSync(path.join(LAYOUT_DIR, file), path.join(OUT_LAYOUT, file));
 }
 
 function has(cmd) {

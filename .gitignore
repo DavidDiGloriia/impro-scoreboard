@@ -57,3 +57,4 @@ scripts/.cache
 # Site de vote : données et vignettes générées par scripts/vote-build.js
 vote/data
 vote/photos
+vote/layout
