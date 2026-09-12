@@ -32,9 +32,11 @@ async function loadData() {
   meta = {players: joueurs, teams: equipes};
 }
 
+/** Nom complet pour le dépouillement : prénom, alias entre guillemets s'il existe, nom. Ex. « Quentin « Q » Gillet ». */
 function displayName(code) {
   const p = meta.players.find(p => (p.prenom || '') + (p.nom || '') === code);
-  return p ? `${p.alias || p.prenom || ''}${p.nom ? ' ' + p.nom : ''}`.trim() || code : code;
+  if (!p) return code;
+  return [p.prenom, p.alias ? `« ${p.alias} »` : '', p.nom].filter(Boolean).join(' ') || code;
 }
 
 /** Jour du match, minuit heure locale, tiré de l'identifiant ("2026-09-17-aigles-requins") ; null si absent. */
