@@ -19,6 +19,33 @@
   background-color: #000 !important;
 }
 
+.anthem {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Décors de coin des deux équipes, en fond. */
+.layout {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  z-index: 0;
+}
+
+.layout-left {
+  left: 0;
+}
+
+.layout-right {
+  right: 0;
+}
+
+/* Le texte passe devant les décors */
+.anthem-text {
+  position: relative;
+  z-index: 1;
+}
+
 .pushed-on-top {
   align-items: start !important;
   padding-top: 10vh;

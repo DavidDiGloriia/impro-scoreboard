@@ -4,6 +4,8 @@
 }
 
 .main-container {
+  /* hauteur utile de l'écran : 100vh, ou 65vh quand le projecteur est au sol (bas masqué) */
+  --usable-h: 100vh;
   width: 100vw;
   height: 100vh;
   box-sizing: border-box;
@@ -14,11 +16,11 @@
   overflow: hidden;
 }
 
-/* --- Carte plein écran --- */
+/* --- Carte plein écran (ou pleine hauteur utile) --- */
 .star-card {
   position: relative;
   width: 100%;
-  height: 100%;
+  height: var(--usable-h);
   overflow: hidden;
   background-color: black;
   opacity: 0;
@@ -54,7 +56,7 @@
 /* --- Légende en bas, centrée --- */
 .caption {
   position: absolute;
-  bottom: 4vh;
+  bottom: calc(var(--usable-h) * 0.04);
   left: 0;
   width: 100%;
   z-index: 3;
@@ -62,14 +64,14 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 0.6vh;
+  gap: calc(var(--usable-h) * 0.006);
   opacity: 0;
   transform: translateY(30px);
   animation: fadeSlideUp 0.7s 0.4s forwards;
 }
 
 .player-position {
-  font-size: 3.2vh;
+  font-size: calc(var(--usable-h) * 0.032);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.3em;
@@ -78,7 +80,7 @@
 }
 
 .player-name {
-  font-size: 12vh;
+  font-size: calc(var(--usable-h) * 0.12);
   font-weight: 900;
   line-height: 1;
   letter-spacing: 0.02em;
@@ -114,13 +116,29 @@
   user-select: none;
 }
 
-/* Mode "poussé vers le haut" : le bas de l'écran est masqué, on remonte la légende. */
-.pushed-on-top .caption {
-  bottom: 22vh;
+/* Projecteur au sol : les 35vh du bas sont masqués. La carte entière (vidéo, décors, légende)
+   tient dans les 65vh du haut, et les tailles qui dépendent de la hauteur suivent. */
+.pushed-on-top {
+  --usable-h: 65vh;
+  align-items: flex-start;
+}
+
+/* La carte est coupée net à 65vh : un fondu vers le noir sur son tiers inférieur adoucit la coupe,
+   au-dessus de la vidéo et des décors, sous la légende. */
+.pushed-on-top .star-card::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 38%;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.75) 60%, #000);
 }
 
 .pushed-on-top .empty-state {
-  margin-bottom: 20vh;
+  margin-bottom: 35vh;
 }
 
 @keyframes fadeIn {

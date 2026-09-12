@@ -5,5 +5,4 @@ export interface GameDataDto {
   teamA?: TeamDto;
   teamB?: TeamDto;
   projectionMode?: ProjectionMode;
-  automaticPlayerPresentation?: boolean
 }

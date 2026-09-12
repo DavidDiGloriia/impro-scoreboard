@@ -11,9 +11,6 @@ import {MediaWatcherComponent} from "@components/projection/media-watcher/media-
 import {AnthemComponent} from "@components/projection/anthem/anthem.component";
 import {PubsWatcherComponent} from "@components/projection/pubs-watcher/pubs-watcher.component";
 import {
-  BothTeamsPresentationComponent
-} from "@components/projection/both-teams-presentation/both-teams-presentation.component";
-import {
   ProjectionHandlingHelperComponent
 } from "@components/projection/projection-handling-helper/projection-handling-helper.component";
 import {
@@ -31,7 +28,6 @@ import {VoteScreenComponent} from "@components/projection/vote-screen/vote-scree
     MediaWatcherComponent,
     AnthemComponent,
     PubsWatcherComponent,
-    BothTeamsPresentationComponent,
     ProjectionHandlingHelperComponent,
     StarPlayerPresentationComponent,
     VoteScreenComponent

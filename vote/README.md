@@ -42,8 +42,8 @@ adresse IP demanderait un serveur, donc la formule payante Firebase.
 
 Le votant peut laisser son adresse e-mail (facultatif) pour « tenter de gagner 2 places pour un prochain match »,
 et cocher une case pour s'inscrire aussi à la newsletter (champ `newsletter: true` dans le bulletin, uniquement avec
-une adresse). La page de résultats compte les adresses, copie celles du tirage ou celles de la newsletter dans le
-presse-papiers, et tire un gagnant au sort.
+une adresse). La page de résultats affiche le top 8, compte les adresses, copie celles de la newsletter dans le
+presse-papiers, et tire un gagnant au sort parmi toutes les adresses laissées.
 
 Après modification de `firestore.rules`, recoller le fichier dans la console Firebase (*Firestore > Règles*),
 sinon les bulletins avec `newsletter` sont refusés.

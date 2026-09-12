@@ -16,11 +16,6 @@
   @case (DisplayedScreen.TEAM_B) {
     <app-team-presentation [team]="gameData.value().teamB"/>
   }
-  @case (DisplayedScreen.BOTH_TEAMS) {
-    <app-both-teams-presentation [gameData]="gameData.value()"
-                                 [projectionMode]="gameData.value().projectionMode"
-    />
-  }
   @case (DisplayedScreen.STAR_PLAYER) {
     <app-star-player-presentation [projectionMode]="gameData.value().projectionMode"/>
   }

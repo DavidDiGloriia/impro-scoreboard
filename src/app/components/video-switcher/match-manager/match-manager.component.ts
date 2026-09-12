@@ -19,6 +19,8 @@ import {
 } from "@components/video-switcher/match-manager/display-team-manager/display-team-manager.component";
 import {TeamNumber} from "@enums/team-number.enum";
 import {Team} from "@models/team";
+import {TeamMetadata} from "@models/team-metadata";
+import {find} from "lodash-es";
 import {
   DisplayPubsManagerComponent
 } from "@components/video-switcher/match-manager/display-pubs-manager/display-pubs-manager.component";
@@ -55,6 +57,12 @@ export class MatchManagerComponent {
   improData: ResourceRef<ImproData> = this._improDataService.improData;
 
   private _destroyRef = inject(DestroyRef);
+
+  /** Libellé court de l'équipe pour les boutons (« Aigles » plutôt que « Les Aigles »), repli sur le nom complet. */
+  teamLabel(team: Team | undefined): string {
+    const metadata = find(this._improDataService.teams.value(), (t: TeamMetadata) => t.name === team?.name);
+    return metadata?.shortName || team?.name || '';
+  }
 
   constructor(private _improDataService: ImproDataService) {
     effect(() => {

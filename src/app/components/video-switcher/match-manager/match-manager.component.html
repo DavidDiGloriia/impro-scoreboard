@@ -11,12 +11,12 @@
     <button *ngIf="gameData.value().teamA.name"
             class="btn btn-outline-primary btn-lg flex-fill"
             [class.active]="displayedScreen.value() === DisplayedScreen.TEAM_A"
-            (click)="displayScreen(DisplayedScreen.TEAM_A)">PRÉSENTER {{ gameData?.value().teamA.name | uppercase }}
+            (click)="displayScreen(DisplayedScreen.TEAM_A)">{{ teamLabel(gameData.value().teamA) | uppercase }}
     </button>
     <button *ngIf="gameData.value().teamB.name"
             class="btn  btn-outline-primary btn-lg flex-fill"
             [class.active]="displayedScreen.value() === DisplayedScreen.TEAM_B"
-            (click)="displayScreen(DisplayedScreen.TEAM_B)">PRÉSENTER {{ gameData?.value().teamB.name | uppercase }}
+            (click)="displayScreen(DisplayedScreen.TEAM_B)">{{ teamLabel(gameData.value().teamB) | uppercase }}
     </button>
     <button class="btn btn-outline-primary btn-lg flex-fill"
             [class.active]="displayedScreen.value() === DisplayedScreen.ANTHEM"
@@ -24,21 +24,16 @@
     </button>
     <button class="btn btn-outline-primary btn-lg flex-fill"
             [class.active]="displayedScreen.value() === DisplayedScreen.MATCH"
-            (click)="displayScreen(DisplayedScreen.MATCH)">AFFICHER MATCH
+            (click)="displayScreen(DisplayedScreen.MATCH)">MATCH
     </button>
     <button class="btn btn-outline-primary btn-lg flex-fill"
             [class.active]="displayedScreen.value() === DisplayedScreen.MEDIA"
-            (click)="displayScreen(DisplayedScreen.MEDIA)">PROJETER UN MEDIA
-    </button>
-    <button *ngIf="gameData.value().teamB.name"
-            class="btn  btn-outline-primary btn-lg flex-fill"
-            [class.active]="displayedScreen.value() === DisplayedScreen.BOTH_TEAMS"
-            (click)="displayScreen(DisplayedScreen.BOTH_TEAMS)">ÉTOILES PUBLIC
+            (click)="displayScreen(DisplayedScreen.MEDIA)">MÉDIA
     </button>
     <button *ngIf="gameData.value().teamA.name"
             class="btn btn-outline-primary btn-lg flex-fill"
             [class.active]="displayedScreen.value() === DisplayedScreen.STAR_PLAYER"
-            (click)="displayScreen(DisplayedScreen.STAR_PLAYER)">ÉTOILES INDIVIDUELLES
+            (click)="displayScreen(DisplayedScreen.STAR_PLAYER)">JOUTEURS INDIVIDUELS
     </button>
     <button *ngIf="gameData.value().teamA.name && gameData.value().teamB.name"
             class="btn btn-outline-primary btn-lg flex-fill"
@@ -67,19 +62,14 @@
       <app-display-vote-manager/>
     }
     @case (DisplayedScreen.TEAM_A) {
-      @if (!gameData.value().automaticPlayerPresentation) {
-        <app-display-team-manager [team]="gameData.value().teamA"
-                                  (teamChange)="onTeamChange($event, TeamNumber.TEAM_A)"
-        />
-      }
+      <app-display-team-manager [team]="gameData.value().teamA"
+                                (teamChange)="onTeamChange($event, TeamNumber.TEAM_A)"
+      />
     }
     @case (DisplayedScreen.TEAM_B) {
-      @if (!gameData.value().automaticPlayerPresentation) {
-        <app-display-team-manager [team]="gameData.value().teamB"
-                                  (teamChange)="onTeamChange($event, TeamNumber.TEAM_B)"
-
-        />
-      }
+      <app-display-team-manager [team]="gameData.value().teamB"
+                                (teamChange)="onTeamChange($event, TeamNumber.TEAM_B)"
+      />
     }
     @default {
 

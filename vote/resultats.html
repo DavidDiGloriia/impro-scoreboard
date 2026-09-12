@@ -15,6 +15,7 @@
     }
     .toolbar button { cursor: pointer; font-weight: 700; }
     .toolbar button.primary { background: var(--gold); color: #000; border-color: var(--gold); }
+    .toolbar .ms-auto { margin-left: auto; }
     .count { color: var(--muted); font-size: 0.9rem; }
     table { width: 100%; border-collapse: collapse; margin-top: 10px; }
     th, td { padding: 10px 8px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.08); }
@@ -37,15 +38,15 @@
       <button id="signin" class="primary">Se connecter avec Google</button>
       <select id="match" hidden></select>
       <button id="refresh" hidden>Actualiser</button>
-      <button id="copy-emails" hidden>Copier les adresses (tirage)</button>
       <button id="copy-newsletter" hidden>Copier les adresses newsletter</button>
-      <button id="draw" hidden>Tirer au sort</button>
+      <button id="draw" hidden>Tirer un gagnant</button>
       <span id="count" class="count"></span>
+      <button id="signout" class="ms-auto" hidden>Se déconnecter</button>
     </div>
     <p id="status" class="status"></p>
     <p id="draw-result" class="status" style="font-size:1.2rem;font-weight:800;color:var(--gold)"></p>
     <div id="table"></div>
-    <p class="hint">Barème : 3 points pour une 1<sup>re</sup> étoile, 2 pour une 2<sup>e</sup>, 1 pour une 3<sup>e</sup>. Les égalités sont départagées au nombre de 1<sup>res</sup> étoiles.</p>
+    <p class="hint">Top 8. Barème : 3 points pour une 1<sup>re</sup> étoile, 2 pour une 2<sup>e</sup>, 1 pour une 3<sup>e</sup>. Les égalités sont départagées au nombre de 1<sup>res</sup> étoiles, puis de 2<sup>es</sup>.</p>
   </main>
   <script type="module" src="resultats.js"></script>
 </body>

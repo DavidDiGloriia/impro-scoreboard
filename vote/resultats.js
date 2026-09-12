@@ -1,17 +1,18 @@
 // Résultats des votes : connexion Google (adresses autorisées dans firestore.rules), puis dépouillement par match.
 import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
 import {getFirestore, collection, getDocs, query, orderBy, limit} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js';
-import {getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js';
+import {getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js';
 import {firebaseConfig} from './firebase-config.js';
 
 const POINTS = [3, 2, 1];
+const TOP = 8;
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 
 const $ = (sel) => document.querySelector(sel);
-const signinEl = $('#signin'), matchEl = $('#match'), refreshEl = $('#refresh'), countEl = $('#count'), statusEl = $('#status'), tableEl = $('#table');
-const copyEmailsEl = $('#copy-emails'), copyNewsletterEl = $('#copy-newsletter'), drawEl = $('#draw'), drawResultEl = $('#draw-result');
+const signinEl = $('#signin'), signoutEl = $('#signout'), matchEl = $('#match'), refreshEl = $('#refresh'), countEl = $('#count'), statusEl = $('#status'), tableEl = $('#table');
+const copyNewsletterEl = $('#copy-newsletter'), drawEl = $('#draw'), drawResultEl = $('#draw-result');
 
 /** Adresses laissées pour le tirage au sort, dédoublonnées, pour le match affiché. */
 let emails = [];
@@ -53,25 +54,26 @@ async function tally() {
     const b = d.data();
     [b.first, b.second, b.third].forEach((key, i) => {
       if (!key) return;
-      const s = scores.get(key) || {key, points: 0, firsts: 0, votes: 0};
+      const s = scores.get(key) || {key, points: 0, stars: [0, 0, 0]};
       s.points += POINTS[i];
-      s.votes += 1;
-      if (i === 0) s.firsts += 1;
+      s.stars[i] += 1;
       scores.set(key, s);
     });
   }
-  const rows = [...scores.values()].sort((x, y) => y.points - x.points || y.firsts - x.firsts || y.votes - x.votes);
+  const rows = [...scores.values()]
+    .sort((x, y) => y.points - x.points || y.stars[0] - x.stars[0] || y.stars[1] - x.stars[1] || y.stars[2] - x.stars[2])
+    .slice(0, TOP);
   emails = [...new Set(snap.docs.map(d => d.data().email).filter(Boolean))];
   newsletterEmails = [...new Set(snap.docs.map(d => d.data()).filter(b => b.newsletter === true && b.email).map(b => b.email))];
   countEl.textContent = `${snap.size} bulletin${snap.size > 1 ? 's' : ''} · ${emails.length} adresse${emails.length > 1 ? 's' : ''} pour le tirage`
     + ` · ${newsletterEmails.length} newsletter`;
-  copyEmailsEl.hidden = drawEl.hidden = !emails.length;
+  drawEl.hidden = !emails.length;
   copyNewsletterEl.hidden = !newsletterEmails.length;
   drawResultEl.textContent = '';
   statusEl.textContent = '';
   tableEl.innerHTML = `
     <table>
-      <thead><tr><th>#</th><th>Joueur</th><th>Équipe</th><th class="num">Points</th><th class="num">1res</th><th class="num">Votes</th></tr></thead>
+      <thead><tr><th>#</th><th>Joueur</th><th>Équipe</th><th class="num">Points</th><th class="num">1<sup>res</sup></th><th class="num">2<sup>es</sup></th><th class="num">3<sup>es</sup></th></tr></thead>
       <tbody>${rows.map((r, i) => {
         const [side, code] = [r.key.slice(0, 1), r.key.slice(2)];
         const teamCode = side === 'a' ? match.teamA : match.teamB;
@@ -80,7 +82,7 @@ async function tally() {
           <td class="rank">${i + 1}</td>
           <td>${displayName(code)}</td>
           <td><span class="team-tag" style="background:${team?.couleur || '#888'}"></span>${team?.nom || teamCode || ''}</td>
-          <td class="num">${r.points}</td><td class="num">${r.firsts}</td><td class="num">${r.votes}</td>
+          <td class="num">${r.points}</td><td class="num">${r.stars[0]}</td><td class="num">${r.stars[1]}</td><td class="num">${r.stars[2]}</td>
         </tr>`;
       }).join('')}</tbody>
     </table>`;
@@ -94,18 +96,24 @@ signinEl.addEventListener('click', async () => {
     statusEl.classList.add('error');
   }
 });
-matchEl.addEventListener('change', tally);
-copyEmailsEl.addEventListener('click', async () => {
-  await navigator.clipboard.writeText(emails.join('\n'));
-  statusEl.textContent = `${emails.length} adresse${emails.length > 1 ? 's' : ''} copiée${emails.length > 1 ? 's' : ''}.`;
+signoutEl.addEventListener('click', async () => {
+  await signOut(auth);
+  // Retour à l'état initial : plus de match, plus de tableau, plus d'adresses en mémoire.
+  matches = []; emails = []; newsletterEmails = [];
+  matchEl.innerHTML = ''; tableEl.innerHTML = ''; countEl.textContent = ''; drawResultEl.textContent = '';
+  matchEl.hidden = refreshEl.hidden = copyNewsletterEl.hidden = drawEl.hidden = true;
+  statusEl.textContent = 'Déconnecté.';
+  statusEl.classList.remove('error');
 });
+matchEl.addEventListener('change', tally);
 copyNewsletterEl.addEventListener('click', async () => {
   await navigator.clipboard.writeText(newsletterEmails.join('\n'));
   statusEl.textContent = `${newsletterEmails.length} adresse${newsletterEmails.length > 1 ? 's' : ''} newsletter copiée${newsletterEmails.length > 1 ? 's' : ''}.`;
 });
+// Tirage au sort parmi toutes les adresses laissées (newsletter cochée ou non), une chance par adresse.
 drawEl.addEventListener('click', () => {
   const winner = emails[Math.floor(Math.random() * emails.length)];
-  drawResultEl.textContent = winner ? `🎟 ${winner}` : '';
+  drawResultEl.textContent = winner ? `Gagnant : ${winner}` : '';
 });
 refreshEl.addEventListener('click', () => loadMatches().catch(showError));
 
@@ -119,6 +127,7 @@ function showError(e) {
 
 onAuthStateChanged(auth, async (user) => {
   signinEl.hidden = !!user;
+  signoutEl.hidden = !user;
   if (!user) return;
   statusEl.textContent = `Connecté : ${user.email}`;
   statusEl.classList.remove('error');

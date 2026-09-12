@@ -1,11 +1,13 @@
 <div [ngStyle]="screenStyle()">
-  <div class="d-flex justify-content-center align-items-center bg-black text-white"
+  <div class="anthem d-flex justify-content-center align-items-center bg-black text-white"
        [class.pushed-on-top]="projectionMode() === ProjectionMode.PUSHED_ON_TOP"
        [ngStyle]="containerStyle()"
   >
+    <!-- Décors de coin en fond : équipe A à gauche, équipe B à droite, comme sur l'écran de match -->
+    <app-team-layout class="layout layout-left" [team]="gameData.value().teamA" side="left"/>
+    <app-team-layout class="layout layout-right" [team]="gameData.value().teamB" side="right"/>
 
-
-    <div class="text-center w-75">
+    <div class="text-center w-75 anthem-text">
       <div
         *ngIf="line"
         class="lineCls"

@@ -41,12 +41,4 @@ export class MatchParametersComponent {
       });
   }
 
-  onAutomaticPlayerPresentationChange(value: boolean) {
-    const updatedGameData: GameData = this.gameData.value().clone().withAutomaticPlayerPresentation(value);
-    this._improDataService.saveGameData(updatedGameData)
-      .pipe(takeUntilDestroyed(this._destroyRef))
-      .subscribe((data) => {
-        this.gameData.set(data.clone());
-      });
-  }
 }
