@@ -84,13 +84,12 @@
 }
 
 /* Décors de l'équipe en fond de carte, pleine hauteur, collés aux bords gauche et droit,
-   atténués pour rester en arrière-plan */
+   derrière les photos détourées */
 .card-layout {
   position: absolute;
   top: 0;
   height: 100%;
   z-index: 0;
-  opacity: 0.5;
 }
 
 .card-layout-left {

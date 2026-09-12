@@ -7,7 +7,7 @@ service cloud.firestore {
       return request.auth != null
         && request.auth.token.email in ['ddigloria@emasphere.com'];
     }
-ce qu
+
     function isCode(value) {
       return value is string && value.size() > 2 && value.size() < 120 && value.matches('^[ab]:.+$');
     }
@@ -27,12 +27,14 @@ ce qu
 
       match /ballots/{ballotId} {
         // Un bulletin par appareil (l'empreinte d'appareil est l'identifiant du document) : trois choix distincts,
-        // e-mail facultatif pour le tirage au sort, horodatage serveur. Jamais modifiable, donc pas de second vote.
+        // e-mail facultatif pour le tirage au sort (et newsletter si demandée, ce qui suppose un e-mail),
+        // horodatage serveur. Jamais modifiable, donc pas de second vote.
         allow read: if isOrganizer();
-        allow create: if request.resource.data.keys().hasOnly(['device', 'first', 'second', 'third', 'email', 'createdAt'])
+        allow create: if request.resource.data.keys().hasOnly(['device', 'first', 'second', 'third', 'email', 'newsletter', 'createdAt'])
           && request.resource.data.device is string && request.resource.data.device.size() > 8 && request.resource.data.device.size() < 80
           && ballotId == request.resource.data.device
           && (!('email' in request.resource.data) || isEmail(request.resource.data.email))
+          && (!('newsletter' in request.resource.data) || (request.resource.data.newsletter == true && 'email' in request.resource.data))
           && isCode(request.resource.data.first)
           && isCode(request.resource.data.second)
           && isCode(request.resource.data.third)

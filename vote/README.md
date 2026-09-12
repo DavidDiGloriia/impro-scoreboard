@@ -39,8 +39,13 @@ navigateur) sert d'identifiant au bulletin, et les règles refusent un second bu
 Contournable en vidant le stockage du navigateur : c'est un frein aux doublons, pas une élection. Un filtrage par
 adresse IP demanderait un serveur, donc la formule payante Firebase.
 
-Le votant peut laisser son adresse e-mail (facultatif) pour « tenter de gagner 2 places pour un prochain match ».
-La page de résultats compte les adresses, les copie dans le presse-papiers et tire un gagnant au sort.
+Le votant peut laisser son adresse e-mail (facultatif) pour « tenter de gagner 2 places pour un prochain match »,
+et cocher une case pour s'inscrire aussi à la newsletter (champ `newsletter: true` dans le bulletin, uniquement avec
+une adresse). La page de résultats compte les adresses, copie celles du tirage ou celles de la newsletter dans le
+presse-papiers, et tire un gagnant au sort.
+
+Après modification de `firestore.rules`, recoller le fichier dans la console Firebase (*Firestore > Règles*),
+sinon les bulletins avec `newsletter` sont refusés.
 
 ## Tester en local
 

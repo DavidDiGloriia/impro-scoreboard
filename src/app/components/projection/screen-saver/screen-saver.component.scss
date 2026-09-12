@@ -7,13 +7,12 @@
   position: relative;
 }
 
-/* Décors de coin des deux équipes, en fond et atténués pour laisser le contenu lisible. */
+/* Décors de coin des deux équipes, en fond. */
 .layout {
   position: absolute;
   top: 0;
   height: 100%;
   z-index: 0;
-  opacity: 0.55;
 }
 
 .layout-left {

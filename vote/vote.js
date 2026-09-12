@@ -3,12 +3,15 @@
 //   ?m=<id du match>&a=<code équipe A>&b=<code équipe B>&pa=<joueurs A>&pb=<joueurs B>
 //   joueurs : liste "code:numéro:rôle" séparée par des virgules, code = prénom + nom comme dans joueurs.json.
 // Les votes sont écrits dans Firestore : matches/<id>/ballots/<empreinte d'appareil>, donc un seul bulletin par téléphone
-// et par match (vérifié par firestore.rules). L'adresse e-mail est facultative : elle sert au tirage au sort de places.
+// et par match (vérifié par firestore.rules). L'adresse e-mail est facultative : elle sert au tirage au sort de places,
+// et à la newsletter si la case est cochée (champ newsletter: true dans le bulletin).
 import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
 import {getFirestore, doc, setDoc, serverTimestamp} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js';
 import {firebaseConfig} from './firebase-config.js';
 
 const POINTS_LABELS = ['1re', '2e', '3e'];
+const PRIVACY_DRAW = "L'adresse ne sert qu'au tirage au sort et n'est pas réutilisée. Un seul vote par téléphone.";
+const PRIVACY_NEWSLETTER = 'Un seul vote par téléphone.';
 const ROLE_LABELS = {capitaine: 'Capitaine', assistant: 'Assistant·e', coach: 'Coach'};
 
 const params = new URLSearchParams(location.search);
@@ -20,6 +23,9 @@ const teamsEl = $('#teams');
 const submitEl = $('#submit');
 const statusEl = $('#status');
 const emailEl = $('#email');
+const newsletterEl = $('#newsletter');
+const privacyEl = $('#privacy');
+const footerEl = $('#footer');
 const EMAIL_RE = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
 
 /** Sélection ordonnée : [{code, team}] (3 max). */
@@ -173,17 +179,36 @@ function updateSelection() {
     el.querySelector('.pick-name').textContent = pick ? displayName(pick.code) : '—';
   });
   const email = normalizedEmail();
+  const newsletter = newsletterEl.checked;
   const emailOk = email === '' || EMAIL_RE.test(email);
-  emailEl.classList.toggle('invalid', !emailOk);
-  submitEl.disabled = picks.length !== 3 || !emailOk;
+  // la newsletter demande une adresse : sans adresse, la case ne peut pas être prise en compte
+  const newsletterOk = !newsletter || email !== '';
+  emailEl.classList.toggle('invalid', !emailOk || !newsletterOk);
+  privacyEl.textContent = newsletter ? PRIVACY_NEWSLETTER : PRIVACY_DRAW;
+  submitEl.disabled = picks.length !== 3 || !emailOk || !newsletterOk;
   statusEl.classList.remove('error');
   if (picks.length < 3) {
     statusEl.textContent = `Encore ${3 - picks.length} choix`;
   } else if (!emailOk) {
     statusEl.textContent = 'Adresse e-mail incomplète';
+  } else if (!newsletterOk) {
+    statusEl.textContent = 'Indiquez votre e-mail pour la newsletter';
   } else {
     statusEl.textContent = '';
   }
+}
+
+/** Date du match tirée de l'identifiant ("2026-09-17-lions-aigles" → "17/09/26"), vide si absente. */
+function matchDate() {
+  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(matchId);
+  return m ? `${m[3]}/${m[2]}/${m[1].slice(2)}` : '';
+}
+
+/** La marge basse de la page suit la hauteur réelle du pied fixe, pour que le dernier joueur reste atteignable. */
+function fitFooter() {
+  const app = $('#app');
+  if (!app || !footerEl?.isConnected) return;
+  app.style.paddingBottom = `${footerEl.offsetHeight + 16}px`;
 }
 
 function normalizedEmail() {
@@ -226,7 +251,8 @@ function showDone(saved) {
 
 async function submit() {
   const email = normalizedEmail();
-  if (picks.length !== 3 || (email && !EMAIL_RE.test(email))) return;
+  const newsletter = newsletterEl.checked && email !== '';
+  if (picks.length !== 3 || (email && !EMAIL_RE.test(email)) || (newsletterEl.checked && !email)) return;
   submitEl.disabled = true;
   statusEl.textContent = 'Envoi…';
   statusEl.classList.remove('error');
@@ -239,6 +265,7 @@ async function submit() {
     await setDoc(doc(db, 'matches', matchId, 'ballots', device), {
       device, first, second, third,
       ...(email ? {email} : {}),
+      ...(newsletter ? {newsletter: true} : {}),
       createdAt: serverTimestamp(),
     });
     if (email) { try { localStorage.setItem('vote-etoiles:email', email); } catch { /* ignore */ } }
@@ -280,11 +307,23 @@ async function main() {
     showDone(already);
     return;
   }
-  $('#subtitle').textContent = `${teamName('a')} vs ${teamName('b')} · choisissez vos trois étoiles, dans l'ordre.`;
+  const titleEl = $('#title');
+  titleEl.textContent = `${teamName('a')} vs ${teamName('b')}`;
+  if (matchDate()) {
+    const date = document.createElement('span');
+    date.className = 'date';
+    date.textContent = ` · ${matchDate()}`;
+    titleEl.appendChild(date);
+  }
   render();
   try { emailEl.value = localStorage.getItem('vote-etoiles:email') || ''; } catch { /* ignore */ }
   emailEl.addEventListener('input', updateSelection);
+  newsletterEl.addEventListener('change', updateSelection);
   submitEl.addEventListener('click', submit);
+  updateSelection();
+  fitFooter();
+  if ('ResizeObserver' in window) new ResizeObserver(fitFooter).observe(footerEl);
+  else window.addEventListener('resize', fitFooter);
 }
 
 main().catch(e => {

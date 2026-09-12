@@ -25,7 +25,7 @@ html, body {
   max-width: 560px;
   width: 100%;
   margin: 0 auto;
-  padding: max(16px, env(safe-area-inset-top)) 16px 210px;
+  padding: max(16px, env(safe-area-inset-top)) 16px 320px; /* bas : ajusté par vote.js à la hauteur du pied fixe */
 }
 
 /* --- En-tête --- */
@@ -33,24 +33,22 @@ html, body {
 .logo { height: 44px; width: auto; }
 .title {
   margin: 12px 0 6px;
-  font-size: 2.4rem;
-  line-height: 0.95;
+  font-size: clamp(1.15rem, 5.2vw, 1.6rem);
+  line-height: 1.15;
   font-weight: 900;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.02em;
   text-transform: uppercase;
 }
-.subtitle { margin: 0; color: var(--muted); font-size: 0.95rem; }
+.title .date { white-space: nowrap; }
+.subtitle { margin: 0; color: var(--gold); font-size: 1.05rem; font-weight: 700; }
 
-/* --- Rappel des 3 choix --- */
+/* --- Rappel des 3 choix, dans le pied fixe au-dessus du champ e-mail --- */
 .picks {
-  position: sticky;
-  top: 0;
-  z-index: 5;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 8px;
-  padding: 10px 0;
-  background: linear-gradient(var(--bg) 80%, transparent);
+  max-width: 528px;
+  margin: 0 auto 10px;
 }
 .pick {
   min-width: 0; /* les noms en une ligne ne doivent pas élargir la colonne */
@@ -90,10 +88,9 @@ html, body {
 }
 .players {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 10px;
 }
-@media (min-width: 420px) { .players { grid-template-columns: repeat(3, 1fr); } }
 
 .player {
   position: relative;
@@ -223,6 +220,27 @@ html, body {
 }
 .email-field input:focus { border-color: var(--gold); }
 .email-field input.invalid { border-color: #ff6b6b; }
+.newsletter-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 528px;
+  margin: 0 auto 10px;
+  padding: 0 4px;
+  text-align: left;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.newsletter-field input {
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  accent-color: var(--gold);
+  cursor: pointer;
+}
 .privacy {
   margin: 6px auto 0;
   max-width: 528px;

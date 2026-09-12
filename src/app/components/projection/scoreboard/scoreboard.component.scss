@@ -10,13 +10,12 @@
   overflow: hidden;
 }
 
-/* Décors de coin des deux équipes, en fond et atténués pour laisser les scores lisibles. */
+/* Décors de coin des deux équipes, en fond. */
 .layout {
   position: absolute;
   top: 0;
   height: 100%;
   z-index: 0;
-  opacity: 0.55;
 }
 
 .layout-left {
@@ -62,7 +61,6 @@
 .scoreboard-logo {
   width: 100%;
   object-fit: contain;
-  opacity: 0.85;
 }
 
 .total-timer {

@@ -11,10 +11,12 @@ const auth = getAuth(app);
 
 const $ = (sel) => document.querySelector(sel);
 const signinEl = $('#signin'), matchEl = $('#match'), refreshEl = $('#refresh'), countEl = $('#count'), statusEl = $('#status'), tableEl = $('#table');
-const copyEmailsEl = $('#copy-emails'), drawEl = $('#draw'), drawResultEl = $('#draw-result');
+const copyEmailsEl = $('#copy-emails'), copyNewsletterEl = $('#copy-newsletter'), drawEl = $('#draw'), drawResultEl = $('#draw-result');
 
 /** Adresses laissées pour le tirage au sort, dédoublonnées, pour le match affiché. */
 let emails = [];
+/** Parmi elles, celles qui ont coché l'inscription à la newsletter. */
+let newsletterEmails = [];
 
 let meta = {players: [], teams: {}};
 let matches = [];
@@ -60,8 +62,11 @@ async function tally() {
   }
   const rows = [...scores.values()].sort((x, y) => y.points - x.points || y.firsts - x.firsts || y.votes - x.votes);
   emails = [...new Set(snap.docs.map(d => d.data().email).filter(Boolean))];
-  countEl.textContent = `${snap.size} bulletin${snap.size > 1 ? 's' : ''} · ${emails.length} adresse${emails.length > 1 ? 's' : ''} pour le tirage`;
+  newsletterEmails = [...new Set(snap.docs.map(d => d.data()).filter(b => b.newsletter === true && b.email).map(b => b.email))];
+  countEl.textContent = `${snap.size} bulletin${snap.size > 1 ? 's' : ''} · ${emails.length} adresse${emails.length > 1 ? 's' : ''} pour le tirage`
+    + ` · ${newsletterEmails.length} newsletter`;
   copyEmailsEl.hidden = drawEl.hidden = !emails.length;
+  copyNewsletterEl.hidden = !newsletterEmails.length;
   drawResultEl.textContent = '';
   statusEl.textContent = '';
   tableEl.innerHTML = `
@@ -93,6 +98,10 @@ matchEl.addEventListener('change', tally);
 copyEmailsEl.addEventListener('click', async () => {
   await navigator.clipboard.writeText(emails.join('\n'));
   statusEl.textContent = `${emails.length} adresse${emails.length > 1 ? 's' : ''} copiée${emails.length > 1 ? 's' : ''}.`;
+});
+copyNewsletterEl.addEventListener('click', async () => {
+  await navigator.clipboard.writeText(newsletterEmails.join('\n'));
+  statusEl.textContent = `${newsletterEmails.length} adresse${newsletterEmails.length > 1 ? 's' : ''} newsletter copiée${newsletterEmails.length > 1 ? 's' : ''}.`;
 });
 drawEl.addEventListener('click', () => {
   const winner = emails[Math.floor(Math.random() * emails.length)];
