@@ -4,10 +4,8 @@ import QRCode from 'qrcode';
 import {ImproDataService} from "@services/impro-data.service";
 import {ProjectionMode} from "@enums/projection-mode.enum";
 import {GameData} from "@models/game-data";
-import {TeamMetadata} from "@models/team-metadata";
 import {TeamLayoutComponent} from "@components/projection/team-layout/team-layout.component";
 import {voteUrl, VOTE_BASE_URL} from "@constants/vote.constants";
-import {find} from "lodash-es";
 
 /**
  * Écran « Votez pour les étoiles » : QR code vers la page de vote, avec la composition du match encodée dedans.
@@ -33,9 +31,6 @@ export class VoteScreenComponent {
 
   url: Signal<string> = computed(() => voteUrl(this.gameData(), this._improDataService.teams.value()));
 
-  teamAMetadata: Signal<TeamMetadata | undefined> = computed(() => this.metadata(this.gameData().teamA.name));
-  teamBMetadata: Signal<TeamMetadata | undefined> = computed(() => this.metadata(this.gameData().teamB.name));
-
   /** QR code en data URL, régénéré quand la composition change. */
   qrDataUrl = signal<string>('');
 
@@ -46,9 +41,5 @@ export class VoteScreenComponent {
         .then(dataUrl => this.qrDataUrl.set(dataUrl))
         .catch(() => this.qrDataUrl.set(''));
     });
-  }
-
-  private metadata(name: string | undefined): TeamMetadata | undefined {
-    return name ? find(this._improDataService.teams.value(), (t: TeamMetadata) => t.name === name) : undefined;
   }
 }

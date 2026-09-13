@@ -20,6 +20,8 @@ export class VideoSwitcherComponent {
   }
 
   downloadMatchReport() {
+    if (this.improCsvService.count === 0
+      && !confirm('Aucune impro terminée dans ce match : le rapport sera vide. Télécharger quand même ?')) return;
     this.improCsvService.downloadCsv();
   }
 
@@ -27,5 +29,6 @@ export class VideoSwitcherComponent {
     if (!confirm('Voulez-vous vraiment démarrer un nouveau match ? Les scores et les équipes seront effacés.')) return;
 
     this.improDataService.clearGameData();
+    this.improCsvService.resetCsv();
   }
 }

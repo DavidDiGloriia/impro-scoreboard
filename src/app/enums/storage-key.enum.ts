@@ -9,4 +9,5 @@ export enum StorageKey {
   ANTHEM = 'anthem',
   PROJECTION_DATA = 'projectionData',
   STAR_PLAYER = 'starPlayer',
+  MATCH_REPORT = 'matchReport',
 }

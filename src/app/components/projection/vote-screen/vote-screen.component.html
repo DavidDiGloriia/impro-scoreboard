@@ -11,14 +11,10 @@
       <div class="title">Votez pour<br>les étoiles</div>
       <div class="subtitle">Scannez le QR code et classez vos trois joueurs préférés</div>
 
-      <div class="qr-row">
-        <div class="team team-a" [style.--team-color]="teamAMetadata()?.color">{{ gameData().teamA.displayName }}</div>
-        <div class="qr">
-          @if (qrDataUrl()) {
-            <img [src]="qrDataUrl()" alt="QR code de vote"/>
-          }
-        </div>
-        <div class="team team-b" [style.--team-color]="teamBMetadata()?.color">{{ gameData().teamB.displayName }}</div>
+      <div class="qr">
+        @if (qrDataUrl()) {
+          <img [src]="qrDataUrl()" alt="QR code de vote"/>
+        }
       </div>
     </div>
   </div>
